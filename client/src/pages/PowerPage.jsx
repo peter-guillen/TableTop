@@ -32,16 +32,11 @@ const Power = () => {
 
   return (
     <>
-      <PowerList onDelete={handleDelete} powersList={powersList} />
-
-      {/* 
-      <button
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        Click me!
-      </button> */}
+      <PowerList
+        onDelete={handleDelete}
+        onCreate={handleCreate}
+        powersList={powersList}
+      />
     </>
   );
 };

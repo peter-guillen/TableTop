@@ -6,22 +6,23 @@ import Button from "./Button";
 const ProfessionList = ({ professionList, onDelete }) => {
   return (
     <div>
+      <header className={"bg-gray-200"}>
+        <h2 className={"text-4xl text-center"}>Professions</h2>
+        <p className="p-5 pt-0 m-5">
+          This is a list of professions, the directory if you will. Roles that
+          each class can function as. The roles that are included are healers,
+          tanks, dps and much more. Lorem ipsum dolor, sit amet consectetur
+          adipisicing elit. Autem quas, laboriosam quod repudiandae at animi,
+          sunt cumque id obcaecati eos nesciunt, vero veritatis non ea
+          aspernatur consequuntur illo dolor doloribus sint iste quaerat est?
+          Quia officiis praesentium dolores enim distinctio reprehenderit sit
+          magni iusto et? Illum nemo excepturi libero animi?
+        </p>
+      </header>
+
       <Link to={`/professions/createProfession`}>
         <Button primary>Create a Profession!</Button>
       </Link>
-      <div>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut labore
-        pariatur consectetur, aspernatur voluptas dicta eos sapiente deserunt
-        quod nihil ea itaque incidunt numquam, minus tempora harum recusandae,
-        quae inventore asperiores! Beatae aperiam numquam, vel aliquid ratione,
-        blanditiis ipsum, ipsam laboriosam eligendi molestiae laborum. Commodi,
-        esse necessitatibus dicta, distinctio expedita enim magnam facere quis
-        tempore eveniet quaerat odit minima! Sit animi rem vitae ipsam, atque ex
-        impedit temporibus quisquam rerum voluptatibus at nisi corrupti.
-        Quibusdam debitis dolorem labore illum est quisquam, ratione incidunt
-        sit aliquam excepturi laborum eius, animi tempore corrupti reiciendis.
-        In minima vitae vero ratione at facere! Quidem!
-      </div>
 
       <div className="grid grid-cols-3">
         {professionList.map((profession) => (

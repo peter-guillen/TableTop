@@ -5,10 +5,6 @@ import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import Button from "./Button";
 
-const professionCreateForm = twMerge(
-  classNames("border rounded-md bg-gray-200 p-2 m-2", {})
-);
-
 const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
 const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));
 const tableContainerStyles = twMerge(
@@ -69,6 +65,22 @@ const ProfessionCreate = ({ onCreate }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className={pageContainerStyles}>
+        <section className="col-span-2 mt-4 mb-4">
+          <h2 className="text-6xl font-bold text-center">Title</h2>
+        </section>
+        <section className="col-span-2 p-6 border">
+          <h3 className="text-3xl">Background</h3>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Exercitationem modi, iste veniam repellat placeat atque soluta eos
+            sapiente voluptates possimus est adipisci. Tempora magni impedit
+            repellendus mollitia ducimus dolores labore illo dolorem totam
+            dignissimos, beatae omnis id eaque? Quos, laborum.
+          </p>
+        </section>
+        <section className="col-span-2 p-6 mt-4 mb-4 border">
+          <h3 className="text-3xl">Proficiencies</h3>
+        </section>
         <section className="col-span-2 p-6 mt-4 mb-4 border">
           <input
             type="text"
