@@ -2,6 +2,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 
+// import { FaRegUser, FaUser } from "react-icons/fa6";
+
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
@@ -30,7 +32,9 @@ const Navbar = () => {
           </NavLink>
           <NavLink className={userLinks}>Cart</NavLink>
           <NavLink className={userLinks}>Login</NavLink>
+          {/* <FaRegUser /> */}
           <NavLink className={userLinks}>Logout</NavLink>
+          {/* <FaUser /> */}
         </nav>
       </header>
       <main>

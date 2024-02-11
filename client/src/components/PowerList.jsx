@@ -1,16 +1,11 @@
-const PowerList = ({ powersList, onDelete }) => {
-  const handleDelete = (id) => {
-    console.log(id);
-    onDelete(id);
-  };
+import {} from "react";
 
-  const powers = powersList.map((p) => {
-    return (
-      <div onClick={() => handleDelete(p._id)} key={p._id}>
-        {p.title}
-      </div>
-    );
-  });
+import PowerPreview from "./PowerPreview";
+
+const PowerList = ({ powersList, onDelete }) => {
+  const powers = powersList.map((power) => (
+    <PowerPreview key={power._id} power={power} onDelete={onDelete} />
+  ));
 
   return <div>{powers}</div>;
 };
