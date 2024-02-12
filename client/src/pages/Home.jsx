@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
+import TestComp from "../components/TestComp";
 
 // import ArticlePage from "../pages/ArticlePage";
 // Need useContext for the Articles
@@ -26,6 +27,7 @@ const Home = () => {
 
   return (
     <>
+      {/* <TestComp /> */}
       <section className={newsFeedBannerStyles}>
         <img src="" alt="" />
         <div className="text-center">50% off sale on all classes!</div>

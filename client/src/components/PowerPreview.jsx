@@ -1,9 +1,8 @@
 import Button from "../components/Button";
 
 const PowerPreview = ({ power, onDelete }) => {
-  const handleDelete = (id) => {
-    console.log(power._id);
-    onDelete(id);
+  const handleDelete = () => {
+    onDelete(power._id);
   };
 
   return (
