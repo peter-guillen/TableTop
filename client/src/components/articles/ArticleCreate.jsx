@@ -1,31 +1,17 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-import Button from "./Button";
+import Button from "../Button";
 
-const EditArticle = ({ onEdit, articleList }) => {
-  const { id } = useParams();
+const ArticleCreate = ({ onCreate }) => {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     title: "",
     body: "",
     author: "",
     synopsis: "",
-    // comments: [{ author: "", body: "", date: "" }],
+    comments: [{ author: "", body: "", date: "" }],
   });
-
-  useEffect(() => {
-    const currentArticle = articleList.find((article) => article._id === id);
-    if (currentArticle) {
-      setFormData({
-        title: currentArticle.title,
-        body: currentArticle.body,
-        author: currentArticle.author,
-        synopsis: currentArticle.synopsis,
-      });
-    }
-  }, [id, articleList]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -34,45 +20,41 @@ const EditArticle = ({ onEdit, articleList }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await onEdit(id, formData);
+    await onCreate(formData);
     navigate("/articles");
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit}>
         <input
           type="text"
           name="title"
           onChange={handleInputChange}
           value={formData.title}
-          placeholder="title"
         />
         <input
           type="text"
           name="body"
           onChange={handleInputChange}
           value={formData.body}
-          placeholder="body"
         />
         <input
           type="text"
           name="author"
           onChange={handleInputChange}
           value={formData.author}
-          placeholder="author"
         />
         <input
           type="text"
           name="synopsis"
           onChange={handleInputChange}
           value={formData.synopsis}
-          placeholder="synopsis"
         />
-        <Button primary>Submit</Button>
+        <Button primary>Create</Button>
       </form>
     </>
   );
 };
 
-export default EditArticle;
+export default ArticleCreate;

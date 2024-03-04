@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import NotFound from "../pages/NotFound";
-import Button from "./Button";
+import NotFound from "../../pages/NotFound";
+import Button from "../Button";
 
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";

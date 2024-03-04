@@ -1,4 +1,7 @@
-import Button from "../components/Button";
+import { Link } from "react-router-dom";
+
+import PowerDetails from "./PowerDetails";
+import Button from "../Button";
 
 const PowerPreview = ({ power, onDelete }) => {
   const handleDelete = () => {
@@ -8,7 +11,11 @@ const PowerPreview = ({ power, onDelete }) => {
   return (
     <div className="flex text-white bg-gray-500 m-4 p-2">
       <div>{power.title}</div>
-      <Button primary>Details</Button>
+      <Link to={`/powers/${power._id}`}>
+        <Button primary>
+          <PowerDetails power={power} />
+        </Button>
+      </Link>
       <Button danger onClick={handleDelete}>
         Delete
       </Button>

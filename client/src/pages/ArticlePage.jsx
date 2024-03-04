@@ -7,10 +7,10 @@ import {
 } from "../api/articleApi";
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
-import ArticleDetails from "../components/ArticleDetails";
-import ArticleList from "../components/ArticleList";
-import ArticleCreate from "../components/ArticleCreate";
-import ArticleEdit from "../components/ArticleEdit";
+import ArticleDetails from "../components/articles/ArticleDetails";
+import ArticleList from "../components/articles/ArticleList";
+import ArticleCreate from "../components/articles/ArticleCreate";
+import ArticleEdit from "../components/articles/ArticleEdit";
 import Button from "../components/Button";
 import { Route, Routes } from "react-router-dom";
 

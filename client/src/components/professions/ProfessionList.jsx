@@ -1,8 +1,8 @@
 import ProfessionPreview from "./ProfessionPreview";
 import { Link } from "react-router-dom";
 
-import LoadingSpinner from "./LoadingSpinner";
-import Button from "./Button";
+import LoadingSpinner from "../LoadingSpinner";
+import Button from "../Button";
 
 const ProfessionList = ({ professionList, onDelete }) => {
   if (!professionList || professionList.length === 0) {

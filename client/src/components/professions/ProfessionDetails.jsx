@@ -1,8 +1,8 @@
 import { useParams, Link } from "react-router-dom";
-import NotFound from "../pages/NotFound";
+import NotFound from "../../pages/NotFound";
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
-import Button from "./Button";
+import Button from "../Button";
 
 const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
 const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));

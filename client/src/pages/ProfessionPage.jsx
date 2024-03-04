@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import ProfessionList from "../components/ProfessionList";
-import ProfessionDetails from "../components/ProfessionDetails";
-import ProfessionCreate from "../components/ProfessionCreate";
-import ProfessionEdit from "../components/ProfessionEdit";
+import ProfessionList from "../components/professions/ProfessionList";
+import ProfessionDetails from "../components/professions/ProfessionDetails";
+import ProfessionCreate from "../components/professions/ProfessionCreate";
+import ProfessionEdit from "../components/professions/ProfessionEdit";
 import {
   fetchProfessions,
   createProfession,
