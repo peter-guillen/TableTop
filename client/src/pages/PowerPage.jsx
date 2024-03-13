@@ -8,9 +8,11 @@ import {
 import PowerList from "../components/powers/PowerList";
 import { Routes, Route } from "react-router-dom";
 import PowerDetails from "../components/powers/PowerDetails";
+import PowerCreate from "../components/powers/PowerCreate";
+import PowerEdit from "../components/powers/PowerEdit";
 
 const Power = () => {
-  const [powersList, setPowersList] = useState([]);
+  const [powerList, setPowersList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +25,7 @@ const Power = () => {
   const handleCreate = async (formData) => {
     try {
       const newPower = await createPower(formData);
-      setPowersList([...powersList, newPower]);
+      setPowersList([...powerList, newPower]);
     } catch (error) {
       console.log("Error while creating new power.", error);
     }
@@ -31,13 +33,17 @@ const Power = () => {
 
   const handleDelete = async (id) => {
     await deletePower(id);
-    const updatedPowers = await powersList.filter((power) => power._id !== id);
+    const updatedPowers = await powerList.filter((power) => power._id !== id);
     setPowersList(updatedPowers);
   };
 
   const handleUpdate = async (id, formData) => {
     try {
-      const updatePower = await powersList.map();
+      updatePower(id, formData);
+      const updatedPowerList = await powerList.map((power) =>
+        power._id === id ? { ...power, ...formData } : power
+      );
+      setPowersList(updatedPowerList);
     } catch (error) {
       console.log("Error while updating:", error);
     }
@@ -45,13 +51,17 @@ const Power = () => {
 
   return (
     <>
-      <PowerList
-        onDelete={handleDelete}
-        onCreate={handleCreate}
-        powersList={powersList}
-      />
       <Routes>
-        <Route path="/:id" element={<PowerDetails powersList={powersList} />} />
+        <Route
+          path="/"
+          element={<PowerList powerList={powerList} onDelete={handleDelete} />}
+        />
+        <Route
+          path="/createPower"
+          element={<PowerCreate onCreate={handleCreate} />}
+        />
+        <Route path="/:id" element={<PowerDetails powerList={powerList} />} />
+        <Route path="/:id/edit" element={<PowerEdit onEdit={handleUpdate} />} />
       </Routes>
     </>
   );

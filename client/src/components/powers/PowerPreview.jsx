@@ -12,9 +12,7 @@ const PowerPreview = ({ power, onDelete }) => {
     <div className="flex text-white bg-gray-500 m-4 p-2">
       <div>{power.title}</div>
       <Link to={`/powers/${power._id}`}>
-        <Button primary>
-          <PowerDetails power={power} />
-        </Button>
+        <Button primary>Details</Button>
       </Link>
       <Button danger onClick={handleDelete}>
         Delete
