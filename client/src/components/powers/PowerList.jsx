@@ -16,7 +16,6 @@ const PowerList = ({ powerList, onCreate }) => {
       <Link to="/powers/createPower">
         <Button primary>Create new power</Button>
       </Link>
-      {/* <div>{powers}</div> */}
       <div>
         {powerList.map((power) => (
           <div key={power._id}>

@@ -11,12 +11,12 @@ const PowerDetails = ({ powerList }) => {
   }
   return (
     <div>
-      <Link to="/editPower">
+      <Link to={`/powers/${id}/edit`}>
         <Button primary>Edit</Button>
       </Link>
       <div>{power.title}</div>
       <div>{power.description}</div>
-      <div>{power.category}</div>
+      <div>{power.category}</div>s
     </div>
   );
 };
