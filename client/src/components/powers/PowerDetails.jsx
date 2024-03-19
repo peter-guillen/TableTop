@@ -16,7 +16,7 @@ const PowerDetails = ({ powerList }) => {
       </Link>
       <div>{power.title}</div>
       <div>{power.description}</div>
-      <div>{power.category}</div>s
+      <div>{power.category}</div>
     </div>
   );
 };

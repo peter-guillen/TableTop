@@ -37,9 +37,9 @@ const Power = () => {
     setPowersList(updatedPowers);
   };
 
-  const handleUpdate = async (id, formData) => {
+  const handleEdit = async (id, formData) => {
     try {
-      updatePower(id, formData);
+      await updatePower(id, formData);
       const updatedPowerList = await powerList.map((power) =>
         power._id === id ? { ...power, ...formData } : power
       );
@@ -61,7 +61,10 @@ const Power = () => {
           element={<PowerCreate onCreate={handleCreate} />}
         />
         <Route path="/:id" element={<PowerDetails powerList={powerList} />} />
-        <Route path="/:id/edit" element={<PowerEdit onEdit={handleUpdate} />} />
+        <Route
+          path="/:id/edit"
+          element={<PowerEdit onEdit={handleEdit} powerList={powerList} />}
+        />
       </Routes>
     </>
   );

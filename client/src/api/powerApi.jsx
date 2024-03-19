@@ -31,7 +31,7 @@ const deletePower = async (id) => {
 
 const updatePower = async (id, formData) => {
   const response = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
   });
