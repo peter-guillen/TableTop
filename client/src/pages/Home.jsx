@@ -2,10 +2,10 @@ import { useContext } from "react";
 
 import { ArticleContext } from "../contexts/ArticleContext";
 import Footer from "../components/Footer";
+import TestComp from "../components/TestComp";
 
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
-import TestComp from "../components/TestComp";
 
 // import ArticlePage from "../pages/ArticlePage";
 // Need useContext for the Articles
