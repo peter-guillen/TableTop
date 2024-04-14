@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { ThemeContext } from "./contexts/ThemeContext";
-import { ArticleContext } from "./contexts/ArticleContext";
+import { ArticleContextProvider } from "./contexts/ArticleContext";
 
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
@@ -36,9 +36,11 @@ function App() {
   return (
     <>
       <ThemeContext.Provider value="Hello from Theme Context">
-        <ArticleContext.Provider value="Article Context">
+        {/* <ArticleContext.Provider value="Hey"> */}
+        <ArticleContextProvider>
           <RouterProvider router={router} />
-        </ArticleContext.Provider>
+        </ArticleContextProvider>
+        {/* </ArticleContext.Provider> */}
       </ThemeContext.Provider>
     </>
   );

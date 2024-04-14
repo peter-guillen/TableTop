@@ -11,7 +11,8 @@ import classNames from "classnames";
 // Need useContext for the Articles
 
 const Home = () => {
-  const articleContexts = useContext(ArticleContext);
+  const { articles, setArticles } = useContext(ArticleContext);
+
   const newsFeedBannerStyles = twMerge(
     classNames(
       "p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4 bg-yellow-200 text-center"
@@ -32,18 +33,14 @@ const Home = () => {
         <img src="" alt="" />
         <div className="text-center">50% off sale on all classes!</div>
       </section>
-      <div>{articleContexts}</div>
 
       <section className="grid grid-cols-3 text-center">
-        <div className={newsFeedItem}>Div 1</div>
-        <div className={newsFeedItem}>Div 2</div>
-        <div className={newsFeedItem}>Div 3</div>
-        <div className={newsFeedItem}>Div 4</div>
-        <div className={newsFeedItem}>Div 5</div>
-        <div className={newsFeedItem}>Div 6</div>
+        {articles.map((article) => (
+          <div className={newsFeedItem} key={article._id}>
+            {article.title}
+          </div>
+        ))}
       </section>
-
-      <div></div>
 
       <section className={`${newsFeedContainerStyles}`}>
         <div>Rules</div>

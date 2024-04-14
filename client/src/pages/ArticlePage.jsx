@@ -1,29 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Route, Routes } from "react-router-dom";
 import {
   fetchArticles,
   createArticle,
   deleteArticle,
   updateArticle,
 } from "../api/articleApi";
-import { twMerge } from "tailwind-merge";
-import classNames from "classnames";
 import ArticleDetails from "../components/articles/ArticleDetails";
 import ArticleList from "../components/articles/ArticleList";
 import ArticleCreate from "../components/articles/ArticleCreate";
 import ArticleEdit from "../components/articles/ArticleEdit";
 import Button from "../components/Button";
-import { Route, Routes } from "react-router-dom";
+import { ArticleContext } from "../contexts/ArticleContext";
+import { twMerge } from "tailwind-merge";
+import classNames from "classnames";
 
 const ArticlePage = () => {
   const [articleList, setArticleList] = useState([]);
+  const { articles, setArticles } = useContext(ArticleContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const articles = await fetchArticles();
-      setArticleList(articles);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const articles = await fetchArticles();
+  //     setArticleList(articles);
+  //   };
+  //   fetchData();
+  // }, []);
+
+  console.log(articles);
+  console.log(articleList);
 
   const handleCreate = async (formData) => {
     try {
@@ -70,10 +75,16 @@ const ArticlePage = () => {
         quidem corrupti.
       </div>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             <ArticleList articleList={articleList} onDelete={handleDelete} />
+          }
+        /> */}
+        <Route
+          path="/"
+          element={
+            <ArticleList articlesList={articles} onDelete={handleDelete} />
           }
         />
         <Route

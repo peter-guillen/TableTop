@@ -24,6 +24,9 @@ const Navbar = () => {
           <NavLink className={navLinks} to="powers">
             Powers
           </NavLink>
+          <NavLink className={navLinks} to="equipment">
+            Equipment
+          </NavLink>
           <NavLink className={navLinks} to="weapons">
             Weapons
           </NavLink>
