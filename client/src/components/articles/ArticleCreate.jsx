@@ -1,9 +1,12 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+import ArticleContext from "../../contexts/ArticleContext";
 
 import Button from "../Button";
 
-const ArticleCreate = ({ onCreate }) => {
+const ArticleCreate = () => {
+  const { handleCreate } = useContext(ArticleContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -20,7 +23,7 @@ const ArticleCreate = ({ onCreate }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await onCreate(formData);
+    await handleCreate(formData);
     navigate("/articles");
   };
 

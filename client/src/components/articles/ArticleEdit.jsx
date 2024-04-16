@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import ArticleContext from "../../contexts/ArticleContext";
 import Button from "../Button";
 
-const EditArticle = ({ onEdit, articleList }) => {
+const EditArticle = ({ articleList }) => {
+  const { handleEdit } = useContext(ArticleContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -34,7 +36,7 @@ const EditArticle = ({ onEdit, articleList }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await onEdit(id, formData);
+    await handleEdit(id, formData);
     navigate("/articles");
   };
 

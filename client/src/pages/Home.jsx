@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
-import { ArticleContext } from "../contexts/ArticleContext";
+// import { ArticleContextProvider } from "../contexts/ArticleContext";
+import ArticleContext from "../contexts/ArticleContext";
+
 import Footer from "../components/Footer";
 import TestComp from "../components/TestComp";
 
@@ -11,7 +13,7 @@ import classNames from "classnames";
 // Need useContext for the Articles
 
 const Home = () => {
-  const { articles, setArticles } = useContext(ArticleContext);
+  const { articleList } = useContext(ArticleContext);
 
   const newsFeedBannerStyles = twMerge(
     classNames(
@@ -35,7 +37,7 @@ const Home = () => {
       </section>
 
       <section className="grid grid-cols-3 text-center">
-        {articles.map((article) => (
+        {articleList.map((article) => (
           <div className={newsFeedItem} key={article._id}>
             {article.title}
           </div>

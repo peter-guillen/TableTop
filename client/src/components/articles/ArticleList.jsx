@@ -4,12 +4,12 @@ import ArticlePreview from "./ArticlePreview";
 import Button from "../Button";
 import LoadingSpinner from "../LoadingSpinner";
 
-const ArticleList = ({ articleList, onDelete }) => {
+const ArticleList = ({ articleList }) => {
   if (!articleList || articleList.length === 0) {
     return <LoadingSpinner />;
   }
   const renderedArticle = articleList.map((article) => (
-    <ArticlePreview key={article._id} article={article} onDelete={onDelete} />
+    <ArticlePreview key={article._id} article={article} />
   ));
 
   return (

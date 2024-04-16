@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+
+import ArticleContext from "../../contexts/ArticleContext";
 import Button from "../Button";
 
-const ArticlePreview = ({ article, onDelete }) => {
-  const handleDelete = () => {
-    onDelete(article._id);
+const ArticlePreview = ({ article }) => {
+  const { handleDelete } = useContext(ArticleContext);
+  const deleteArticleOnClick = () => {
+    handleDelete(article._id);
   };
 
   return (
@@ -12,7 +16,7 @@ const ArticlePreview = ({ article, onDelete }) => {
         {article.title} - {article.author}
       </div>
       <div>{article.synopsis}</div>
-      <Button onClick={handleDelete} danger>
+      <Button onClick={deleteArticleOnClick} danger>
         Delete
       </Button>
       <Link key={article.title} to={`/articles/${article._id}`}>
