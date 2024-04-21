@@ -7,9 +7,10 @@ import {
 
 import { ThemeContext } from "./contexts/ThemeContext";
 import { ArticleContextProvider } from "./contexts/ArticleContext";
+// import { ArticleContext } from "./contexts/ArticleContext";
 
-import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ArticlePage from "./pages/ArticlePage";
 import ProfessionPage from "./pages/ProfessionPage";
@@ -37,11 +38,11 @@ function App() {
   return (
     <>
       <ThemeContext.Provider value="Hello from Theme Context">
-        {/* <ArticleContext.Provider value="Hey"> */}
         <ArticleContextProvider>
+          {/* <ArticleContext.Provider> */}
           <RouterProvider router={router} />
+          {/* </ArticleContext.Provider> */}
         </ArticleContextProvider>
-        {/* </ArticleContext.Provider> */}
       </ThemeContext.Provider>
     </>
   );

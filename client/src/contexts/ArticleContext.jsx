@@ -1,12 +1,12 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import {
   fetchArticles,
   createArticle,
   updateArticle,
   deleteArticle,
 } from "../api/articleApi";
-
-const ArticleContext = createContext();
+import ArticleContext from "../hooks/articleFastHook";
+// export const ArticleContext = createContext();
 
 const ArticleContextProvider = ({ children }) => {
   const [articleList, setArticleList] = useState([]);
@@ -55,4 +55,5 @@ const ArticleContextProvider = ({ children }) => {
 };
 
 export { ArticleContextProvider };
-export default ArticleContext;
+// export { ArticleContext };
+// export default ArticleContext;

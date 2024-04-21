@@ -1,16 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
-// import { ArticleContextProvider } from "../contexts/ArticleContext";
-import ArticleContext from "../contexts/ArticleContext";
-
+import { ArticleContext } from "../contexts/ArticleContext";
 import Footer from "../components/Footer";
-import TestComp from "../components/TestComp";
 
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
-
-// import ArticlePage from "../pages/ArticlePage";
-// Need useContext for the Articles
 
 const Home = () => {
   const { articleList } = useContext(ArticleContext);
@@ -30,7 +24,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <TestComp /> */}
       <section className={newsFeedBannerStyles}>
         <img src="" alt="" />
         <div className="text-center">50% off sale on all classes!</div>
@@ -39,7 +32,9 @@ const Home = () => {
       <section className="grid grid-cols-3 text-center">
         {articleList.map((article) => (
           <div className={newsFeedItem} key={article._id}>
-            {article.title}
+            <div>{article.title}</div>
+            <div>{article.createdAt}</div>
+            <div>{article.updatedAt}</div>
           </div>
         ))}
       </section>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import ArticleContext from "../../contexts/ArticleContext";
+import { ArticleContext } from "../../contexts/ArticleContext";
 import Button from "../Button";
 
 const EditArticle = ({ articleList }) => {

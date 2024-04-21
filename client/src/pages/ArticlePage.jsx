@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import ArticleContext from "../contexts/ArticleContext";
+import { ArticleContext } from "../contexts/ArticleContext";
 
 import ArticleDetails from "../components/articles/ArticleDetails";
 import ArticleList from "../components/articles/ArticleList";

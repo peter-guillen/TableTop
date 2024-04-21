@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import ArticleContext from "../../contexts/ArticleContext";
+import { ArticleContext } from "../../contexts/ArticleContext";
 import Button from "../Button";
 
 const ArticlePreview = ({ article }) => {
