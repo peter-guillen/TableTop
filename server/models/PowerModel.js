@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const powerSchema = new mongoose.Schema({
+const PowerSchema = new mongoose.Schema({
   title: String,
   description: String,
   category: String,
 });
 
-module.exports = mongoose.model("Power", powerSchema);
+module.exports = mongoose.model("Power", PowerSchema);

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import NotFound from "../../pages/NotFound";
@@ -13,18 +14,19 @@ const ArticleDetails = ({ articleList }) => {
   if (!article) {
     return <NotFound />;
   }
-  // const newsFeedContainerStyles = twMerge(
-  //   classNames("p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4")
-  // );
 
-  // const newsFeedItemStyles = twMerge(
-  //   classNames(
-  //     "text-white border-2 rounded-md bg-indigo-800 h-40 text-center",
-  //     {
-  //       // "bg-indigo-400": hoveredArticleId === articleId,
-  //     }
-  //   )
-  // );
+  const newsFeedContainerStyles = twMerge(
+    classNames("p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4")
+  );
+
+  const newsFeedItemStyles = twMerge(
+    classNames(
+      "text-white border-2 rounded-md bg-indigo-800 h-40 text-center",
+      {
+        // "bg-indigo-400": hoveredArticleId === articleId,
+      }
+    )
+  );
 
   // const handleMouseEnter = (articleId) => {
   //   setHoveredArticleId(articleId);
@@ -68,8 +70,8 @@ const ArticleDetails = ({ articleList }) => {
   // return <div>{renderedArticle}</div>;
   return (
     <>
-      <div>
-        <div>{article.title}</div>
+      <div className={newsFeedContainerStyles}>
+        <div className={newsFeedItemStyles}>{article.title}</div>
         <div>{article.body}</div>
         <div>{article.author}</div>
         <div>{article.synopsis}</div>

@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 
-import { ArticleContext } from "../contexts/ArticleContext";
+import ArticleContext from "../hooks/articleFastRefreshHook";
 import Footer from "../components/Footer";
 
 import { twMerge } from "tailwind-merge";
@@ -8,6 +8,7 @@ import classNames from "classnames";
 
 const Home = () => {
   const { articleList } = useContext(ArticleContext);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const newsFeedBannerStyles = twMerge(
     classNames(
@@ -20,7 +21,20 @@ const Home = () => {
     )
   );
 
-  const newsFeedItem = twMerge(classNames("p-6 m-6 bg-blue-200"));
+  const newsFeedItem = twMerge(
+    classNames(
+      "p-6 m-6 rounded-md bg-blue-200",
+      // "bg-red-400": hoveredIndex !== null,
+      // hoveredIndex !== null && "bg-red-400"
+      { "bg-indigo-400": hoveredIndex === articleId }
+    )
+  );
+  const handleMouseEnter = (articleId) => {
+    setHoveredIndex(articleId);
+  };
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
 
   return (
     <>
@@ -31,7 +45,12 @@ const Home = () => {
 
       <section className="grid grid-cols-3 text-center">
         {articleList.map((article) => (
-          <div className={newsFeedItem} key={article._id}>
+          <div
+            className={newsFeedItem}
+            key={article._id}
+            onMouseEnter={() => handleMouseEnter(article._id)}
+            onMouseLeave={() => handleMouseLeave(null)}
+          >
             <div>{article.title}</div>
             <div>{article.createdAt}</div>
             <div>{article.updatedAt}</div>

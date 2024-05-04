@@ -34,6 +34,9 @@ const Navbar = () => {
             Armor
           </NavLink>
           <NavLink className={userLinks}>Cart</NavLink>
+          <NavLink className={navLinks} to="register">
+            Signup
+          </NavLink>
           <NavLink className={userLinks}>Login</NavLink>
           {/* <FaRegUser /> */}
           <NavLink className={userLinks}>Logout</NavLink>

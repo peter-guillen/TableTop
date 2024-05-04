@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const professionSchema = new mongoose.Schema({
+const ProfessionSchema = new mongoose.Schema({
   title: String,
   power: String,
   weapon: String,
@@ -9,7 +9,7 @@ const professionSchema = new mongoose.Schema({
   // spells: [spellsSchema],
 });
 
-module.exports = mongoose.model("Profession", professionSchema);
+module.exports = mongoose.model("Profession", ProfessionSchema);
 
 // // creates a new spell
 // const spellsSchema = new mongoose.Schema({

@@ -7,7 +7,6 @@ import {
 
 import { ThemeContext } from "./contexts/ThemeContext";
 import { ArticleContextProvider } from "./contexts/ArticleContext";
-// import { ArticleContext } from "./contexts/ArticleContext";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -17,12 +16,14 @@ import ProfessionPage from "./pages/ProfessionPage";
 import PowerPage from "./pages/PowerPage";
 import WeaponPage from "./pages/WeaponPage";
 import ArmorPage from "./pages/ArmorPage";
+import Register from "./components/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Navbar />}>
         <Route index element={<Home />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/articles/*" element={<ArticlePage />} />
         <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/powers/*" element={<PowerPage />} />
@@ -39,9 +40,7 @@ function App() {
     <>
       <ThemeContext.Provider value="Hello from Theme Context">
         <ArticleContextProvider>
-          {/* <ArticleContext.Provider> */}
           <RouterProvider router={router} />
-          {/* </ArticleContext.Provider> */}
         </ArticleContextProvider>
       </ThemeContext.Provider>
     </>

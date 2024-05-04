@@ -1,8 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ArticleContext } from "../../contexts/ArticleContext";
-
+import ArticleContext from "../../hooks/articleFastRefreshHook";
 import Button from "../Button";
 
 const ArticleCreate = () => {
