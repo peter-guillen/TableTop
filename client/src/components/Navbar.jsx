@@ -9,9 +9,9 @@ const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 const Navbar = () => {
   return (
-    <div>
+    <>
       <header>
-        <nav className="bg-gray-700 w-screen m-auto p-4">
+        <nav className="bg-gray-700 m-auto p-4">
           <NavLink className={navLinks} to="/">
             Home
           </NavLink>
@@ -46,7 +46,7 @@ const Navbar = () => {
       <main>
         <Outlet />
       </main>
-    </div>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ const ArticleList = ({ articleList }) => {
       <Link to="/articles/createArticle">
         <Button primary>New Article</Button>
       </Link>
-      <div className="bg-gray-300">{renderedArticle}</div>
+      <div className="p-2 m-2">{renderedArticle}</div>
     </div>
   );
 };

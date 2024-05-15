@@ -7,8 +7,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
 const User = require("./models/UserModel");
-const professionRoutes = require("./routes/professions");
+const userRoutes = require("./routes/users");
 const articleRoutes = require("./routes/articles");
+const professionRoutes = require("./routes/professions");
 const powersRoutes = require("./routes/powers");
 
 const mongoose = require("mongoose");
@@ -21,17 +22,18 @@ app.use(
     secret: "cats",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { secure: false },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.deserializeUser(User.serializeUser);
-passport.deserializeUser(User.deserializeUser);
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-app.use("/api/professions", professionRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
+app.use("/api/professions", professionRoutes);
 app.use("/api/powers", powersRoutes);
 
 app.listen(PORT, () => {

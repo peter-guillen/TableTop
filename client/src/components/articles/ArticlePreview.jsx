@@ -12,16 +12,18 @@ const ArticlePreview = ({ article }) => {
 
   return (
     <>
-      <div>
-        {article.title} - {article.author}
+      <div className="bg-gray-200 p-4 m-4">
+        <div>
+          {article.title} - {article.author}
+        </div>
+        <div>{article.synopsis}</div>
+        <Button onClick={deleteArticleOnClick} danger>
+          Delete
+        </Button>
+        <Link key={article.title} to={`/articles/${article._id}`}>
+          <Button warning>Details</Button>
+        </Link>
       </div>
-      <div>{article.synopsis}</div>
-      <Button onClick={deleteArticleOnClick} danger>
-        Delete
-      </Button>
-      <Link key={article.title} to={`/articles/${article._id}`}>
-        <Button warning>Details</Button>
-      </Link>
     </>
   );
 };

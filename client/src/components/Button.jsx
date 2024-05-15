@@ -14,7 +14,7 @@ const Button = ({
   const buttonStyles = twMerge(
     classNames(
       rest.className,
-      "items-center px-3 px1.5 m-2 p-2 border rounded-md text-center",
+      "items-center px-3 m-2 p-2 border rounded-md text-center",
       {
         "bg-blue-400": primary,
         "bg-purple-400": secondary,
