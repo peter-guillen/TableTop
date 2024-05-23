@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { fetchUser, createUser } from "../api/userApi";
-import Button from "./Button";
+import { createUser } from "../../api/userApi";
+import Button from "../Button";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    passsword: "",
+    password: "",
   });
 
   const handleCreate = async (formData) => {

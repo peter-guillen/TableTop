@@ -18,4 +18,16 @@ const createUser = async (formData) => {
   return await response.json();
 };
 
-export { fetchUser, createUser };
+const loginUser = async (formData) => {
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok.");
+  }
+  return await response.json();
+};
+
+export { fetchUser, createUser, loginUser };

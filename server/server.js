@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(
   session({
-    secret: "cats",
+    secret: "my_secret",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -31,10 +31,19 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+const ensureIsAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    // return next();
+    return res.redirect("/");
+  }
+  next();
+  // res.redirect("/login");
+};
+
 app.use("/api/users", userRoutes);
-app.use("/api/articles", articleRoutes);
-app.use("/api/professions", professionRoutes);
-app.use("/api/powers", powersRoutes);
+app.use("/api/articles", ensureIsAuthenticated, articleRoutes);
+app.use("/api/professions", ensureIsAuthenticated, professionRoutes);
+app.use("/api/powers", ensureIsAuthenticated, powersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

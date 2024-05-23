@@ -16,7 +16,8 @@ import ProfessionPage from "./pages/ProfessionPage";
 import PowerPage from "./pages/PowerPage";
 import WeaponPage from "./pages/WeaponPage";
 import ArmorPage from "./pages/ArmorPage";
-import Register from "./components/Register";
+import Register from "./components/users/Register";
+import Login from "./components/users/Login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Navbar />}>
         <Route index element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/articles/*" element={<ArticlePage />} />
         <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/powers/*" element={<PowerPage />} />

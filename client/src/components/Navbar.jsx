@@ -11,36 +11,42 @@ const Navbar = () => {
   return (
     <>
       <header>
-        <nav className="bg-gray-700 m-auto p-4">
-          <NavLink className={navLinks} to="/">
-            Home
-          </NavLink>
-          <NavLink className={navLinks} to="articles">
-            Articles
-          </NavLink>
-          <NavLink className={navLinks} to="professions">
-            Professions
-          </NavLink>
-          <NavLink className={navLinks} to="powers">
-            Powers
-          </NavLink>
-          <NavLink className={navLinks} to="equipment">
-            Equipment
-          </NavLink>
-          <NavLink className={navLinks} to="weapons">
-            Weapons
-          </NavLink>
-          <NavLink className={navLinks} to="armors">
-            Armor
-          </NavLink>
-          <NavLink className={userLinks}>Cart</NavLink>
-          <NavLink className={navLinks} to="register">
-            Signup
-          </NavLink>
-          <NavLink className={userLinks}>Login</NavLink>
-          {/* <FaRegUser /> */}
-          <NavLink className={userLinks}>Logout</NavLink>
-          {/* <FaUser /> */}
+        <nav className="flex bg-gray-700 m-auto p-4">
+          <div className="flex-row">
+            <NavLink className={navLinks} to="/">
+              Home
+            </NavLink>
+            <NavLink className={navLinks} to="articles">
+              Articles
+            </NavLink>
+            <NavLink className={navLinks} to="professions">
+              Professions
+            </NavLink>
+            <NavLink className={navLinks} to="powers">
+              Powers
+            </NavLink>
+            <NavLink className={navLinks} to="equipment">
+              Equipment
+            </NavLink>
+            <NavLink className={navLinks} to="weapons">
+              Weapons
+            </NavLink>
+            <NavLink className={navLinks} to="armors">
+              Armor
+            </NavLink>
+          </div>
+          <div className="flex-row-reverse">
+            <NavLink className={userLinks}>Cart</NavLink>
+            <NavLink className={navLinks} to="register">
+              Signup
+            </NavLink>
+            <NavLink className={userLinks} to="login">
+              Login
+            </NavLink>
+            {/* <FaRegUser /> */}
+            <NavLink className={userLinks}>Logout</NavLink>
+            {/* <FaUser /> */}
+          </div>
         </nav>
       </header>
       <main>
