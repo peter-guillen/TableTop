@@ -18,12 +18,16 @@ const loginPage = (req, res) => {
 };
 
 const loginUser = (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", (err, user) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ message: "Login failed" });
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.status(200).json({ message: "Login successful" });
+      return res.status(200).json({
+        success: true,
+        message: "Login successful",
+        user: { _id: user._id, username: user.username, email: user.email },
+      });
     });
   })(req, res, next);
 };

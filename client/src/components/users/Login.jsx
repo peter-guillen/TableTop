@@ -22,7 +22,8 @@ const Login = () => {
     event.preventDefault();
     try {
       const loggedInUser = await login(formData);
-      if (loggedInUser) {
+      console.log(loggedInUser.username);
+      if (loggedInUser.username) {
         console.log("Login successful:", loggedInUser);
         navigate("/");
       } else {
