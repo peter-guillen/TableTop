@@ -33,17 +33,15 @@ passport.deserializeUser(User.deserializeUser());
 
 const ensureIsAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
-    // return next();
-    return res.redirect("/");
+    return next();
   }
-  next();
-  // res.redirect("/login");
+  res.status(401).json({ message: "Unauthorized" });
 };
 
 app.use("/api/users", userRoutes);
-app.use("/api/articles", ensureIsAuthenticated, articleRoutes);
-app.use("/api/professions", ensureIsAuthenticated, professionRoutes);
-app.use("/api/powers", ensureIsAuthenticated, powersRoutes);
+app.use("/api/articles", articleRoutes);
+app.use("/api/professions", professionRoutes);
+app.use("/api/powers", powersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

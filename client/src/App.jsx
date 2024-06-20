@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 
 import { ThemeContext } from "./contexts/ThemeContext";
-import { ArticleContextProvider } from "./contexts/ArticleContext";
+import ArticleContextProvider from "./contexts/ArticleContext";
+import AuthContextProvider from "./contexts/AuthContext";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -19,6 +20,8 @@ import ArmorPage from "./pages/ArmorPage";
 import Register from "./components/users/Register";
 import Login from "./components/users/Login";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -30,7 +33,14 @@ const router = createBrowserRouter(
         <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/powers/*" element={<PowerPage />} />
         <Route path="/weapons" element={<WeaponPage />} />
-        <Route path="/armors" element={<ArmorPage />} />
+        <Route
+          path="/armors"
+          element={
+            <ProtectedRoute>
+              <ArmorPage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
@@ -42,7 +52,9 @@ function App() {
     <>
       <ThemeContext.Provider value="Hello from Theme Context">
         <ArticleContextProvider>
-          <RouterProvider router={router} />
+          <AuthContextProvider>
+            <RouterProvider router={router} />
+          </AuthContextProvider>
         </ArticleContextProvider>
       </ThemeContext.Provider>
     </>

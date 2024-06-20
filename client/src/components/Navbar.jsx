@@ -1,13 +1,19 @@
 import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-
+import AuthContext from "../hooks/authFastRefreshHook";
+import { useContext } from "react";
 // import { FaRegUser, FaUser } from "react-icons/fa6";
 
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 const Navbar = () => {
+  const { users, currentUser } = useContext(AuthContext);
+  if (users === null) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <header>
@@ -46,6 +52,9 @@ const Navbar = () => {
             {/* <FaRegUser /> */}
             <NavLink className={userLinks}>Logout</NavLink>
             {/* <FaUser /> */}
+          </div>
+          <div className={userLinks}>
+            User:{currentUser ? currentUser.username : "Guest"}
           </div>
         </nav>
       </header>

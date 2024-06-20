@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { loginUser } from "../../api/userApi";
+import AuthContext from "../../hooks/authFastRefreshHook";
+
 import Button from "../Button";
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -19,9 +21,13 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await loginUser(formData);
-      console.log("Login successful:", response);
-      navigate("/");
+      const loggedInUser = await login(formData);
+      if (loggedInUser) {
+        console.log("Login successful:", loggedInUser);
+        navigate("/");
+      } else {
+        console.log("Login failed: Invalid response");
+      }
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -52,7 +58,7 @@ const Login = () => {
           placeholder="......."
         />
         <Button primary type="submit">
-          Sign Up
+          Sign In
         </Button>
       </form>
     </div>

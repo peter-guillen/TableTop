@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import ArticleContext from "../hooks/articleFastRefreshHook";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
+import ArticleContext from "../hooks/articleFastRefreshHook";
 
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";

@@ -17,14 +17,6 @@ const loginPage = (req, res) => {
   res.status(200).send("Login Page");
 };
 
-// const loginUser = (req, res, next) => {
-//   passport.authenticate("local", {
-//     successRedirect: "/",
-//     failureRedirect: "/",
-//   }),
-//     (req, res) => {};
-// };
-
 const loginUser = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
@@ -37,15 +29,3 @@ const loginUser = (req, res, next) => {
 };
 
 module.exports = { getUsers, createUser, loginPage, loginUser };
-
-// Why res.send("Login Page") instead of res.send("/")
-// What is info in passport.authenticate("local", (err, user, info))
-// Why is this logic different from the top from Odin
-// const loginUser = (req, res, next) => {
-//   passport.authenticate("local", {
-//     successRedirect: "/",
-//     failureRedirect: "/",
-//   }),
-//     (req, res) => {};
-// };
-// Why is login treated as a POST request?

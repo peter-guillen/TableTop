@@ -53,4 +53,4 @@ const ArticleContextProvider = ({ children }) => {
   );
 };
 
-export { ArticleContextProvider };
+export default ArticleContextProvider;

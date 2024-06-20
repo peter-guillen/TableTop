@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:1234/api/users";
 
-const fetchUser = async () => {
+const fetchUsers = async () => {
   const response = await fetch(API_URL);
   const jsonResponse = await response.json();
   return jsonResponse;
@@ -30,4 +30,4 @@ const loginUser = async (formData) => {
   return await response.json();
 };
 
-export { fetchUser, createUser, loginUser };
+export { fetchUsers, createUser, loginUser };
