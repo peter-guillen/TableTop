@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import AuthContext from "../hooks/authFastRefreshHook";
 
 import ProfessionList from "../components/professions/ProfessionList";
 import ProfessionDetails from "../components/professions/ProfessionDetails";
@@ -14,11 +15,14 @@ import {
 
 const ProfessionPage = () => {
   const [professionList, setProfessionList] = useState([]);
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
-      const professions = await fetchProfessions();
-      setProfessionList(professions);
+      if (currentUser && currentUser.token) {
+        const professions = await fetchProfessions(currentUser.token);
+        setProfessionList(professions);
+      }
     };
     fetchData();
   }, []);

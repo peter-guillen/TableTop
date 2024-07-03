@@ -12,6 +12,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -20,23 +21,19 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const loggedInUser = await login(formData);
-      console.log(loggedInUser.username);
-      if (loggedInUser.username) {
-        console.log("Login successful:", loggedInUser);
-        navigate("/");
-      } else {
-        console.log("Login failed: Invalid response");
-      }
-    } catch (error) {
-      console.error("Error logging in:", error);
+    const response = await login(formData);
+    if (response.success) {
+      navigate("/");
+    } else {
+      setErrorMessage(response.message);
     }
   };
 
   return (
     <div>
       <div></div>
+      {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>

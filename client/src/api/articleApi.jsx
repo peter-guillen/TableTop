@@ -1,7 +1,10 @@
 const API_URL = "http://localhost:1234/api/articles";
 
 const fetchArticles = async () => {
-  const response = await fetch(API_URL);
+  const response = await fetch(API_URL, {
+    method: "GET",
+    credentials: "include",
+  });
   const jsonResponse = await response.json();
   return jsonResponse;
 };

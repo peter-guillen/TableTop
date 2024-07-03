@@ -20,7 +20,13 @@ const loginPage = (req, res) => {
 const loginUser = (req, res, next) => {
   passport.authenticate("local", (err, user) => {
     if (err) return next(err);
-    if (!user) return res.status(401).json({ message: "Login failed" });
+    if (!user)
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: "Login failed, invalid username or password",
+        });
     req.logIn(user, (err) => {
       if (err) return next(err);
       return res.status(200).json({

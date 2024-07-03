@@ -1,7 +1,17 @@
 const API_URL = "http://localhost:1234/api/professions";
 
-const fetchProfessions = async () => {
-  const response = await fetch(API_URL);
+const fetchProfessions = async (token) => {
+  const response = await fetch(API_URL, {
+    method: "GET",
+    // Applying these headers for the ensureIsAuthenticated middleware in the server.js file
+    // Since we're using sessions "include"
+    credentials: "include",
+    // Mock token inside of AuthContext is being passed for authorization
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
   const jsonResponse = await response.json();
   return jsonResponse;
 };
