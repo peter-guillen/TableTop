@@ -47,20 +47,3 @@ app.use("/api/powers", powersRoutes);
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
 });
-
-// Question 1: I am using mongoDB for my database, how do I implement the logout login instead of localstorage
-// Question 2: Inside of my userAPI loginUser function why is this code added. Please explain to me its use and why its important.
-// const data = await response.json();
-//     return data; // This should include success, user data, and token
-//   } catch (error) {
-//     console.error('Login error:', error);
-//     return { success: false, message: error.message };
-//   }
-// Question 3: Please explain step 3:
-// import { useContext } from 'react';
-// import AuthContext from '../hooks/authFastRefreshHook';
-
-// export const useAuth = () => {
-//   return useContext(AuthContext);
-// };
-// Question 4: I see that we're using useAuth hook from step 3 inside of step 4, why not just use the AuthContext from the fast refresh hook? Why take this extra step?

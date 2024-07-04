@@ -21,13 +21,15 @@ const AuthContextProvider = ({ children }) => {
   const login = async (formData) => {
     // Get the data from the login function in the userApi
     const response = await loginUserApi(formData);
+    console.log(formData);
+    console.log(response);
     if (response.success) {
       const loggedInUser = {
         id: response.user._id,
         username: response.user.username,
         email: response.user.email,
-        token: mockToken,
-        // token: response.token,
+        // token: mockToken,
+        token: response.token,
         role: response.user.role,
       };
       setCurrentUser(loggedInUser);

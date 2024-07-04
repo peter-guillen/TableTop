@@ -22,6 +22,8 @@ const ProfessionPage = () => {
       if (currentUser && currentUser.token) {
         const professions = await fetchProfessions(currentUser.token);
         setProfessionList(professions);
+        console.log(professions);
+        console.log(currentUser);
       }
     };
     fetchData();
