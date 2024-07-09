@@ -12,7 +12,6 @@ const fetchProfessions = async (token) => {
       "Content-Type": "application/json",
     },
   });
-  console.log(token);
   const jsonResponse = await response.json();
   return jsonResponse;
 };

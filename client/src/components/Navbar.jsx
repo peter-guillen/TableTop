@@ -9,10 +9,14 @@ const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 const Navbar = () => {
-  const { users, currentUser } = useContext(AuthContext);
+  const { users, currentUser, logout } = useContext(AuthContext);
   if (users === null) {
     return <div>Loading...</div>;
   }
+
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
     <>
@@ -50,7 +54,9 @@ const Navbar = () => {
               Login
             </NavLink>
             {/* <FaRegUser /> */}
-            <NavLink className={userLinks}>Logout</NavLink>
+            <NavLink className={userLinks} onClick={handleLogout}>
+              Logout
+            </NavLink>
             {/* <FaUser /> */}
           </div>
           <div className={userLinks}>

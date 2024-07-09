@@ -19,12 +19,8 @@ const ProfessionPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (currentUser && currentUser.token) {
-        const professions = await fetchProfessions(currentUser.token);
-        setProfessionList(professions);
-        console.log(professions);
-        console.log(currentUser);
-      }
+      const professions = await fetchProfessions();
+      setProfessionList(professions);
     };
     fetchData();
   }, []);

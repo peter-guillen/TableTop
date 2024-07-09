@@ -21,12 +21,10 @@ const loginUser = (req, res, next) => {
   passport.authenticate("local", (err, user) => {
     if (err) return next(err);
     if (!user)
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Login failed, invalid username or password",
-        });
+      return res.status(401).json({
+        success: false,
+        message: "Login failed, invalid username or password",
+      });
     req.logIn(user, (err) => {
       if (err) return next(err);
       return res.status(200).json({
@@ -38,4 +36,13 @@ const loginUser = (req, res, next) => {
   })(req, res, next);
 };
 
-module.exports = { getUsers, createUser, loginPage, loginUser };
+const logoutUser = (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Logout failed" });
+    }
+    res.status(200).json({ success: true, message: "Logout successful" });
+  });
+};
+
+module.exports = { getUsers, createUser, loginPage, loginUser, logoutUser };

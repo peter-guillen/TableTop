@@ -19,6 +19,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/powers-app");
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(
+  // Using sessions as a dependency for passport
   session({
     secret: "my_secret",
     resave: false,
@@ -28,20 +29,21 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-const ensureIsAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ message: "Unauthorized" });
-};
+// const ensureIsAuthenticated = (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.status(401).json({ message: "Unauthorized" });
+// };
 
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
-app.use("/api/professions", ensureIsAuthenticated, professionRoutes);
+app.use("/api/professions", professionRoutes);
 app.use("/api/powers", powersRoutes);
 
 app.listen(PORT, () => {

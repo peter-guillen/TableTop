@@ -6,6 +6,7 @@ const {
   createUser,
   loginPage,
   loginUser,
+  logoutUser,
 } = require("../controllers/userController");
 
 const ensureAuthenticated = (req, res, next) => {
@@ -21,7 +22,9 @@ router.post("/", createUser);
 router.get("/login", loginPage);
 router.post("/login", loginUser);
 
-router.get("/me", ensureAuthenticated, (req, res) => {
+router.post("/logout", logoutUser);
+
+router.get("/me", (req, res) => {
   res.json(res.user);
 });
 
