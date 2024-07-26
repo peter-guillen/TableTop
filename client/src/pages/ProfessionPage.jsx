@@ -6,6 +6,7 @@ import ProfessionList from "../components/professions/ProfessionList";
 import ProfessionDetails from "../components/professions/ProfessionDetails";
 import ProfessionCreate from "../components/professions/ProfessionCreate";
 import ProfessionEdit from "../components/professions/ProfessionEdit";
+
 import {
   fetchProfessions,
   createProfession,

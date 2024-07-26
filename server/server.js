@@ -12,6 +12,8 @@ const articleRoutes = require("./routes/articles");
 const professionRoutes = require("./routes/professions");
 const powersRoutes = require("./routes/powers");
 
+const verifyRole = require("../server/middlewares/verifyRole");
+
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/powers-app");
 
@@ -34,17 +36,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// const ensureIsAuthenticated = (req, res, next) => {
-//   if (req.isAuthenticated()) {
-//     return next();
-//   }
-//   res.status(401).json({ message: "Unauthorized" });
-// };
-
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
-app.use("/api/professions", professionRoutes);
-app.use("/api/powers", powersRoutes);
+app.use("/api/professions", verifyRole(["admin", "user"]), professionRoutes);
+app.use("/api/powers", verifyRole(["admin"]), powersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

@@ -85,6 +85,7 @@ const AuthContextProvider = ({ children }) => {
       return { success: false, message: response.message };
     }
   };
+
   return (
     <AuthContext.Provider value={{ users, currentUser, signup, login, logout }}>
       {children}

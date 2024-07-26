@@ -1,18 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import AuthContext from "../hooks/authFastRefreshHook";
+
+import PowerList from "../components/powers/PowerList";
+import PowerDetails from "../components/powers/PowerDetails";
+import PowerCreate from "../components/powers/PowerCreate";
+import PowerEdit from "../components/powers/PowerEdit";
+
 import {
   fetchPowers,
   createPower,
   deletePower,
   updatePower,
 } from "../api/powerApi";
-import PowerList from "../components/powers/PowerList";
-import { Routes, Route } from "react-router-dom";
-import PowerDetails from "../components/powers/PowerDetails";
-import PowerCreate from "../components/powers/PowerCreate";
-import PowerEdit from "../components/powers/PowerEdit";
 
 const Power = () => {
   const [powerList, setPowersList] = useState([]);
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +44,7 @@ const Power = () => {
   const handleEdit = async (id, formData) => {
     try {
       await updatePower(id, formData);
-      const updatedPowerList = await powerList.map((power) =>
+      const updatedPowerList = powerList.map((power) =>
         power._id === id ? { ...power, ...formData } : power
       );
       setPowersList(updatedPowerList);

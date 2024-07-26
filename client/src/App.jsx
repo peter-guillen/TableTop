@@ -21,6 +21,7 @@ import Register from "./components/users/Register";
 import Login from "./components/users/Login";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import Forbidden from "./components/Forbidden";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,14 +30,29 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/articles/*" element={<ArticlePage />} />
-        <Route path="/professions/*" element={<ProfessionPage />} />
-        <Route path="/powers/*" element={<PowerPage />} />
+        <Route
+          path="/professions/*"
+          element={
+            <ProtectedRoute roles={["admin", "user"]}>
+              <ProfessionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/powers/*"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <PowerPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/weapons" element={<WeaponPage />} />
         <Route
           path="/armors"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["admin", "user"]}>
               <ArmorPage />
             </ProtectedRoute>
           }

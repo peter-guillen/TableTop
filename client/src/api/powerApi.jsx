@@ -1,9 +1,13 @@
 const API_URL = "http://localhost:1234/api/powers";
 
-const fetchPowers = async () => {
+const fetchPowers = async (token) => {
   const response = await fetch(API_URL, {
     method: "GET",
     credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
   const jsonResponse = await response.json();
   return jsonResponse;

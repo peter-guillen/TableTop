@@ -24,7 +24,6 @@ const createUser = async (formData) => {
     }
     return await response.json();
   } catch (err) {
-    console.log(err, "DIDNT ADD USER!!");
     throw err;
   }
 };

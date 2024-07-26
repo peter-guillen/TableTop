@@ -30,7 +30,12 @@ const loginUser = (req, res, next) => {
       return res.status(200).json({
         success: true,
         message: "Login successful",
-        user: { _id: user._id, username: user.username, email: user.email },
+        user: {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
       });
     });
   })(req, res, next);

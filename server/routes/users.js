@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
 const {
   getUsers,
@@ -9,13 +10,6 @@ const {
   logoutUser,
 } = require("../controllers/userController");
 
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ message: "Unauthorized" });
-};
-
 router.get("/", getUsers);
 router.post("/", createUser);
 
@@ -24,7 +18,7 @@ router.post("/login", loginUser);
 
 router.post("/logout", logoutUser);
 
-router.get("/me", (req, res) => {
+router.get("/me", ensureAuthenticated, (req, res) => {
   res.json(res.user);
 });
 

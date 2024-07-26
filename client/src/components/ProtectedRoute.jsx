@@ -1,24 +1,22 @@
 import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext from "../hooks/authFastRefreshHook";
+
 import { Navigate } from "react-router-dom";
 
-// const ProtectedRoute = ({ children, role }) => {
-//   const { currentUser } = useContext(AuthContext);
-
-//   if (!currentUser) {
-//     return <Navigate to="/login" />;
-//   }
-
-//   if (role && currentUser.role !== role) {
-//     return <Navigate to="/forbidden" />;
-//   }
-
-//   return children;
-// };
-
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, roles }) => {
   const { currentUser } = useContext(AuthContext);
-  return currentUser ? children : <Navigate to="/login" />;
+  console.log("Current User", currentUser);
+  console.log("Required Roles:", roles);
+
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
+
+  if (roles && !roles.includes(currentUser.role)) {
+    return <Navigate to="/forbidden" />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
