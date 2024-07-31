@@ -1,17 +1,21 @@
 import { useReducer } from "react";
 
+// No reason for these other than error prevention and to identify an action
+const UPDATE_STAT = "update_stat";
+const ARMOR_SELECT = "armor_select";
+const WEAPON_SELECT = "weapon_select";
+
 const reducer = (state, action) => {
-  console.log("STATE---", state);
-  console.log("ACTION---", action);
+  let updatedStats;
   switch (action.type) {
-    case "UPDATE_STAT":
+    case UPDATE_STAT:
       return {
         ...state,
         stats: { ...state.stats, [action.payload.stat]: action.payload.value },
       };
 
-    case "ARMOR_SELECT":
-      let updatedStats = { ...state.stats };
+    case ARMOR_SELECT:
+      updatedStats = { ...state.stats };
       // If the new armor is heavyArmor apply the dexterity penatly
       if (action.payload.value === "heavyArmor") {
         updatedStats.dexterity -= 3;
@@ -26,21 +30,22 @@ const reducer = (state, action) => {
       }
       return { ...state, armorType: action.payload.value, stats: updatedStats };
 
-    case "WEAPON_SELECT":
-      let checkStrengthRequirement = { ...state.stats };
+    case WEAPON_SELECT:
+      updatedStats = { ...state.stats };
       if (action.payload.value === "claymore") {
-        if (checkStrengthRequirement.strength >= 12) {
+        if (updatedStats.strength >= 12) {
           console.log("No penalty");
         } else {
-          checkStrengthRequirement.dexterity -= 1;
+          updatedStats.dexterity -= 1;
         }
+        // FIX BUG: WHEN STRENGTH IS ABOVE 12 AND WEAPON IS CHANGED DEXTERITY IS ADDED +1
       } else if (state.weaponType === "claymore") {
-        checkStrengthRequirement.dexterity += 1;
+        updatedStats.dexterity += 1;
       }
       return {
         ...state,
         weaponType: action.payload.value,
-        stats: checkStrengthRequirement,
+        stats: updatedStats,
       };
 
     default:
@@ -68,17 +73,17 @@ const Rules = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleStatChange = (stat, value) => {
-    dispatch({ type: "UPDATE_STAT", payload: { stat, value } });
+    dispatch({ type: UPDATE_STAT, payload: { stat, value } });
   };
 
   const handleArmorChange = (event) => {
     const { value } = event.target;
-    dispatch({ type: "ARMOR_SELECT", payload: { value } });
+    dispatch({ type: ARMOR_SELECT, payload: { value } });
   };
 
   const handleWeaponChange = (event) => {
     const { value } = event.target;
-    dispatch({ type: "WEAPON_SELECT", payload: { value } });
+    dispatch({ type: WEAPON_SELECT, payload: { value } });
   };
 
   return (
@@ -207,6 +212,7 @@ const Rules = () => {
             onChange={handleWeaponChange}
           />
           <label htmlFor="dagger">Dagger</label>
+          <div>Fix bug: WEAPON SELECT</div>
         </div>
       </div>
     </div>
