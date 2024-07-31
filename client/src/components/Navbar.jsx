@@ -41,6 +41,12 @@ const Navbar = () => {
             <NavLink className={navLinks} to="/">
               Home
             </NavLink>
+            <NavLink className={navLinks} to="rules">
+              Rules
+            </NavLink>
+            <NavLink className={navLinks} to="characters">
+              Characters
+            </NavLink>
             <NavLink className={navLinks} to="articles">
               Articles
             </NavLink>
@@ -53,11 +59,11 @@ const Navbar = () => {
                 {openNavbar && (
                   <div className="absolute top-full left-0 bg-gray-700 grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
                     <div className="flex flex-col space-y-2">
-                      <NavLink className={navLinks} to="professions">
-                        Professions
-                      </NavLink>
                       <NavLink className={navLinks} to="powers">
                         Powers
+                      </NavLink>
+                      <NavLink className={navLinks} to="professions">
+                        Professions
                       </NavLink>
                     </div>
                     <div className="flex flex-col space-y-2">
@@ -77,7 +83,7 @@ const Navbar = () => {
             </div>
             <NavLink className={navLinks}>ADMIN</NavLink>
           </div>
-
+          <div></div>
           <div className="flex items-center space-x-4">
             <NavLink className={userLinks}>Cart</NavLink>
 

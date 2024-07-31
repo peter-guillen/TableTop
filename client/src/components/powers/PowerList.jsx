@@ -6,7 +6,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import PowerCreate from "./PowerCreate";
 import Button from "../Button";
 
-const PowerList = ({ powerList, onCreate }) => {
+const PowerList = ({ powerList, onCreate, onDelete }) => {
   if (!powerList || powerList.length === 0) {
     return <LoadingSpinner />;
   }
@@ -19,7 +19,7 @@ const PowerList = ({ powerList, onCreate }) => {
       <div>
         {powerList.map((power) => (
           <div key={power._id}>
-            <PowerPreview power={power} />
+            <PowerPreview power={power} onDelete={onDelete} />
           </div>
         ))}
       </div>

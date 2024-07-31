@@ -10,6 +10,9 @@ import ArticleContextProvider from "./contexts/ArticleContext";
 import AuthContextProvider from "./contexts/AuthContext";
 
 import Navbar from "./components/Navbar";
+import Register from "./components/users/Register";
+import Login from "./components/users/Login";
+
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ArticlePage from "./pages/ArticlePage";
@@ -17,8 +20,7 @@ import ProfessionPage from "./pages/ProfessionPage";
 import PowerPage from "./pages/PowerPage";
 import WeaponPage from "./pages/WeaponPage";
 import ArmorPage from "./pages/ArmorPage";
-import Register from "./components/users/Register";
-import Login from "./components/users/Login";
+import Rules from "./components/Rules";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Forbidden from "./components/Forbidden";
@@ -31,6 +33,7 @@ const router = createBrowserRouter(
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="/rules" element={<Rules />}></Route>
         <Route path="/articles/*" element={<ArticlePage />} />
         <Route
           path="/professions/*"
@@ -48,7 +51,14 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route path="/weapons" element={<WeaponPage />} />
+        <Route
+          path="/weapons"
+          element={
+            <ProtectedRoute roles={["admin", "user"]}>
+              <WeaponPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/armors"
           element={
