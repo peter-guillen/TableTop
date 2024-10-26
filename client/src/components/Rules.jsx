@@ -7,6 +7,8 @@ const WEAPON_SELECT = "weapon_select";
 
 const reducer = (state, action) => {
   let updatedStats;
+  console.log("STATE --- ", state);
+  console.log("ACTION ---", action);
   switch (action.type) {
     case UPDATE_STAT:
       return {
@@ -38,8 +40,7 @@ const reducer = (state, action) => {
         } else {
           updatedStats.dexterity -= 1;
         }
-        // FIX BUG: WHEN STRENGTH IS ABOVE 12 AND WEAPON IS CHANGED DEXTERITY IS ADDED +1
-      } else if (state.weaponType === "claymore") {
+      } else if (state.weaponType === "claymore" && state.stats.strength < 12) {
         updatedStats.dexterity += 1;
       }
       return {
@@ -212,7 +213,6 @@ const Rules = () => {
             onChange={handleWeaponChange}
           />
           <label htmlFor="dagger">Dagger</label>
-          <div>Fix bug: WEAPON SELECT</div>
         </div>
       </div>
     </div>
