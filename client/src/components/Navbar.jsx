@@ -68,7 +68,7 @@ const Navbar = () => {
                     </div>
                     <div className="flex flex-col space-y-2">
                       <NavLink className={navLinks} to="equipment">
-                        Equipment
+                        Items
                       </NavLink>
                       <NavLink className={navLinks} to="weapons">
                         Weapons
