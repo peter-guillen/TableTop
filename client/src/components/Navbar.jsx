@@ -63,7 +63,7 @@ const Navbar = () => {
                         Spells
                       </NavLink>
                       <NavLink className={navLinks} to="professions">
-                        Professions
+                        Classes
                       </NavLink>
                     </div>
                     <div className="flex flex-col space-y-2">
