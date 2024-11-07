@@ -89,7 +89,7 @@ const Rules = () => {
 
   return (
     <div>
-      <div>Stats</div>
+      <div>Stats</div> 
       <div>
         <label>Strength: </label>
         <input
@@ -148,7 +148,6 @@ const Rules = () => {
           }
         />
       </div>
-
       <div>
         <div>Armor</div>
         <div>
