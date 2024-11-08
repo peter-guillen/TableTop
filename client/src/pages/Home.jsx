@@ -70,6 +70,12 @@ const Home = () => {
         <div className="text-center text-xl">50% off sale on all classes!</div>
       </section>
 
+      <section>
+        <div>Project 1</div>
+        <div>Project 2</div>
+        <div>Project 3</div>
+      </section>
+
       <section className="grid grid-cols-3 text-center">
         {renderedArticle}
       </section>
