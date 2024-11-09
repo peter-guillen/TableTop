@@ -81,7 +81,7 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-            <NavLink className={navLinks}>ADMIN</NavLink>
+            <NavLink className={navLinks}>Make a Campaign</NavLink>
           </div>
           <div></div>
           <div className="flex items-center space-x-4">
