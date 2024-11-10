@@ -43,6 +43,7 @@ const Power = () => {
 
   const handleEdit = async (id, formData) => {
     try {
+      console.log(id, formData);
       await updatePower(id, formData);
       const updatedPowerList = powerList.map((power) =>
         power._id === id ? { ...power, ...formData } : power
@@ -53,12 +54,22 @@ const Power = () => {
     }
   };
 
+  const handleReorder = (newOrder) => {
+    setPowersList(newOrder);
+  };
+
   return (
     <>
       <Routes>
         <Route
           path="/"
-          element={<PowerList powerList={powerList} onDelete={handleDelete} />}
+          element={
+            <PowerList
+              powerList={powerList}
+              onDelete={handleDelete}
+              onReorder={handleReorder}
+            />
+          }
         />
         <Route
           path="/createPower"
