@@ -20,6 +20,7 @@ import ProfessionPage from "./pages/ProfessionPage";
 import PowerPage from "./pages/PowerPage";
 import WeaponPage from "./pages/WeaponPage";
 import ArmorPage from "./pages/ArmorPage";
+import StorePage from "./pages/StorePage";
 import Rules from "./components/Rules";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -68,6 +69,7 @@ const router = createBrowserRouter(
           }
         />
       </Route>
+      <Route path="/store/*" element={<StorePage />}></Route>
       <Route path="*" element={<NotFound />} />
     </Route>
   )

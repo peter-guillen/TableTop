@@ -83,9 +83,15 @@ const Navbar = () => {
             </div>
             <NavLink className={navLinks}>Make a Campaign</NavLink>
           </div>
-          <div></div>
           <div className="flex items-center space-x-4">
-            <NavLink className={userLinks}>Cart</NavLink>
+            <div>
+              <NavLink className={userLinks} to="store">
+                Shop
+              </NavLink>
+              <NavLink className={userLinks} to="shoppingCart">
+                Cart
+              </NavLink>
+            </div>
 
             {currentUser ? (
               <div>
