@@ -12,13 +12,13 @@ const Home = () => {
   const { articleList } = useContext(ArticleContext);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const newsFeedBannerStyles = twMerge(
+  const newsFeedBanner = twMerge(
     classNames(
       "p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4 bg-yellow-300 text-center"
     )
   );
 
-  const newsFeedContainerStyles = twMerge(
+  const newsFeedContainer = twMerge(
     classNames(
       "p-8 pl-20 pr-20 m-5 border-2 rounded-md grid grid-cols-3 gap-x-20 text-center"
     )
@@ -65,23 +65,47 @@ const Home = () => {
 
   return (
     <>
-      <section className={newsFeedBannerStyles}>
+      <section className={newsFeedBanner}>
         <img src="" alt="" />
         <div className="text-center text-xl">50% off sale on all classes!</div>
       </section>
+
       <section>
-        <div>Project 1</div>
-        <div>Project 2</div>
-        <div>Project 3</div>
-        <div>Project 4</div>
-        <div>Project 5</div>
-        <div>Project 6</div>
+        <div className={newsFeedContainer}>
+          <h3>Rules</h3>
+          <div>Image goes here!</div>
+          <div>
+            The rules tab highlights events handling and useReducer to handle
+            realtime changes.
+          </div>
+        </div>
+        <div className={newsFeedContainer}>
+          <h3>Articles</h3>
+          <div>Image goes here!</div>
+          <div>
+            Articles displays the use of articles and user comments and
+            feedback.
+          </div>
+        </div>
+        <div className={newsFeedContainer}>
+          <h3>Spells</h3>
+          <div>Image goes here!</div>
+          <div>
+            Showcases the use of drag and drop functionality. As well as the use
+            of the Dungeons and Dragons API.
+          </div>
+        </div>
+        <div className={newsFeedContainer}>
+          <h3>Classes</h3>
+          <div>Image goes here!</div>
+          <div>The classes tab can be used to view CRUD functionality.</div>
+        </div>
       </section>
 
       <section className="grid grid-cols-3 text-center">
         {renderedArticle}
       </section>
-      <section className={`${newsFeedContainerStyles}`}>
+      <section className={`${newsFeedContainer}`}>
         <Button primary>Rules</Button>
         <Button danger>Character Creation</Button>
         <Button warning>Campaigns</Button>
