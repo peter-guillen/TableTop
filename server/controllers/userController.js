@@ -30,27 +30,35 @@ const loginUser = (req, res, next) => {
     req.logIn(user, { session: false }, (err) => {
       if (err) return next(err);
       const token = generateToken(user);
-      res.status(200).json({
-        message: "Login successful",
-        token,
-        user: {
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-        },
-      });
+      res
+        .cookie("jwt", token, {
+          httpOnly: true, // Prevents JavaScript access
+          secure: process.env.NODE_ENV === "production", // Secure in production
+          maxAge: 3600000, // Set cookie expiry, e.g., 1 hour
+          sameSite: "strict",
+        })
+        .status(200)
+        .json({
+          message: "Login successful",
+          token,
+          user: {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+          },
+        });
     });
   })(req, res, next);
 };
 
 const logoutUser = (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: "Logout failed" });
-    }
-    res.status(200).json({ success: true, message: "Logout successful" });
-  });
+  //   if (err) {
+  //     return res.status(500).json({ success: false, message: "Logout failed" });
+  //   }
+  //   res.status(200).json({ success: true, message: "Logout successful" });
+  // });
+  res.clearCookie("jwt").status(200).json({ message: "Logout successful" });
 };
 
 module.exports = { getUsers, createUser, loginPage, loginUser, logoutUser };

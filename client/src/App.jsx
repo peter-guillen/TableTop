@@ -39,33 +39,33 @@ const router = createBrowserRouter(
         <Route
           path="/professions/*"
           element={
-            <ProtectedRoute roles={["admin", "user"]}>
-              <ProfessionPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN", "USER"]}>
+            <ProfessionPage />
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/powers/*"
           element={
-            <ProtectedRoute roles={["admin"]}>
-              <PowerPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN"]}>
+            <PowerPage />
+            // {/* </ProtectedRoute> */}
           }
         />
         <Route
           path="/weapons"
           element={
-            <ProtectedRoute roles={["admin", "user"]}>
-              <WeaponPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN", "USER"]}>
+            <WeaponPage />
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/armors"
           element={
-            <ProtectedRoute roles={["admin", "user"]}>
-              <ArmorPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN", "USER"]}>
+            <ArmorPage />
+            // {/* </ProtectedRoute> */}
           }
         />
       </Route>
