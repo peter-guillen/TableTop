@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 const passport = require("passport");
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+const verifyRole = require("../middlewares/verifyRole");
 
 const {
   getUsers,
@@ -31,5 +32,14 @@ router.get("/protected", ensureAuthenticated, (req, res) => {
     message: `Hello, ${req.user.username}! You have accessed a protected route.`,
   });
 });
+
+router.get(
+  "/adminonly",
+  ensureAuthenticated,
+  verifyRole(["ADMIN"]),
+  (req, res) => {
+    res.json({ message: "ADMIN Route" });
+  }
+);
 
 module.exports = router;
