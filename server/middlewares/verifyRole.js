@@ -1,9 +1,8 @@
 const verifyRole = (roles) => {
   return (req, res, next) => {
-    if (req.isAuthenticated() && roles.includes(req.user.role)) {
-      return next();
+    if (!role.includes(req.user.role)) {
+      res.status(403).json({ message: "Access Forbidden: Unauthorized Role" });
     }
-    res.status(403).json({ message: "Forbidden" });
   };
 };
 

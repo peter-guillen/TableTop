@@ -5,8 +5,9 @@ const PORT = process.env.PORT || 1234;
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const jwt = require("jsonwebtoken");
-const token = jwt.sign({ foo: "bar" }, "shhh");
+
+require("./middlewares/passportConfig");
+const generateToken = require("./middlewares/authUtils");
 
 const User = require("./models/UserModel");
 const userRoutes = require("./routes/users");

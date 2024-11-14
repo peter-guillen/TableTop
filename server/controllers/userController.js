@@ -1,5 +1,6 @@
 const User = require("../models/UserModel");
 const passport = require("passport");
+const generateToken = require("../middlewares/authUtils");
 
 const getUsers = async (req, res) => {
   const users = await User.find({});
@@ -25,11 +26,13 @@ const loginUser = (req, res, next) => {
         success: false,
         message: "Login failed, invalid username or password",
       });
-    req.logIn(user, (err) => {
+
+    req.logIn(user, { session: false }, (err) => {
       if (err) return next(err);
-      return res.status(200).json({
-        success: true,
+      const token = generateToken(user);
+      res.status(200).json({
         message: "Login successful",
+        token,
         user: {
           _id: user._id,
           username: user.username,
