@@ -51,7 +51,7 @@ const loginUser = async (formData) => {
 // Fetching protected data with HttpOnly cookie automatically included
 const fetchAdminData = async () => {
   try {
-    const response = await fetch("/api/users/adminonly", {
+    const response = await fetch(`${API_URL}/adminonly`, {
       method: "GET",
       credentials: "include", // Ensures cookies are sent
     });
@@ -77,7 +77,7 @@ const logoutUser = async () => {
 
 const checkAuthStatus = async () => {
   try {
-    const response = await fetch("/api/users/authenticate", {
+    const response = await fetch(`${API_URL}/authenticate`, {
       method: "GET",
       credentials: "include", // Send cookies with the request
     });

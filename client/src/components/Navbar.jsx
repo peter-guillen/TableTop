@@ -85,7 +85,7 @@ const Navbar = () => {
           </div>
           <div className="flex items-center space-x-4">
             <div>
-              <NavLink className={userLinks} to="store">
+              <NavLink className={userLinks} to="/store">
                 Shop
               </NavLink>
               <NavLink className={userLinks} to="shoppingCart">
