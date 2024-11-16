@@ -2,10 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 1234;
-const passport = require("passport");
 require("dotenv").config();
 require("./middlewares/passportConfig");
-// const LocalStrategy = require("passport-local");
 
 const User = require("./models/UserModel");
 const userRoutes = require("./routes/users");

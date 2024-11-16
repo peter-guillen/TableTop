@@ -1,10 +1,9 @@
 const User = require("../models/UserModel");
-const passport = require("passport");
 const generateToken = require("../middlewares/authUtils");
 
 const getUsers = async (req, res) => {
   const users = await User.find({});
-  // res.send(users).json();
+  res.json(users);
 };
 
 const createUser = async (req, res) => {

@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema({
   lastName: String,
   dob: String,
   address: String,
+
+  // const bcrypt = require("bcrypt");
+  // userSchema.methods.comparePassword = async function (password) {
+  //   return await bcrypt.compare(password, this.password);
+  // };
 });
 UserSchema.plugin(passportLocalMongoose);
 

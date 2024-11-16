@@ -1,9 +1,11 @@
+import { useContext, useState, useEffect, useRef } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-import AuthContext from "../hooks/authFastRefreshHook";
-import { useContext, useState, useEffect, useRef } from "react";
 import { FaRegUser, FaUser } from "react-icons/fa6";
+
+import AuthContext from "../hooks/authFastRefreshHook";
 
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
@@ -12,7 +14,9 @@ const Navbar = () => {
   const [openNavbar, setOpenNavbar] = useState(false);
   const dropdownRef = useRef(null);
 
+  // useEffect for dropdown Menu
   useEffect(() => {
+    // If click is outside of the navbar box then close it
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpenNavbar(false);
@@ -28,7 +32,7 @@ const Navbar = () => {
   if (users === null) {
     return <div>Loading...</div>;
   }
-  console.log(currentUser);
+  console.log(users, currentUser);
 
   const handleLogout = async () => {
     await logout();
@@ -86,7 +90,7 @@ const Navbar = () => {
           </div>
           <div className="flex items-center space-x-4">
             <div>
-              <NavLink className={userLinks} to="/store">
+              <NavLink className={userLinks} to="store">
                 Shop
               </NavLink>
               <NavLink className={userLinks} to="shoppingCart">

@@ -17,11 +17,13 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const fetchedUsers = await fetchUsers();
+      console.log(fetchedUsers, "FETCHED USERS");
       setUsers(fetchedUsers);
     };
     fetchData();
   }, []);
 
+  console.log(users, currentUser);
   // useEffect(() => {
   //   const checkAuth = async () => {
   //     const response = await checkAuthStatus();
