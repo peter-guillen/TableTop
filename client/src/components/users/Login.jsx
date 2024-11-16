@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../hooks/authFastRefreshHook";
 
 import Button from "../Button";
+import { fetchUsers, loginUser } from "../../api/userApi"; // Assume 'api' contains our API calls
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -12,6 +13,33 @@ const Login = () => {
     username: "",
     password: "",
   });
+
+  const fetchData = async () => {
+    try {
+      const users = await fetchUsers();
+      console.log("Fetched users:", users);
+      // Update UI with user data
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  fetchData();
+
+  const handleLogin = async (formData) => {
+    try {
+      const response = await loginUser(formData);
+      if (response.message === "Login successful") {
+        console.log("User logged in!");
+        // Optionally: Redirect user, update UI, etc.
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (event) => {
@@ -21,13 +49,24 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await login(formData);
-    if (response.success) {
+    const response = await loginUser(formData);
+    if (response.message === "Login successful") {
+      login(response.user); // set user state in AuthContext
       navigate("/");
     } else {
       setErrorMessage(response.message);
     }
   };
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const response = await login(formData);
+  //   if (response.success) {
+  //     navigate("/");
+  //   } else {
+  //     setErrorMessage(response.message);
+  //   }
+  // };
 
   return (
     <div>

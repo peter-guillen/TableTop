@@ -11,6 +11,7 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
+    role: "",
   });
 
   const handleCreate = async (formData) => {
@@ -59,6 +60,15 @@ const Register = () => {
           value={formData.value}
           id="password"
           type="password"
+          placeholder="......."
+        />
+        <label htmlFor="role">ROLE:</label>
+        <input
+          name="role"
+          onChange={handleInputChange}
+          value={formData.value}
+          id="role"
+          type="role"
           placeholder="......."
         />
         <Button primary type="submit">

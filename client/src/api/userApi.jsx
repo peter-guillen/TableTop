@@ -1,11 +1,10 @@
 const API_URL = "http://localhost:1234/api/users";
 
 const fetchUsers = async () => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/users`, {
     method: "GET",
     credentials: "include",
   });
-  console.log(response);
   const jsonResponse = await response.json();
   return jsonResponse;
 };
@@ -18,6 +17,10 @@ const createUser = async (formData) => {
       body: JSON.stringify(formData),
       credentials: "include",
     });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
     if (!response.ok) {
       const errorDetails = await response.text();
       console.error("Error details:", errorDetails);
@@ -37,6 +40,8 @@ const loginUser = async (formData) => {
       body: JSON.stringify(formData),
       credentials: "include",
     });
+    console.log("RESPONSE!!!:", response);
+    console.log("FORM DATA!!!:", formData);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
@@ -46,6 +51,14 @@ const loginUser = async (formData) => {
     console.log("Login error:", error);
     return { success: false, message: error.message };
   }
+};
+
+const logoutUser = async () => {
+  const response = await fetch(`${API_URL}/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return await response.json();
 };
 
 // Fetching protected data with HttpOnly cookie automatically included
@@ -65,14 +78,6 @@ const fetchAdminData = async () => {
   } catch (error) {
     console.error("Error fetching protected data:", error);
   }
-};
-
-const logoutUser = async () => {
-  const response = await fetch(`${API_URL}/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-  return await response.json();
 };
 
 const checkAuthStatus = async () => {

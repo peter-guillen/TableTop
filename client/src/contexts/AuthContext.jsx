@@ -3,6 +3,7 @@ import {
   loginUser as loginUserApi,
   fetchUsers,
   logoutUser as logoutUserApi,
+  checkAuthStatus,
 } from "../api/userApi";
 import AuthContext from "../hooks/authFastRefreshHook";
 
@@ -21,6 +22,15 @@ const AuthContextProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const response = await checkAuthStatus();
+  //     if (response.isAuthenticated) {
+  //       setCurrentUser(response.user);
+  //     }
+  //   };
+  //   checkAuth();
+  // }, []);
   // useEffect(() => {
   //   const checkAuth = async () => {
   //     const response = await fetch("http://localhost:1234/api/users/me", {
@@ -87,7 +97,9 @@ const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ users, currentUser, signup, login, logout }}>
+    <AuthContext.Provider
+      value={{ users, setUsers, currentUser, signup, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

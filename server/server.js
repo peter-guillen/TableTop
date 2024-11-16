@@ -2,12 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 1234;
-const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-
+require("dotenv").config();
 require("./middlewares/passportConfig");
-const generateToken = require("./middlewares/authUtils");
+// const LocalStrategy = require("passport-local");
 
 const User = require("./models/UserModel");
 const userRoutes = require("./routes/users");
@@ -17,32 +15,21 @@ const powersRoutes = require("./routes/powers");
 
 const verifyRole = require("../server/middlewares/verifyRole");
 
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/powers-app");
 
 // Ensuring there is no error for CORS 'Access-Control-Allow-Origin'
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
-app.use(
-  // Using sessions as a dependency for passport
-  session({
-    secret: "my_secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(User.authenticate()));
 
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
-app.use("/api/professions", verifyRole(["ADMIN", "USER"]), professionRoutes);
-app.use("/api/powers", verifyRole(["ADMIN"]), powersRoutes);
+app.use("/api/professions", verifyRole(["ADMIN", "USER"]), professionRoutes); //Use verifyRole.js middleware to check authorization
+app.use("/api/powers", verifyRole(["ADMIN"]), powersRoutes); //Use verifyRole.js middleware to check authorization
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

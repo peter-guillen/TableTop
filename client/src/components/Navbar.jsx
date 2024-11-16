@@ -28,6 +28,7 @@ const Navbar = () => {
   if (users === null) {
     return <div>Loading...</div>;
   }
+  console.log(currentUser);
 
   const handleLogout = async () => {
     await logout();
