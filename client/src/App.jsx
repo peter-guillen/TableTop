@@ -12,6 +12,8 @@ import AuthContextProvider from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Register from "./components/users/Register";
 import Login from "./components/users/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Forbidden from "./components/Forbidden";
 
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -22,9 +24,6 @@ import WeaponPage from "./pages/WeaponPage";
 import ArmorPage from "./pages/ArmorPage";
 import StorePage from "./pages/StorePage";
 import Rules from "./components/Rules";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-import Forbidden from "./components/Forbidden";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

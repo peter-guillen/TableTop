@@ -5,52 +5,41 @@ const fetchUsers = async () => {
     method: "GET",
     credentials: "include",
   });
-  const jsonResponse = await response.json();
-  return jsonResponse;
+  return await response.json();
 };
 
 const createUser = async (formData) => {
-  try {
-    const response = await fetch(`${API_URL}/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-      credentials: "include",
-    });
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-    if (!response.ok) {
-      const errorDetails = await response.text();
-      console.error("Error details:", errorDetails);
-      throw new Error("Network response was not ok.");
-    }
-    return await response.json();
-  } catch (err) {
-    throw err;
+  const response = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+    credentials: "include",
+  });
+  // if user exists do not add
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists" });
   }
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error("Error details:", errorDetails);
+    throw new Error("Network response was not ok.");
+  }
+  return await response.json();
 };
 
 const loginUser = async (formData) => {
-  try {
-    const response = await fetch(`${API_URL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-      credentials: "include",
-    });
-    console.log("RESPONSE!!!:", response);
-    console.log("FORM DATA!!!:", formData);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Login error:", error);
-    return { success: false, message: error.message };
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok.");
   }
+  const data = await response.json();
+  return data;
 };
 
 const logoutUser = async () => {

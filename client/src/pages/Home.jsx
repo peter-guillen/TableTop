@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 import Button from "../components/Button";
 import ArticleContext from "../hooks/articleFastRefreshHook";
 
-import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
+import { twMerge } from "tailwind-merge";
 
 const Home = () => {
   const { articleList } = useContext(ArticleContext);

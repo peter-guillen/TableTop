@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import AuthContext from "../hooks/authFastRefreshHook";
-
 import { Navigate } from "react-router-dom";
+
+import AuthContext from "../hooks/authFastRefreshHook";
 
 const ProtectedRoute = ({ children, roles }) => {
   const { currentUser } = useContext(AuthContext);

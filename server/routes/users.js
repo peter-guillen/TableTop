@@ -1,6 +1,6 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
+
 const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 const verifyRole = require("../middlewares/verifyRole");
 
@@ -12,20 +12,14 @@ const {
   logoutUser,
 } = require("../controllers/userController");
 
-router.get(
-  "/users",
-  getUsers
-  // passport.authenticate("jwt", { session: false }, getUsers)
-);
+router.get("/users", getUsers);
 router.post("/register", createUser);
 router.get("/login", loginPage);
 router.post("/login", loginUser);
-
 router.post("/logout", logoutUser);
 
 router.get(
   "/adminonly",
-  // passport.authenticate("jwt", { session: false }),
   ensureAuthenticated,
   verifyRole(["ADMIN"]),
   (req, res) => {
@@ -33,13 +27,8 @@ router.get(
   }
 );
 
-router.get(
-  "/authenticate",
-  ensureAuthenticated,
-  // passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.status(200).json({ isAuthenticated: true, user: req.user });
-  }
-);
+router.get("/authenticate", ensureAuthenticated, (req, res) => {
+  res.status(200).json({ isAuthenticated: true, user: req.user });
+});
 
 module.exports = router;

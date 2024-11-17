@@ -19,7 +19,6 @@ const loginPage = (req, res) => {
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
-    // Find the user in the database
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(401).json({
@@ -65,12 +64,13 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = (req, res) => {
-  //   if (err) {
-  //     return res.status(500).json({ success: false, message: "Logout failed" });
-  //   }
-  //   res.status(200).json({ success: true, message: "Logout successful" });
-  // });
-  res.clearCookie("jwt").status(200).json({ message: "Logout successful" });
+  res
+    .clearCookie("jwt", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    })
+    .status(200)
+    .json({ success: true, message: "Logged out successfully" });
 };
-
 module.exports = { getUsers, createUser, loginPage, loginUser, logoutUser };

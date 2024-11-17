@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 1234;
 require("dotenv").config();
 require("./middlewares/passportConfig");
 
-const User = require("./models/UserModel");
 const userRoutes = require("./routes/users");
 const articleRoutes = require("./routes/articles");
 const professionRoutes = require("./routes/professions");
@@ -22,12 +21,10 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
-// passport.use(new LocalStrategy(User.authenticate()));
-
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
-app.use("/api/professions", verifyRole(["ADMIN", "USER"]), professionRoutes); //Use verifyRole.js middleware to check authorization
-app.use("/api/powers", verifyRole(["ADMIN"]), powersRoutes); //Use verifyRole.js middleware to check authorization
+app.use("/api/professions", verifyRole(["ADMIN", "USER"]), professionRoutes);
+app.use("/api/powers", verifyRole(["ADMIN"]), powersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

@@ -32,7 +32,8 @@ const Navbar = () => {
   if (users === null) {
     return <div>Loading...</div>;
   }
-  console.log(users, currentUser);
+
+  useEffect(() => {}, []);
 
   const handleLogout = async () => {
     await logout();
