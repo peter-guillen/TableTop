@@ -23,8 +23,8 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
-app.use("/api/professions", verifyRole(["ADMIN", "USER"]), professionRoutes);
-app.use("/api/powers", verifyRole(["ADMIN"]), powersRoutes);
+app.use("/api/professions", professionRoutes);
+app.use("/api/powers", powersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

@@ -16,10 +16,10 @@ const createUser = async (formData) => {
     credentials: "include",
   });
   // if user exists do not add
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
+  // const existingUser = await User.findOne({ email });
+  // if (existingUser) {
+  //   return res.status(400).json({ message: "User already exists" });
+  // }
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("Error details:", errorDetails);
@@ -38,8 +38,9 @@ const loginUser = async (formData) => {
   if (!response.ok) {
     throw new Error("Network response was not ok.");
   }
-  const data = await response.json();
-  return data;
+  // const data = await response.json();
+  // return data;
+  return await response.json();
 };
 
 const logoutUser = async () => {

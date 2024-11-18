@@ -12,7 +12,7 @@ import AuthContextProvider from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Register from "./components/users/Register";
 import Login from "./components/users/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+// import ProtectedRoute from "./components/ProtectedRoute";
 import Forbidden from "./components/Forbidden";
 
 import Home from "./pages/Home";
@@ -38,33 +38,37 @@ const router = createBrowserRouter(
         <Route
           path="/professions/*"
           element={
-            <ProtectedRoute roles={["ADMIN", "USER"]}>
-              <ProfessionPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN", "USER"]}>
+            //   <ProfessionPage />
+            // </ProtectedRoute>
+            <ProfessionPage />
           }
         />
         <Route
           path="/powers/*"
           element={
-            <ProtectedRoute roles={["ADMIN"]}>
-              <PowerPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN"]}>
+            //   <PowerPage />
+            // </ProtectedRoute>
+            <PowerPage />
           }
         />
         <Route
           path="/weapons"
           element={
-            <ProtectedRoute roles={["ADMIN", "USER"]}>
-              <WeaponPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN", "USER"]}>
+            //   <WeaponPage />
+            // </ProtectedRoute>
+            <WeaponPage />
           }
         />
         <Route
           path="/armors"
           element={
-            <ProtectedRoute roles={["ADMIN", "USER"]}>
-              <ArmorPage />
-            </ProtectedRoute>
+            // <ProtectedRoute roles={["ADMIN", "USER"]}>
+            //   <ArmorPage />
+            // </ProtectedRoute>
+            <ArmorPage />
           }
         />
       </Route>

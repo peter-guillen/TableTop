@@ -5,8 +5,8 @@ import AuthContext from "../../hooks/authFastRefreshHook";
 import Button from "../Button";
 
 const Register = () => {
-  const navigate = useNavigate();
   const { signup } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -24,6 +24,7 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await signup(formData);
+    console.log(response);
     if (response.success) {
       navigate("/");
     } else {

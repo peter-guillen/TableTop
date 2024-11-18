@@ -16,10 +16,18 @@ const AuthContextProvider = ({ children }) => {
     const fetchData = async () => {
       const fetchedUsers = await fetchUsers();
       setUsers(fetchedUsers);
-      if (fetchedUsers.length > 0) {
-        setCurrentUser(fetchedUsers[0]);
+      const response = await fetch("http://localhost:1234/api/users/me", {
+        credentials: "include", // Ensure cookies are sent with the request
+      });
+
+      if (response.ok) {
+        const loggedInUser = await response.json();
+        setCurrentUser(loggedInUser);
+      } else {
+        setCurrentUser(null); // Clear currentUser if no logged-in user is found
       }
     };
+
     fetchData();
   }, []);
 
