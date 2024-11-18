@@ -15,28 +15,18 @@ const Login = () => {
   });
 
   const fetchData = async () => {
-    try {
-      const users = await fetchUsers();
-      console.log("Fetched users:", users);
-      // Update UI with user data
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
+    const users = await fetchUsers();
   };
 
   fetchData();
 
   const handleLogin = async (formData) => {
-    try {
-      const response = await loginUser(formData);
-      if (response.message === "Login successful") {
-        console.log("User logged in!");
-        // Optionally: Redirect user, update UI, etc.
-      } else {
-        console.error("Login failed");
-      }
-    } catch (error) {
-      console.error("Error logging in:", error);
+    const response = await loginUser(formData);
+    if (response.message === "Login successful") {
+      console.log("User logged in!");
+      // Optionally: Redirect user, update UI, etc.
+    } else {
+      console.error("Login failed");
     }
   };
 

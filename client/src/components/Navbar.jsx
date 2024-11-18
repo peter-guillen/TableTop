@@ -29,9 +29,9 @@ const Navbar = () => {
   }, []);
 
   const { users, currentUser, logout } = useContext(AuthContext);
-  if (users === null) {
-    return <div>Loading...</div>;
-  }
+  // if (users === null) {
+  //   return <div>Loading...</div>;
+  // }
 
   useEffect(() => {}, []);
 
