@@ -3,7 +3,6 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 1234;
 require("dotenv").config();
-require("./middlewares/passportConfig");
 
 const userRoutes = require("./routes/users");
 const articleRoutes = require("./routes/articles");
