@@ -1,5 +1,5 @@
 const User = require("../models/UserModel");
-const generateToken = require("../middlewares/authUtils");
+const generateToken = require("../middlewares/jwtoken");
 
 const getUsers = async (req, res) => {
   const users = await User.find({});
@@ -59,4 +59,23 @@ const logoutUser = (req, res) => {
     .status(200)
     .json({ success: true, message: "Logged out successfully" });
 };
-module.exports = { getUsers, createUser, loginPage, loginUser, logoutUser };
+
+const userMe = () => {
+  async (req, res) => {
+    // Fetch the user by the decoded user ID (stored in req.user from the middleware)
+    const user = await User.findById(req.user._id).select("-password"); // Exclude password field
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user); // Send user data as response
+  };
+};
+
+module.exports = {
+  getUsers,
+  createUser,
+  loginPage,
+  loginUser,
+  logoutUser,
+  userMe,
+};

@@ -21,7 +21,9 @@ const createProfession = async (req, res) => {
       armor,
       levels,
     });
-    res.status(200).json(profession);
+    res
+      .status(200)
+      .json({ success: true, message: "Profession CREATED.", profession });
   } catch (error) {
     console.log(error);
   }
@@ -29,7 +31,6 @@ const createProfession = async (req, res) => {
 
 const deleteProfession = async (req, res) => {
   const { id } = req.params;
-  // const profession = await Profession.findByIdAndDelete({_id: id});
   const profession = await Profession.findByIdAndDelete(id);
   res.status(200).json(profession);
 };

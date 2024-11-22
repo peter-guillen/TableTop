@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
-const verifyRole = require("../middlewares/verifyRole");
+const ensureAuthenticated = require("../middlewares/checkAuthenticated");
+const verifyRole = require("../middlewares/checkAuthorization");
 
 const {
   getProfessions,
@@ -12,7 +12,7 @@ const {
 } = require("../controllers/professionController");
 
 router.get("/", getProfessions);
-router.post("/", ensureAuthenticated, verifyRole(["ADMIN"]), createProfession);
+router.post("/", createProfession);
 
 router.get("/:id", getProfession);
 router.delete("/:id", deleteProfession);

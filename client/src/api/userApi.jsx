@@ -1,7 +1,7 @@
 const API_URL = "http://localhost:1234/api/users";
 
 const fetchUsers = async () => {
-  const response = await fetch(`${API_URL}/users`, {
+  const response = await fetch(`${API_URL}/`, {
     method: "GET",
     credentials: "include",
   });
@@ -38,8 +38,7 @@ const loginUser = async (formData) => {
   if (!response.ok) {
     throw new Error("Network response was not ok.");
   }
-  // const data = await response.json();
-  // return data;
+
   return await response.json();
 };
 
@@ -53,20 +52,16 @@ const logoutUser = async () => {
 
 // Fetching protected data with HttpOnly cookie automatically included
 const fetchAdminData = async () => {
-  try {
-    const response = await fetch(`${API_URL}/adminonly`, {
-      method: "GET",
-      credentials: "include", // Ensures cookies are sent
-    });
+  const response = await fetch(`${API_URL}/adminonly`, {
+    method: "GET",
+    credentials: "include", // Ensures cookies are sent
+  });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Protected data:", data);
-    } else {
-      console.error("Failed to fetch protected data:", response.statusText);
-    }
-  } catch (error) {
-    console.error("Error fetching protected data:", error);
+  if (response.ok) {
+    const data = await response.json();
+    console.log("Protected data:", data);
+  } else {
+    console.error("Failed to fetch protected data:", response.statusText);
   }
 };
 

@@ -1,4 +1,4 @@
-const verifyRole = (roles) => {
+const checkAuthenticated = (roles) => {
   return (req, res, next) => {
     if (!role.includes(req.user.role)) {
       res.status(403).json({ message: "Access Forbidden: Unauthorized Role" });
@@ -7,4 +7,4 @@ const verifyRole = (roles) => {
   };
 };
 
-module.exports = verifyRole;
+module.exports = checkAuthenticated;

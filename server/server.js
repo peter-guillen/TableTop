@@ -10,8 +10,6 @@ const articleRoutes = require("./routes/articles");
 const professionRoutes = require("./routes/professions");
 const powersRoutes = require("./routes/powers");
 
-const verifyRole = require("../server/middlewares/verifyRole");
-
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/powers-app");

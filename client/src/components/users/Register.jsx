@@ -24,7 +24,6 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await signup(formData);
-    console.log(response);
     if (response.success) {
       navigate("/");
     } else {
