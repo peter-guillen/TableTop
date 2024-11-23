@@ -16,10 +16,10 @@ const createUser = async (formData) => {
     credentials: "include",
   });
   // if user exists do not add
-  // const existingUser = await User.findOne({ email });
-  // if (existingUser) {
-  //   return res.status(400).json({ message: "User already exists" });
-  // }
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists" });
+  }
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("Error details:", errorDetails);
@@ -50,46 +50,4 @@ const logoutUser = async () => {
   return await response.json();
 };
 
-// Fetching protected data with HttpOnly cookie automatically included
-const fetchAdminData = async () => {
-  const response = await fetch(`${API_URL}/adminonly`, {
-    method: "GET",
-    credentials: "include", // Ensures cookies are sent
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    console.log("Protected data:", data);
-  } else {
-    console.error("Failed to fetch protected data:", response.statusText);
-  }
-};
-
-const checkAuthStatus = async () => {
-  try {
-    const response = await fetch(`${API_URL}/authenticate`, {
-      method: "GET",
-      credentials: "include", // Send cookies with the request
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("User is authenticated:", data.user);
-      // Update your app state with the user's authentication status and data
-    } else {
-      console.log("User is not authenticated");
-      // Handle not authenticated, e.g., redirect to login
-    }
-  } catch (error) {
-    console.error("Error checking auth status:", error);
-  }
-};
-
-export {
-  fetchUsers,
-  createUser,
-  loginUser,
-  logoutUser,
-  fetchAdminData,
-  checkAuthStatus,
-};
+export { fetchUsers, createUser, loginUser, logoutUser };

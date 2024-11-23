@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../hooks/authFastRefreshHook";
+// import AuthContext from "../../hooks/authFastRefreshHook";
+import { AuthContext } from "../../contexts/AuthContext";
 import Button from "../Button";
 
 const Register = () => {
@@ -24,6 +25,7 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await signup(formData);
+
     if (response.success) {
       navigate("/");
     } else {

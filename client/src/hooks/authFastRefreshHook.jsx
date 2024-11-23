@@ -1,7 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { checkAuthStatus, logoutUser } from "../api/userApi";
-
-// const AuthContext = createContext();
+import { logoutUser } from "../api/userApi";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

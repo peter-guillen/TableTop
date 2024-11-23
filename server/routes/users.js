@@ -16,8 +16,8 @@ const {
 router.get("/", getUsers);
 router.post(
   "/register",
-  checkAuthenticated,
-  checkAuthorization(["ADMIN"]),
+  // checkAuthenticated,
+  // checkAuthorization(["ADMIN"]),
   createUser
 );
 router.get("/login", loginPage);
@@ -25,10 +25,5 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
 router.get("/me", userMe);
-
-// Test route --- subject for DELETE
-router.get("/admin", (req, res) => {
-  res.send("Hey ADMIN");
-});
 
 module.exports = router;

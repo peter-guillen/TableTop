@@ -1,7 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../hooks/authFastRefreshHook";
+// import AuthContext from "../../hooks/authFastRefreshHook";
+import { AuthContext } from "../../contexts/AuthContext";
 import Button from "../Button";
 
 const Login = () => {
@@ -22,6 +23,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await login(formData);
+
     if (response.success) {
       login(response.user); // set user state in AuthContext
       navigate("/");

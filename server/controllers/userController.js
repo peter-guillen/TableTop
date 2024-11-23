@@ -22,6 +22,7 @@ const loginPage = (req, res) => {
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
+  console.log(user);
   if (!user) {
     return res.status(401).json({
       success: false,
@@ -30,13 +31,13 @@ const loginUser = async (req, res) => {
   }
 
   // Validate password (assuming you have a comparePassword method in your User schema)
-  // const isMatch = await user.comparePassword(password);
-  // if (!isMatch) {
-  //   return res.status(401).json({
-  //     success: false,
-  //     message: "Invalid username or password",
-  //   });
-  // }
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid username or password",
+    });
+  }
   const token = generateToken(user);
   res
     .cookie("jwt", token, {
@@ -60,15 +61,13 @@ const logoutUser = (req, res) => {
     .json({ success: true, message: "Logged out successfully" });
 };
 
-const userMe = () => {
-  async (req, res) => {
-    // Fetch the user by the decoded user ID (stored in req.user from the middleware)
-    const user = await User.findById(req.user._id).select("-password"); // Exclude password field
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(user); // Send user data as response
-  };
+const userMe = async (req, res) => {
+  // Fetch the user by the decoded user ID (stored in req.user from the middleware)
+  const user = await User.findById(req.user._id).select("-password"); // Exclude password field
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.json(user); // Send user data as response
 };
 
 module.exports = {

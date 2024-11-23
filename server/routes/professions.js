@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const ensureAuthenticated = require("../middlewares/checkAuthenticated");
-const verifyRole = require("../middlewares/checkAuthorization");
+const checkAuthenticated = require("../middlewares/checkAuthenticated");
+const checkAuthorization = require("../middlewares/checkAuthorization");
 
 const {
   getProfessions,

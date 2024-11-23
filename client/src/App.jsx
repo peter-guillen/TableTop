@@ -7,7 +7,7 @@ import {
 
 import { ThemeContext } from "./contexts/ThemeContext";
 import ArticleContextProvider from "./contexts/ArticleContext";
-import AuthContextProvider from "./contexts/AuthContext";
+import { AuthContextProvider } from "./contexts/AuthContext";
 
 import Navbar from "./components/Navbar";
 import Register from "./components/users/Register";

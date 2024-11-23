@@ -5,7 +5,8 @@ import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import { FaRegUser, FaUser } from "react-icons/fa6";
 
-import AuthContext from "../hooks/authFastRefreshHook";
+// import AuthContext from "../hooks/authFastRefreshHook";
+import { AuthContext } from "../contexts/AuthContext";
 
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
@@ -28,7 +29,7 @@ const Navbar = () => {
     };
   }, []);
 
-  const { users, currentUser, logout } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
   // if (users === null) {
   //   return <div>Loading...</div>;
   // }
