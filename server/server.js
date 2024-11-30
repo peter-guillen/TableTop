@@ -10,18 +10,6 @@ const articleRoutes = require("./routes/articles");
 const professionRoutes = require("./routes/professions");
 const powersRoutes = require("./routes/powers");
 
-// async function migrateuserPasswords() {
-//   const users = await User.find({});
-//   for (let user of users) {
-//     if (!user.password.startsWith("$2b$")) {
-//       // Check if not already bcrypt hashed
-//       const salt = await bcrypt.genSalt(10);
-//       user.password = await bcrypt.hash(user.password, salt);
-//       await user.save();
-//     }
-//   }
-// }
-
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/powers-app");

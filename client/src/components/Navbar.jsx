@@ -99,24 +99,22 @@ const Navbar = () => {
                 Cart
               </NavLink>
             </div>
-
-            {currentUser ? (
-              <div>
-                <NavLink className={userLinks} onClick={handleLogout}>
-                  Logout
-                </NavLink>
-              </div>
-            ) : (
-              <div className="flex space-x-4">
-                <NavLink className={userLinks} to="register">
-                  Signup
-                </NavLink>
-                <NavLink className={userLinks} to="login">
-                  Login
-                </NavLink>
-              </div>
-            )}
-
+            {/* {currentUser ? ( */}
+            <div>
+              <NavLink className={userLinks} onClick={handleLogout}>
+                Logout
+              </NavLink>
+            </div>
+            {/* // ) : ( */}
+            <div className="flex space-x-4">
+              <NavLink className={userLinks} to="register">
+                Signup
+              </NavLink>
+              <NavLink className={userLinks} to="login">
+                Login
+              </NavLink>
+            </div>
+            {/* )} */}
             <FaUser />
             <div className={userLinks}>
               {currentUser ? currentUser.username : <FaRegUser />}

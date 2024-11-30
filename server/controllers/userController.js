@@ -45,8 +45,6 @@ const loginUser = async (req, res) => {
     });
   }
 
-  // const isMatch = await bcrypt.compare(String(Password), String(user.Password));
-
   const token = generateToken(user);
   res
     .cookie("token", token, {
