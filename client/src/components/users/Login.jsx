@@ -1,12 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import AuthContext from "../../hooks/authFastRefreshHook";
-import { AuthContext } from "../../contexts/AuthContext";
+import { loginUser } from "../../api/userApi";
 import Button from "../Button";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -22,13 +20,37 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await login(formData);
+    setErrorMessage("");
+    if (!formData.username || !formData.password) {
+      setErrorMessage("Please enter both username and password");
+      return;
+    }
+    try {
+      // Log sanitized data for debugging
+      console.log("Attempting login with:", {
+        username: formData.username,
+        password: "[REDACTED]",
+      });
+      // Make API call to login
+      const response = await loginUser(formData);
 
-    if (response.success) {
-      login(response.user); // set user state in AuthContext
-      navigate("/");
-    } else {
-      console.log(response.message);
+      // Log full response for debugging
+      console.log("Login API response:", response);
+
+      // Check if login was successful
+      if (response.success) {
+        // Optional: Store user info in localStorage for persistence
+        localStorage.setItem("user", JSON.stringify(response.user));
+
+        // Navigate to home page or dashboard
+        navigate("/");
+      } else {
+        // Handle login failure
+        setErrorMessage(response.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login submission error:", error);
+      setErrorMessage(error.message || "An unexpected error occurred");
     }
   };
 

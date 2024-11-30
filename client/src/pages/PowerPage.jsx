@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import AuthContext from "../hooks/authFastRefreshHook";
+// import AuthContext from "../hooks/authFastRefreshHook";
+import { AuthContext } from "../contexts/AuthContext";
 
 import PowerList from "../components/powers/PowerList";
 import PowerDetails from "../components/powers/PowerDetails";

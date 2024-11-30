@@ -1,12 +1,14 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { createUser } from "../../api/userApi";
 
 // import AuthContext from "../../hooks/authFastRefreshHook";
-import { AuthContext } from "../../contexts/AuthContext";
+// import { AuthContext } from "../../contexts/AuthContext";
 import Button from "../Button";
 
 const Register = () => {
-  const { signup } = useContext(AuthContext);
+  // const { signup } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -24,7 +26,7 @@ const Register = () => {
   // Call the handleCreate function above
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await signup(formData);
+    const response = await createUser(formData);
 
     if (response.success) {
       navigate("/");

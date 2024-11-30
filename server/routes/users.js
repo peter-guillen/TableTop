@@ -14,12 +14,7 @@ const {
 } = require("../controllers/userController");
 
 router.get("/", getUsers);
-router.post(
-  "/register",
-  // checkAuthenticated,
-  // checkAuthorization(["ADMIN"]),
-  createUser
-);
+router.post("/register", createUser);
 router.get("/login", loginPage);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);

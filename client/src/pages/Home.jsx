@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
 import ArticleContext from "../hooks/articleFastRefreshHook";
+import UserPage from "./UserPages";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
@@ -69,6 +70,8 @@ const Home = () => {
         <img src="" alt="" />
         <div className="text-center text-xl">50% off sale on all classes!</div>
       </section>
+
+      <UserPage />
 
       <section>
         <div className={newsFeedContainer}>

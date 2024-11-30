@@ -4,7 +4,16 @@ const fetchUsers = async () => {
   const response = await fetch(`${API_URL}/`, {
     method: "GET",
     credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to fetch users");
+  }
+
   return await response.json();
 };
 
@@ -16,10 +25,10 @@ const createUser = async (formData) => {
     credentials: "include",
   });
   // if user exists do not add
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
+  // const existingUser = await User.findOne({ email });
+  // if (existingUser) {
+  //   return res.status(400).json({ message: "User already exists" });
+  // }
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("Error details:", errorDetails);
@@ -31,15 +40,21 @@ const createUser = async (formData) => {
 const loginUser = async (formData) => {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(formData),
     credentials: "include",
   });
+
+  console.log(formData);
   if (!response.ok) {
-    throw new Error("Network response was not ok.");
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Login failed");
   }
 
-  return await response.json();
+  const data = await response.json();
+  return data;
 };
 
 const logoutUser = async () => {

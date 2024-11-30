@@ -8,11 +8,18 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { email, username, password, role } = req.body;
-  const user = new User({ email, username, role });
-  await User.register(user, password);
-  res
-    .status(201)
-    .json({ success: true, message: "User registered successfully", user });
+  const user = new User({ email, username, password, role });
+  await user.save();
+  res.status(201).json({
+    success: true,
+    message: "User registered successfully",
+    user: {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    },
+  });
 };
 
 const loginPage = (req, res) => {
@@ -22,15 +29,14 @@ const loginPage = (req, res) => {
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
-  console.log(user);
+  // Check if user or passowrd is correct
   if (!user) {
     return res.status(401).json({
       success: false,
       message: "Invalid username or password",
     });
   }
-
-  // Validate password (assuming you have a comparePassword method in your User schema)
+  // Check password verfication
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
     return res.status(401).json({
@@ -38,36 +44,45 @@ const loginUser = async (req, res) => {
       message: "Invalid username or password",
     });
   }
+
+  // const isMatch = await bcrypt.compare(String(Password), String(user.Password));
+
   const token = generateToken(user);
   res
-    .cookie("jwt", token, {
+    .cookie("token", token, {
       httpOnly: true, // Prevents JavaScript access
-      secure: process.env.NODE_ENV === "production", // Secure in production
+      secure: false, // Secure in production
       maxAge: 3600000, // Set cookie expiry, e.g., 1 hour
-      sameSite: "strict",
+      sameSite: "lax",
     })
     .status(200)
-    .json({ success: true, user });
+    .json({
+      success: true,
+      user: {
+        id: user._id,
+        username: user.username,
+        role: user.role,
+      },
+    });
 };
 
 const logoutUser = (req, res) => {
   res
-    .clearCookie("jwt", {
+    .clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
     })
     .status(200)
     .json({ success: true, message: "Logged out successfully" });
 };
 
 const userMe = async (req, res) => {
-  // Fetch the user by the decoded user ID (stored in req.user from the middleware)
-  const user = await User.findById(req.user._id).select("-password"); // Exclude password field
+  const user = await User.findById(req.user._id).select("-password");
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-  res.json(user); // Send user data as response
+  res.json(user);
 };
 
 module.exports = {
