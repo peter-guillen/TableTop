@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import { loginUser } from "../../api/userApi";
 import { AuthContext } from "../../contexts/AuthContext";
 import Button from "../Button";
 
@@ -11,7 +10,6 @@ const Login = () => {
     username: "",
     password: "",
   });
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const { login } = useContext(AuthContext);
@@ -23,13 +21,12 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = login(formData);
-
+    const response = await login(formData);
     if (response.success) {
-      console.log("Logged in baby!");
+      console.log("Successfully logged in");
       navigate("/");
     } else {
-      console.log("Nah bro");
+      console.log("Login failed");
     }
   };
 

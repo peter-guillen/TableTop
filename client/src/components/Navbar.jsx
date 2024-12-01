@@ -5,7 +5,6 @@ import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import { FaRegUser, FaUser, FaCartShopping } from "react-icons/fa6";
 
-// import AuthContext from "../hooks/authFastRefreshHook";
 import { AuthContext } from "../contexts/AuthContext";
 
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
@@ -15,9 +14,7 @@ const Navbar = () => {
   const [openNavbar, setOpenNavbar] = useState(false);
   const dropdownRef = useRef(null);
 
-  // useEffect for dropdown Menu
   useEffect(() => {
-    // If click is outside of the navbar box then close it
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpenNavbar(false);
@@ -29,14 +26,7 @@ const Navbar = () => {
     };
   }, []);
 
-  const { checkAuthStatus, currentUser, logout } = useContext(AuthContext);
-  // if (users === null) {
-  //   return <div>Loading...</div>;
-  // }
-
-  const callUser = () => {
-    console.log(currentUser);
-  };
+  const { currentUser, logout } = useContext(AuthContext);
 
   const handleLogout = async () => {
     await logout();
@@ -112,22 +102,22 @@ const Navbar = () => {
                 <FaCartShopping />
               </NavLink>
             </div>
-            {/* {currentUser ? ( */}
-            <div>
-              <NavLink className={userLinks} onClick={handleLogout}>
-                Logout
-              </NavLink>
-            </div>
-            {/* // ) : ( */}
-            <div className="flex space-x-4">
-              <NavLink className={userLinks} to="register">
-                Signup
-              </NavLink>
-              <NavLink className={userLinks} to="login">
-                Login
-              </NavLink>
-            </div>
-            {/* )} */}
+            {currentUser ? (
+              <div>
+                <NavLink className={userLinks} onClick={handleLogout}>
+                  Logout
+                </NavLink>
+              </div>
+            ) : (
+              <div className="flex space-x-4">
+                <NavLink className={userLinks} to="register">
+                  Signup
+                </NavLink>
+                <NavLink className={userLinks} to="login">
+                  Login
+                </NavLink>
+              </div>
+            )}
             <FaUser />
             <div className={userLinks}>
               {currentUser ? currentUser.username : <FaRegUser />}
