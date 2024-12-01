@@ -1,4 +1,4 @@
-const StorePreview = () => {
+const ShopPreview = () => {
   return (
     <div>
       <h1>Shopping</h1>
@@ -7,4 +7,4 @@ const StorePreview = () => {
   );
 };
 
-export default StorePreview;
+export default ShopPreview;

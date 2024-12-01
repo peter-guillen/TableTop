@@ -22,7 +22,7 @@ import ProfessionPage from "./pages/ProfessionPage";
 import PowerPage from "./pages/PowerPage";
 import WeaponPage from "./pages/WeaponPage";
 import ArmorPage from "./pages/ArmorPage";
-import StorePage from "./pages/StorePage";
+import ShopPage from "./pages/ShopPage";
 import Rules from "./components/Rules";
 
 const router = createBrowserRouter(
@@ -72,7 +72,7 @@ const router = createBrowserRouter(
           }
         />
       </Route>
-      <Route path="/store/*" element={<StorePage />}></Route>
+      <Route path="/shop/*" element={<ShopPage />}></Route>
       <Route path="*" element={<NotFound />} />
     </Route>
   )

@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-import { FaRegUser, FaUser } from "react-icons/fa6";
+import { FaRegUser, FaUser, FaCartShopping } from "react-icons/fa6";
 
 // import AuthContext from "../hooks/authFastRefreshHook";
 import { AuthContext } from "../contexts/AuthContext";
@@ -29,12 +29,14 @@ const Navbar = () => {
     };
   }, []);
 
-  const { currentUser, logout } = useContext(AuthContext);
+  const { checkAuthStatus, currentUser, logout } = useContext(AuthContext);
   // if (users === null) {
   //   return <div>Loading...</div>;
   // }
 
-  useEffect(() => {}, []);
+  const callUser = () => {
+    console.log(currentUser);
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -66,6 +68,8 @@ const Navbar = () => {
                 {openNavbar && (
                   <div className="absolute top-full left-0 bg-gray-700 grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
                     <div className="flex flex-col space-y-2">
+                      <h3>Powers</h3>
+                      <hr />
                       <NavLink className={navLinks} to="powers">
                         Spells
                       </NavLink>
@@ -73,7 +77,9 @@ const Navbar = () => {
                         Classes
                       </NavLink>
                     </div>
-                    <div className="flex flex-col space-y-2">
+                    <div className="flex flex-col space-y-2 ">
+                      <h3>Equipment</h3>
+                      <hr />
                       <NavLink className={navLinks} to="equipment">
                         Items
                       </NavLink>
@@ -91,12 +97,19 @@ const Navbar = () => {
             <NavLink className={navLinks}>Make a Campaign</NavLink>
           </div>
           <div className="flex items-center space-x-4">
+            <div
+              onClick={() => {
+                callUser();
+              }}
+            >
+              USER
+            </div>
             <div>
-              <NavLink className={userLinks} to="store">
+              <NavLink className={userLinks} to="shop">
                 Shop
               </NavLink>
               <NavLink className={userLinks} to="shoppingCart">
-                Cart
+                <FaCartShopping />
               </NavLink>
             </div>
             {/* {currentUser ? ( */}

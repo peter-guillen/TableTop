@@ -1,7 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { loginUser } from "../../api/userApi";
+// import { loginUser } from "../../api/userApi";
+import { AuthContext } from "../../contexts/AuthContext";
 import Button from "../Button";
 
 const Login = () => {
@@ -13,6 +14,8 @@ const Login = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  const { login } = useContext(AuthContext);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -20,39 +23,33 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrorMessage("");
-    if (!formData.username || !formData.password) {
-      setErrorMessage("Please enter both username and password");
-      return;
-    }
-    try {
-      // Log sanitized data for debugging
-      console.log("Attempting login with:", {
-        username: formData.username,
-        password: "[REDACTED]",
-      });
-      // Make API call to login
-      const response = await loginUser(formData);
+    const response = login(formData);
 
-      // Log full response for debugging
-      console.log("Login API response:", response);
-
-      // Check if login was successful
-      if (response.success) {
-        // Optional: Store user info in localStorage for persistence
-        localStorage.setItem("user", JSON.stringify(response.user));
-
-        // Navigate to home page or dashboard
-        navigate("/");
-      } else {
-        // Handle login failure
-        setErrorMessage(response.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Login submission error:", error);
-      setErrorMessage(error.message || "An unexpected error occurred");
+    if (response.success) {
+      console.log("Logged in baby!");
+      navigate("/");
+    } else {
+      console.log("Nah bro");
     }
   };
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   setErrorMessage("");
+  //   if (!formData.username || !formData.password) {
+  //     setErrorMessage("Please enter both username and password");
+  //     return;
+  //   }
+  //   const response = await loginUser(formData);
+  //   // Check if login was successful
+  //   if (response.success) {
+  //     // Optional: Store user info in localStorage for persistence
+  //     localStorage.setItem("user", JSON.stringify(response.user));
+  //     navigate("/");
+  //   } else {
+  //     setErrorMessage(response.message || "Login failed");
+  //   }
+  // };
 
   return (
     <div>

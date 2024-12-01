@@ -71,7 +71,7 @@ const Home = () => {
         <div className="text-center text-xl">50% off sale on all classes!</div>
       </section>
 
-      <UserPage />
+      {/* <UserPage /> */}
 
       <section>
         <div className={newsFeedContainer}>

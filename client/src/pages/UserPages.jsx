@@ -12,29 +12,29 @@ const UserPage = () => {
     fetchData();
   }, []);
 
-  //   const testCookie = async () => {
-  //     console.log("Test cookie function called");
-  //     try {
-  //       console.log("Attempting to fetch test-cookie");
-  //       const response = await fetch("http://localhost:1234/api/test-cookie", {
-  //         method: "GET",
-  //         credentials: "include",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Accept: "application/json",
-  //         },
-  //       });
+  const testCookie = async () => {
+    console.log("Test cookie function called");
+    try {
+      console.log("Attempting to fetch test-cookie");
+      const response = await fetch("http://localhost:1234/api/test-cookie", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
 
-  //       console.log("Response status:", response.status);
-  //       console.log("Response headers:", [...response.headers.entries()]);
+      console.log("Response status:", response.status);
+      console.log("Response headers:", [...response.headers.entries()]);
 
-  //       const data = await response.json();
-  //       console.log("Cookie test response:", data);
-  //     } catch (error) {
-  //       console.error("Test cookie error:", error.message);
-  //       console.error("Full error:", error);
-  //     }
-  //   };
+      const data = await response.json();
+      console.log("Cookie test response:", data);
+    } catch (error) {
+      console.error("Test cookie error:", error.message);
+      console.error("Full error:", error);
+    }
+  };
 
   return (
     <div onClick={() => testCookie()}>

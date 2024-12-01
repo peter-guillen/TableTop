@@ -47,7 +47,6 @@ const loginUser = async (formData) => {
     credentials: "include",
   });
 
-  console.log(formData);
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "Login failed");
