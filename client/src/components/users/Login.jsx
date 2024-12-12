@@ -23,7 +23,6 @@ const Login = () => {
     event.preventDefault();
     const response = await login(formData);
     if (response.success) {
-      console.log("Successfully logged in");
       navigate("/");
     } else {
       console.log("Login failed");

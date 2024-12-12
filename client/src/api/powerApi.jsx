@@ -4,10 +4,10 @@ const fetchPowers = async (token) => {
   const response = await fetch(API_URL, {
     method: "GET",
     credentials: "include",
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    //   "Content-Type": "application/json",
-    // },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
   const jsonResponse = await response.json();
   return jsonResponse;

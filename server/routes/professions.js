@@ -11,7 +11,7 @@ const {
   updateProfession,
 } = require("../controllers/professionController");
 
-router.get("/", getProfessions);
+router.get("/", checkAuthenticated, getProfessions);
 router.post("/", createProfession);
 
 router.get("/:id", getProfession);

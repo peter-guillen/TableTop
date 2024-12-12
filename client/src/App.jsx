@@ -12,7 +12,7 @@ import { AuthContextProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Register from "./components/users/Register";
 import Login from "./components/users/Login";
-// import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Forbidden from "./components/Forbidden";
 
 import Home from "./pages/Home";
@@ -47,10 +47,9 @@ const router = createBrowserRouter(
         <Route
           path="/powers/*"
           element={
-            // <ProtectedRoute roles={["ADMIN"]}>
-            //   <PowerPage />
-            // </ProtectedRoute>
-            <PowerPage />
+            <ProtectedRoute roles={["ADMIN"]}>
+              <PowerPage />
+            </ProtectedRoute>
           }
         />
         <Route

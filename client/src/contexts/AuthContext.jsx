@@ -39,8 +39,9 @@ const AuthContextProvider = ({ children }) => {
       return;
     }
     if (response.success) {
-      localStorage.setItem("user", JSON.stringify(response.user));
+      // localStorage.setItem("user", JSON.stringify(response.user));
       setCurrentUser(response.user);
+      console.log(currentUser);
       return { success: true, user: response.user };
     }
     const errorMessage = response.message || "Login failed";
@@ -60,6 +61,19 @@ const AuthContextProvider = ({ children }) => {
     setError(errorMessage);
     return { success: false, message: errorMessage };
   };
+
+  // useEffect(() => {
+  //   fetch("http://localhost:1234/api/users/authCheck", {
+  //     credentials: "include",
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.user) {
+  //         setUser(data.user);
+  //       }
+  //     })
+  //     .catch((err) => console.error("Authentication check failed", err));
+  // }, []);
 
   const value = {
     users,

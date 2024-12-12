@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const checkAuthenticated = (req, res, next) => {
+  console.log("MIDDLEQARE");
   const token = req.cookies.token;
 
   if (!token) {

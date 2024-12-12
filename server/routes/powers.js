@@ -1,5 +1,5 @@
 const express = require("express");
-
+const checkAuthenticated = require("../middlewares/checkAuthenticated");
 const router = express.Router();
 
 const {
@@ -10,7 +10,7 @@ const {
   updatePower,
 } = require("../controllers/powerController");
 
-router.get("/", getPowers);
+router.get("/", checkAuthenticated, getPowers);
 router.post("/", createPower);
 
 router.get("/:id", getPower);

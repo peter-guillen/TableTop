@@ -48,10 +48,10 @@ const loginUser = async (req, res) => {
   const token = generateToken(user);
   res
     .cookie("token", token, {
-      httpOnly: true, // Prevents JavaScript access
-      secure: false, // Secure in production
-      maxAge: 3600000, // Set cookie expiry, e.g., 1 hour
-      sameSite: "lax",
+      httpOnly: true,
+      secure: false,
+      maxAge: 90000,
+      sameSite: "strict",
     })
     .status(200)
     .json({
@@ -83,6 +83,10 @@ const userMe = async (req, res) => {
   res.json(user);
 };
 
+// const authCheck = async (req, res) => {
+//   res.json({ user: req.user });
+// };
+
 module.exports = {
   getUsers,
   createUser,
@@ -90,4 +94,5 @@ module.exports = {
   loginUser,
   logoutUser,
   userMe,
+  // authCheck,
 };

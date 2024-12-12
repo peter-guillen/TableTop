@@ -27,7 +27,6 @@ const Navbar = () => {
   }, []);
 
   const { currentUser, logout } = useContext(AuthContext);
-
   const handleLogout = async () => {
     await logout();
   };
@@ -43,7 +42,7 @@ const Navbar = () => {
             <NavLink className={navLinks} to="rules">
               Rules
             </NavLink>
-            <NavLink className={navLinks} to="characters">
+            <NavLink className={userLinks} to="characters">
               Characters
             </NavLink>
             <NavLink className={navLinks} to="articles">
@@ -84,18 +83,11 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-            <NavLink className={navLinks}>Make a Campaign</NavLink>
+            <NavLink className={userLinks}>Make a Campaign</NavLink>
           </div>
           <div className="flex items-center space-x-4">
-            <div
-              onClick={() => {
-                callUser();
-              }}
-            >
-              USER
-            </div>
             <div>
-              <NavLink className={userLinks} to="shop">
+              <NavLink className={navLinks} to="shop">
                 Shop
               </NavLink>
               <NavLink className={userLinks} to="shoppingCart">
@@ -104,23 +96,28 @@ const Navbar = () => {
             </div>
             {currentUser ? (
               <div>
-                <NavLink className={userLinks} onClick={handleLogout}>
+                <NavLink className={navLinks} onClick={handleLogout}>
                   Logout
                 </NavLink>
               </div>
             ) : (
               <div className="flex space-x-4">
-                <NavLink className={userLinks} to="register">
+                <NavLink className={navLinks} to="register">
                   Signup
                 </NavLink>
-                <NavLink className={userLinks} to="login">
+                <NavLink className={navLinks} to="login">
                   Login
                 </NavLink>
               </div>
             )}
-            <FaUser />
-            <div className={userLinks}>
-              {currentUser ? currentUser.username : <FaRegUser />}
+            <div className={navLinks}>
+              {currentUser ? (
+                <>
+                  <FaUser /> {currentUser.username}
+                </>
+              ) : (
+                <FaRegUser />
+              )}
             </div>
           </div>
         </nav>
