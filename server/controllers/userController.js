@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
     .cookie("token", token, {
       httpOnly: true,
       secure: false,
-      maxAge: 90000,
+      maxAge: 10000,
       sameSite: "strict",
     })
     .status(200)
@@ -83,10 +83,6 @@ const userMe = async (req, res) => {
   res.json(user);
 };
 
-// const authCheck = async (req, res) => {
-//   res.json({ user: req.user });
-// };
-
 module.exports = {
   getUsers,
   createUser,
@@ -94,5 +90,4 @@ module.exports = {
   loginUser,
   logoutUser,
   userMe,
-  // authCheck,
 };

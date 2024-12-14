@@ -41,7 +41,6 @@ const AuthContextProvider = ({ children }) => {
     if (response.success) {
       // localStorage.setItem("user", JSON.stringify(response.user));
       setCurrentUser(response.user);
-      console.log(currentUser);
       return { success: true, user: response.user };
     }
     const errorMessage = response.message || "Login failed";

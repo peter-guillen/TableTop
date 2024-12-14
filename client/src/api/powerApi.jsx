@@ -1,16 +1,27 @@
+import apiFetch from "../utils/apiFetch";
 const API_URL = "http://localhost:1234/api/powers";
 
-const fetchPowers = async (token) => {
-  const response = await fetch(API_URL, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  const jsonResponse = await response.json();
-  return jsonResponse;
+// const fetchPowers = async (token) => {
+//   const response = await fetch(API_URL, {
+//     method: "GET",
+//     credentials: "include",
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   const jsonResponse = await response.json();
+//   if (!response.ok) {
+//     if (response.status === 401) {
+//       throw new Error("Unauthorized");
+//     }
+//     throw new Error("API request failed.");
+//   }
+//   return jsonResponse;
+// };
+const fetchPowers = async () => {
+  const response = await apiFetch(API_URL);
+  return response;
 };
 
 const createPower = async (formData) => {

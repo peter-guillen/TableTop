@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Routes, Route } from "react-router-dom";
-// import AuthContext from "../hooks/authFastRefreshHook";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 import PowerList from "../components/powers/PowerList";
@@ -18,14 +17,22 @@ import {
 const Power = () => {
   const [powerList, setPowersList] = useState([]);
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      const powers = await fetchPowers();
-      setPowersList(powers);
+      try {
+        const powers = await fetchPowers();
+        setPowersList(powers);
+      } catch (err) {
+        if (err.message === "Unauthorized") {
+          navigate("/forbidden");
+        } else {
+        }
+      }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleCreate = async (formData) => {
     try {

@@ -11,7 +11,6 @@ const {
   loginUser,
   logoutUser,
   userMe,
-  // authCheck,
 } = require("../controllers/userController");
 
 router.get("/", getUsers);
@@ -21,6 +20,5 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
 router.get("/me", userMe);
-// router.get("/authCheck", authCheck);
 
 module.exports = router;
