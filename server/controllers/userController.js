@@ -28,8 +28,8 @@ const loginPage = (req, res) => {
 
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
   // Check if user or passowrd is correct
+  const user = await User.findOne({ username });
   if (!user) {
     return res.status(401).json({
       success: false,
@@ -49,8 +49,8 @@ const loginUser = async (req, res) => {
   res
     .cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      maxAge: 10000,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: "strict",
     })
     .status(200)
@@ -76,7 +76,7 @@ const logoutUser = (req, res) => {
 };
 
 const userMe = async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
+  const user = await User.findById(req.user.userId).select("-password");
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

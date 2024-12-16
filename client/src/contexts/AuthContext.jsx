@@ -61,18 +61,31 @@ const AuthContextProvider = ({ children }) => {
     return { success: false, message: errorMessage };
   };
 
-  // useEffect(() => {
-  //   fetch("http://localhost:1234/api/users/authCheck", {
-  //     credentials: "include",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.user) {
-  //         setUser(data.user);
-  //       }
-  //     })
-  //     .catch((err) => console.error("Authentication check failed", err));
-  // }, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("http://localhost:1234/api/users/me", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Send cookies with request
+        });
+        console.log(response);
+        console.log(response.message);
+        if (response.ok) {
+          const data = await response.json();
+          setCurrentUser(data); // Example: store user info in context or state
+        } else {
+          setCurrentUser(null); // User is not logged in
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        setCurrentUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const value = {
     users,

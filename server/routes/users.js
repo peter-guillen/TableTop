@@ -19,6 +19,11 @@ router.get("/login", loginPage);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
-router.get("/me", userMe);
+router.get(
+  "/me",
+  checkAuthenticated,
+  checkAuthorization(["ADMIN", "MODERATOR", "EDITOR", "USER", "GUEST"]),
+  userMe
+);
 
 module.exports = router;
