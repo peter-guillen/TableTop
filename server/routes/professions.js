@@ -13,11 +13,15 @@ const {
 
 router.get(
   "/",
-  checkAuthenticated,
-  checkAuthorization(["ADMIN", "MODERATOR"]),
+
   getProfessions
 );
-router.post("/", createProfession);
+router.post(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["ADMIN", "MODERATOR", "USER"]),
+  createProfession
+);
 
 router.get("/:id", getProfession);
 router.delete("/:id", deleteProfession);

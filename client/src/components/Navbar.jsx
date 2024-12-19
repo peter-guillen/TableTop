@@ -102,9 +102,6 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex space-x-4">
-                <NavLink className={navLinks} to="register">
-                  Signup
-                </NavLink>
                 <NavLink className={navLinks} to="login">
                   Login
                 </NavLink>
@@ -116,7 +113,12 @@ const Navbar = () => {
                   <FaUser /> {currentUser.username}
                 </>
               ) : (
-                <FaRegUser />
+                <>
+                  <FaRegUser />
+                  <NavLink className={navLinks} to="register">
+                    Signup
+                  </NavLink>
+                </>
               )}
             </div>
           </div>

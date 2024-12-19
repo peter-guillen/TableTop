@@ -1,7 +1,7 @@
 const express = require("express");
+const router = express.Router();
 const checkAuthenticated = require("../middlewares/checkAuthenticated");
 const checkAuthorization = require("../middlewares/checkAuthorization");
-const router = express.Router();
 
 const {
   getPowers,
@@ -11,7 +11,6 @@ const {
   updatePower,
 } = require("../controllers/powerController");
 
-// router.get("/", checkAuthenticated, getPowers);
 router.get("/", checkAuthenticated, checkAuthorization(["ADMIN"]), getPowers);
 router.post("/", createPower);
 

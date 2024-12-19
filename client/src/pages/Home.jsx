@@ -25,6 +25,18 @@ const Home = () => {
     )
   );
 
+  const homeItem = twMerge(
+    classNames(
+      "p-8 pl-20 pr-20 m-5 border-2 rounded-md flex flex-wrap text-center bg-gray-300 place-content-center text-center"
+    )
+  );
+
+  const homeContainer = twMerge(classNames(" grid grid-cols-3"));
+
+  const homeImage = twMerge(
+    classNames("border border-black rounded-md w-64 h-60")
+  );
+
   const newsFeedItem = (articleId) =>
     classNames(
       "p-6 m-6 rounded-md bg-blue-200",
@@ -73,35 +85,37 @@ const Home = () => {
 
       {/* <UserPage /> */}
 
-      <section>
-        <div className={newsFeedContainer}>
-          <h3>Rules</h3>
-          <div>Image goes here!</div>
-          <div>
+      <section className={homeContainer}>
+        <div className={homeItem}>
+          <h3 className="text-xl pb-4">Rules</h3>
+          <div className={homeImage}>Image goes here!</div>
+          <div className="pt-4">
             The rules tab highlights events handling and useReducer to handle
             realtime changes.
           </div>
         </div>
-        <div className={newsFeedContainer}>
-          <h3>Articles</h3>
-          <div>Image goes here!</div>
-          <div>
+        <div className={homeItem}>
+          <h3 className="text-xl pb-4">Articles</h3>
+          <div className={homeImage}>Image goes here!</div>
+          <div className="pt-4">
             Articles displays the use of articles and user comments and
             feedback.
           </div>
         </div>
-        <div className={newsFeedContainer}>
-          <h3>Spells</h3>
-          <div>Image goes here!</div>
-          <div>
+        <div className={homeItem}>
+          <h3 className="text-xl pb-4">Spells</h3>
+          <div className={homeImage}>Image goes here!</div>
+          <div className="pt-4">
             Showcases the use of drag and drop functionality. As well as the use
             of the Dungeons and Dragons API.
           </div>
         </div>
-        <div className={newsFeedContainer}>
-          <h3>Classes</h3>
-          <div>Image goes here!</div>
-          <div>The classes tab can be used to view CRUD functionality.</div>
+        <div className={homeItem}>
+          <h3 className="text-xl pb-4">Classes</h3>
+          <div className={homeImage}>Image goes here!</div>
+          <div className="pt-4">
+            The classes tab can be used to view CRUD functionality.
+          </div>
         </div>
       </section>
 

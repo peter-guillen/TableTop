@@ -71,8 +71,6 @@ const AuthContextProvider = ({ children }) => {
           },
           credentials: "include", // Send cookies with request
         });
-        console.log(response);
-        console.log(response.message);
         if (response.ok) {
           const data = await response.json();
           setCurrentUser(data); // Example: store user info in context or state

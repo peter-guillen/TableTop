@@ -56,7 +56,7 @@ const ProfessionPage = () => {
       );
       setProfessionList(updatedProfessionList);
     } catch (error) {
-      console.log("Error: EDITING_PROFESSION: ", error);
+      console.log("Error editing profession: ", error);
     }
   };
 

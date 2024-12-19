@@ -38,10 +38,10 @@ const router = createBrowserRouter(
         <Route
           path="/professions/*"
           element={
-            // <ProtectedRoute roles={["ADMIN", "USER"]}>
-            //   <ProfessionPage />
-            // </ProtectedRoute>
-            <ProfessionPage />
+            <ProtectedRoute roles={["ADMIN", "MODERATOR", "USER"]}>
+              <ProfessionPage />
+            </ProtectedRoute>
+            // <ProfessionPage />
           }
         />
         <Route
@@ -80,13 +80,13 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
-      <ThemeContext.Provider value="Hello from Theme Context">
-        <ArticleContextProvider>
-          <AuthContextProvider>
+      <AuthContextProvider>
+        <ThemeContext.Provider value="Hello from Theme Context">
+          <ArticleContextProvider>
             <RouterProvider router={router} />
-          </AuthContextProvider>
-        </ArticleContextProvider>
-      </ThemeContext.Provider>
+          </ArticleContextProvider>
+        </ThemeContext.Provider>
+      </AuthContextProvider>
     </>
   );
 }
