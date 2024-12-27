@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:1234/api/articles";
 
-const fetchArticles = async () => {
+export const fetchArticles = async () => {
   const response = await fetch(API_URL, {
     method: "GET",
     credentials: "include",
@@ -9,7 +9,7 @@ const fetchArticles = async () => {
   return jsonResponse;
 };
 
-const createArticle = async (formData) => {
+export const createArticle = async (formData) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -21,7 +21,7 @@ const createArticle = async (formData) => {
   return await response.json();
 };
 
-const deleteArticle = async (id) => {
+export const deleteArticle = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ const deleteArticle = async (id) => {
   }
 };
 
-const updateArticle = async (id, formData) => {
+export const updateArticle = async (id, formData) => {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
       method: "PATCH",
@@ -46,5 +46,3 @@ const updateArticle = async (id, formData) => {
     console.log("Error: UPDATING_ARTICLE", error);
   }
 };
-
-export { fetchArticles, createArticle, deleteArticle, updateArticle };

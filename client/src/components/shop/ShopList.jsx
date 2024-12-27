@@ -1,6 +1,6 @@
-import ShopPreview from "./ShopPreview";
+import { ShopPreview } from "./ShopPreview";
 
-const ShopList = () => {
+export const ShopList = () => {
   return (
     <>
       <div>List of shop items!</div>
@@ -8,5 +8,3 @@ const ShopList = () => {
     </>
   );
 };
-
-export default ShopList;

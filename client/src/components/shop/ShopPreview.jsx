@@ -1,4 +1,4 @@
-const ShopPreview = () => {
+export const ShopPreview = () => {
   return (
     <div className="border w-1/4">
       <h1>Shopping Item Title</h1>
@@ -8,5 +8,3 @@ const ShopPreview = () => {
     </div>
   );
 };
-
-export default ShopPreview;

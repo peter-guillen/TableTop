@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-import PowerDetails from "./PowerDetails";
-import Button from "../Button";
+import { PowerDetails } from "./PowerDetails";
+import { Button } from "../Button";
 
-const PowerPreview = ({ power, onDelete }) => {
+export const PowerPreview = ({ power, onDelete }) => {
   const handleDelete = () => {
     onDelete(power._id);
   };
@@ -20,4 +20,3 @@ const PowerPreview = ({ power, onDelete }) => {
     </div>
   );
 };
-export default PowerPreview;

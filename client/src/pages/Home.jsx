@@ -1,15 +1,15 @@
 import { useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import Footer from "../components/Footer";
-import Button from "../components/Button";
-import ArticleContext from "../hooks/articleFastRefreshHook";
-import UserPage from "./UserPages";
+import { Footer } from "../components/Footer";
+import { Button } from "../components/Button";
+import { ArticleContext } from "../hooks/articleFastRefreshHook";
+import { UserPage } from "./UserPages";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 
-const Home = () => {
+export const Home = () => {
   const { articleList } = useContext(ArticleContext);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -133,5 +133,3 @@ const Home = () => {
     </>
   );
 };
-
-export default Home;

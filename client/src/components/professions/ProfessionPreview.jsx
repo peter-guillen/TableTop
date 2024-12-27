@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import { Link } from "react-router-dom";
-import Button from "../Button";
+import { Button } from "../Button";
 
-const ProfessionShow = ({ profession, onDelete }) => {
+export const ProfessionPreview = ({ profession, onDelete }) => {
   const handleDelete = () => {
     onDelete(profession._id);
   };
@@ -47,5 +47,3 @@ const ProfessionShow = ({ profession, onDelete }) => {
     </>
   );
 };
-
-export default ProfessionShow;

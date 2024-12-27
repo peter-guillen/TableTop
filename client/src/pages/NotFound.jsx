@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
+import { Button } from "../components/Button";
 
-export default function NotFound() {
+export function NotFound() {
   return (
     <div>
       <h2>Page Not Found!</h2>

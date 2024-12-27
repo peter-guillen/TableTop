@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import NotFound from "../../pages/NotFound";
-import Button from "../Button";
+import { NotFound } from "../../pages/NotFound";
+import { Button } from "../Button";
 
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
 
-const ArticleDetails = ({ articleList }) => {
+export const ArticleDetails = ({ articleList }) => {
   // const [hoveredArticleId, setHoveredArticleId] = useState(null);
   const { id } = useParams();
   const article = articleList.find((a) => a._id === id);
@@ -87,5 +87,3 @@ const ArticleDetails = ({ articleList }) => {
     </>
   );
 };
-
-export default ArticleDetails;

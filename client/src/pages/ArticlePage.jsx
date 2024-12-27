@@ -1,17 +1,17 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import ArticleContext from "../hooks/articleFastRefreshHook";
-import ArticleDetails from "../components/articles/ArticleDetails";
-import ArticleList from "../components/articles/ArticleList";
-import ArticleCreate from "../components/articles/ArticleCreate";
-import ArticleEdit from "../components/articles/ArticleEdit";
+import { ArticleContext } from "../hooks/articleFastRefreshHook";
+import { ArticleDetails } from "../components/articles/ArticleDetails";
+import { ArticleList } from "../components/articles/ArticleList";
+import { ArticleCreate } from "../components/articles/ArticleCreate";
+import { ArticleEdit } from "../components/articles/ArticleEdit";
 
-import Button from "../components/Button";
+import { Button } from "../components/Button";
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
 
-const ArticlePage = () => {
+export const ArticlePage = () => {
   const { articleList, handleCreate, handleDelete, handleEdit } =
     useContext(ArticleContext);
 
@@ -41,5 +41,3 @@ const ArticlePage = () => {
     </>
   );
 };
-
-export default ArticlePage;

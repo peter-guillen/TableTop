@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import ArticleContext from "../../hooks/articleFastRefreshHook";
-import Button from "../Button";
+import { ArticleContext } from "../../hooks/articleFastRefreshHook";
+import { Button } from "../Button";
 
-const EditArticle = ({ articleList }) => {
+export const ArticleEdit = ({ articleList }) => {
   const { handleEdit } = useContext(ArticleContext);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -76,5 +76,3 @@ const EditArticle = ({ articleList }) => {
     </>
   );
 };
-
-export default EditArticle;

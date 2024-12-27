@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../Button";
+import { Button } from "../Button";
 
-const PowerCreate = ({ onCreate }) => {
+export const PowerCreate = ({ onCreate }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -54,5 +54,3 @@ const PowerCreate = ({ onCreate }) => {
     </form>
   );
 };
-
-export default PowerCreate;

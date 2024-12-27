@@ -10,7 +10,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
-const Navbar = () => {
+export const Navbar = () => {
   const [openNavbar, setOpenNavbar] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -132,5 +132,3 @@ const Navbar = () => {
     </>
   );
 };
-
-export default Navbar;

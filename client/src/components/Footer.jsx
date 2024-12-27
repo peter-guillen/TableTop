@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 const footerDiv = twMerge(classNames("text-white font-small"));
 const footerHead = twMerge(classNames("font-medium text-2xl"));
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <div className="bg-gray-900 grid grid-cols-3 text-center p-12">
       <div className={footerDiv}>
@@ -35,5 +35,3 @@ const Footer = () => {
     </div>
   );
 };
-
-export default Footer;

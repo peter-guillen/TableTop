@@ -1,12 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-// import AuthContext from "../hooks/authFastRefreshHook";
 import { AuthContext } from "../contexts/AuthContext";
 
-import ProfessionList from "../components/professions/ProfessionList";
-import ProfessionDetails from "../components/professions/ProfessionDetails";
-import ProfessionCreate from "../components/professions/ProfessionCreate";
-import ProfessionEdit from "../components/professions/ProfessionEdit";
+import { ProfessionList } from "../components/professions/ProfessionList";
+import { ProfessionDetails } from "../components/professions/ProfessionDetails";
+import { ProfessionCreate } from "../components/professions/ProfessionCreate";
+import { ProfessionEdit } from "../components/professions/ProfessionEdit";
 
 import {
   fetchProfessions,
@@ -15,7 +14,7 @@ import {
   updateProfession,
 } from "../api/professionApi";
 
-const ProfessionPage = () => {
+export const ProfessionPage = () => {
   const [professionList, setProfessionList] = useState([]);
   const { currentUser } = useContext(AuthContext);
 
@@ -93,5 +92,3 @@ const ProfessionPage = () => {
     </>
   );
 };
-
-export default ProfessionPage;

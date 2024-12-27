@@ -54,7 +54,7 @@ const reducer = (state, action) => {
   }
 };
 
-const Rules = () => {
+export const Rules = () => {
   // This initialState is the data object for the dispatcher
   const initialState = {
     // This is setting one state for the initialState object the others added are the sattes to be changed
@@ -217,5 +217,3 @@ const Rules = () => {
     </div>
   );
 };
-
-export default Rules;

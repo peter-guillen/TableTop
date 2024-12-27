@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:1234/api/users";
 
-const fetchUsers = async () => {
+export const fetchUsers = async () => {
   const response = await fetch(`${API_URL}/`, {
     method: "GET",
     credentials: "include",
@@ -17,7 +17,7 @@ const fetchUsers = async () => {
   return await response.json();
 };
 
-const createUser = async (formData) => {
+export const createUser = async (formData) => {
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -37,7 +37,7 @@ const createUser = async (formData) => {
   return await response.json();
 };
 
-const loginUser = async (formData) => {
+export const loginUser = async (formData) => {
   try {
     const response = await fetch(`${API_URL}/login`, {
       method: "POST",
@@ -61,12 +61,10 @@ const loginUser = async (formData) => {
   }
 };
 
-const logoutUser = async () => {
+export const logoutUser = async () => {
   const response = await fetch(`${API_URL}/logout`, {
     method: "POST",
     credentials: "include",
   });
   return await response.json();
 };
-
-export { fetchUsers, createUser, loginUser, logoutUser };

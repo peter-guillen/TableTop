@@ -1,4 +1,4 @@
-const Forbidden = () => {
+export const Forbidden = () => {
   return (
     <div>
       <h1>Forbidden</h1>
@@ -18,5 +18,3 @@ const Forbidden = () => {
     </div>
   );
 };
-
-export default Forbidden;

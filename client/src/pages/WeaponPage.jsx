@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const WeaponPage = () => {
+export const WeaponPage = () => {
   //   const [dndData, setDndData] = useState([]);
   //   const getDnDStuff = async () => {
   //     const response = await fetch("https://www.dnd5eapi.co/api/", {
@@ -99,4 +99,3 @@ const WeaponPage = () => {
     </div>
   );
 };
-export default WeaponPage;

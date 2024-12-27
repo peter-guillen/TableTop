@@ -6,24 +6,24 @@ import {
 } from "react-router-dom";
 
 import { ThemeContext } from "./contexts/ThemeContext";
-import ArticleContextProvider from "./contexts/ArticleContext";
+import { ArticleContextProvider } from "./contexts/ArticleContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
-import Navbar from "./components/Navbar";
-import Register from "./components/users/Register";
-import Login from "./components/users/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Forbidden from "./components/Forbidden";
+import { Navbar } from "./components/Navbar";
+import { Register } from "./components/users/Register";
+import { Login } from "./components/users/Login";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Forbidden } from "./components/Forbidden";
 
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import ArticlePage from "./pages/ArticlePage";
-import ProfessionPage from "./pages/ProfessionPage";
-import PowerPage from "./pages/PowerPage";
-import WeaponPage from "./pages/WeaponPage";
-import ArmorPage from "./pages/ArmorPage";
-import ShopPage from "./pages/ShopPage";
-import Rules from "./components/Rules";
+import { Home } from "./pages/Home";
+import { NotFound } from "./pages/NotFound";
+import { ArticlePage } from "./pages/ArticlePage";
+import { ProfessionPage } from "./pages/ProfessionPage";
+import { PowerPage } from "./pages/PowerPage";
+import { WeaponPage } from "./pages/WeaponPage";
+import { ArmorPage } from "./pages/ArmorPage";
+import { ShopPage } from "./pages/ShopPage";
+import { Rules } from "./components/Rules";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

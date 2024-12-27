@@ -8,7 +8,7 @@ const professionForm = twMerge(
   classNames("border rounded-md bg-gray-200 p-2 m-2", {})
 );
 
-const ProfessionEdit = ({ onEdit, professionList }) => {
+export const ProfessionEdit = ({ onEdit, professionList }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -121,5 +121,3 @@ const ProfessionEdit = ({ onEdit, professionList }) => {
     </>
   );
 };
-
-export default ProfessionEdit;

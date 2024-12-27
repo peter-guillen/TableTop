@@ -1,30 +1,12 @@
-import apiFetch from "../utils/apiFetch";
+import { apiFetch } from "../utils/apiFetch";
 const API_URL = "http://localhost:1234/api/powers";
 
-// const fetchPowers = async (token) => {
-//   const response = await fetch(API_URL, {
-//     method: "GET",
-//     credentials: "include",
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   const jsonResponse = await response.json();
-//   if (!response.ok) {
-//     if (response.status === 401) {
-//       throw new Error("Unauthorized");
-//     }
-//     throw new Error("API request failed.");
-//   }
-//   return jsonResponse;
-// };
-const fetchPowers = async () => {
+export const fetchPowers = async () => {
   const response = await apiFetch(API_URL);
   return response;
 };
 
-const createPower = async (formData) => {
+export const createPower = async (formData) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -36,7 +18,7 @@ const createPower = async (formData) => {
   return await response.json();
 };
 
-const deletePower = async (id) => {
+export const deletePower = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
@@ -47,7 +29,7 @@ const deletePower = async (id) => {
   return await response.json();
 };
 
-const updatePower = async (id, formData) => {
+export const updatePower = async (id, formData) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -58,5 +40,3 @@ const updatePower = async (id, formData) => {
   }
   return await response.json();
 };
-
-export { fetchPowers, createPower, deletePower, updatePower };

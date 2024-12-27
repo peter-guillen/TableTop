@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import ArticleContext from "../../hooks/articleFastRefreshHook";
-import Button from "../Button";
+import { ArticleContext } from "../../hooks/articleFastRefreshHook";
+import { Button } from "../Button";
 
-const ArticlePreview = ({ article }) => {
+export const ArticlePreview = ({ article }) => {
   const { handleDelete } = useContext(ArticleContext);
   const deleteArticleOnClick = () => {
     handleDelete(article._id);
@@ -27,5 +27,3 @@ const ArticlePreview = ({ article }) => {
     </>
   );
 };
-
-export default ArticlePreview;

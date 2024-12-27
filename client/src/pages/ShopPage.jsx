@@ -1,10 +1,10 @@
 import { Routes, Route, Link } from "react-router-dom";
 
-import ShopList from "../components/shop/ShopList";
-import ShopPreview from "../components/shop/ShopPreview";
-import Button from "../components/Button";
+import { ShopList } from "../components/shop/ShopList";
+import { ShopPreview } from "../components/shop/ShopPreview";
+import { Button } from "../components/Button";
 
-const ShopPage = () => {
+export const ShopPage = () => {
   return (
     <>
       <div className="text-center ">
@@ -24,5 +24,3 @@ const ShopPage = () => {
     </>
   );
 };
-
-export default ShopPage;

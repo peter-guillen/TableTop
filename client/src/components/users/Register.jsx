@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import Button from "../Button";
+import { Button } from "../Button";
 
-const Register = () => {
+export const Register = () => {
   const { signup } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -124,5 +124,3 @@ const Register = () => {
     </>
   );
 };
-
-export default Register;

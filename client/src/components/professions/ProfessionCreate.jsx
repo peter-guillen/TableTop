@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-import Button from "../Button";
+import { Button } from "../Button";
 
 const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
 const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));
@@ -14,7 +14,7 @@ const pageContainerStyles = twMerge(
   classNames("grid grid-cols-2 m-auto p-4 mt-6 border place-self-center w-4/5")
 );
 
-const ProfessionCreate = ({ onCreate }) => {
+export const ProfessionCreate = ({ onCreate }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -150,5 +150,3 @@ const ProfessionCreate = ({ onCreate }) => {
     </>
   );
 };
-
-export default ProfessionCreate;

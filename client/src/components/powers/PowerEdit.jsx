@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
-import Button from "../Button";
+import { Button } from "../Button";
 
-const PowerEdit = ({ onEdit, powerList }) => {
+export const PowerEdit = ({ onEdit, powerList }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -64,5 +64,3 @@ const PowerEdit = ({ onEdit, powerList }) => {
     </div>
   );
 };
-
-export default PowerEdit;

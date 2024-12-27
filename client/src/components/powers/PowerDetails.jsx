@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
-import NotFound from "../../pages/NotFound";
+import { NotFound } from "../../pages/NotFound";
 
-import Button from "../Button";
+import { Button } from "../Button";
 
-const PowerDetails = ({ powerList }) => {
+export const PowerDetails = ({ powerList }) => {
   const { id } = useParams();
   const power = powerList.find((p) => p._id === id);
   if (!power) {
@@ -20,5 +20,3 @@ const PowerDetails = ({ powerList }) => {
     </div>
   );
 };
-
-export default PowerDetails;

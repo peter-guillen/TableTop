@@ -2,10 +2,10 @@ import { useState, useEffect, useContext } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
-import PowerList from "../components/powers/PowerList";
-import PowerDetails from "../components/powers/PowerDetails";
-import PowerCreate from "../components/powers/PowerCreate";
-import PowerEdit from "../components/powers/PowerEdit";
+import { PowerList } from "../components/powers/PowerList";
+import { PowerDetails } from "../components/powers/PowerDetails";
+import { PowerCreate } from "../components/powers/PowerCreate";
+import { PowerEdit } from "../components/powers/PowerEdit";
 
 import {
   fetchPowers,
@@ -14,7 +14,7 @@ import {
   updatePower,
 } from "../api/powerApi";
 
-const Power = () => {
+export const PowerPage = () => {
   const [powerList, setPowersList] = useState([]);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -92,5 +92,3 @@ const Power = () => {
     </>
   );
 };
-
-export default Power;

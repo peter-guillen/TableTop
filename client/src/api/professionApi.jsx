@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:1234/api/professions";
 
-const fetchProfessions = async (token) => {
+export const fetchProfessions = async (token) => {
   const response = await fetch(API_URL, {
     method: "GET",
     // Applying these headers for the ensureIsAuthenticated middleware in the server.js file
@@ -16,7 +16,7 @@ const fetchProfessions = async (token) => {
   return jsonResponse;
 };
 
-const createProfession = async (formData) => {
+export const createProfession = async (formData) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -28,7 +28,7 @@ const createProfession = async (formData) => {
   return await response.json();
 };
 
-const deleteProfession = async (id) => {
+export const deleteProfession = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ const deleteProfession = async (id) => {
   }
 };
 
-const updateProfession = async (id, formData) => {
+export const updateProfession = async (id, formData) => {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
       method: "PATCH",
@@ -52,11 +52,4 @@ const updateProfession = async (id, formData) => {
   } catch (error) {
     console.log("Error: UPDATING_PROFESSION", error);
   }
-};
-
-export {
-  fetchProfessions,
-  createProfession,
-  deleteProfession,
-  updateProfession,
 };

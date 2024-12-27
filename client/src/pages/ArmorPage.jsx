@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 
-const ArmorPage = () => {
+export const ArmorPage = () => {
   const message = useContext(ThemeContext);
   return (
     <div>
@@ -10,5 +10,3 @@ const ArmorPage = () => {
     </div>
   );
 };
-
-export default ArmorPage;

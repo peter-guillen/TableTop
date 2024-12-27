@@ -1,10 +1,10 @@
-import ProfessionPreview from "./ProfessionPreview";
+import { ProfessionPreview } from "./ProfessionPreview";
 import { Link } from "react-router-dom";
 
-import LoadingSpinner from "../LoadingSpinner";
-import Button from "../Button";
+import { LoadingSpinner } from "../LoadingSpinner";
+import { Button } from "../Button";
 
-const ProfessionList = ({ professionList, onDelete }) => {
+export const ProfessionList = ({ professionList, onDelete }) => {
   if (!professionList || professionList.length === 0) {
     return <LoadingSpinner />;
   }
@@ -38,5 +38,3 @@ const ProfessionList = ({ professionList, onDelete }) => {
     </div>
   );
 };
-
-export default ProfessionList;

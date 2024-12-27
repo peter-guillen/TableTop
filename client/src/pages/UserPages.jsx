@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchUsers } from "../api/userApi";
 
-const UserPage = () => {
+export const UserPage = () => {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
@@ -32,5 +32,3 @@ const UserPage = () => {
     </div>
   );
 };
-
-export default UserPage;

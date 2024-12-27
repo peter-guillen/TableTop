@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import PowerPreview from "./PowerPreview";
-import LoadingSpinner from "../LoadingSpinner";
-import Button from "../Button";
+import { PowerPreview } from "./PowerPreview";
+import { LoadingSpinner } from "../LoadingSpinner";
+import { Button } from "../Button";
 
-const PowerList = ({ powerList, onDelete, onReorder }) => {
+export const PowerList = ({ powerList, onDelete, onReorder }) => {
   if (!powerList || powerList.length === 0) {
     return <LoadingSpinner />;
   }
@@ -56,5 +56,3 @@ const PowerList = ({ powerList, onDelete, onReorder }) => {
     </div>
   );
 };
-
-export default PowerList;

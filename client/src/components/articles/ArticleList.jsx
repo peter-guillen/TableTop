@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-import ArticlePreview from "./ArticlePreview";
-import Button from "../Button";
-import LoadingSpinner from "../LoadingSpinner";
+import { ArticlePreview } from "./ArticlePreview";
+import { Button } from "../Button";
+import { LoadingSpinner } from "../LoadingSpinner";
 
-const ArticleList = ({ articleList }) => {
+export const ArticleList = ({ articleList }) => {
   if (!articleList || articleList.length === 0) {
     return <LoadingSpinner />;
   }
@@ -21,5 +21,3 @@ const ArticleList = ({ articleList }) => {
     </div>
   );
 };
-
-export default ArticleList;

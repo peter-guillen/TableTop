@@ -2,9 +2,9 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../contexts/AuthContext";
-import Button from "../Button";
+import { Button } from "../Button";
 
-const Login = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -123,5 +123,3 @@ const Login = () => {
     </>
   );
 };
-
-export default Login;

@@ -1,8 +1,8 @@
 import { useParams, Link } from "react-router-dom";
-import NotFound from "../../pages/NotFound";
+import { NotFound } from "../../pages/NotFound";
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
-import Button from "../Button";
+import { Button } from "../Button";
 
 const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
 const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));
@@ -13,7 +13,7 @@ const pageContainerStyles = twMerge(
   classNames("grid grid-cols-2 m-auto p-4 mt-6 border place-self-center w-4/5")
 );
 
-const ProfessionDetails = ({ professionList }) => {
+export const ProfessionDetails = ({ professionList }) => {
   const { id } = useParams();
   const profession = professionList.find((p) => p._id === id);
 
@@ -72,5 +72,3 @@ const ProfessionDetails = ({ professionList }) => {
     </div>
   );
 };
-
-export default ProfessionDetails;

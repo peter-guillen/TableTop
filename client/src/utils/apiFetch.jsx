@@ -1,4 +1,4 @@
-const apiFetch = async (url, options = {}) => {
+export const apiFetch = async (url, options = {}) => {
   const response = await fetch(url, {
     ...options,
     credentials: "include",
@@ -23,5 +23,3 @@ const apiFetch = async (url, options = {}) => {
 
   return response.json();
 };
-
-export default apiFetch;

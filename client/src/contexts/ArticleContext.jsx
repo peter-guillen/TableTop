@@ -5,9 +5,9 @@ import {
   updateArticle,
   deleteArticle,
 } from "../api/articleApi";
-import ArticleContext from "../hooks/articleFastRefreshHook";
+import { ArticleContext } from "../hooks/articleFastRefreshHook";
 
-const ArticleContextProvider = ({ children }) => {
+export const ArticleContextProvider = ({ children }) => {
   const [articleList, setArticleList] = useState([]);
 
   useEffect(() => {
@@ -52,5 +52,3 @@ const ArticleContextProvider = ({ children }) => {
     </ArticleContext.Provider>
   );
 };
-
-export default ArticleContextProvider;
