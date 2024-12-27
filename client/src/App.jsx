@@ -41,7 +41,6 @@ const router = createBrowserRouter(
             <ProtectedRoute roles={["ADMIN", "MODERATOR", "USER"]}>
               <ProfessionPage />
             </ProtectedRoute>
-            // <ProfessionPage />
           }
         />
         <Route

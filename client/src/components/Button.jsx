@@ -14,13 +14,13 @@ const Button = ({
   const buttonStyles = twMerge(
     classNames(
       rest.className,
-      "items-center px-3 m-2 p-2 border rounded-md text-center",
+      "items-center px-3 p-2 border rounded-md text-center",
       {
-        "bg-blue-400": primary,
-        "bg-purple-400": secondary,
-        "bg-green-400": success,
+        "bg-blue-600": primary,
+        "bg-purple-600": secondary,
+        "bg-green-500": success,
         "bg-yellow-400": warning,
-        "bg-red-400": danger,
+        "bg-red-600": danger,
       }
     )
   );

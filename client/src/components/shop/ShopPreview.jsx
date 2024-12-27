@@ -1,8 +1,10 @@
 const ShopPreview = () => {
   return (
-    <div>
-      <h1>Shopping</h1>
-      <div></div>
+    <div className="border w-1/4">
+      <h1>Shopping Item Title</h1>
+      <div>Image</div>
+      <div>Description</div>
+      <div>$100.00</div>
     </div>
   );
 };

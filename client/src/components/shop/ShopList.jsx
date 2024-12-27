@@ -1,7 +1,10 @@
+import ShopPreview from "./ShopPreview";
+
 const ShopList = () => {
   return (
     <>
-      <div>List</div>
+      <div>List of shop items!</div>
+      <ShopPreview></ShopPreview>
     </>
   );
 };

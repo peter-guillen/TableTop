@@ -13,6 +13,7 @@ const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
@@ -35,6 +36,7 @@ const AuthContextProvider = ({ children }) => {
   const login = async (formData) => {
     const response = await loginUserApi(formData);
     if (!formData.username || !formData.password) {
+      setError(error.message);
       setErrorMessage("Please enter both username and password");
       return;
     }
@@ -95,6 +97,7 @@ const AuthContextProvider = ({ children }) => {
     logout,
     isLoading,
     error,
+    errorMessage,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

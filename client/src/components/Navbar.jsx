@@ -90,6 +90,8 @@ const Navbar = () => {
               <NavLink className={navLinks} to="shop">
                 Shop
               </NavLink>
+            </div>
+            <div>
               <NavLink className={userLinks} to="shoppingCart">
                 <FaCartShopping />
               </NavLink>
@@ -115,9 +117,9 @@ const Navbar = () => {
               ) : (
                 <>
                   <FaRegUser />
-                  <NavLink className={navLinks} to="register">
+                  {/* <NavLink className={navLinks} to="register">
                     Signup
-                  </NavLink>
+                  </NavLink> */}
                 </>
               )}
             </div>
