@@ -1,4 +1,8 @@
 import { useReducer } from "react";
+import classNames from "classnames";
+import { twMerge } from "tailwind-merge";
+
+const attributeContainer = twMerge(classNames("flex "));
 
 // No reason for these other than error prevention and to identify an action
 const UPDATE_STAT = "update_stat";
@@ -88,68 +92,71 @@ export const Rules = () => {
   };
 
   return (
-    <div>
-      <div>Stats</div> 
-      <div>
-        <label>Strength: </label>
-        <input
-          type="number"
-          value={state.stats.strength}
-          onChange={(e) =>
-            handleStatChange("strength", parseInt(e.target.value))
-          }
-        />
+    <div className="container mx-auto px-4 grid grid-cols-4 gap-2 p-4 bg-gray-100">
+      <div className="bg-blue-300 col-span-3 row-span-2 flex flex-wrap items-center justify-center">
+        <div>
+          <label>Strength: </label>
+          <input
+            type="number"
+            value={state.stats.strength}
+            onChange={(e) =>
+              handleStatChange("strength", parseInt(e.target.value))
+            }
+          />
+        </div>
+        <div>
+          <label>Dexterity: </label>
+          <input
+            type="number"
+            value={state.stats.dexterity}
+            onChange={(e) =>
+              handleStatChange("dexterity", parseInt(e.target.value))
+            }
+          />
+        </div>
+        <div>
+          <label>Constitution: </label>
+          <input
+            type="number"
+            value={state.stats.constitution}
+            onChange={(e) =>
+              handleStatChange("constitution", parseInt(e.target.value))
+            }
+          />
+        </div>
+        <div>
+          <label>Intelligence: </label>
+          <input
+            type="number"
+            value={state.stats.intelligence}
+            onChange={(e) =>
+              handleStatChange("intelligence", parseInt(e.target.value))
+            }
+          />
+        </div>
+        <div>
+          <label>Wisdom: </label>
+          <input
+            type="number"
+            value={state.stats.wisdom}
+            onChange={(e) =>
+              handleStatChange("wisdom", parseInt(e.target.value))
+            }
+          />
+        </div>
+        <div>
+          <label>Charisma: </label>
+          <input
+            type="number"
+            value={state.stats.charisma}
+            onChange={(e) =>
+              handleStatChange("charisma", parseInt(e.target.value))
+            }
+          />
+        </div>
       </div>
-      <div>
-        <label>Dexterity: </label>
-        <input
-          type="number"
-          value={state.stats.dexterity}
-          onChange={(e) =>
-            handleStatChange("dexterity", parseInt(e.target.value))
-          }
-        />
-      </div>
-      <div>
-        <label>Constitution: </label>
-        <input
-          type="number"
-          value={state.stats.constitution}
-          onChange={(e) =>
-            handleStatChange("constitution", parseInt(e.target.value))
-          }
-        />
-      </div>
-      <div>
-        <label>Intelligence: </label>
-        <input
-          type="number"
-          value={state.stats.intelligence}
-          onChange={(e) =>
-            handleStatChange("intelligence", parseInt(e.target.value))
-          }
-        />
-      </div>
-      <div>
-        <label>Wisdom: </label>
-        <input
-          type="number"
-          value={state.stats.wisdom}
-          onChange={(e) => handleStatChange("wisdom", parseInt(e.target.value))}
-        />
-      </div>
-      <div>
-        <label>Charisma: </label>
-        <input
-          type="number"
-          value={state.stats.charisma}
-          onChange={(e) =>
-            handleStatChange("charisma", parseInt(e.target.value))
-          }
-        />
-      </div>
-      <div>
-        <div>Armor</div>
+      <div className="bg-green-300 flex items-center justify-center">
+        <div>Armor: </div>
         <div>
           <input
             type="radio"
@@ -158,7 +165,7 @@ export const Rules = () => {
             value="lightArmor"
             onChange={handleArmorChange}
           />
-          <label htmlFor="lightArmor">Light Armor:</label>
+          <label htmlFor="lightArmor">Light</label>
         </div>
         <div>
           <input
@@ -168,7 +175,7 @@ export const Rules = () => {
             value="mediumArmor"
             onChange={handleArmorChange}
           />
-          <label htmlFor="mediumArmor">Medium Armor:</label>
+          <label htmlFor="mediumArmor">Medium</label>
         </div>
         <div>
           <input
@@ -178,11 +185,11 @@ export const Rules = () => {
             value="heavyArmor"
             onChange={handleArmorChange}
           />
-          <label htmlFor="heavyArmor">Heavy Armor:</label>
+          <label htmlFor="heavyArmor">Heavy</label>
         </div>
       </div>
-      <div>
-        <div>Weapon</div>
+      <div className="bg-red-300 flex items-center justify-center">
+        <div>Weapon: </div>
         <div>
           <input
             type="radio"
@@ -212,6 +219,35 @@ export const Rules = () => {
             onChange={handleWeaponChange}
           />
           <label htmlFor="dagger">Dagger</label>
+        </div>
+      </div>
+      <div className="bg-yellow-300 col-span-2 flex items-center justify-center">
+        <div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad at enim,
+          possimus assumenda corporis laborum dicta nemo aliquid excepturi
+          neque, autem magni porro consequatur officia incidunt facere ipsa
+          similique a! Molestiae dolorem, officia nesciunt quia fugit illo
+          saepe, dignissimos magnam dolores iure alias explicabo vitae tenetur
+          vel? Deserunt explicabo voluptates voluptatibus, necessitatibus,
+          adipisci in placeat, saepe molestiae amet ullam enim! Adipisci
+          repudiandae odio facere veniam? Delectus velit accusamus architecto
+          molestias fugit similique minima non eum, qui, voluptates eius?
+          Tempora quibusdam esse nobis consequatur commodi sapiente nam rerum
+          aliquam dignissimos deleniti?
+        </div>
+      </div>
+      <div className="bg-purple-300 col-span-2 flex items-center justify-center">
+        <div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a
+          exercitationem vitae earum accusamus doloribus neque vel aperiam id
+          consequatur dolorum ipsum eligendi sapiente deserunt sed recusandae,
+          ut tempora iste! Beatae sint sed aliquid ad quisquam necessitatibus!
+          Dolor dolore reprehenderit magnam vitae aspernatur alias nisi,
+          consequuntur nulla voluptatem eius? Repellat quaerat qui commodi atque
+          ipsa obcaecati? Totam maiores libero cum. Numquam possimus molestias
+          quis quod, saepe exercitationem aut veritatis id enim accusantium
+          ullam maxime, delectus mollitia autem. Quis, aliquid. Deserunt quos
+          repellat nisi corrupti possimus facilis culpa explicabo omnis nulla.
         </div>
       </div>
     </div>

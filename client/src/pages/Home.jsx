@@ -4,18 +4,20 @@ import { Link, useParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Button } from "../components/Button";
 import { ArticleContext } from "../hooks/articleFastRefreshHook";
-import { UserPage } from "./UserPages";
+// import { ThemeContext } from "../hooks/themeFastRefreshHook";
+import { UserPage } from "./UserPage";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 
 export const Home = () => {
   const { articleList } = useContext(ArticleContext);
+  // const { darkMode } = useContext(ThemeContext);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const newsFeedBanner = twMerge(
     classNames(
-      "p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4 bg-yellow-300 text-center"
+      "p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4 bg-yellow-300 dark:bg-yellow-800 text-center"
     )
   );
 
@@ -31,7 +33,9 @@ export const Home = () => {
     )
   );
 
-  const homeContainer = twMerge(classNames(" grid grid-cols-3"));
+  const homeContainer = twMerge(
+    classNames("dark:bg-grey-900 grid grid-cols-3")
+  );
 
   const homeImage = twMerge(
     classNames("border border-black rounded-md w-64 h-60")

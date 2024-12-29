@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../hooks/themeFastRefreshHook";
 
 export const ArmorPage = () => {
   const message = useContext(ThemeContext);

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../hooks/authFastRefreshHook";
 
 import { ProfessionList } from "../components/professions/ProfessionList";
 import { ProfessionDetails } from "../components/professions/ProfessionDetails";

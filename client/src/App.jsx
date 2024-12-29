@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { ThemeContext } from "./contexts/ThemeContext";
+import { ThemeContextProvider } from "./contexts/ThemeContext";
 import { ArticleContextProvider } from "./contexts/ArticleContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
@@ -14,6 +14,7 @@ import { Register } from "./components/users/Register";
 import { Login } from "./components/users/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Forbidden } from "./components/Forbidden";
+import { Rules } from "./components/Rules";
 
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
@@ -23,7 +24,6 @@ import { PowerPage } from "./pages/PowerPage";
 import { WeaponPage } from "./pages/WeaponPage";
 import { ArmorPage } from "./pages/ArmorPage";
 import { ShopPage } from "./pages/ShopPage";
-import { Rules } from "./components/Rules";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -80,11 +80,11 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <ThemeContext.Provider value="Hello from Theme Context">
+        <ThemeContextProvider value="Hello from Theme Context">
           <ArticleContextProvider>
             <RouterProvider router={router} />
           </ArticleContextProvider>
-        </ThemeContext.Provider>
+        </ThemeContextProvider>
       </AuthContextProvider>
     </>
   );

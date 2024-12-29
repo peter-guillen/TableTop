@@ -1,17 +1,26 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
+import { AuthContext } from "../hooks/authFastRefreshHook";
+import { ThemeContext } from "../hooks/themeFastRefreshHook";
+
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-import { FaRegUser, FaUser, FaCartShopping } from "react-icons/fa6";
-
-import { AuthContext } from "../contexts/AuthContext";
+import {
+  FaRegUser,
+  FaUser,
+  FaCartShopping,
+  FaSun,
+  FaMoon,
+} from "react-icons/fa6";
 
 const navLinks = twMerge(classNames("text-white font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 export const Navbar = () => {
   const [openNavbar, setOpenNavbar] = useState(false);
+  const { currentUser, logout } = useContext(AuthContext);
+  const { darkMode, toggleTheme } = useContext(ThemeContext);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +35,6 @@ export const Navbar = () => {
     };
   }, []);
 
-  const { currentUser, logout } = useContext(AuthContext);
   const handleLogout = async () => {
     await logout();
   };
@@ -34,7 +42,7 @@ export const Navbar = () => {
   return (
     <>
       <header>
-        <nav className="flex justify-between items-center bg-gray-700 p-4">
+        <nav className="flex justify-between items-center bg-white dark:bg-gray-700 p-4">
           <div className="flex items-center space-x-4">
             <NavLink className={navLinks} to="/">
               Home
@@ -86,6 +94,22 @@ export const Navbar = () => {
             <NavLink className={userLinks}>Make a Campaign</NavLink>
           </div>
           <div className="flex items-center space-x-4">
+            {darkMode ? (
+              <FaSun
+                style={{ color: "gold" }}
+                onClick={() => {
+                  toggleTheme();
+                }}
+              />
+            ) : (
+              <FaMoon
+                style={{ color: "silver" }}
+                onClick={() => {
+                  toggleTheme();
+                }}
+              />
+            )}
+
             <div>
               <NavLink className={navLinks} to="shop">
                 Shop
@@ -117,9 +141,6 @@ export const Navbar = () => {
               ) : (
                 <>
                   <FaRegUser />
-                  {/* <NavLink className={navLinks} to="register">
-                    Signup
-                  </NavLink> */}
                 </>
               )}
             </div>

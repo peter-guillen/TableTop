@@ -5,8 +5,9 @@ import {
   loginUser as loginUserApi,
   logoutUser as logoutUserApi,
 } from "../api/userApi";
+import { AuthContext } from "../hooks/authFastRefreshHook";
 
-export const AuthContext = createContext();
+// export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
