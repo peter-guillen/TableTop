@@ -14,7 +14,7 @@ import {
   FaMoon,
 } from "react-icons/fa6";
 
-const navLinks = twMerge(classNames("text-white font-bold p-2"));
+const navLinks = twMerge(classNames("dark:text-white  font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 export const Navbar = () => {
@@ -42,7 +42,7 @@ export const Navbar = () => {
   return (
     <>
       <header>
-        <nav className="flex justify-between items-center bg-white dark:bg-gray-700 p-4">
+        <nav className="flex justify-between items-center p-4 bg-slate-200 fixed top-0 left-0 right-0 w-full">
           <div className="flex items-center space-x-4">
             <NavLink className={navLinks} to="/">
               Home
@@ -63,7 +63,7 @@ export const Navbar = () => {
               >
                 Menu
                 {openNavbar && (
-                  <div className="absolute top-full left-0 bg-gray-700 grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
+                  <div className="absolute top-full left-0 bg-white grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
                     <div className="flex flex-col space-y-2">
                       <h3>Powers</h3>
                       <hr />
@@ -147,7 +147,7 @@ export const Navbar = () => {
           </div>
         </nav>
       </header>
-      <main>
+      <main className="pt-28 pb-2">
         <Outlet />
       </main>
     </>

@@ -29,13 +29,11 @@ export const Home = () => {
 
   const homeItem = twMerge(
     classNames(
-      "p-8 pl-20 pr-20 m-5 border-2 rounded-md flex flex-wrap text-center bg-gray-300 place-content-center text-center"
+      "p-8 pl-20 pr-20 m-5 border-2 rounded-md flex flex-wrap text-center bg-gray-400 place-content-center text-center"
     )
   );
 
-  const homeContainer = twMerge(
-    classNames("dark:bg-grey-900 grid grid-cols-3")
-  );
+  const homeContainer = twMerge(classNames("grid grid-cols-3"));
 
   const homeImage = twMerge(
     classNames("border border-black rounded-md w-64 h-60")
