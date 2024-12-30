@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { Button } from "../Button";
 
-export const PowerEdit = ({ onEdit, powerList }) => {
+export const SpellEdit = ({ onEdit, spellList }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -14,15 +14,15 @@ export const PowerEdit = ({ onEdit, powerList }) => {
   });
 
   useEffect(() => {
-    const currentPower = powerList.find((power) => power._id === id);
-    if (currentPower) {
+    const currentSpell = spellList.find((spell) => spell._id === id);
+    if (currentSpell) {
       setFormData({
-        title: currentPower.title,
-        description: currentPower.description,
-        category: currentPower.category,
+        title: currentSpell.title,
+        description: currentSpell.description,
+        category: currentSpell.category,
       });
     }
-  }, [id, powerList]);
+  }, [id, spellList]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,7 +32,7 @@ export const PowerEdit = ({ onEdit, powerList }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await onEdit(id, formData);
-    navigate("/powers");
+    navigate("/spells");
   };
 
   return (

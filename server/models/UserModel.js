@@ -20,8 +20,9 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     const salt = await bcrypt.genSalt(10);
+    const pepper = process.env.PEPPER;
     // This is where I could add the pepper to ensure an extra layer of saftey
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password + pepper, salt);
   }
   next();
 });
@@ -30,7 +31,10 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.comparePassword = async function (password) {
   // -- Return to this to remove String so that it is handled properly by the frontend
   // return await bcrypt.compare(password, this.password);
-  return await bcrypt.compare(String(password), String(this.password));
+  return await bcrypt.compare(
+    String(password) + process.env.PEPPER,
+    String(this.password)
+  );
 };
 
 module.exports = mongoose.model("User", UserSchema);

@@ -65,9 +65,9 @@ export const Navbar = () => {
                 {openNavbar && (
                   <div className="absolute top-full left-0 bg-white grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
                     <div className="flex flex-col space-y-2">
-                      <h3>Powers</h3>
+                      <h3>Spells</h3>
                       <hr />
-                      <NavLink className={navLinks} to="powers">
+                      <NavLink className={navLinks} to="spells">
                         Spells
                       </NavLink>
                       <NavLink className={navLinks} to="professions">

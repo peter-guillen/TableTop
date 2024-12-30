@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import { PowerPreview } from "./PowerPreview";
+import { SpellPreview } from "./SpellPreview";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { Button } from "../Button";
 
-export const PowerList = ({ powerList, onDelete, onReorder }) => {
-  if (!powerList || powerList.length === 0) {
+export const SpellList = ({ spellList, onDelete, onReorder }) => {
+  if (!spellList || spellList.length === 0) {
     return <LoadingSpinner />;
   }
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
-    const reorderedList = Array.from(powerList);
+    const reorderedList = Array.from(spellList);
     const [movedItem] = reorderedList.splice(result.source.index, 1);
     reorderedList.splice(result.destination.index, 0, movedItem);
 
@@ -24,17 +24,17 @@ export const PowerList = ({ powerList, onDelete, onReorder }) => {
 
   return (
     <div>
-      <Link to="/powers/createPower">
-        <Button primary>Create new power</Button>
+      <Link to="/spells/createSpell">
+        <Button primary>Create new spell</Button>
       </Link>
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="powerList">
+        <Droppable droppableId="spellList">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {powerList.map((power, index) => (
+              {spellList.map((spell, index) => (
                 <Draggable
-                  key={power._id}
-                  draggableId={power._id}
+                  key={spell._id}
+                  draggableId={spell._id}
                   index={index}
                 >
                   {(provided) => (
@@ -43,7 +43,7 @@ export const PowerList = ({ powerList, onDelete, onReorder }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <PowerPreview power={power} onDelete={onDelete} />
+                      <SpellPreview spell={spell} onDelete={onDelete} />
                     </div>
                   )}
                 </Draggable>

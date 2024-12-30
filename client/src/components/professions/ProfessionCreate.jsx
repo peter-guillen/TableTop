@@ -19,7 +19,7 @@ export const ProfessionCreate = ({ onCreate }) => {
 
   const [formData, setFormData] = useState({
     title: "",
-    power: "",
+    spell: "",
     weapon: "",
     armor: "",
     levels: [
@@ -89,12 +89,12 @@ export const ProfessionCreate = ({ onCreate }) => {
             value={formData.title}
             placeholder="title"
           />
-          <label htmlFor="power">Power:</label>
+          <label htmlFor="spell">Spell:</label>
           <input
             type="text"
-            name="power"
+            name="spell"
             onChange={handleInputChange}
-            value={formData.power}
+            value={formData.spell}
           />
           <label htmlFor="weapon">Weapon:</label>
           <input

@@ -14,7 +14,7 @@ export const ProfessionEdit = ({ onEdit, professionList }) => {
 
   const [formData, setFormData] = useState({
     title: "",
-    power: "",
+    spell: "",
     weapon: "",
     armor: "",
     levels: [
@@ -36,7 +36,7 @@ export const ProfessionEdit = ({ onEdit, professionList }) => {
     if (currentProfession) {
       setFormData({
         title: currentProfession.title,
-        power: currentProfession.power,
+        spell: currentProfession.spell,
         weapon: currentProfession.weapon,
         armor: currentProfession.armor,
         levels: currentProfession.levels.map((level) => ({ ...level })),
@@ -80,12 +80,12 @@ export const ProfessionEdit = ({ onEdit, professionList }) => {
           onChange={handleInputChange}
           value={formData.title}
         />
-        <label htmlFor="power">Power:</label>
+        <label htmlFor="spell">Spell:</label>
         <input
           type="text"
-          name="power"
+          name="spell"
           onChange={handleInputChange}
-          value={formData.power}
+          value={formData.spell}
         />
         <label htmlFor="weapon">Weapon:</label>
         <input

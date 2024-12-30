@@ -12,11 +12,11 @@ const getProfession = async (req, res) => {
 };
 
 const createProfession = async (req, res) => {
-  const { title, power, weapon, armor, levels } = req.body;
+  const { title, spell, weapon, armor, levels } = req.body;
   try {
     const profession = await Profession.create({
       title,
-      power,
+      spell,
       weapon,
       armor,
       levels,

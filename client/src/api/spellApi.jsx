@@ -1,12 +1,12 @@
 import { apiFetch } from "../utils/apiFetch";
-const API_URL = "http://localhost:1234/api/powers";
+const API_URL = "http://localhost:1234/api/spells";
 
-export const fetchPowers = async () => {
+export const fetchSpells = async () => {
   const response = await apiFetch(API_URL);
   return response;
 };
 
-export const createPower = async (formData) => {
+export const createSpell = async (formData) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -18,25 +18,25 @@ export const createPower = async (formData) => {
   return await response.json();
 };
 
-export const deletePower = async (id) => {
+export const deleteSpell = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });
   if (!response.ok) {
-    throw new Error("Error while deleting power");
+    throw new Error("Error while deleting spell");
   }
   return await response.json();
 };
 
-export const updatePower = async (id, formData) => {
+export const updateSpell = async (id, formData) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
   });
   if (!response.ok) {
-    throw new Error("Error while updating power");
+    throw new Error("Error while updating spell");
   }
   return await response.json();
 };

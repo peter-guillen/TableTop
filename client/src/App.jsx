@@ -20,7 +20,7 @@ import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 import { ArticlePage } from "./pages/ArticlePage";
 import { ProfessionPage } from "./pages/ProfessionPage";
-import { PowerPage } from "./pages/PowerPage";
+import { SpellPage } from "./pages/SpellPage";
 import { WeaponPage } from "./pages/WeaponPage";
 import { ArmorPage } from "./pages/ArmorPage";
 import { ShopPage } from "./pages/ShopPage";
@@ -44,10 +44,10 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="/powers/*"
+          path="/spells/*"
           element={
             <ProtectedRoute roles={["ADMIN"]}>
-              <PowerPage />
+              <SpellPage />
             </ProtectedRoute>
           }
         />

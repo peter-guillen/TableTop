@@ -3,20 +3,20 @@ import { NotFound } from "../../pages/NotFound";
 
 import { Button } from "../Button";
 
-export const PowerDetails = ({ powerList }) => {
+export const SpellDetails = ({ spellList }) => {
   const { id } = useParams();
-  const power = powerList.find((p) => p._id === id);
-  if (!power) {
+  const spell = spellList.find((p) => p._id === id);
+  if (!spell) {
     return <NotFound />;
   }
   return (
     <div>
-      <Link to={`/powers/${id}/edit`}>
+      <Link to={`/spells/${id}/edit`}>
         <Button primary>Edit</Button>
       </Link>
-      <div>{power.title}</div>
-      <div>{power.description}</div>
-      <div>{power.category}</div>
+      <div>{spell.title}</div>
+      <div>{spell.description}</div>
+      <div>{spell.category}</div>
     </div>
   );
 };

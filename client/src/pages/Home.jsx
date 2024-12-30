@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Button } from "../components/Button";
 import { ArticleContext } from "../hooks/articleFastRefreshHook";
-// import { ThemeContext } from "../hooks/themeFastRefreshHook";
 import { UserPage } from "./UserPage";
 
 import classNames from "classnames";
@@ -12,7 +11,6 @@ import { twMerge } from "tailwind-merge";
 
 export const Home = () => {
   const { articleList } = useContext(ArticleContext);
-  // const { darkMode } = useContext(ThemeContext);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const newsFeedBanner = twMerge(

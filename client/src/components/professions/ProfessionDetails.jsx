@@ -38,7 +38,7 @@ export const ProfessionDetails = ({ professionList }) => {
       </section>
       <section className="col-span-2 p-6 mt-4 mb-4 border">
         <h3 className="text-3xl">Proficiencies</h3>
-        <div>Spells: {profession.power}</div>
+        <div>Spells: {profession.spell}</div>
         <div>Weapons: {profession.weapon}</div>
         <div>Armor: {profession.armor}</div>
       </section>

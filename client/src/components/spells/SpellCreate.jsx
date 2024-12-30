@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../Button";
 
-export const PowerCreate = ({ onCreate }) => {
+export const SpellCreate = ({ onCreate }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -25,7 +25,7 @@ export const PowerCreate = ({ onCreate }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await onCreate(formData);
-    navigate("/powers");
+    navigate("/spells");
   };
 
   return (

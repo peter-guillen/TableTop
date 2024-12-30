@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ProfessionSchema = new mongoose.Schema({
   title: String,
-  power: String,
+  spell: String,
   weapon: String,
   armor: String,
   levels: [{ name: String, description: String }],
@@ -32,7 +32,7 @@ module.exports = mongoose.model("Profession", ProfessionSchema);
 // // create the profession schema
 // const professionSchema = new mongoose.Schema({
 //   title: String,
-//   power: String,
+//   spell: String,
 //   weapon: String,
 //   armor: String,
 //   levels: [levelSchema],
@@ -48,7 +48,7 @@ module.exports = mongoose.model("Profession", ProfessionSchema);
 
 // const swordmaster = new Profession({
 //   title: "Swordmaster",
-//   power: "Mastery of the Blade",
+//   spell: "Mastery of the Blade",
 //   weapon: "Sword",
 //   armor: "Heavy",
 //   levels: [

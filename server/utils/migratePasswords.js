@@ -4,7 +4,7 @@ const User = require("../models/UserModel"); // Adjust the path based on your pr
 
 async function migrateUserPasswords() {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/powers-app", {
+    await mongoose.connect("mongodb://127.0.0.1:27017/spells-app", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
