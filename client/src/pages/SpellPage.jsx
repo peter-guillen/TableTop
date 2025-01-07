@@ -1,7 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-// import { AuthContext } from "../contexts/AuthContext";
-import { AuthContext } from "../hooks/authFastRefreshHook";
 
 import { SpellList } from "../components/spells/SpellList";
 import { SpellDetails } from "../components/spells/SpellDetails";
@@ -17,7 +15,6 @@ import {
 
 export const SpellPage = () => {
   const [spellList, setSpellsList] = useState([]);
-  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {

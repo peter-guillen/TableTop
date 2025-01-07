@@ -1,4 +1,4 @@
-const spells = [
+module.exports = [
   { name: "Fireball", description: "Fire burns", category: "Evocation" },
   { name: "Cone of Cold", description: "An ice cone", category: "Evocation" },
   {

@@ -1,10 +1,14 @@
 import { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-// import { AuthContext } from "../contexts/AuthContext";
 import { AuthContext } from "../hooks/authFastRefreshHook";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export const ProtectedRoute = ({ children, roles }) => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, isLoading } = useContext(AuthContext);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (!currentUser) {
     return <Navigate to="/login" />;

@@ -6,13 +6,7 @@ import { ThemeContext } from "../hooks/themeFastRefreshHook";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-import {
-  FaRegUser,
-  FaUser,
-  FaCartShopping,
-  FaSun,
-  FaMoon,
-} from "react-icons/fa6";
+import { FaRegUser, FaUser, FaSun, FaMoon } from "react-icons/fa6";
 
 const navLinks = twMerge(classNames("dark:text-white  font-bold p-2"));
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
@@ -39,10 +33,14 @@ export const Navbar = () => {
     await logout();
   };
 
+  const RoleBasedRender = ({ role, children }) => {
+    return currentUser.role === role ? children : null;
+  };
+
   return (
     <>
       <header>
-        <nav className="flex justify-between items-center p-4 bg-slate-200 fixed top-0 left-0 right-0 w-full">
+        <nav className="flex justify-between items-center p-4 bg-gray-200 dark:bg-gray-700  fixed top-0 left-0 right-0 w-full">
           <div className="flex items-center space-x-4">
             <NavLink className={navLinks} to="/">
               Home
@@ -63,7 +61,7 @@ export const Navbar = () => {
               >
                 Menu
                 {openNavbar && (
-                  <div className="absolute top-full left-0 bg-white grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
+                  <div className="absolute top-full left-0 bg-gray-200 dark:bg-gray-700 grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
                     <div className="flex flex-col space-y-2">
                       <h3>Spells</h3>
                       <hr />
@@ -76,7 +74,7 @@ export const Navbar = () => {
                     </div>
                     <div className="flex flex-col space-y-2 ">
                       <h3>Equipment</h3>
-                      <hr />
+                      <hr className="dark:bg-black" />
                       <NavLink className={navLinks} to="equipment">
                         Items
                       </NavLink>
@@ -91,7 +89,14 @@ export const Navbar = () => {
                 )}
               </div>
             </div>
-            <NavLink className={userLinks}>Make a Campaign</NavLink>
+            {currentUser && currentUser.role === "ADMIN" ? (
+              <NavLink className={userLinks} to="users">
+                USERS
+              </NavLink>
+            ) : null}
+            {/* <RoleBasedRender role={"ADMIN"}>
+              <NavLink className={userLinks}>Make a Campaign</NavLink>
+            </RoleBasedRender> */}
           </div>
           <div className="flex items-center space-x-4">
             {darkMode ? (
@@ -103,23 +108,13 @@ export const Navbar = () => {
               />
             ) : (
               <FaMoon
-                style={{ color: "silver" }}
+                style={{ color: "black" }}
                 onClick={() => {
                   toggleTheme();
                 }}
               />
             )}
 
-            <div>
-              <NavLink className={navLinks} to="shop">
-                Shop
-              </NavLink>
-            </div>
-            <div>
-              <NavLink className={userLinks} to="shoppingCart">
-                <FaCartShopping />
-              </NavLink>
-            </div>
             {currentUser ? (
               <div>
                 <NavLink className={navLinks} onClick={handleLogout}>

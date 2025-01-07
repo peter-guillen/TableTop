@@ -13,12 +13,6 @@ export const Home = () => {
   const { articleList } = useContext(ArticleContext);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const newsFeedBanner = twMerge(
-    classNames(
-      "p-5 m-5 border-2 rounded-md grid grid-cols-3 gap-4 bg-yellow-300 dark:bg-yellow-800 text-center"
-    )
-  );
-
   const newsFeedContainer = twMerge(
     classNames(
       "p-8 pl-20 pr-20 m-5 border-2 rounded-md grid grid-cols-3 gap-x-20 text-center"
@@ -78,11 +72,6 @@ export const Home = () => {
 
   return (
     <>
-      <section className={newsFeedBanner}>
-        <img src="" alt="" />
-        <div className="text-center text-xl">50% off sale on all classes!</div>
-      </section>
-
       {/* <UserPage /> */}
 
       <section className={homeContainer}>

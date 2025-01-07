@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 1234;
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const Spell = require("./seeds/spells");
 
 const userRoutes = require("./routes/users");
 const articleRoutes = require("./routes/articles");
@@ -12,6 +13,20 @@ const spellsRoutes = require("./routes/spells");
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
+
+// const seedSpells = async () => {
+//   try {
+//     await Spell.deleteMany(); // Clear existing data if needed
+//     await Spell.insertMany(spells); // Insert new data
+//     console.log("Spells seeded successfully!");
+//     mongoose.connection.close(); // Close the connection
+//   } catch (err) {
+//     console.error("Error seeding spells:", err);
+//     mongoose.connection.close();
+//   }
+// };
+
+// seedSpells();
 
 app.use(express.json());
 app.use(cookieParser());

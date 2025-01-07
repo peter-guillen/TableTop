@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   fetchUsers,
   createUser as createUserApi,
@@ -6,8 +6,6 @@ import {
   logoutUser as logoutUserApi,
 } from "../api/userApi";
 import { AuthContext } from "../hooks/authFastRefreshHook";
-
-// export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
@@ -83,6 +81,8 @@ export const AuthContextProvider = ({ children }) => {
       } catch (error) {
         console.error("Error fetching user:", error);
         setCurrentUser(null);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUser();

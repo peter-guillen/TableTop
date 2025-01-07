@@ -12,22 +12,12 @@ export const UserPage = () => {
     fetchData();
   }, []);
 
-  const testME = async (token) => {
-    const response = await fetch("http://localhost:1234/api/users/me", {
-      method: "GET",
-      headers: { Authorization: `Bearer: ${token}` },
-      credentials: "include",
-    });
-    const data = await response.json();
-    console.log("ME USERPAGE - RESPONSE", response);
-    console.log("ME USERPAGE - DATA", data);
-    return response;
-  };
-
   return (
     <div>
       <div>
-        <div onClick={testME}>TESTING</div>
+        {userList.map((user) => (
+          <div key={user._id}>{user.username}</div>
+        ))}
       </div>
     </div>
   );

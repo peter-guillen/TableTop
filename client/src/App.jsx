@@ -23,7 +23,7 @@ import { ProfessionPage } from "./pages/ProfessionPage";
 import { SpellPage } from "./pages/SpellPage";
 import { WeaponPage } from "./pages/WeaponPage";
 import { ArmorPage } from "./pages/ArmorPage";
-import { ShopPage } from "./pages/ShopPage";
+import { UserPage } from "./pages/UserPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,26 +51,10 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/weapons"
-          element={
-            // <ProtectedRoute roles={["ADMIN", "USER"]}>
-            //   <WeaponPage />
-            // </ProtectedRoute>
-            <WeaponPage />
-          }
-        />
-        <Route
-          path="/armors"
-          element={
-            // <ProtectedRoute roles={["ADMIN", "USER"]}>
-            //   <ArmorPage />
-            // </ProtectedRoute>
-            <ArmorPage />
-          }
-        />
+        <Route path="/weapons" element={<WeaponPage />} />
+        <Route path="/armors" element={<ArmorPage />} />
+        <Route path="/users" element={<UserPage />}></Route>
       </Route>
-      <Route path="/shop/*" element={<ShopPage />}></Route>
       <Route path="*" element={<NotFound />} />
     </Route>
   )

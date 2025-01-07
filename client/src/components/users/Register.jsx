@@ -34,7 +34,7 @@ export const Register = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
           <form onSubmit={handleSubmit} className="space-y-4">

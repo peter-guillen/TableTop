@@ -73,7 +73,7 @@ export const WeaponPage = () => {
   const [classDetails, setClassDetails] = useState(null);
 
   const fetchClassDetails = async () => {
-    const response = await fetch("https://www.dnd5eapi.co/api/classes/fighter");
+    const response = await fetch("https://www.dnd5eapi.co/api/classes");
     const data = await response.json();
     setClassDetails(data);
   };
@@ -82,20 +82,37 @@ export const WeaponPage = () => {
     fetchClassDetails();
   }, []);
 
+  const fetchEquipmentDetails = async () => {
+    const response = await fetch(
+      "https://www.dnd5eapi.co/api/equipment-categories/"
+    );
+    const data = await response.json();
+    setClassDetails(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    fetchEquipmentDetails();
+  }, []);
+
   return (
     <div>
-      {classDetails && (
-        <>
-          <h1>{classDetails.name}</h1>
-          <p>Hit Die: {classDetails.hit_die}</p>
-          <h2>Proficiencies:</h2>
-          <ul>
-            {classDetails.proficiencies.map((prof) => (
-              <li key={prof.index}>{prof.name}</li>
-            ))}
-          </ul>
-        </>
-      )}
+      {/* <div>
+        {classDetails && (
+          <>
+            <h1>{classDetails.name}</h1>
+            <p>Hit Die: {classDetails.hit_die}</p>
+            <h2>Proficiencies:</h2>
+            <ul>
+              {classDetails.proficiencies.map((prof) => (
+                <li key={prof.index}>{prof.name}</li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div> */}
+
+      <div></div>
     </div>
   );
 };
