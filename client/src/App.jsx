@@ -38,7 +38,7 @@ const router = createBrowserRouter(
         <Route
           path="/professions/*"
           element={
-            <ProtectedRoute roles={["ADMIN", "MODERATOR", "USER"]}>
+            <ProtectedRoute roles={["ADMIN", "MODERATOR", "EDITOR", "USER"]}>
               <ProfessionPage />
             </ProtectedRoute>
           }
@@ -46,7 +46,7 @@ const router = createBrowserRouter(
         <Route
           path="/spells/*"
           element={
-            <ProtectedRoute roles={["ADMIN"]}>
+            <ProtectedRoute roles={["ADMIN", "MODERATOR", "EDITOR", "USER"]}>
               <SpellPage />
             </ProtectedRoute>
           }

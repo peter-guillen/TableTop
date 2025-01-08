@@ -11,7 +11,12 @@ const {
   updateSpell,
 } = require("../controllers/spellController");
 
-router.get("/", checkAuthenticated, checkAuthorization(["ADMIN"]), getSpells);
+router.get(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["ADMIN", "MODERATOR", "EDITOR", "USER", "GUEST"]),
+  getSpells
+);
 router.post("/", createSpell);
 
 router.get("/:id", getSpell);

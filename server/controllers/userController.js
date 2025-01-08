@@ -24,9 +24,9 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   // Verify that the username is correct
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
   if (!user) {
     return res.status(401).json({
       success: false,
@@ -57,6 +57,7 @@ const loginUser = async (req, res) => {
       user: {
         id: user._id,
         username: user.username, // Used for frontend user welcome
+        email: user.email,
         role: user.role, // Used for checkAuthorization middleware and frontend protectedRoute
       },
     });
@@ -75,7 +76,7 @@ const logoutUser = (req, res) => {
 
 const userMe = async (req, res) => {
   // Finds the user ignoring by userId and not password
-  const user = await User.findById(req.user.userId).select("-password");
+  const user = await User.findById(req.user.email).select("-password");
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

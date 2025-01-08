@@ -54,6 +54,8 @@ export const SpellList = ({ spellList, onDelete, onReorder }) => {
                       {...provided.dragHandleProps}
                     >
                       <SpellPreview spell={spell} onDelete={onDelete} />
+
+                      <Link to={`/spell/${spell.index}`}>{spell.name}</Link>
                     </div>
                   )}
                 </Draggable>
@@ -90,16 +92,21 @@ export const SpellList = ({ spellList, onDelete, onReorder }) => {
           )}
         </Droppable>
       </DragDropContext> */}
-      {/* <div>
+      <div>
         {spellDetails &&
           spellDetails.map((spell) => (
-            <div key={spell.index}>
-              <h2>{spell.name}</h2>
-              <p>{spell.url}</p>
-              <p>{spell.level}</p>
+            <div
+              key={spell.index}
+              className="flex text-white bg-gray-500 m-4 p-2"
+            >
+              <Link to={`/spell/${spell.index}`}>
+                <h2>{spell.name}</h2>
+                <p>Level: {spell.level}</p>
+              </Link>
+              <SpellPreview spell={spell}></SpellPreview>
             </div>
           ))}
-      </div> */}
+      </div>
     </div>
   );
 };

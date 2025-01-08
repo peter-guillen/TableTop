@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (formData) => {
     const response = await loginUserApi(formData);
-    if (!formData.username || !formData.password) {
+    if (!formData.email || !formData.password) {
       setError(error.message);
       setErrorMessage("Please enter both username and password");
       return;
