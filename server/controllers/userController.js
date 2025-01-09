@@ -76,7 +76,7 @@ const logoutUser = (req, res) => {
 
 const userMe = async (req, res) => {
   // Finds the user ignoring by userId and not password
-  const user = await User.findById(req.user.email).select("-password");
+  const user = await User.findById(req.user.userId).select("-password");
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
