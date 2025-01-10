@@ -33,10 +33,6 @@ export const Navbar = () => {
     await logout();
   };
 
-  const RoleBasedRender = ({ role, children }) => {
-    return currentUser.role === role ? children : null;
-  };
-
   return (
     <>
       <header>
@@ -47,9 +43,6 @@ export const Navbar = () => {
             </NavLink>
             <NavLink className={navLinks} to="rules">
               Rules
-            </NavLink>
-            <NavLink className={userLinks} to="characters">
-              Characters
             </NavLink>
             <NavLink className={navLinks} to="articles">
               Articles
@@ -94,9 +87,6 @@ export const Navbar = () => {
                 USERS
               </NavLink>
             ) : null}
-            {/* <RoleBasedRender role={"ADMIN"}>
-              <NavLink className={userLinks}>Make a Campaign</NavLink>
-            </RoleBasedRender> */}
           </div>
           <div className="flex items-center space-x-4">
             {darkMode ? (
