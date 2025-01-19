@@ -24,7 +24,6 @@ import { SpellPage } from "./pages/SpellPage";
 import { WeaponPage } from "./pages/WeaponPage";
 import { ArmorPage } from "./pages/ArmorPage";
 import { UserPage } from "./pages/UserPage";
-import { WeaponDetails } from "./pages/WeaponDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,7 +52,6 @@ const router = createBrowserRouter(
           }
         />
         <Route path="/weapons" element={<WeaponPage />} />
-        <Route path="/weapons/:weaponIndex" element={<WeaponDetails />} />
         <Route path="/armors" element={<ArmorPage />} />
         <Route path="/users" element={<UserPage />}></Route>
       </Route>

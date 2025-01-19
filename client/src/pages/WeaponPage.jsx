@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
+import { WeaponDetails } from "../components/weapons/WeaponDetails";
+import { WeaponList } from "../components/weapons/WeaponList";
 
 export const WeaponPage = () => {
   const [weaponsList, setWeaponsList] = useState([]);
@@ -32,6 +34,8 @@ export const WeaponPage = () => {
 
   return (
     <div>
+      {/* <WeaponList />
+      <WeaponDetails /> */}
       <div className="flex flex-wrap justify-center">
         <div>
           <Button
@@ -61,7 +65,7 @@ export const WeaponPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-col-2 justify-center">
         <div>
           {weaponsList.length > 0 ? (
             weaponsList.map((weapon) => (
@@ -77,26 +81,30 @@ export const WeaponPage = () => {
             <p>Loading weapons...</p>
           )}
         </div>
-        {itemDetails && (
-          <div>
-            <h2>Weapon Details</h2>
-            <p>
-              <strong>Name:</strong> {itemDetails.name}
-            </p>
-            <p>
-              <strong>Cost:</strong> {itemDetails.cost?.quantity}{" "}
-              {itemDetails.cost?.unit}
-            </p>
-            <p>
-              <strong>Damage:</strong> {itemDetails.damage?.damage_dice} (
-              {itemDetails.damage?.damage_type?.name})
-            </p>
-            <p>
-              <strong>Weight:</strong> {itemDetails.weight} lbs
-            </p>
-            {/* Add more details as needed */}
-          </div>
-        )}
+        <div>
+          <h3>
+            <strong>Weapon Details</strong>
+          </h3>
+          {itemDetails && (
+            <div>
+              <p>
+                <strong>Name:</strong> {itemDetails.name}
+              </p>
+              <p>
+                <strong>Cost:</strong> {itemDetails.cost?.quantity}{" "}
+                {itemDetails.cost?.unit}
+              </p>
+              <p>
+                <strong>Damage:</strong> {itemDetails.damage?.damage_dice} (
+                {itemDetails.damage?.damage_type?.name})
+              </p>
+              <p>
+                <strong>Weight:</strong> {itemDetails.weight} lbs
+              </p>
+              {/* Add more details as needed */}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

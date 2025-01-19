@@ -5,6 +5,7 @@ import { Footer } from "../components/Footer";
 import { Button } from "../components/Button";
 import { ArticleContext } from "../hooks/articleFastRefreshHook";
 import { UserPage } from "./UserPage";
+import Bubble from "../components/Bubble";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
@@ -108,6 +109,9 @@ export const Home = () => {
         </div>
       </section>
 
+      <section>
+        <Bubble></Bubble>
+      </section>
       <section className="grid grid-cols-3 text-center">
         {renderedArticle}
       </section>
