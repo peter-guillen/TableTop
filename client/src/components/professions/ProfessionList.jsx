@@ -10,7 +10,7 @@ export const ProfessionList = ({ professionList, onDelete }) => {
   }
   return (
     <div>
-      <header className={"bg-gray-200"}>
+      <header className={"bg-gray-600"}>
         <h2 className={"text-4xl text-center"}>Professions</h2>
         <p className="p-5 pt-0 m-5">
           This is a list of professions, the directory if you will. Roles that
@@ -24,16 +24,13 @@ export const ProfessionList = ({ professionList, onDelete }) => {
         </p>
       </header>
 
-      <Link to={`/professions/createProfession`}>
-        <Button primary>Create a Profession!</Button>
-      </Link>
-
       <div className="grid grid-cols-3">
-        {professionList.map((profession) => (
-          <div key={profession._id}>
-            <ProfessionPreview profession={profession} onDelete={onDelete} />
-          </div>
-        ))}
+        {professionList &&
+          professionList.map((profession) => (
+            <div key={profession._id}>
+              <ProfessionPreview profession={profession} onDelete={onDelete} />
+            </div>
+          ))}
       </div>
     </div>
   );

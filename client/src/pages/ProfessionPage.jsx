@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { AuthContext } from "../hooks/authFastRefreshHook";
 
 import { ProfessionList } from "../components/professions/ProfessionList";
@@ -13,6 +13,8 @@ import {
   deleteProfession,
   updateProfession,
 } from "../api/professionApi";
+
+import { Button } from "../components/Button";
 
 export const ProfessionPage = () => {
   const [professionList, setProfessionList] = useState([]);
@@ -61,6 +63,10 @@ export const ProfessionPage = () => {
 
   return (
     <>
+      <Link to={`/professions/createProfession`}>
+        <Button primary>Create a Profession!</Button>
+      </Link>
+
       <Routes>
         <Route
           path="/"
