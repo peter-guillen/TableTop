@@ -29,24 +29,31 @@ export const ArticleCreate = () => {
   return (
     <>
       <form action="" onSubmit={handleSubmit}>
+        <label for="title">Title:</label>
         <input
           type="text"
           name="title"
           onChange={handleInputChange}
           value={formData.title}
         />
+        <label for="title">Description:</label>
+
         <input
           type="text"
           name="body"
           onChange={handleInputChange}
           value={formData.body}
         />
+        <label for="title">Author:</label>
+
         <input
           type="text"
           name="author"
           onChange={handleInputChange}
           value={formData.author}
         />
+        <label for="title">Synopsis:</label>
+
         <input
           type="text"
           name="synopsis"

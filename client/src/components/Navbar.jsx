@@ -67,10 +67,8 @@ export const Navbar = () => {
                     </div>
                     <div className="flex flex-col space-y-2 ">
                       <h3>Equipment</h3>
-                      <hr className="dark:bg-black" />
-                      <NavLink className={navLinks} to="equipment">
-                        Items
-                      </NavLink>
+                      <hr className="dark:text-red" />
+
                       <NavLink className={navLinks} to="weapons">
                         Weapons
                       </NavLink>

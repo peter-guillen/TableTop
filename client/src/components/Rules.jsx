@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 const attributeContainer = twMerge(classNames("flex flex-wrap gap-2"));
 const attributeItem = twMerge(
   classNames(
-    "w-1/6 px-4 py-2 border border-gray-300 rounded-lg flex-1 min-w-[30%] justify-around"
+    "flex00 col-span-2 row-span-2 w-1/6 px-4 py-2 border border-gray-300 rounded-lg flex-1 min-w-[30%] justify-around"
   )
 );
 const attributeInput = twMerge(
