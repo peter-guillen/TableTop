@@ -57,7 +57,7 @@ export const Navbar = () => {
                   <div className="absolute top-full left-0 bg-gray-200 dark:bg-gray-700 grid grid-cols-2 gap-4 p-4 w-64 rounded-md">
                     <div className="flex flex-col space-y-2">
                       <h3>Spells</h3>
-                      <hr />
+                      <hr className="border-black dark:border-white" />
                       <NavLink className={navLinks} to="spells">
                         Spells
                       </NavLink>
@@ -67,8 +67,7 @@ export const Navbar = () => {
                     </div>
                     <div className="flex flex-col space-y-2 ">
                       <h3>Equipment</h3>
-                      <hr className="dark:text-red" />
-
+                      <hr className="border-black dark:border-white" />
                       <NavLink className={navLinks} to="weapons">
                         Weapons
                       </NavLink>

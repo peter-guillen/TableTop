@@ -17,7 +17,9 @@ export const ArticleList = ({ articleList }) => {
       <Link to="/articles/createArticle">
         <Button primary>New Article</Button>
       </Link>
-      <div className="p-2 m-2">{renderedArticle}</div>
+      <div className="p-2 m-2 flex flex-col justify-center items-center">
+        {renderedArticle}
+      </div>
     </div>
   );
 };

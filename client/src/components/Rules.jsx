@@ -48,7 +48,6 @@ const reducer = (state, action) => {
       updatedStats = { ...state.stats };
       if (action.payload.value === "claymore") {
         if (updatedStats.strength >= 12) {
-          console.log("No penalty");
         } else {
           updatedStats.dexterity -= 1;
         }
@@ -100,9 +99,9 @@ export const Rules = () => {
   };
 
   return (
-    <div>
-      <div className="container mx-auto px-4 grid grid-cols-4 gap-2 p-4">
-        <div className="col-span-3 flex flex-wrap items-center justify-center gap-4">
+    <div className="h-screen">
+      <div className="container w-2/3 mx-auto px-4 grid grid-cols-4 gap-2 p-4">
+        <div className="col-span-2 flex flex-wrap items-center justify-center gap-4">
           <div className={attributeItem}>
             <label>Strength: </label>
             <input
@@ -192,7 +191,7 @@ export const Rules = () => {
             <div>Modifier: {Math.floor((state.stats.charisma - 10) / 2)}</div>
           </div>
         </div>
-        <div>
+        <div className="col-span-2 border text-center">
           <div>Total Stats:</div>
           <div>Strength: {state.stats.strength || 0}</div>
           <div>Mod: {Math.floor((state.stats.strength - 10) / 2)}</div>
@@ -204,10 +203,32 @@ export const Rules = () => {
         </div>
         <div>
           <div>
-            <div>This is something else</div>
+            <div>
+              <div>Shield: </div>
+              <div>
+                <input
+                  type="radio"
+                  id="shield"
+                  name="armor"
+                  value="shield"
+                  onChange={handleArmorChange}
+                />
+                <label htmlFor="shield"> Shield</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="noshield"
+                  name="armor"
+                  value="noshield"
+                  onChange={handleArmorChange}
+                />
+                <label htmlFor="noshield"> No Shield</label>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="bg-green-300 flex items-center justify-center">
+        <div>
           <div>Armor: </div>
           <div>
             <input
@@ -217,7 +238,7 @@ export const Rules = () => {
               value="lightArmor"
               onChange={handleArmorChange}
             />
-            <label htmlFor="lightArmor">Light</label>
+            <label htmlFor="lightArmor"> Light</label>
           </div>
           <div>
             <input
@@ -227,7 +248,7 @@ export const Rules = () => {
               value="mediumArmor"
               onChange={handleArmorChange}
             />
-            <label htmlFor="mediumArmor">Medium</label>
+            <label htmlFor="mediumArmor"> Medium</label>
           </div>
           <div>
             <input
@@ -237,10 +258,10 @@ export const Rules = () => {
               value="heavyArmor"
               onChange={handleArmorChange}
             />
-            <label htmlFor="heavyArmor">Heavy</label>
+            <label htmlFor="heavyArmor"> Heavy</label>
           </div>
         </div>
-        <div className="bg-red-300 flex flex-wrap items-center justify-center">
+        <div>
           <div>Weapon: </div>
           <div>
             <input
@@ -250,7 +271,7 @@ export const Rules = () => {
               value="claymore"
               onChange={handleWeaponChange}
             />
-            <label htmlFor="claymore">Claymore</label>
+            <label htmlFor="claymore"> Claymore</label>
           </div>
           <div>
             <input
@@ -260,7 +281,7 @@ export const Rules = () => {
               value="sword"
               onChange={handleWeaponChange}
             />
-            <label htmlFor="sword">Sword</label>
+            <label htmlFor="sword"> Sword</label>
           </div>
           <div>
             <input
@@ -270,7 +291,7 @@ export const Rules = () => {
               value="dagger"
               onChange={handleWeaponChange}
             />
-            <label htmlFor="dagger">Dagger</label>
+            <label htmlFor="dagger"> Dagger</label>
           </div>
           <div>
             <input
@@ -280,7 +301,7 @@ export const Rules = () => {
               value="spear"
               onChange={handleWeaponChange}
             />
-            <label htmlFor="spear">Spear</label>
+            <label htmlFor="spear"> Spear</label>
           </div>
           <div>
             <input
@@ -290,7 +311,7 @@ export const Rules = () => {
               value="staff"
               onChange={handleWeaponChange}
             />
-            <label htmlFor="staff">Staff</label>
+            <label htmlFor="staff"> Staff</label>
           </div>
         </div>
         {/* <div className="bg-yellow-300 col-span-2 flex items-center justify-center">
