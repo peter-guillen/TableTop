@@ -33,39 +33,40 @@ export const SpellList = ({ spellList, onDelete, onReorder }) => {
   };
 
   return (
-    <div>
-      <Link to="/spells/createSpell">
-        <Button primary>Create new spell</Button>
-      </Link>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="spellList">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {spellList.map((spell, index) => (
-                <Draggable
-                  key={spell._id}
-                  draggableId={spell._id}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <SpellPreview spell={spell} onDelete={onDelete} />
+    <div className="flex justify-center">
+      <div className="w-3/4">
+        <Link to="/spells/createSpell">
+          <Button primary>Create new spell</Button>
+        </Link>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="spellList">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {spellList.map((spell, index) => (
+                  <Draggable
+                    key={spell._id}
+                    draggableId={spell._id}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <SpellPreview spell={spell} onDelete={onDelete} />
 
-                      <Link to={`/spell/${spell.index}`}>{spell.name}</Link>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-      {/* <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Link to={`/spell/${spell.index}`}>{spell.name}</Link>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {/* <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="spellDetails">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -92,20 +93,23 @@ export const SpellList = ({ spellList, onDelete, onReorder }) => {
           )}
         </Droppable>
       </DragDropContext> */}
-      <div>
-        {spellDetails &&
-          spellDetails.map((spell) => (
-            <div
-              key={spell.index}
-              className="flex text-white bg-gray-500 m-4 p-2"
-            >
-              <Link to={`/spell/${spell.index}`}>
-                <h2>{spell.name}</h2>
-                <p>Level: {spell.level}</p>
-              </Link>
-              <SpellPreview spell={spell}></SpellPreview>
-            </div>
-          ))}
+        <div>
+          {spellDetails &&
+            spellDetails.map((spell) => (
+              <div
+                key={spell.index}
+                className="flex flex-row justify-between items-center text-white bg-gray-500 m-4 p-2 rounded-md"
+              >
+                <Link to={`/spell/${spell.index}`} className="flex flex-row">
+                  <h2>{spell.name}</h2>
+                </Link>
+                <div className="flex flex-row items-center">
+                  <p>Level: {spell.level}</p>
+                  <SpellPreview spell={spell}></SpellPreview>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

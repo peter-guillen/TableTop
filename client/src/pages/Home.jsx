@@ -22,7 +22,7 @@ export const Home = () => {
 
   const homeItem = twMerge(
     classNames(
-      "p-8 pl-20 pr-20 m-5 border-2 rounded-md flex flex-wrap text-center bg-gray-400 place-content-center text-center"
+      "p-8 pl-20 pr-20 m-5 border-2 rounded-md flex flex-wrap text-center bg-gray-200 dark:bg-gray-600 place-content-center text-center"
     )
   );
 
