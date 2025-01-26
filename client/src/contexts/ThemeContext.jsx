@@ -8,10 +8,9 @@ function getCookie(name) {
 }
 
 export const ThemeContextProvider = ({ children }) => {
-  // const [darkMode, setDarkMode] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = getCookie("theme");
-    return savedTheme === "dark"; // Convert string to boolean
+    return savedTheme === "dark";
   });
 
   useEffect(() => {
@@ -24,9 +23,6 @@ export const ThemeContextProvider = ({ children }) => {
     document.cookie = "theme=dark; path=/; max-age=" + 60 * 60 * 24 * 365;
   }, [darkMode]);
 
-  // const toggleTheme = () => {
-  //   setDarkMode(!darkMode);
-  // };
   const toggleTheme = () => {
     setDarkMode((prevMode) => !prevMode);
   };

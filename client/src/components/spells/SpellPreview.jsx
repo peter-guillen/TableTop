@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-
-import { SpellDetails } from "./SpellDetails";
 import { Button } from "../Button";
 
 export const SpellPreview = ({ spell, onDelete }) => {

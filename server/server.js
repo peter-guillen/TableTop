@@ -14,20 +14,6 @@ const spellsRoutes = require("./routes/spells");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
 
-// const seedSpells = async () => {
-//   try {
-//     await Spell.deleteMany(); // Clear existing data if needed
-//     await Spell.insertMany(spells); // Insert new data
-//     console.log("Spells seeded successfully!");
-//     mongoose.connection.close(); // Close the connection
-//   } catch (err) {
-//     console.error("Error seeding spells:", err);
-//     mongoose.connection.close();
-//   }
-// };
-
-// seedSpells();
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(
