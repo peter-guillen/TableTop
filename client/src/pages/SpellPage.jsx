@@ -78,11 +78,11 @@ export const SpellPage = () => {
         />
 
         <Route
-          path="/spells/custom/:id"
+          path="customSpell/:id"
           element={<SpellDetails spellList={spellList} />}
         />
         <Route path="dndSpell" element={<SpellApiDnd />} />
-        <Route path="spells/:index" element={<SpellDetailsDnd />} />
+        <Route path="dndSpell/:index" element={<SpellDetailsDnd />} />
         <Route
           path=":id/edit"
           element={<SpellEdit onEdit={handleEdit} spellList={spellList} />}

@@ -45,8 +45,6 @@ export const SpellList = ({ spellList, onDelete, onReorder }) => {
                         {...provided.dragHandleProps}
                       >
                         <SpellPreview spell={spell} onDelete={onDelete} />
-
-                        <Link to={`/spells/${spell.index}`}>{spell.name}</Link>
                       </div>
                     )}
                   </Draggable>

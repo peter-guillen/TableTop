@@ -21,7 +21,10 @@ export const SpellApiDnd = () => {
               key={spell.index}
               className="flex flex-row justify-between items-center text-white bg-gray-500 m-4 p-2 rounded-md"
             >
-              <Link to={`/spells/${spell.index}`} className="flex flex-row">
+              <Link
+                to={`/spells/dndSpell/${spell.index}`}
+                className="flex flex-row"
+              >
                 <h2>{spell.name}</h2>
               </Link>
               <div className="flex flex-row items-center">
