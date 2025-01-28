@@ -23,6 +23,7 @@ export const deleteSpell = async (id) => {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });
+  console.log(id);
   if (!response.ok) {
     throw new Error("Error while deleting spell");
   }

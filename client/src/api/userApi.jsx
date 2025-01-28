@@ -68,3 +68,15 @@ export const logoutUser = async () => {
   });
   return await response.json();
 };
+
+export const deleteUser = async (id) => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+  console.log(id, "USER API ID");
+  if (!response.ok) {
+    throw new Error("Error while deleting user");
+  }
+  return await response.json();
+};

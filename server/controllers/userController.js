@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const mongoose = require("mongoose");
 const generateToken = require("../middlewares/jwtoken");
 
 // Find all users
@@ -74,6 +75,18 @@ const logoutUser = (req, res) => {
     .json({ success: true, message: "Logout successful" });
 };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "User Not Found!" });
+  }
+  const user = await User.findByIdAndDelete(id);
+  if (!user) {
+    res.status(400).json({ error: "User Not Found!" });
+  }
+  res.status(200).json(user);
+};
+
 const userMe = async (req, res) => {
   // Finds the user ignoring by userId and not password
   const user = await User.findById(req.user.userId).select("-password");
@@ -88,5 +101,6 @@ module.exports = {
   createUser,
   loginUser,
   logoutUser,
+  deleteUser,
   userMe,
 };

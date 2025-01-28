@@ -8,6 +8,7 @@ const {
   createUser,
   loginUser,
   logoutUser,
+  deleteUser,
   userMe,
 } = require("../controllers/userController");
 
@@ -15,6 +16,7 @@ router.get("/", getUsers);
 router.post("/register", createUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
+router.delete("/:id", deleteUser);
 
 router.get("/me", checkAuthenticated, userMe);
 
