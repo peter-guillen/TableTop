@@ -63,7 +63,7 @@ export const SpellPage = () => {
       </div>
       <Routes>
         <Route
-          path="/customSpell"
+          path="customSpell"
           element={
             <SpellList
               spellList={spellList}
@@ -73,17 +73,20 @@ export const SpellPage = () => {
           }
         />
         <Route
-          path="/createSpell"
+          path="createSpell"
           element={<SpellCreate onCreate={handleCreate} />}
         />
 
-        <Route path="/dndSpell" element={<SpellApiDnd />} />
-        <Route path="/spells/:index" element={<SpellDetailsDnd />} />
         <Route
-          path="/:id/edit"
+          path="/spells/custom/:id"
+          element={<SpellDetails spellList={spellList} />}
+        />
+        <Route path="dndSpell" element={<SpellApiDnd />} />
+        <Route path="spells/:index" element={<SpellDetailsDnd />} />
+        <Route
+          path=":id/edit"
           element={<SpellEdit onEdit={handleEdit} spellList={spellList} />}
         />
-        <Route path="/:id" element={<SpellDetails spellList={spellList} />} />
       </Routes>
     </>
   );

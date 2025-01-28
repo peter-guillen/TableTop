@@ -64,7 +64,7 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <ThemeContextProvider value="Hello from Theme Context">
+        <ThemeContextProvider>
           <ArticleContextProvider>
             <RouterProvider router={router} />
           </ArticleContextProvider>
