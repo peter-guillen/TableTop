@@ -16,6 +16,7 @@ export const SpellDetailsDnd = () => {
   if (!currentSpell) return <div>Loading...</div>;
 
   console.log(currentSpell);
+  // console.log(currentSpell.damage.damage_at_slot_level);
 
   return (
     <div className="flex justify-center m-8">
@@ -24,12 +25,60 @@ export const SpellDetailsDnd = () => {
         <p className="">
           <strong>Description:</strong> {currentSpell.desc}
         </p>
+
+        <p>
+          <strong>Range:</strong> {currentSpell.range}
+        </p>
+        <p>
+          <strong>Attack Type:</strong> {currentSpell.attack_type}
+        </p>
+        <p>
+          <strong>Casting Time:</strong> {currentSpell.casting_time}
+        </p>
+        <p>
+          <strong>Level:</strong> {currentSpell.level}
+        </p>
+        <p>
+          <strong>School:</strong>
+          {currentSpell.school ? currentSpell.school.name : "Loading"}
+        </p>
+
         <p>
           <strong>Higher Level:</strong> {currentSpell.higher_level}
         </p>
-        <p>
-          <strong>range</strong> {currentSpell.range}
-        </p>
+
+        {currentSpell.damage?.damage_at_slot_level ? (
+          <div>
+            <strong>Damage:</strong>
+            <ul>
+              {Object.entries(currentSpell.damage.damage_at_slot_level).map(
+                ([level, damage]) => (
+                  <li key={level}>
+                    Slot {level}: {damage}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
+        {currentSpell.heal_at_slot_level ? (
+          <div>
+            <strong>Heal:</strong>
+            <ul>
+              {Object.entries(currentSpell.heal_at_slot_level).map(
+                ([level, heal]) => (
+                  <li key={level}>
+                    Slot {level}: {heal}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
