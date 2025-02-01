@@ -13,8 +13,8 @@ export const SpellApiDnd = () => {
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className="flex justify-center">
+      <div className="w-1/2">
         {spellDetails &&
           spellDetails.map((spell) => (
             <div
