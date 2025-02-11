@@ -1,7 +1,17 @@
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
 
-export const Button = ({
+type ButtonProps = {
+  onClick?: () => void;
+  children?: React.ReactNode;
+  primary?: boolean;
+  secondary?: boolean;
+  success?: boolean;
+  warning?: boolean;
+  danger?: boolean;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const Button: React.FC<ButtonProps> = ({
   onClick,
   children,
   primary,
@@ -9,11 +19,12 @@ export const Button = ({
   success,
   warning,
   danger,
+  className,
   ...rest
 }) => {
   const buttonStyles = twMerge(
     classNames(
-      rest.className,
+      className,
       "items-center px-3 p-2 border rounded-md text-center",
       {
         "bg-blue-600": primary,

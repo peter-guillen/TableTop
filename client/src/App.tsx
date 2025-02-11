@@ -5,11 +5,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { ThemeContextProvider } from "./contexts/ThemeContext";
+import { ThemeContextProvider } from "./contexts/ThemeContext.jsx";
 import { ArticleContextProvider } from "./contexts/ArticleContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
-import { Navbar } from "./components/Navbar";
+import { Navbar } from "./components/Navbar.tsx";
 import { Register } from "./components/users/Register";
 import { Login } from "./components/users/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";

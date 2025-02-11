@@ -4,7 +4,7 @@ import { AuthContext } from "../hooks/authFastRefreshHook";
 
 import { ProfessionList } from "../components/professions/ProfessionList";
 import { ProfessionDetails } from "../components/professions/ProfessionDetails";
-import { ProfessionCreate } from "../components/professions/ProfessionCreate";
+import { ProfessionCreate } from "../components/professions/ProfessionCreate.tsx";
 import { ProfessionEdit } from "../components/professions/ProfessionEdit";
 
 import {

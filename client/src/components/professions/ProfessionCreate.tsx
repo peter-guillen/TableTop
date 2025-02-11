@@ -5,6 +5,23 @@ import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../Button";
 
+interface ProfessionCreateProps {
+  onCreate: (formData: FormDataType) => Promise<void>;
+}
+
+interface Level {
+  level: string;
+  description: string;
+}
+
+interface FormDataType {
+  title: string;
+  spell: string;
+  weapon: string;
+  armor: string;
+  levels: Level[];
+}
+
 const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
 const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));
 const tableContainerStyles = twMerge(
@@ -14,10 +31,12 @@ const pageContainerStyles = twMerge(
   classNames("grid grid-cols-2 m-auto p-4 mt-6 border place-self-center w-4/5")
 );
 
-export const ProfessionCreate = ({ onCreate }) => {
+export const ProfessionCreate: React.FC<ProfessionCreateProps> = ({
+  onCreate,
+}) => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataType>({
     title: "",
     spell: "",
     weapon: "",
@@ -36,7 +55,7 @@ export const ProfessionCreate = ({ onCreate }) => {
     ],
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     if (name.startsWith("level")) {
@@ -56,7 +75,7 @@ export const ProfessionCreate = ({ onCreate }) => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await onCreate(formData);
     navigate("/professions");
@@ -138,9 +157,7 @@ export const ProfessionCreate = ({ onCreate }) => {
         </table>
 
         <div>
-          <Button primary type="submit">
-            Add
-          </Button>
+          <Button primary>Add</Button>
         </div>
       </form>
 

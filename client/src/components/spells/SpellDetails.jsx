@@ -16,9 +16,13 @@ export const SpellDetails = ({ spellList }) => {
       <Link to={`/spells/${id}/edit`}>
         <Button primary>Edit</Button>
       </Link>
-      <div>{spell.title}</div>
-      <div>{spell.description}</div>
-      <div>{spell.category}</div>
+      <div className="flex justify-center">
+        <div className="flex flex-col border w-1/2">
+          <p>Name: {spell.title}</p>
+          <p>Description: {spell.description}</p>
+          <p>Category: {spell.category}</p>
+        </div>
+      </div>
     </div>
   );
 };
