@@ -13,7 +13,27 @@ const pageContainerStyles = twMerge(
   classNames("grid grid-cols-2 m-auto p-4 mt-6 border place-self-center w-4/5")
 );
 
-export const ProfessionDetails = ({ professionList }) => {
+interface ProfessionDetailsProps {
+  professionList: Profession[];
+}
+
+interface Level {
+  level: string;
+  description: string;
+}
+
+interface Profession {
+  _id: string;
+  title: string;
+  spell: string;
+  weapon: string;
+  armor: string;
+  levels: Level[];
+}
+
+export const ProfessionDetails: React.FC<ProfessionDetailsProps> = ({
+  professionList,
+}) => {
   const { id } = useParams();
   const profession = professionList.find((p) => p._id === id);
 

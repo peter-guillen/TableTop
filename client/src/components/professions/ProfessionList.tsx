@@ -1,10 +1,20 @@
 import { ProfessionPreview } from "./ProfessionPreview";
-import { Link } from "react-router-dom";
 
 import { LoadingSpinner } from "../LoadingSpinner";
-import { Button } from "../Button";
 
-export const ProfessionList = ({ professionList, onDelete }) => {
+interface ProfessionListProps {
+  professionList: Profession[];
+  onDelete: (id: string) => Promise<void>;
+}
+
+interface Profession {
+  _id: string;
+  title: string;
+}
+export const ProfessionList: React.FC<ProfessionListProps> = ({
+  professionList,
+  onDelete,
+}) => {
   if (!professionList || professionList.length === 0) {
     return <LoadingSpinner />;
   }

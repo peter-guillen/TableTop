@@ -1,30 +1,43 @@
+import { Link } from "react-router-dom";
+
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
-import { Link } from "react-router-dom";
 import { Button } from "../Button";
 
-export const ProfessionPreview = ({ profession, onDelete }) => {
+const professionContainer = twMerge(
+  classNames(
+    "text-white text-center bg-blue-900 p-5 m-5 border rounded-md grid gap-4",
+    {
+      "text-lg font-bold": true,
+    }
+  )
+);
+
+const professionContainerHeader = twMerge(classNames("text-3xl col-span-3"));
+
+interface ProfessionPreviewProps {
+  profession: Profession;
+  onDelete: (id: string) => Promise<void>;
+}
+interface Profession {
+  _id: string;
+  title: string;
+}
+
+export const ProfessionPreview: React.FC<ProfessionPreviewProps> = ({
+  profession,
+  onDelete,
+}) => {
   const handleDelete = () => {
     onDelete(profession._id);
   };
-
-  const professionContainer = twMerge(
-    classNames(
-      "text-white text-center bg-blue-900 p-5 m-5 border rounded-md grid gap-4",
-      {
-        "text-lg font-bold": true,
-      }
-    )
-  );
-
-  const professionContainerHeader = twMerge(classNames("text-3xl col-span-3"));
 
   return (
     <>
       <section className={professionContainer}>
         <img
           src={`https://picsum.photos/seed/200/400`}
-          alt=""
+          alt={`${profession.title} preview`}
           className="col-span-3"
         />
         <h2 className={professionContainerHeader}>{profession.title}</h2>

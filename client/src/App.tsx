@@ -9,7 +9,7 @@ import { ThemeContextProvider } from "./contexts/ThemeContext.jsx";
 import { ArticleContextProvider } from "./contexts/ArticleContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
-import { Navbar } from "./components/Navbar.tsx";
+import { Navbar } from "./components/Navbar";
 import { Register } from "./components/users/Register";
 import { Login } from "./components/users/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";

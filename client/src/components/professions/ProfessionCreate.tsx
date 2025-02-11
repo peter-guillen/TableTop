@@ -5,6 +5,15 @@ import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../Button";
 
+const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
+const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));
+const tableContainerStyles = twMerge(
+  classNames("border-2 col-span-2 w-4/5 place-self-center")
+);
+const pageContainerStyles = twMerge(
+  classNames("grid grid-cols-2 m-auto p-4 mt-6 border place-self-center w-4/5")
+);
+
 interface ProfessionCreateProps {
   onCreate: (formData: FormDataType) => Promise<void>;
 }
@@ -22,15 +31,6 @@ interface FormDataType {
   levels: Level[];
 }
 
-const tableBodyStyles = twMerge(classNames("odd:bg-white even:bg-slate-100"));
-const tableHeadStyles = twMerge(classNames("font-medium text-2xl"));
-const tableContainerStyles = twMerge(
-  classNames("border-2 col-span-2 w-4/5 place-self-center")
-);
-const pageContainerStyles = twMerge(
-  classNames("grid grid-cols-2 m-auto p-4 mt-6 border place-self-center w-4/5")
-);
-
 export const ProfessionCreate: React.FC<ProfessionCreateProps> = ({
   onCreate,
 }) => {
@@ -41,18 +41,10 @@ export const ProfessionCreate: React.FC<ProfessionCreateProps> = ({
     spell: "",
     weapon: "",
     armor: "",
-    levels: [
-      { level: "one", description: "" },
-      { level: "two", description: "" },
-      { level: "three", description: "" },
-      { level: "four", description: "" },
-      { level: "five", description: "" },
-      { level: "six", description: "" },
-      { level: "seven", description: "" },
-      { level: "eight", description: "" },
-      { level: "nine", description: "" },
-      { level: "ten", description: "" },
-    ],
+    levels: Array.from({ length: 10 }, (_, index) => ({
+      level: `${index + 1}`,
+      description: "",
+    })),
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

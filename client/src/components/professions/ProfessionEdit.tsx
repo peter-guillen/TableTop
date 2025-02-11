@@ -8,27 +8,49 @@ const professionForm = twMerge(
   classNames("border rounded-md bg-gray-200 p-2 m-2", {})
 );
 
-export const ProfessionEdit = ({ onEdit, professionList }) => {
-  const { id } = useParams();
+interface ProfessionEditProps {
+  onEdit: (id: string | undefined, formData: FormDataType) => Promise<void>;
+  professionList: Profession[];
+}
+
+interface Level {
+  level: string;
+  description: string;
+}
+
+interface FormDataType {
+  title: string;
+  spell: string;
+  weapon: string;
+  armor: string;
+  levels: Level[];
+}
+
+interface Profession {
+  _id: string;
+  title: string;
+  spell: string;
+  weapon: string;
+  armor: string;
+  levels: Level[];
+}
+
+export const ProfessionEdit: React.FC<ProfessionEditProps> = ({
+  onEdit,
+  professionList,
+}) => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataType>({
     title: "",
     spell: "",
     weapon: "",
     armor: "",
-    levels: [
-      { level: "one", description: "" },
-      { level: "two", description: "" },
-      { level: "three", description: "" },
-      { level: "four", description: "" },
-      { level: "five", description: "" },
-      { level: "six", description: "" },
-      { level: "seven", description: "" },
-      { level: "eight", description: "" },
-      { level: "nine", description: "" },
-      { level: "ten", description: "" },
-    ],
+    levels: Array.from({ length: 10 }, (_, index) => ({
+      level: `${index + 1}`,
+      description: "",
+    })),
   });
 
   useEffect(() => {
@@ -44,7 +66,7 @@ export const ProfessionEdit = ({ onEdit, professionList }) => {
     }
   }, [id, professionList]);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     if (name.startsWith("level")) {
@@ -64,7 +86,7 @@ export const ProfessionEdit = ({ onEdit, professionList }) => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await onEdit(id, formData);
     navigate("/professions");
