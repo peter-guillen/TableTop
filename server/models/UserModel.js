@@ -10,10 +10,6 @@ const UserSchema = new mongoose.Schema({
     enum: ["ADMIN", "MODERATOR", "EDITOR", "USER", "GUEST"],
     default: "GUEST",
   },
-  firstName: String,
-  lastName: String,
-  dob: String,
-  address: String,
 });
 
 // Hash the password before saving it

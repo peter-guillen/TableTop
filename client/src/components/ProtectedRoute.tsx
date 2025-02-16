@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "../hooks/authFastRefreshHook";
 import { LoadingSpinner } from "./LoadingSpinner";
 
+interface;
+
 export const ProtectedRoute = ({ children, roles }) => {
   const { currentUser, isLoading } = useContext(AuthContext);
 
