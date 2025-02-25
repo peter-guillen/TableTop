@@ -46,9 +46,9 @@ export const createUser = async (formData: User): Promise<User> => {
 };
 
 export const loginUser = async (
-  formData: User,
+  formData: Pick<User, "email" | "password">,
   token: string
-): Promise<User> => {
+): Promise<{ token: string; user: User }> => {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",
     headers: {
@@ -61,7 +61,8 @@ export const loginUser = async (
 
   if (!response.ok) {
     const error = await response.json();
-    return { success: false, message: error.message };
+    throw new Error(error.message || "Login failed");
+    // return { success: false, message: error.message };
   }
 
   return await response.json();

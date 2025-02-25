@@ -14,18 +14,35 @@ const attributeInput = twMerge(
   )
 );
 
+interface ReducerProps {
+  stats: { [key: string]: number };
+  armorType: string | number;
+  weaponType: string | number;
+}
+
+interface Action {
+  type: string;
+  payload: {
+    value: string | number;
+    stat?: string;
+  };
+}
+
 // No reason for these other than error prevention and to identify an action
 const UPDATE_STAT = "update_stat";
 const ARMOR_SELECT = "armor_select";
 const WEAPON_SELECT = "weapon_select";
 
-const reducer = (state, action) => {
+const reducer = (state: ReducerProps, action: Action): ReducerProps => {
   let updatedStats;
   switch (action.type) {
     case UPDATE_STAT:
       return {
         ...state,
-        stats: { ...state.stats, [action.payload.stat]: action.payload.value },
+        stats: {
+          ...state.stats,
+          [action.payload.stat]: action.payload.value,
+        },
       };
 
     case ARMOR_SELECT:
@@ -65,7 +82,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const Rules = () => {
+export const Rules = (): JSX.Element => {
   // This initialState is the data object for the dispatcher
   const initialState = {
     // This is setting one state for the initialState object the others added are the sattes to be changed
@@ -84,16 +101,16 @@ export const Rules = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleStatChange = (stat, value) => {
+  const handleStatChange = (stat: string, value: number) => {
     dispatch({ type: UPDATE_STAT, payload: { stat, value } });
   };
 
-  const handleArmorChange = (event) => {
+  const handleArmorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     dispatch({ type: ARMOR_SELECT, payload: { value } });
   };
 
-  const handleWeaponChange = (event) => {
+  const handleWeaponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     dispatch({ type: WEAPON_SELECT, payload: { value } });
   };
@@ -198,7 +215,7 @@ export const Rules = () => {
           <div>Dexterity: {state.stats.dexterity || 0}</div>
           <div>Constitution: {state.stats.constitution || 0}</div>
           <div>Intelligence: {state.stats.intelligence || 0}</div>
-          <div>Wisodm: {state.stats.wisdom || 0}</div>
+          <div>Wisdom: {state.stats.wisdom || 0}</div>
           <div>Charisma: {state.stats.charisma || 0}</div>
         </div>
         <div>

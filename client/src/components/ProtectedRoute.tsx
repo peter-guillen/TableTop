@@ -1,9 +1,17 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../hooks/authFastRefreshHook";
 import { LoadingSpinner } from "./LoadingSpinner";
 
-export const ProtectedRoute = ({ children, roles }) => {
+interface ProtectedRouteProps {
+  children: JSX.Element;
+  roles?: string[];
+}
+
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  roles,
+}) => {
   const { currentUser, isLoading } = useContext(AuthContext);
 
   if (isLoading) {

@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export const SpellApiDnd = () => {
+interface SpellProps {
+  index: number;
+}
+
+export const SpellApiDnd = (): SpellProps => {
   const [spellDetails, setSpellDetails] = useState([]);
   const fetchSpells = async () => {
     const response = await fetch("https://www.dnd5eapi.co/api/spells");
