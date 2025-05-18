@@ -70,13 +70,13 @@ export const AuthContextProvider = ({ children }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // Send cookies with request
+          credentials: "include",
         });
         if (response.ok) {
           const data = await response.json();
-          setCurrentUser(data); // Example: store user info in context or state
+          setCurrentUser(data);
         } else {
-          setCurrentUser(null); // User is not logged in
+          setCurrentUser(null);
         }
       } catch (error) {
         console.error("Error fetching user:", error);
