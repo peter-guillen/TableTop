@@ -32,8 +32,8 @@ export const Home = () => {
 
   const newsFeedItem = (articleId) =>
     classNames(
-      "p-6 m-6 rounded-md bg-blue-200",
-      hoveredIndex === articleId && "bg-blue-300"
+      "p-6 m-6 rounded-md dark:bg-blue-600 bg-blue-300",
+      hoveredIndex === articleId && "dark:bg-blue-500 bg-blue-600"
     );
 
   const renderedArticle = articleList.map((article) => {

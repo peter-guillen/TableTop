@@ -29,14 +29,14 @@ export const ArticleCreate = () => {
   return (
     <>
       <form action="" onSubmit={handleSubmit}>
-        <label for="title">Title:</label>
+        <label htmlFor="title">Title:</label>
         <input
           type="text"
           name="title"
           onChange={handleInputChange}
           value={formData.title}
         />
-        <label for="title">Description:</label>
+        <label htmlFor="title">Description:</label>
 
         <input
           type="text"
@@ -44,7 +44,7 @@ export const ArticleCreate = () => {
           onChange={handleInputChange}
           value={formData.body}
         />
-        <label for="title">Author:</label>
+        <label htmlFor="title">Author:</label>
 
         <input
           type="text"
@@ -52,7 +52,7 @@ export const ArticleCreate = () => {
           onChange={handleInputChange}
           value={formData.author}
         />
-        <label for="title">Synopsis:</label>
+        <label html="title">Synopsis:</label>
 
         <input
           type="text"

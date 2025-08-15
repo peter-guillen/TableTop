@@ -13,6 +13,7 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
@@ -52,14 +53,18 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     setIsLoading(true);
     setError(null);
-    const response = await logoutUserApi();
-    if (response.success) {
+    setMessage("Successfully logged out!");
+    try {
+      logoutUserApi();
       setCurrentUser(null);
       return { success: true };
+    } catch (error) {
+      const errorMessage = error.message || "Logout failed";
+      setError(errorMessage);
+      return { success: false, message: errorMessage };
+    } finally {
+      setIsLoading(false);
     }
-    const errorMessage = response.message || "Logout failed";
-    setError(errorMessage);
-    return { success: false, message: errorMessage };
   };
 
   useEffect(() => {
@@ -99,6 +104,7 @@ export const AuthContextProvider = ({ children }) => {
     isLoading,
     error,
     errorMessage,
+    message,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

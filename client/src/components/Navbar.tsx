@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../hooks/authFastRefreshHook";
 import { ThemeContext } from "../hooks/themeFastRefreshHook";
@@ -13,13 +13,17 @@ const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 export const Navbar = () => {
   const [openNavbar, setOpenNavbar] = useState(false);
-  const { currentUser, logout } = useContext(AuthContext);
+  const { currentUser, logout, message } = useContext(AuthContext);
   const { darkMode, toggleTheme } = useContext(ThemeContext);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpenNavbar(false);
       }
     };
@@ -29,8 +33,9 @@ export const Navbar = () => {
     };
   }, []);
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -104,7 +109,13 @@ export const Navbar = () => {
 
             {currentUser ? (
               <div>
-                <NavLink className={navLinks} onClick={handleLogout}>
+                <NavLink
+                  className={navLinks}
+                  onClick={() => {
+                    handleLogout();
+                  }}
+                  to="/"
+                >
                   Logout
                 </NavLink>
               </div>
