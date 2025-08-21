@@ -8,7 +8,9 @@ import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 import { FaRegUser, FaUser, FaSun, FaMoon } from "react-icons/fa6";
 
-const navLinks = twMerge(classNames("dark:text-white  font-bold p-2"));
+const navLinks = twMerge(
+  classNames("dark:hover:text-cyan-400 dark:text-white font-bold p-2")
+);
 const userLinks = twMerge(classNames("text-gray-400 font-bold p-2"));
 
 export const Navbar = () => {
