@@ -7,4 +7,5 @@
 [] Demo video of drag and drop - displaying realtime changes to the player stats
 [] Demo video of dice rolling
 [] Demo video of search, filter and sort
-.÷
+[] Remove the Role on register page when finished testing
+[] Create a user panel for hovering over user icon

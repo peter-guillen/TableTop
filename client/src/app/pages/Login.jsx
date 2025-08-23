@@ -1,7 +1,5 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
-// import { AuthContext } from "../../contexts/AuthContext";
 import { AuthContext } from "../../features/auth/hooks/authFastRefreshHook";
 import { Button } from "../../shared/components/Button";
 
@@ -27,6 +25,7 @@ export const Login = () => {
       navigate("/");
     } else {
       setErrorMessage(error);
+      console.log(errorMessage);
     }
   };
 
@@ -34,7 +33,9 @@ export const Login = () => {
     <>
       <div className="min-h-screen flex items-center justify-center">
         <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center dark:text-black">
+            Login
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
@@ -47,7 +48,7 @@ export const Login = () => {
                 name="email"
                 type="email"
                 id="email"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-black"
                 placeholder="Enter your email"
                 onChange={handleInputChange}
                 value={formData.email}
@@ -64,7 +65,7 @@ export const Login = () => {
                 name="password"
                 type="password"
                 id="password"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-black"
                 placeholder="Enter your password"
                 onChange={handleInputChange}
                 value={formData.password}
@@ -79,7 +80,7 @@ export const Login = () => {
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-gray-600">
-            Don't have an account?
+            Don&#39;t have an account?&nbsp;
             <a href="/register" className="text-blue-600 hover:underline">
               Sign up
             </a>

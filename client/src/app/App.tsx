@@ -24,6 +24,7 @@ import { SpellPage } from "../features/spells/pages/SpellPage";
 import { WeaponPage } from "../features/weapons/pages/WeaponPage";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage.jsx";
+import AdminPage from "../features/admin/pages/AdminPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,7 +54,8 @@ const router = createBrowserRouter(
         />
         <Route path="/weapons" element={<WeaponPage />} />
         <Route path="/armors" element={<ArmorPage />} />
-        <Route path="/users" element={<UserPage />}></Route>
+        <Route path="/users" element={<UserPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>

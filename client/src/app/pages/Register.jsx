@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { AuthContext } from "../../contexts/AuthContext";
 import { AuthContext } from "../../features/auth/hooks/authFastRefreshHook";
 import { Button } from "../../shared/components/Button";
 
@@ -36,7 +35,9 @@ export const Register = () => {
     <>
       <div className="min-h-screen flex items-center justify-center">
         <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center dark:text-black">
+            Register
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
@@ -49,7 +50,7 @@ export const Register = () => {
                 name="username"
                 type="username"
                 id="username"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-black"
                 placeholder="Enter your username"
                 onChange={handleInputChange}
                 value={formData.value}
@@ -66,7 +67,7 @@ export const Register = () => {
                 name="email"
                 type="email"
                 id="email"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-black"
                 placeholder="Enter your email"
                 onChange={handleInputChange}
                 value={formData.value}
@@ -83,7 +84,7 @@ export const Register = () => {
                 name="password"
                 type="password"
                 id="password"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-black"
                 placeholder="Enter your password"
                 onChange={handleInputChange}
                 value={formData.value}
@@ -100,7 +101,7 @@ export const Register = () => {
                 name="role"
                 type="role"
                 id="role"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:text-black"
                 placeholder="Enter your role"
                 onChange={handleInputChange}
                 value={formData.value}
@@ -115,7 +116,7 @@ export const Register = () => {
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-gray-600">
-            Already have an account?
+            Already have an account?&nbsp;
             <a href="/login" className="text-blue-600 hover:underline">
               Login
             </a>
