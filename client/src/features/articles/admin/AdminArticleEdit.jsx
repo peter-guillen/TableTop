@@ -1,19 +1,33 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { ArticleContext } from "../hooks/articleFastRefreshHook";
 import { Button } from "../../../shared/components/Button";
 
-export const ArticleCreate = () => {
-  const { handleCreate } = useContext(ArticleContext);
+export const AdminArticleEdit = () => {
+  const { handleEdit, articleList } = useContext(ArticleContext);
+  const { id } = useParams();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     body: "",
     author: "",
     synopsis: "",
-    comments: [{ author: "", body: "", date: "" }],
+    // comments: [{ author: "", body: "", date: "" }],
   });
+
+  useEffect(() => {
+    const currentArticle = articleList.find((article) => article._id === id);
+    if (currentArticle) {
+      setFormData({
+        title: currentArticle.title,
+        body: currentArticle.body,
+        author: currentArticle.author,
+        synopsis: currentArticle.synopsis,
+      });
+    }
+  }, [id, articleList]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -22,45 +36,42 @@ export const ArticleCreate = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await handleCreate(formData);
+    await handleEdit(id, formData);
     navigate("/articles");
   };
 
   return (
     <>
-      <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="title"
           onChange={handleInputChange}
           value={formData.title}
+          placeholder="title"
         />
-        <label htmlFor="title">Description:</label>
-
         <input
           type="text"
           name="body"
           onChange={handleInputChange}
           value={formData.body}
+          placeholder="body"
         />
-        <label htmlFor="title">Author:</label>
-
         <input
           type="text"
           name="author"
           onChange={handleInputChange}
           value={formData.author}
+          placeholder="author"
         />
-        <label html="title">Synopsis:</label>
-
         <input
           type="text"
           name="synopsis"
           onChange={handleInputChange}
           value={formData.synopsis}
+          placeholder="synopsis"
         />
-        <Button primary>Create</Button>
+        <Button primary>Submit</Button>
       </form>
     </>
   );

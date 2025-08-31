@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { AdminArticlePage } from "../../articles/admin/AdminArticlePage";
+import { twMerge } from "tailwind-merge";
+import classNames from "classnames";
 
-const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState("users");
+const sectionClass = twMerge(
+  classNames("border border-white p-4 m-2 rounded-lg")
+);
+
+export const AdminPage = () => {
   return (
-    <div>
-      AdminPage
-      <div>Users - </div>
-      <div>Analtyics - </div>
+    <>
       <div>
         <div>CRUD Content Operations - </div>
         <ul>
-          <li>Articles - </li>
+          <li className={sectionClass}>
+            <div>Articles - </div>
+            <div>
+              <AdminArticlePage />
+            </div>
+          </li>
           <li>Spells - </li>
           <li>Abilities - </li>
           <li>Skillls - </li>
@@ -19,8 +26,6 @@ const AdminPage = () => {
           <li>Items - </li>
         </ul>
       </div>
-    </div>
+    </>
   );
 };
-
-export default AdminPage;

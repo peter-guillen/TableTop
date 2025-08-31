@@ -43,7 +43,7 @@ export const Navbar = () => {
   return (
     <>
       <header>
-        <nav className="flex justify-between items-center p-4 bg-gray-200 dark:bg-gray-700 fixed top-0 left-0 right-0 w-full">
+        <nav className="flex justify-between items-center p-4 bg-slate-300 dark:bg-gray-700 fixed top-0 left-0 right-0 w-full">
           <div className="flex items-center space-x-4">
             <NavLink className={navLinks} to="/">
               Home
@@ -104,14 +104,14 @@ export const Navbar = () => {
             </div>
             <div>
               {currentUser && currentUser.role === "ADMIN" ? (
-                <NavLink className={userLinks} to="users">
-                  USERS
+                <NavLink className={navLinks} to="users">
+                  Users
                 </NavLink>
               ) : null}
             </div>
             <div>
               {currentUser && currentUser.role === "ADMIN" ? (
-                <NavLink className={userLinks} to="admin">
+                <NavLink className={navLinks} to="admin">
                   Admin
                 </NavLink>
               ) : null}
