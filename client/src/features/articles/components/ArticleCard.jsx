@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { ArticleContext } from "../hooks/articleFastRefreshHook";
+import { ArticleContext } from "../context/ArticleContext";
 import { Button } from "../../../shared/components/Button";
 
 export const ArticleCard = () => {
   const { articleList } = useContext(ArticleContext);
+  console.log(articleList);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArticleContext } from "../hooks/articleFastRefreshHook";
+import { ArticleContext } from "../context/ArticleContext";
 
 import { NotFound } from "../../../app/pages/NotFound";
 import { Button } from "../../../shared/components/Button";

@@ -1,5 +1,7 @@
 # TableTop
 
+# Global
+
 [x] Fix issue with Logout
 [] Create conditionals for what a user can view
 [] Remove the Role on register page when finished testing
@@ -20,3 +22,4 @@
 [] Add a cleaner response to articleCreate when a user fails to fill in inputs
 [] Create a form template for articles create and edit - this could also apply to spells, armors etc.
 [] Add better naviagtion to adminArticleDetails, when clicking back it doesn't return to home
+[] Consolidate the create and edit form

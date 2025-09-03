@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Footer } from "../Footer";
 import { Button } from "../../shared/components/Button";
-import { ArticleContext } from "../../features/articles/hooks/articleFastRefreshHook";
+import { ArticleContext } from "../../features/articles/context/ArticleContext";
 
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";

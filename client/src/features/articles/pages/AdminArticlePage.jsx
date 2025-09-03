@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AdminArticleList } from "./AdminArticleList";
+import { AdminArticleList } from "../components/AdminArticleList";
 
 export const AdminArticlePage = () => {
   return (

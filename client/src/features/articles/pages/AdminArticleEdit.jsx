@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ArticleContext } from "../hooks/articleFastRefreshHook";
+import { ArticleContext } from "../context/ArticleContext";
 import { Button } from "../../../shared/components/Button";
 
 export const AdminArticleEdit = () => {

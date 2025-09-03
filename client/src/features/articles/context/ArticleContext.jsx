@@ -5,7 +5,9 @@ import {
   updateArticle,
   deleteArticle,
 } from "../api/articleApi";
-import { ArticleContext } from "../hooks/articleFastRefreshHook";
+import { createContext } from "react";
+
+export const ArticleContext = createContext();
 
 export const ArticleContextProvider = ({ children }) => {
   const [articleList, setArticleList] = useState([]);

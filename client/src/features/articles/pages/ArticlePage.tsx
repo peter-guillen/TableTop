@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 
-import { AdminArticleList } from "../admin/AdminArticleList";
+import { AdminArticleList } from "../components/AdminArticleList";
 import { ArticleDetails } from "../components/ArticleDetails";
 import { ArticleList } from "../components/ArticleList";
-import { AdminArticleCreate } from "../admin/AdminArticleCreate";
-import { AdminArticleEdit } from "../admin/AdminArticleEdit";
+import { AdminArticleCreate } from "./AdminArticleCreate";
+import { AdminArticleEdit } from "./AdminArticleEdit";
 
 export const ArticlePage = () => {
   return (
