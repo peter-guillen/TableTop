@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../features/auth/hooks/authFastRefreshHook";
+import { AuthContext } from "../../features/auth/context/AuthContext";
 import { Button } from "../../shared/components/Button";
 
 export const Login = () => {

@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import { AuthContext } from "../../auth/hooks/authFastRefreshHook";
+import { AuthContext } from "../../auth/context/AuthContext.jsx";
 
 import { ProfessionList } from "../components/ProfessionList";
 import { ProfessionDetails } from "../components/ProfessionDetails";
-import { ProfessionCreate } from "../components/ProfessionCreate.tsx";
-import { ProfessionEdit } from "../components/ProfessionEdit";
+import { ProfessionCreate } from "./ProfessionCreate.tsx";
+import { ProfessionEdit } from "./ProfessionEdit.tsx";
+import { CardTemplate } from "../../../shared/components/CardTemplate.jsx";
 
 import {
   fetchProfessions,
@@ -63,6 +64,7 @@ export const ProfessionPage = () => {
 
   return (
     <>
+      <CardTemplate />
       <Link to={`/professions/createProfession`}>
         <Button primary>Create a Profession!</Button>
       </Link>

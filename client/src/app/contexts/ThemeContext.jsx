@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { ThemeContext } from "../hooks/themeFastRefreshHook";
+import { useState, useEffect, createContext } from "react";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
+export const ThemeContext = createContext();
 
 export const ThemeContextProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(() => {

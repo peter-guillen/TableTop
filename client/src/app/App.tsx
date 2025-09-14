@@ -5,14 +5,15 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { ThemeContextProvider } from "./contexts/ThemeContext.jsx";
-import { ArticleContextProvider } from "../features/articles/context/ArticleContext.jsx";
-import { AuthContextProvider } from "../features/auth/context/AuthContext.jsx";
+import { ThemeContextProvider } from "./contexts/ThemeContext";
+import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
+import { AuthContextProvider } from "../features/auth/context/AuthContext";
+import { SpellContextProvider } from "../features/spells/context/SpellContext";
 
-import { Navbar } from "../app/Navbar.js";
-import { Register } from "../app/pages/Register.jsx";
+import { Navbar } from "./layouts/Navbar";
+import { Register } from "../app/pages/Register";
 import { Login } from "../app/pages/Login";
-import { ProtectedRoute } from "../features/auth/ProtectedRoute.js";
+import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
 import { Rules } from "../shared/components/Rules";
 
@@ -23,8 +24,8 @@ import { ProfessionPage } from "../features/professions/pages/ProfessionPage";
 import { SpellPage } from "../features/spells/pages/SpellPage";
 import { WeaponPage } from "../features/weapons/pages/WeaponPage";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
-import { UserPage } from "../features/users/pages/UserPage.jsx";
-import { AdminPage } from "../features/admin/pages/AdminPage.jsx";
+import { UserPage } from "../features/users/pages/UserPage";
+import { AdminPage } from "../features/admin/pages/AdminPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,9 +54,9 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route path="/weapons" element={<WeaponPage />} />
-        <Route path="/armors" element={<ArmorPage />} />
-        <Route path="/users" element={<UserPage />} />
+        <Route path="/weapons/*" element={<WeaponPage />} />
+        <Route path="/armors/*" element={<ArmorPage />} />
+        <Route path="/users/*" element={<UserPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
@@ -68,7 +69,9 @@ function App() {
       <AuthContextProvider>
         <ThemeContextProvider>
           <ArticleContextProvider>
-            <RouterProvider router={router} />
+            <SpellContextProvider>
+              <RouterProvider router={router} />
+            </SpellContextProvider>
           </ArticleContextProvider>
         </ThemeContextProvider>
       </AuthContextProvider>

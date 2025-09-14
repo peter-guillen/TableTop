@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import {
   fetchUsers,
   createUser as createUserApi,
   loginUser as loginUserApi,
   logoutUser as logoutUserApi,
 } from "../../users/api/userApi";
-import { AuthContext } from "../hooks/authFastRefreshHook";
+
+export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);

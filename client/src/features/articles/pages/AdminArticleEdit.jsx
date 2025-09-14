@@ -5,9 +5,10 @@ import { ArticleContext } from "../context/ArticleContext";
 import { Button } from "../../../shared/components/Button";
 
 export const AdminArticleEdit = () => {
-  const { handleEdit, articleList } = useContext(ArticleContext);
+  const { handleCreate, handleEdit, articleList } = useContext(ArticleContext);
   const { id } = useParams();
   const navigate = useNavigate();
+  const isEditMode = Boolean(id);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -18,16 +19,25 @@ export const AdminArticleEdit = () => {
   });
 
   useEffect(() => {
-    const currentArticle = articleList.find((article) => article._id === id);
-    if (currentArticle) {
+    if (isEditMode === true && id) {
+      const currentArticle = articleList.find((article) => article._id === id);
+      if (currentArticle) {
+        setFormData({
+          title: currentArticle.title,
+          body: currentArticle.body,
+          author: currentArticle.author,
+          synopsis: currentArticle.synopsis,
+        });
+      }
+    } else {
       setFormData({
-        title: currentArticle.title,
-        body: currentArticle.body,
-        author: currentArticle.author,
-        synopsis: currentArticle.synopsis,
+        title: "",
+        body: "",
+        author: "",
+        synopsis: "",
       });
     }
-  }, [id, articleList]);
+  }, [isEditMode, id, articleList]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -36,7 +46,11 @@ export const AdminArticleEdit = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await handleEdit(id, formData);
+    if (isEditMode === "edit") {
+      await handleEdit(id, formData);
+    } else {
+      await handleCreate(formData);
+    }
     navigate("/articles");
   };
 
@@ -71,7 +85,7 @@ export const AdminArticleEdit = () => {
           value={formData.synopsis}
           placeholder="synopsis"
         />
-        <Button primary>Submit</Button>
+        <Button primary>{isEditMode === true ? "Update" : "Create"}</Button>
       </form>
     </>
   );

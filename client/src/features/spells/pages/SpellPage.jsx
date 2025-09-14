@@ -1,56 +1,17 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 import { SpellList } from "../components/SpellList";
 import { SpellDetails } from "../components/SpellDetails";
-import { SpellCreate } from "../components/SpellCreate";
-import { SpellEdit } from "../components/SpellEdit";
+import { SpellCreate } from "./SpellCreate";
+import { SpellEdit } from "./SpellEdit";
 import { SpellApiDnd } from "../api/SpellApiDnd";
 import { SpellDetailsDnd } from "../api/SpellDetailsDnd";
 
-import {
-  fetchSpells,
-  createSpell,
-  deleteSpell,
-  updateSpell,
-} from "../api/spellApi";
+import { NewSpellPage } from "./NewSpellPage";
 import { Button } from "../../../shared/components/Button";
+import { SpellPreview } from "../components/SpellPreview";
 
 export const SpellPage = () => {
-  const [spellList, setSpellsList] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const spells = await fetchSpells();
-      setSpellsList(spells);
-    };
-    fetchData();
-  }, [navigate]);
-
-  const handleCreate = async (formData) => {
-    const newSpell = await createSpell(formData);
-    setSpellsList([...spellList, newSpell]);
-  };
-
-  const handleDelete = async (id) => {
-    await deleteSpell(id);
-    const updatedSpells = await spellList.filter((spell) => spell._id !== id);
-    setSpellsList(updatedSpells);
-  };
-
-  const handleEdit = async (id, formData) => {
-    await updateSpell(id, formData);
-    const updatedSpellList = spellList.map((spell) =>
-      spell._id === id ? { ...spell, ...formData } : spell
-    );
-    setSpellsList(updatedSpellList);
-  };
-
-  const handleReorder = (newOrder) => {
-    setSpellsList(newOrder);
-  };
-
   return (
     <>
       <div className="flex justify-center space-x-4">
@@ -62,31 +23,14 @@ export const SpellPage = () => {
         </Link>
       </div>
       <Routes>
-        <Route
-          path="customSpell"
-          element={
-            <SpellList
-              spellList={spellList}
-              onDelete={handleDelete}
-              onReorder={handleReorder}
-            />
-          }
-        />
-        <Route
-          path="createSpell"
-          element={<SpellCreate onCreate={handleCreate} />}
-        />
-
-        <Route
-          path="customSpell/:id"
-          element={<SpellDetails spellList={spellList} />}
-        />
+        <Route path="customSpell" element={<SpellList />} />
+        <Route path="createSpell" element={<SpellCreate />} />
+        <Route path="spells/:id" element={<SpellDetails />} />
         <Route path="dndSpell" element={<SpellApiDnd />} />
         <Route path="dndSpell/:index" element={<SpellDetailsDnd />} />
-        <Route
-          path=":id/edit"
-          element={<SpellEdit onEdit={handleEdit} spellList={spellList} />}
-        />
+        <Route path=":id/edit" element={<SpellEdit />} />
+        <Route path="spellPreview" element={<SpellPreview />} />
+        <Route path="/" element={<NewSpellPage />} />
       </Routes>
     </>
   );
