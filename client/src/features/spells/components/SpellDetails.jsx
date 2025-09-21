@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { NotFound } from "../../../app/pages/NotFound";
 
 import { Button } from "../../../shared/components/Button";
+import { SpellContext } from "../context/SpellContext";
 
-export const SpellDetails = ({ spellList }) => {
+export const SpellDetails = () => {
   const { id } = useParams();
+  const { spellList } = useContext(SpellContext);
   const spell = spellList.find((p) => p._id === id);
   if (!spell) {
     return <NotFound />;

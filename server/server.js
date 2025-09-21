@@ -6,10 +6,12 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const Spell = require("./seeds/spells");
 
-const userRoutes = require("./routes/users");
-const articleRoutes = require("./routes/articles");
-const professionRoutes = require("./routes/professions");
-const spellsRoutes = require("./routes/spells");
+const userRoutes = require("./routes/userRoutes");
+const articleRoutes = require("./routes/articleRoutes");
+const professionRoutes = require("./routes/professionRoutes");
+const spellRoutes = require("./routes/spellRoutes");
+const weaponRoutes = require("./routes/weaponRoutes.js");
+const armorRoutes = require("./routes/armorRoutes.js");
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
@@ -26,7 +28,9 @@ app.use(
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/professions", professionRoutes);
-app.use("/api/spells", spellsRoutes);
+app.use("/api/spells", spellRoutes);
+app.use("/api/weapons", weaponRoutes);
+app.use("/api/armors", armorRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

@@ -109,6 +109,10 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["./src/**/*.tsx", "src/main.jsx"],
+  "include": [
+    "./src/**/*.tsx",
+    "src/main.jsx",
+    "src/features/weapons/api/weaponApi.jsx"
+  ],
   "exclude": ["node_modules", "dist"]
 }

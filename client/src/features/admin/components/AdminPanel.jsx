@@ -22,6 +22,7 @@ import {
   LuChevronRight,
 } from "react-icons/lu";
 
+[];
 export const AdminPanel = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,8 +30,9 @@ export const AdminPanel = () => {
   const { articleList } = useContext(ArticleContext);
   const { id } = useParams();
   const dataMap = { articles: articleList, spells: spellList };
-  const getData = dataMap[activeSection]?.map((item) => item);
-  console.log(getData || new Error("No data"));
+  const getData = dataMap[activeSection]?.map((item) => item) || [];
+
+  console.log(activeSection, getData || new Error("No data"));
 
   const navigationItems = [
     { id: "dashboard", label: "Dashboard", icon: LuHome },
@@ -406,12 +408,52 @@ export const AdminPanel = () => {
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
-              {data.map((item) => (
+              {getData.map((item, index) => (
                 <tr
-                  key={item.id}
+                  key={index}
                   className="hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                 >
-                  {Object.values(item)
+                  <td
+                    key={item._id}
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"
+                  >
+                    {typeof value === "string" &&
+                    item.name.includes("Active") ? (
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400">
+                        {item.title}
+                      </span>
+                    ) : typeof value === "string" &&
+                      item.name.includes("Inactive") ? (
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400">
+                        {item.title}
+                      </span>
+                    ) : typeof item.name === "string" &&
+                      item.name.includes("Published") ? (
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400">
+                        {item.name}
+                      </span>
+                    ) : typeof item.name === "string" &&
+                      item.name.includes("Draft") ? (
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400">
+                        {item.name}
+                      </span>
+                    ) : (
+                      item.title
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    4d8
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    {item.category}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    {item.description}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    {item.description}
+                  </td>
+                  {/* {Object.values(item)
                     .slice(1)
                     .map((value, valueIndex) => (
                       <td
@@ -442,7 +484,8 @@ export const AdminPanel = () => {
                           value
                         )}
                       </td>
-                    ))}
+                    ))} */}
+
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
                     <div className="flex space-x-2">
                       <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
@@ -451,18 +494,16 @@ export const AdminPanel = () => {
                       <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
                         <LuPen className="w-4 h-4" />
                       </button>
-                      {/* <NavLink
-                        to={`/${activeSection}/${activeSection}List.${id}`}
-                      > */}
-                      <button
-                        onClick={() => {
-                          console.log(`/${activeSection}/${id}`);
-                        }}
-                        className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
-                      >
-                        <LuTrash2 className="w-4 h-4" />
-                      </button>
-                      {/* </NavLink> */}
+                      <NavLink to={`/${activeSection}/${item._id}`}>
+                        <button
+                          onClick={() => {
+                            console.log(`/${activeSection}/${item._id}`);
+                          }}
+                          className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+                        >
+                          <LuTrash2 className="w-4 h-4" />
+                        </button>
+                      </NavLink>
                     </div>
                   </td>
                 </tr>

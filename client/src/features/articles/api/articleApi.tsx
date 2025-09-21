@@ -37,16 +37,6 @@ export const createArticle = async (formData: Article): Promise<Article> => {
   return await response.json();
 };
 
-export const deleteArticle = async (id: string): Promise<void> => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!response.ok) {
-    throw new Error("Error while deleting");
-  }
-};
-
 export const updateArticle = async (
   id: string,
   formData: Article
@@ -60,4 +50,14 @@ export const updateArticle = async (
     throw new Error("Failed to update article");
   }
   return await response.json();
+};
+
+export const deleteArticle = async (id: string): Promise<void> => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error("Error while deleting");
+  }
 };

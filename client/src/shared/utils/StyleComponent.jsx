@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { SpellContext } from "../context/SpellContext";
+import { SpellContext } from "../../features/spells/context/SpellContext";
 import {
   LuSword,
   LuShield,
@@ -12,7 +12,7 @@ import {
   LuZap,
 } from "react-icons/lu";
 
-export const NewSpellPage = ({ items }) => {
+export const StyleComponent = () => {
   const { spellList } = useContext(SpellContext);
   // Icon mapping for different item types
   const getItemIcon = (type) => {
@@ -26,7 +26,7 @@ export const NewSpellPage = ({ items }) => {
       skill: LuTarget,
       spell: LuZap,
     };
-    return iconMap[type] || Gem;
+    return iconMap[type] || LuGem;
   };
 
   // Rarity color mapping
@@ -130,7 +130,7 @@ export const NewSpellPage = ({ items }) => {
     },
   ];
 
-  const displayItems = items || mockItems;
+  const displayItems = spellList || mockItems;
 
   return (
     <>

@@ -1,4 +1,4 @@
-const Spell = require("../models/spellModel");
+const Spell = require("../models/SpellModel");
 const mongoose = require("mongoose");
 
 const getSpells = async (req, res) => {
@@ -19,9 +19,33 @@ const getSpell = async (req, res) => {
 };
 
 const createSpell = async (req, res) => {
-  const { title, description, category } = req.body;
+  const {
+    name,
+    description,
+    domain,
+    school,
+    category,
+    damage,
+    healing,
+    effect,
+    range,
+    casting,
+    duration,
+  } = req.body;
   try {
-    const spell = await Spell.create({ title, description, category });
+    const spell = await Spell.create({
+      name,
+      description,
+      domain,
+      school,
+      category,
+      damage,
+      healing,
+      effect,
+      range,
+      casting,
+      duration,
+    });
     res.status(200).json(spell);
   } catch (error) {
     res.status(400).json({ error: error.message });
