@@ -6,6 +6,7 @@ import { ArticleList } from "../components/ArticleList";
 import { AdminArticleCreate } from "./AdminArticleCreate";
 import { AdminArticleEdit } from "./AdminArticleEdit";
 import { NewFormPage } from "./NewFormPage";
+import Demo from "../pages/";
 
 export const ArticlePage = () => {
   return (
@@ -16,6 +17,7 @@ export const ArticlePage = () => {
         <Route path="/createArticle" element={<AdminArticleEdit />} />
         <Route path="/:id" element={<ArticleDetails />} />
         <Route path="/:id/edit" element={<AdminArticleEdit />} />
+        <Route path="/newForm" element={<NewFormPage />} />
         <Route path="/newForm" element={<NewFormPage />} />
       </Routes>
     </>
