@@ -1,11 +1,19 @@
 const express = require("express");
-const weaponController = require("../controllers/weaponController");
-const crudController = require("../controllers/crudController");
-const crudRoutes = require("./crudRoutes");
-
 const router = express.Router();
 
-router.use("/", crudRoutes(weaponController));
-router.post("/weaponAttack", weaponController.weaponAttack);
+const {
+  getWeapons,
+  getWeapon,
+  createWeapon,
+  updateWeapon,
+  deleteWeapon,
+} = require("../controllers/weaponController");
+
+router.get("/", getWeapons);
+router.post("/", createWeapon);
+
+router.get("/:id", getWeapon);
+router.patch("/:id", updateWeapon);
+router.delete("/:id", deleteWeapon);
 
 module.exports = router;

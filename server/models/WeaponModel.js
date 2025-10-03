@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
 const WeaponSchema = new mongoose.Schema({
-  title: String,
+  name: String,
   description: String,
   category: String,
+  properties: String,
+  weight: String,
   damage: String,
-  effect: String,
+  skills: String,
   range: String,
 });
 

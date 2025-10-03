@@ -6,10 +6,12 @@ import {
 } from "react-router-dom";
 
 import { ThemeContextProvider } from "./contexts/ThemeContext";
-import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 import { AuthContextProvider } from "../features/auth/context/AuthContext";
+import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 import { SpellContextProvider } from "../features/spells/context/SpellContext";
 import { WeaponContextProvider } from "../features/weapons/context/WeaponContext";
+import { ArmorContextProvider } from "../features/armors/context/ArmorContext";
+
 import { Navbar } from "./layouts/Navbar";
 import { Register } from "../app/pages/Register";
 import { Login } from "../app/pages/Login";
@@ -66,7 +68,9 @@ function App() {
           <ArticleContextProvider>
             <SpellContextProvider>
               <WeaponContextProvider>
-                <RouterProvider router={router} />
+                <ArmorContextProvider>
+                  <RouterProvider router={router} />
+                </ArmorContextProvider>
               </WeaponContextProvider>
             </SpellContextProvider>
           </ArticleContextProvider>

@@ -4,7 +4,6 @@ const app = express();
 const PORT = process.env.PORT || 1234;
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const Spell = require("./seeds/spells");
 
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");

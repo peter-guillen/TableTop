@@ -27,15 +27,15 @@ const createArticle = async (req, res) => {
   }
 };
 
-const deleteArticle = async (req, res) => {
-  const { id } = req.params;
-  const article = await Article.findByIdAndDelete(id);
-  res.status(200).json(article);
-};
-
 const updateArticle = async (req, res) => {
   const { id } = req.params;
   const article = await Article.findByIdAndUpdate({ _id: id }, { ...req.body });
+  res.status(200).json(article);
+};
+
+const deleteArticle = async (req, res) => {
+  const { id } = req.params;
+  const article = await Article.findByIdAndDelete(id);
   res.status(200).json(article);
 };
 
@@ -43,6 +43,6 @@ module.exports = {
   getArticles,
   getArticle,
   createArticle,
-  deleteArticle,
   updateArticle,
+  deleteArticle,
 };

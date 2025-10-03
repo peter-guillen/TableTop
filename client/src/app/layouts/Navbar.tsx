@@ -349,14 +349,6 @@ export const Navbar = () => {
                   Admin
                 </NavLink>
               ) : null}
-              {currentUser && currentUser.role === "ADMIN" ? (
-                <NavLink
-                  to="users"
-                  className="px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                >
-                  Users
-                </NavLink>
-              ) : null}
             </div>
           </div>
 

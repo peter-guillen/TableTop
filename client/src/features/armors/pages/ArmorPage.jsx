@@ -1,24 +1,19 @@
-import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import { ArmorList } from "../components/ArmorList";
+import { ArmorDetails } from "../components/ArmorDetails";
+// import {ArmorCreate } from "./ArmorCreate";
+// import {ArmorEdit } from "./ArmorEdit";
 
 export const ArmorPage = () => {
-  const [armorList, setArmorList] = useState([]);
-  useEffect(() => {
-    const fetchArmors = async () => {
-      const categories = ["light-armor", "medium-armor", "heavy-armor"];
-      const requests = categories.map((category) =>
-        fetch(`https://www.dnd5eapi.co/api/equipment-categories/${category}`)
-      );
-      const responses = await Promise.all(requests);
-      const data = await Promise.all(responses.map((res) => res.json()));
-      const combinedArmorList = data.flatMap((category) => category.equipment);
-      setArmorList(combinedArmorList);
-    };
-    fetchArmors();
-  }, []);
   return (
-    <div>
-      {armorList &&
-        armorList.map((armor) => <div key={armor.index}>{armor.name}</div>)}
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<ArmorList />} />
+        {/* <Route path="createArmor" element={<ArmorCreate />} /> */}
+        <Route path=":id" element={<ArmorDetails />} />
+        {/* <Route path=":id/edit" element={<ArmorEdit />} /> */}
+      </Routes>
+    </>
   );
 };

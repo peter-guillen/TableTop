@@ -1,9 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import {
   fetchArticles,
-  createArticle,
-  updateArticle,
-  deleteArticle,
+  createArticle as apiCreateArticle,
+  updateArticle as apiUpdateArticle,
+  deleteArticle as apiDeleteArticle,
 } from "../api/articleApi";
 
 export const ArticleContext = createContext();
@@ -19,32 +19,31 @@ export const ArticleContextProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  const handleCreate = async (formData) => {
-    const newArticle = await createArticle(formData);
+  const createArticle = async (formData) => {
+    const newArticle = await apiCreateArticle(formData);
     setArticleList([...articleList, newArticle]);
   };
 
-  const handleDelete = async (id) => {
-    await deleteArticle(id);
-    const updatedArticleList = articleList.filter(
-      (article) => article._id !== id
-    );
-    setArticleList(updatedArticleList);
-  };
-
-  const handleEdit = async (id, formData) => {
-    await updateArticle(id, formData);
+  const updateArticle = async (id, formData) => {
+    await apiUpdateArticle(id, formData);
     const updatedArticleList = articleList.map((article) =>
       article._id === id ? { ...article, ...formData } : article
     );
     setArticleList(updatedArticleList);
   };
 
+  const deleteArticle = async (id) => {
+    await apiDeleteArticle(id);
+    const updatedArticleList = articleList.filter(
+      (article) => article._id !== id
+    );
+    setArticleList(updatedArticleList);
+  };
   const articleContextData = {
     articleList,
-    handleCreate,
-    handleDelete,
-    handleEdit,
+    createArticle,
+    updateArticle,
+    deleteArticle,
   };
 
   return (

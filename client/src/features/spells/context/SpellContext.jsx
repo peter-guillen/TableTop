@@ -2,8 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import {
   fetchSpells,
   createSpell,
-  deleteSpell,
   updateSpell,
+  deleteSpell as apiDeleteSpell,
 } from "../api/spellApi";
 
 export const SpellContext = createContext();
@@ -24,12 +24,6 @@ export const SpellContextProvider = ({ children }) => {
     setSpellList([...spellList, newSpell]);
   };
 
-  const handleDelete = async (id) => {
-    await deleteSpell(id);
-    const updatedSpells = await spellList.filter((spell) => spell._id !== id);
-    setSpellList(updatedSpells);
-  };
-
   const handleEdit = async (id, formData) => {
     await updateSpell(id, formData);
     const updatedSpellList = spellList.map((spell) =>
@@ -37,11 +31,18 @@ export const SpellContextProvider = ({ children }) => {
     );
     setSpellList(updatedSpellList);
   };
+
+  const deleteSpell = async (id) => {
+    await apiDeleteSpell(id);
+    const updatedSpells = await spellList.filter((spell) => spell._id !== id);
+    setSpellList(updatedSpells);
+  };
+
   const spellContextData = {
     spellList,
     handleCreate,
-    handleDelete,
     handleEdit,
+    deleteSpell,
   };
 
   return (

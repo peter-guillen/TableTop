@@ -25,18 +25,6 @@ export const createSpell = async (formData: Spells): Promise<Spells> => {
   return await response.json();
 };
 
-export const deleteSpell = async (id: string): Promise<Spells> => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  });
-  console.log(id);
-  if (!response.ok) {
-    throw new Error("Error while deleting spell");
-  }
-  return await response.json();
-};
-
 export const updateSpell = async (
   id: string,
   formData: Spells
@@ -48,6 +36,17 @@ export const updateSpell = async (
   });
   if (!response.ok) {
     throw new Error("Error while updating spell");
+  }
+  return await response.json();
+};
+
+export const deleteSpell = async (id: string): Promise<Spells> => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error("Error while deleting spell");
   }
   return await response.json();
 };

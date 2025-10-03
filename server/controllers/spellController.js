@@ -52,18 +52,6 @@ const createSpell = async (req, res) => {
   }
 };
 
-const deleteSpell = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Spell Not Found!" });
-  }
-  const spell = await Spell.findByIdAndDelete(id);
-  if (!spell) {
-    res.status(400).json({ error: "Spell Not Found!" });
-  }
-  res.status(200).json(spell);
-};
-
 const updateSpell = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -76,4 +64,16 @@ const updateSpell = async (req, res) => {
   res.status(200).json(spell);
 };
 
-module.exports = { getSpells, getSpell, createSpell, deleteSpell, updateSpell };
+const deleteSpell = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Spell Not Found!" });
+  }
+  const spell = await Spell.findByIdAndDelete(id);
+  if (!spell) {
+    res.status(400).json({ error: "Spell Not Found!" });
+  }
+  res.status(200).json(spell);
+};
+
+module.exports = { getSpells, getSpell, createSpell, updateSpell, deleteSpell };

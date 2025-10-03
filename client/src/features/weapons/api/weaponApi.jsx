@@ -15,7 +15,7 @@ export const fetchWeapon = async (id) => {
 export const createWeapon = async (formData) => {
   const response = await fetch(API_URL, {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "Content-type": "application/json" },
     body: JSON.stringify(formData),
   });
   if (!response.ok) {
@@ -27,7 +27,7 @@ export const createWeapon = async (formData) => {
 export const updateWeapon = async (id, formData) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
-    headers: { "content-type": "application/json" },
+    headers: { "Content-type": "application/json" },
     body: JSON.stringify(formData),
   });
   if (!response.ok) {
@@ -39,9 +39,10 @@ export const updateWeapon = async (id, formData) => {
 export const deleteWeapon = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
-    headers: { "content-type": "application/json" },
+    headers: { "Content-type": "application/json" },
   });
   if (!response.ok) {
     throw new Error("Error deleting weapon");
   }
+  return await response.json();
 };

@@ -19,9 +19,9 @@ export const WeaponPreview = () => {
 
   const getItemIcon = (category) => {
     const iconMap = {
-      Temperature: GiFireball,
-      Electromagnetism: GiLightningHelix,
-      Luminosity: GiSunbeams,
+      Axe: GiFireball,
+      Hammer: GiLightningHelix,
+      Sword: GiSunbeams,
       Soma: GiBlood,
       Psionic: GiWarlockEye,
       Pnuema: GiSparkSpirit,
@@ -30,9 +30,9 @@ export const WeaponPreview = () => {
   };
 
   const weaponBaseColors = {
-    Temperature: "red",
-    Electromagnetism: "blue",
-    Luminosity: "yellow",
+    Axe: "red",
+    Hammer: "blue",
+    Sword: "yellow",
     Soma: "purple",
     Psionic: "orange",
     Pnuema: "green",
@@ -58,7 +58,7 @@ export const WeaponPreview = () => {
     <>
       <div className="space-y-2">
         {weaponList.map((weapon) => {
-          const IconComponent = getItemIcon(weapon.school);
+          const IconComponent = getItemIcon(weapon.category);
           return (
             <NavLink
               key={weapon._id}
@@ -69,7 +69,7 @@ export const WeaponPreview = () => {
                 className={`
               
               ${getColorScheme(
-                weapon.school,
+                weapon.category,
                 "border",
                 "group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-gray-50 dark:hover:bg-gray-750"
               )}
@@ -85,7 +85,11 @@ export const WeaponPreview = () => {
                       }
                     >
                       <IconComponent
-                        className={getColorScheme(weapon.school, "", "w-5 h-5")}
+                        className={getColorScheme(
+                          weapon.category,
+                          "",
+                          "w-5 h-5"
+                        )}
                       />
                     </div>
 
@@ -97,7 +101,7 @@ export const WeaponPreview = () => {
                           {weapon.name}
                         </h3>
                         <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 capitalize">
-                          {weapon.domain}
+                          {weapon.category}
                         </span>
                       </div>
 
@@ -111,21 +115,21 @@ export const WeaponPreview = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium text-gray-900 dark:text-gray-300">
-                            Healing:
+                            Weight:
                           </span>
-                          <span>{weapon.healing}</span>
+                          <span>{weapon.weight}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium text-gray-900 dark:text-gray-300">
-                            Effect:
+                            Penalty:
                           </span>
-                          <span>{weapon.effect}</span>
+                          <span>{weapon.penalty}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium text-gray-900 dark:text-gray-300">
                             Prerequisite:
                           </span>
-                          <span>{weapon.category}</span>
+                          <span>{weapon.requirement}</span>
                         </div>
                       </div>
 
@@ -136,12 +140,12 @@ export const WeaponPreview = () => {
                           <span>{weapon.range}</span>
                         </div>
                         <div className="flex items-center space-x-1">
-                          <span className="font-medium">Casting:</span>
-                          <span>{weapon.casting}</span>
+                          <span className="font-medium">Weight:</span>
+                          <span>{weapon.weight}</span>
                         </div>
                         <div className="flex items-center space-x-1">
-                          <span className="font-medium">Duration:</span>
-                          <span>{weapon.duration}</span>
+                          <span className="font-medium">Material:</span>
+                          <span>{weapon.material}</span>
                         </div>
                       </div>
 
@@ -164,13 +168,13 @@ export const WeaponPreview = () => {
                   <div className="flex flex-col items-end space-y-2">
                     <div
                       className={`${getColorScheme(
-                        weapon.school,
+                        weapon.category,
                         "badge",
                         "px-3 py-1 rounded-full text-xs font-medium capitalize bg-opacity-10 dark:bg-opacity-20"
                       )}
                       `}
                     >
-                      {weapon.school}
+                      {weapon.category}
                     </div>
                   </div>
                 </div>

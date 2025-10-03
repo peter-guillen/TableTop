@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const checkAuthenticated = require("../middlewares/checkAuthenticated");
-const checkAuthorization = require("../middlewares/checkAuthorization");
 
 const {
   getSpells,

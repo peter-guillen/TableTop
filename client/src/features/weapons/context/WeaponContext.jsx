@@ -4,7 +4,7 @@ import {
   //   fetchWeapon,
   //   createWeapon,
   //   updateWeapon,
-  //   removeWeapon,
+  deleteWeapon as apiDeleteWeapon,
 } from "../api/weaponApi";
 
 export const WeaponContext = createContext();
@@ -20,8 +20,15 @@ export const WeaponContextProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  const deleteWeapon = async (id) => {
+    await apiDeleteWeapon(id);
+    const updatedWeapons = weaponList.filter((weapon) => weapon._id !== id);
+    setWeaponList(updatedWeapons);
+  };
+
   const weaponContextData = {
     weaponList,
+    deleteWeapon,
   };
 
   return (

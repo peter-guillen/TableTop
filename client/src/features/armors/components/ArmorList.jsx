@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { WeaponContext } from "../context/WeaponContext";
-import { WeaponPreview } from "./WeaponPreview";
+import { ArmorContext } from "../context/ArmorContext";
+import { ArmorPreview } from "./ArmorPreview";
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
 
-export const WeaponList = () => {
-  const { weaponList } = useContext(WeaponContext);
-  if (!weaponList || weaponList.length === 0) {
+export const ArmorList = () => {
+  const { armorList } = useContext(ArmorContext);
+  if (!armorList || armorList.length === 0) {
     return <LoadingSpinner />;
   }
 
@@ -13,7 +13,7 @@ export const WeaponList = () => {
     <>
       <div className="flex justify-center">
         <div className="w-3/4">
-          <WeaponPreview />
+          <ArmorPreview />
         </div>
       </div>
     </>

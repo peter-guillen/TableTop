@@ -29,19 +29,18 @@ const createProfession = async (req, res) => {
   }
 };
 
-const deleteProfession = async (req, res) => {
-  const { id } = req.params;
-  const profession = await Profession.findByIdAndDelete(id);
-  res.status(200).json(profession);
-};
-
 const updateProfession = async (req, res) => {
   const { id } = req.params;
   const profession = await Profession.findByIdAndUpdate(
     { _id: id },
     { ...req.body }
   );
+  res.status(200).json(profession);
+};
 
+const deleteProfession = async (req, res) => {
+  const { id } = req.params;
+  const profession = await Profession.findByIdAndDelete(id);
   res.status(200).json(profession);
 };
 
@@ -49,6 +48,6 @@ module.exports = {
   getProfessions,
   getProfession,
   createProfession,
-  deleteProfession,
   updateProfession,
+  deleteProfession,
 };

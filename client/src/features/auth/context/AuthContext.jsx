@@ -4,12 +4,13 @@ import {
   createUser as createUserApi,
   loginUser as loginUserApi,
   logoutUser as logoutUserApi,
+  deleteUser as deleteUserApi,
 } from "../../users/api/userApi";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,8 +19,8 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getUsers = async () => {
-      const userData = await fetchUsers();
-      setUsers(userData);
+      const users = await fetchUsers();
+      setUserList(users);
     };
     getUsers();
   }, []);
@@ -27,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   const signup = async (formData) => {
     const response = await createUserApi(formData);
     if (response.success) {
-      setUsers([...users, response.user]);
+      setUserList([...userList, response.user]);
       return { success: true };
     }
     setError(response.message);
@@ -68,6 +69,12 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const deleteUser = async (id) => {
+    await deleteUserApi(id);
+    const updatedUsers = await userList.filter((user) => user._id === id);
+    setUserList(updatedUsers);
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -95,13 +102,14 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   const value = {
-    users,
-    setUsers,
+    userList,
+    setUserList,
     currentUser,
     setCurrentUser,
     signup,
     login,
     logout,
+    deleteUser,
     isLoading,
     error,
     errorMessage,

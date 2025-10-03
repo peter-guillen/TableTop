@@ -1,12 +1,12 @@
 const API_URL = "http://localhost:1234/api/armors";
 
-export const getArmors = async () => {
+export const fetchArmors = async () => {
   const response = await fetch(API_URL);
   const jsonResponse = response.json();
   return jsonResponse;
 };
 
-export const getArmor = async (id) => {
+export const fetchArmor = async (id) => {
   const response = await fetch(`${API_URL}/${id}`);
   const jsonResponse = response.json();
   return jsonResponse;
