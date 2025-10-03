@@ -2,7 +2,7 @@
 import {
   LuSparkles,
   LuCrown,
-  LuWand2,
+  LuWandSparkles,
   LuShield,
   LuSword,
   LuUser,
@@ -15,7 +15,7 @@ export const CardTemplate = ({ classes }) => {
   const getClassIcon = (className) => {
     const iconMap = {
       fighter: LuSword,
-      wizard: LuWand2,
+      wizard: LuWandSparkles,
       knight: LuShield,
       rogue: LuUser,
       cleric: LuStar,

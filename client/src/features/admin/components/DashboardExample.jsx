@@ -7,7 +7,7 @@ import {
   LuTrendingUp,
   LuActivity,
   LuDollarSign,
-  LuBarChart3,
+  LuChartColumn,
 } from "react-icons/lu";
 
 export const DashboardExample = () => {
@@ -198,7 +198,7 @@ export const AnalyticsExample = () => {
             User Growth
           </h3>
           <div className="h-64 bg-gray-100 dark:bg-slate-700 rounded-lg flex items-center justify-center">
-            <LuBarChart3 className="w-16 h-16 text-gray-400 dark:text-slate-500" />
+            <LuChartColumn className="w-16 h-16 text-gray-400 dark:text-slate-500" />
           </div>
         </div>
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">

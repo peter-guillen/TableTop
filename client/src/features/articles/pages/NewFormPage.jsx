@@ -9,7 +9,7 @@ import {
   LuEye,
   LuEyeOff,
   LuUpload,
-  LuAlertCircle,
+  LuCircleAlert,
 } from "react-icons/lu";
 
 const ModalForm = ({
@@ -324,7 +324,7 @@ const ModalForm = ({
 
                   {errors[field.name] && (
                     <div className="flex items-center space-x-1 mt-1 text-red-400 text-sm">
-                      <LuAlertCircle className="w-4 h-4" />
+                      <LuCircleAlert className="w-4 h-4" />
                       <span>{errors[field.name]}</span>
                     </div>
                   )}

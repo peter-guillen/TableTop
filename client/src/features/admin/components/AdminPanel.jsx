@@ -11,14 +11,14 @@ import {
   LuSparkles,
   LuShield,
   LuFileText,
-  LuBarChart3,
+  LuChartColumn,
   LuSearch,
   LuPlus,
   LuPen,
   LuTrash2,
   LuEye,
   LuSettings,
-  LuHome,
+  LuHouse,
   LuChevronRight,
 } from "react-icons/lu";
 
@@ -52,14 +52,14 @@ export const AdminPanel = () => {
 
   // Navigation items for sidebar
   const navigationItems = [
-    { id: "dashboard", label: "Dashboard", icon: LuHome },
+    { id: "dashboard", label: "Dashboard", icon: LuHouse },
     { id: "users", label: "Users", icon: LuUsers },
     { id: "articles", label: "Articles", icon: LuFileText },
     { id: "spells", label: "Spells", icon: LuSparkles },
     { id: "abilities", label: "Abilities", icon: LuEye },
     { id: "weapons", label: "Weapons", icon: LuSword },
     { id: "armors", label: "Armors", icon: LuShield },
-    { id: "analytics", label: "Analytics", icon: LuBarChart3 },
+    { id: "analytics", label: "Analytics", icon: LuChartColumn },
     { id: "settings", label: "Settings", icon: LuSettings },
   ];
 
