@@ -1,9 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import {
   fetchWeapons,
-  //   fetchWeapon,
-  //   createWeapon,
-  //   updateWeapon,
+  createWeapon as apiCreateWeapon,
+  updateWeapon as apiUpdateWeapon,
   deleteWeapon as apiDeleteWeapon,
 } from "../api/weaponApi";
 
@@ -20,6 +19,19 @@ export const WeaponContextProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  const createWeapon = async (formData) => {
+    const newWeapon = await apiCreateWeapon(formData);
+    setWeaponList([...weaponList, newWeapon]);
+  };
+
+  const updateWeapon = async (id, formData) => {
+    await apiUpdateWeapon(id, formData);
+    const updatedWeaponList = weaponList.map((weapon) =>
+      weapon._id === id ? { ...weapon, ...formData } : weapon
+    );
+    setWeaponList(updatedWeaponList);
+  };
+
   const deleteWeapon = async (id) => {
     await apiDeleteWeapon(id);
     const updatedWeapons = weaponList.filter((weapon) => weapon._id !== id);
@@ -28,6 +40,8 @@ export const WeaponContextProvider = ({ children }) => {
 
   const weaponContextData = {
     weaponList,
+    createWeapon,
+    updateWeapon,
     deleteWeapon,
   };
 

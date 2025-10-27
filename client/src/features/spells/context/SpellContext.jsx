@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import {
   fetchSpells,
-  createSpell,
-  updateSpell,
+  createSpell as apiCreateSpell,
+  updateSpell as apiUpdateSpell,
   deleteSpell as apiDeleteSpell,
 } from "../api/spellApi";
 
@@ -19,13 +19,13 @@ export const SpellContextProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  const handleCreate = async (formData) => {
-    const newSpell = await createSpell(formData);
+  const createSpell = async (formData) => {
+    const newSpell = await apiCreateSpell(formData);
     setSpellList([...spellList, newSpell]);
   };
 
-  const handleEdit = async (id, formData) => {
-    await updateSpell(id, formData);
+  const updateSpell = async (id, formData) => {
+    await apiUpdateSpell(id, formData);
     const updatedSpellList = spellList.map((spell) =>
       spell._id === id ? { ...spell, ...formData } : spell
     );
@@ -40,8 +40,8 @@ export const SpellContextProvider = ({ children }) => {
 
   const spellContextData = {
     spellList,
-    handleCreate,
-    handleEdit,
+    createSpell,
+    updateSpell,
     deleteSpell,
   };
 

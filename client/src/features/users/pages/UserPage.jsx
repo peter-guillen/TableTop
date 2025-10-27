@@ -20,8 +20,6 @@ export const UserPage = () => {
     setUserList((prevList) => prevList.filter((user) => user._id !== id));
   };
 
-  console.log(userList);
-  console.log(users);
   return (
     <div>
       <div>

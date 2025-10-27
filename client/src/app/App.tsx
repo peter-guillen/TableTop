@@ -57,7 +57,8 @@ const router = createBrowserRouter(
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
-  )
+  ),
+  { future: { v7_fetcherPersist: true } }
 );
 
 function App() {
@@ -69,7 +70,10 @@ function App() {
             <SpellContextProvider>
               <WeaponContextProvider>
                 <ArmorContextProvider>
-                  <RouterProvider router={router} />
+                  <RouterProvider
+                    router={router}
+                    future={{ v7_startTransition: true }}
+                  />
                 </ArmorContextProvider>
               </WeaponContextProvider>
             </SpellContextProvider>

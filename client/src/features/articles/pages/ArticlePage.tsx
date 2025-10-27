@@ -6,7 +6,11 @@ import { ArticleList } from "../components/ArticleList";
 import { AdminArticleCreate } from "./AdminArticleCreate";
 import { AdminArticleEdit } from "./AdminArticleEdit";
 import { NewFormPage } from "./NewFormPage";
-import Demo from "../pages/";
+import Demo from "./FormTemplate";
+import CharacterCreator from "./CharacterForm";
+import { SpellForm } from "./SpellForm";
+import { WeaponForm } from "./WeaponForm";
+import { SpellDetails } from "./SpellDetails";
 
 export const ArticlePage = () => {
   return (
@@ -16,9 +20,15 @@ export const ArticlePage = () => {
         <Route path="/adminArticleList" element={<AdminArticleList />} />
         <Route path="/createArticle" element={<AdminArticleEdit />} />
         <Route path="/:id" element={<ArticleDetails />} />
-        <Route path="/:id/edit" element={<AdminArticleEdit />} />
+        {/* <Route path="/:id/edit" element={<AdminArticleEdit />} /> */}
         <Route path="/newForm" element={<NewFormPage />} />
-        <Route path="/newForm" element={<NewFormPage />} />
+        <Route path="/demo" element={<Demo />} />
+        <Route path="/charSheet" element={<CharacterCreator />} />
+        <Route path="/createSpell" element={<SpellForm />} />
+        <Route path="/:id/edit" element={<SpellForm />} />
+        <Route path="/spellDetails" element={<SpellDetails />} />
+        {/* <Route path="/spellModal" element={<QuickSpellModal />} /> */}
+        <Route path="/weaponForm" element={<WeaponForm />} />
       </Routes>
     </>
   );

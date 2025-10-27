@@ -95,35 +95,35 @@ export const LandingPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-cyan-900 to-slate-900 text-white overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div
-            className="absolute top-20 left-20 w-2 h-2 bg-purple-400 rounded-full opacity-60 animate-pulse"
+            className="absolute top-20 left-20 w-2 h-2 bg-cyan-400 rounded-full opacity-60 animate-pulse"
             style={{ transform: `translateY(${scrollY * 0.1}px)` }}
           />
           <div
-            className="absolute top-40 right-32 w-1 h-1 bg-blue-400 rounded-full opacity-40 animate-pulse"
+            className="absolute top-40 right-32 w-1 h-1 bg-orange-400 rounded-full opacity-40 animate-pulse"
             style={{ transform: `translateY(${scrollY * 0.15}px)` }}
           />
           <div
-            className="absolute bottom-32 left-1/4 w-3 h-3 bg-purple-300 rounded-full opacity-30 animate-pulse"
+            className="absolute bottom-32 left-1/4 w-3 h-3 bg-cyan-300 rounded-full opacity-30 animate-pulse"
             style={{ transform: `translateY(${scrollY * -0.1}px)` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-transparent to-orange-500/10" />
         </div>
 
         <div className="relative z-10 text-center max-w-6xl mx-auto">
-          <div className="mb-8 inline-flex items-center space-x-3 bg-purple-800/30 rounded-full px-6 py-3 backdrop-blur-sm border border-purple-500/20">
-            <LuSparkles className="w-5 h-5 text-purple-400 animate-pulse" />
-            <span className="text-purple-200 text-sm font-medium">
+          <div className="mb-8 inline-flex items-center space-x-3 bg-cyan-800/30 rounded-full px-6 py-3 backdrop-blur-sm border border-cyan-500/20">
+            <LuSparkles className="w-5 h-5 text-cyan-400 animate-pulse" />
+            <span className="text-cyan-200 text-sm font-medium">
               Your Ultimate D&D Companion
             </span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-orange-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
             Epic Adventures
             <br />
             <span className="text-5xl md:text-7xl">Begin Here</span>
@@ -136,12 +136,12 @@ export const LandingPage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button className="group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25 flex items-center space-x-2">
+            <button className="group bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 flex items-center space-x-2">
               <LuPlay className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               <span>Start Exploring</span>
             </button>
 
-            <button className="group border-2 border-purple-400/50 hover:border-purple-400 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-purple-600/20 backdrop-blur-sm flex items-center space-x-2">
+            <button className="group border-2 border-cyan-400/50 hover:border-cyan-400 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-cyan-600/20 backdrop-blur-sm flex items-center space-x-2">
               <LuBookOpen className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               <span>Browse Content</span>
             </button>
@@ -150,12 +150,12 @@ export const LandingPage = () => {
 
         {/* Floating Spell Card */}
         <div className="absolute right-10 top-1/2 transform -translate-y-1/2 hidden xl:block">
-          <div className="bg-slate-800/80 backdrop-blur-md rounded-xl p-6 border border-purple-500/30 shadow-2xl w-80 transition-all duration-500">
+          <div className="bg-slate-800/80 backdrop-blur-md rounded-xl p-6 border border-cyan-500/30 shadow-2xl w-80 transition-all duration-500">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-purple-400 text-sm font-semibold">
+              <span className="text-cyan-400 text-sm font-semibold">
                 {featuredSpells[currentSpell].school}
               </span>
-              <span className="bg-purple-600/20 text-purple-300 px-3 py-1 rounded-full text-xs">
+              <span className="bg-cyan-600/20 text-cyan-300 px-3 py-1 rounded-full text-xs">
                 {featuredSpells[currentSpell].level}
               </span>
             </div>
@@ -171,7 +171,7 @@ export const LandingPage = () => {
                   key={index}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === currentSpell
-                      ? "w-8 bg-purple-500"
+                      ? "w-8 bg-cyan-500"
                       : "w-2 bg-gray-600"
                   }`}
                 />
@@ -189,8 +189,8 @@ export const LandingPage = () => {
               const Icon = stat.icon;
               return (
                 <div key={index} className="text-center group">
-                  <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl p-6 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 group-hover:scale-105">
-                    <Icon className="w-8 h-8 text-purple-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                  <div className="bg-gradient-to-br from-cyan-600/20 to-orange-600/20 rounded-2xl p-6 backdrop-blur-sm border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 group-hover:scale-105">
+                    <Icon className="w-8 h-8 text-cyan-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
                     <div className="text-3xl font-bold text-white mb-2">
                       {stat.number}
                     </div>
@@ -207,7 +207,7 @@ export const LandingPage = () => {
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
               Everything You Need
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -222,10 +222,10 @@ export const LandingPage = () => {
               return (
                 <div
                   key={index}
-                  className="group bg-gradient-to-br from-slate-800/50 to-purple-900/20 rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:scale-[1.02] backdrop-blur-sm"
+                  className="group bg-gradient-to-br from-slate-800/50 to-cyan-900/20 rounded-2xl p-8 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 hover:scale-[1.02] backdrop-blur-sm"
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl p-3 group-hover:scale-110 transition-transform">
+                    <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-xl p-3 group-hover:scale-110 transition-transform">
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -233,7 +233,7 @@ export const LandingPage = () => {
                         <h3 className="text-xl font-bold text-white">
                           {feature.title}
                         </h3>
-                        <span className="text-purple-400 text-sm font-semibold">
+                        <span className="text-cyan-400 text-sm font-semibold">
                           {feature.stats}
                         </span>
                       </div>
@@ -241,7 +241,7 @@ export const LandingPage = () => {
                         {feature.description}
                       </p>
                       <div className="mt-4">
-                        <button className="text-purple-400 hover:text-purple-300 font-medium flex items-center space-x-2 group-hover:translate-x-1 transition-transform">
+                        <button className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center space-x-2 group-hover:translate-x-1 transition-transform">
                           <span>Explore</span>
                           <LuArrowRight className="w-4 h-4" />
                         </button>
@@ -259,7 +259,7 @@ export const LandingPage = () => {
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
               Begin Your Journey
             </h2>
             <p className="text-xl text-gray-300">
@@ -270,8 +270,8 @@ export const LandingPage = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl p-8 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 group-hover:scale-105">
-                <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-gradient-to-br from-cyan-600/20 to-orange-600/20 rounded-2xl p-8 backdrop-blur-sm border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 group-hover:scale-105">
+                <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                   <span className="text-2xl font-bold text-white">1</span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-4">
@@ -285,8 +285,8 @@ export const LandingPage = () => {
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl p-8 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 group-hover:scale-105">
-                <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-gradient-to-br from-cyan-600/20 to-orange-600/20 rounded-2xl p-8 backdrop-blur-sm border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 group-hover:scale-105">
+                <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                   <span className="text-2xl font-bold text-white">2</span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-4">
@@ -300,8 +300,8 @@ export const LandingPage = () => {
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl p-8 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 group-hover:scale-105">
-                <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-gradient-to-br from-cyan-600/20 to-orange-600/20 rounded-2xl p-8 backdrop-blur-sm border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 group-hover:scale-105">
+                <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                   <span className="text-2xl font-bold text-white">3</span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-4">
@@ -318,10 +318,10 @@ export const LandingPage = () => {
       </section>
 
       {/* Popular Content Preview */}
-      <section className="py-20 px-6 bg-gradient-to-r from-purple-900/20 to-blue-900/20 backdrop-blur-sm">
+      <section className="py-20 px-6 bg-gradient-to-r from-cyan-900/20 to-orange-900/20 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
               Popular This Week
             </h2>
             <p className="text-xl text-gray-300">
@@ -330,10 +330,10 @@ export const LandingPage = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-slate-800/50 rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 backdrop-blur-sm group hover:scale-[1.02]">
+            <div className="bg-slate-800/50 rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 backdrop-blur-sm group hover:scale-[1.02]">
               <div className="flex items-center space-x-3 mb-4">
-                <LuSparkles className="w-6 h-6 text-purple-400" />
-                <span className="text-purple-400 font-semibold">
+                <LuSparkles className="w-6 h-6 text-cyan-400" />
+                <span className="text-cyan-400 font-semibold">
                   Most Viewed Spell
                 </span>
               </div>
@@ -344,16 +344,16 @@ export const LandingPage = () => {
                 A beam of crackling energy streaks toward a creature within
                 range...
               </p>
-              <div className="flex items-center text-sm text-purple-400">
+              <div className="flex items-center text-sm text-cyan-400">
                 <LuTrendingUp className="w-4 h-4 mr-1" />
                 <span>2,341 views this week</span>
               </div>
             </div>
 
-            <div className="bg-slate-800/50 rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 backdrop-blur-sm group hover:scale-[1.02]">
+            <div className="bg-slate-800/50 rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 backdrop-blur-sm group hover:scale-[1.02]">
               <div className="flex items-center space-x-3 mb-4">
-                <LuSword className="w-6 h-6 text-blue-400" />
-                <span className="text-blue-400 font-semibold">
+                <LuSword className="w-6 h-6 text-orange-400" />
+                <span className="text-orange-400 font-semibold">
                   Trending Weapon
                 </span>
               </div>
@@ -364,18 +364,16 @@ export const LandingPage = () => {
                 You can use a bonus action to speak this magic sword's command
                 word...
               </p>
-              <div className="flex items-center text-sm text-blue-400">
+              <div className="flex items-center text-sm text-orange-400">
                 <LuTrendingUp className="w-4 h-4 mr-1" />
                 <span>1,892 views this week</span>
               </div>
             </div>
 
-            <div className="bg-slate-800/50 rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 backdrop-blur-sm group hover:scale-[1.02]">
+            <div className="bg-slate-800/50 rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 backdrop-blur-sm group hover:scale-[1.02]">
               <div className="flex items-center space-x-3 mb-4">
-                <LuBookOpen className="w-6 h-6 text-green-400" />
-                <span className="text-green-400 font-semibold">
-                  Hot Article
-                </span>
+                <LuBookOpen className="w-6 h-6 text-red-400" />
+                <span className="text-red-400 font-semibold">Hot Article</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-2">
                 Multiclassing Guide
@@ -384,7 +382,7 @@ export const LandingPage = () => {
                 Learn the ins and outs of combining classes for powerful
                 character builds...
               </p>
-              <div className="flex items-center text-sm text-green-400">
+              <div className="flex items-center text-sm text-red-400">
                 <LuTrendingUp className="w-4 h-4 mr-1" />
                 <span>1,567 reads this week</span>
               </div>
@@ -396,7 +394,7 @@ export const LandingPage = () => {
       {/* Community Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
             Join the Adventure
           </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
@@ -405,7 +403,7 @@ export const LandingPage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button className="group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 px-10 py-5 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25 flex items-center space-x-3">
+            <button className="group bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 px-10 py-5 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 flex items-center space-x-3">
               <LuGlobe className="w-6 h-6 group-hover:rotate-12 transition-transform" />
               <span>Create Free Account</span>
             </button>

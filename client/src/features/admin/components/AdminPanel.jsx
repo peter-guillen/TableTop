@@ -35,20 +35,46 @@ export const AdminPanel = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Context hooks (each provides list + CRUD actions)
-  const { articleList, deleteArticle } = useContext(ArticleContext);
-  const { spellList, deleteSpell } = useContext(SpellContext);
-  const { weaponList, deleteWeapon } = useContext(WeaponContext);
-  const { armorList, deleteArmor } = useContext(ArmorContext);
+  const { articleList, createArticle, updateArticle, deleteArticle } =
+    useContext(ArticleContext);
+  const { spellList, createSpell, updateSpell, deleteSpell } =
+    useContext(SpellContext);
+  const { weaponList, createWeapon, updateWeapon, deleteWeapon } =
+    useContext(WeaponContext);
+  const { armorList, createArmor, updateArmor, deleteArmor } =
+    useContext(ArmorContext);
   const { userList, deleteUser } = useContext(AuthContext);
 
-  // Map section IDs to real context data + delete handlers
+  // Map for sectional data
   const sectionConfig = {
-    articles: { data: articleList, deleteFn: deleteArticle },
-    spells: { data: spellList, deleteFn: deleteSpell },
-    weapons: { data: weaponList, deleteFn: deleteWeapon },
-    armors: { data: armorList, deleteFn: deleteArmor },
+    articles: {
+      data: articleList,
+      createFn: createArticle,
+      editFn: updateArticle,
+      deleteFn: deleteArticle,
+    },
+    spells: {
+      data: spellList,
+      createFn: createSpell,
+      editFn: updateSpell,
+      deleteFn: deleteSpell,
+    },
+    weapons: {
+      data: weaponList,
+      createFn: createWeapon,
+      editFn: updateWeapon,
+      deleteFn: deleteWeapon,
+    },
+    armors: {
+      data: armorList,
+      createFn: createArmor,
+      editFn: updateArmor,
+      deleteFn: deleteArmor,
+    },
     users: { data: userList, deleteFn: deleteUser },
   };
+
+  console.log(activeSection);
 
   // Navigation items for sidebar
   const navigationItems = [
@@ -63,7 +89,7 @@ export const AdminPanel = () => {
     { id: "settings", label: "Settings", icon: LuSettings },
   ];
 
-  // Dashboard view (summary + quick actions)
+  // Dashboard view
   const renderDashboard = () => (
     <div className="space-y-6">
       <DashboardExample />
@@ -83,10 +109,13 @@ export const AdminPanel = () => {
             Manage your {title.toLowerCase()}
           </p>
         </div>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
-          <LuPlus className="w-4 h-4" />
-          <span>Add {title.slice(0, -1)}</span>
-        </button>
+        {/* Navigation to routes by turning title from plural to singular and lowercase e.g. (/articles/SpellsForm -> /articles/spellForm)*/}
+        <NavLink to={`/articles/create${title.slice(0, -1).toUpperCase()}`}>
+          <button className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+            <LuPlus className="w-4 h-4" />
+            <span>Add {title.slice(0, -1)}</span>
+          </button>
+        </NavLink>
       </div>
 
       {/* Search box */}
@@ -98,7 +127,7 @@ export const AdminPanel = () => {
             placeholder={`Search ${title.toLowerCase()}...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400"
           />
         </div>
       </div>
@@ -157,13 +186,15 @@ export const AdminPanel = () => {
                   <td className="px-6 py-4 text-sm text-gray-500 dark:text-slate-400">
                     <div className="flex space-x-2">
                       <NavLink to={`/${activeSection}/${item._id}`}>
-                        <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                        <button className="text-cyan-600 dark:text-cyan-400 hover:text-blue-800 dark:hover:text-blue-300">
                           <LuEye className="w-4 h-4" />
                         </button>
                       </NavLink>
-                      <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
-                        <LuPen className="w-4 h-4" />
-                      </button>
+                      <NavLink to={`/articles/${item._id}/edit`}>
+                        <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
+                          <LuPen className="w-4 h-4" />
+                        </button>
+                      </NavLink>
                       {deleteFn && (
                         <button
                           onClick={() => deleteFn(item._id)}
@@ -200,6 +231,8 @@ export const AdminPanel = () => {
           sectionConfig.spells.data,
           ["Name", "Level", "School", "Range", "Duration"],
           "Spells",
+          sectionConfig.spells.createFn,
+          sectionConfig.spells.editFn,
           sectionConfig.spells.deleteFn
         );
       case "abilities":
@@ -209,6 +242,8 @@ export const AdminPanel = () => {
           sectionConfig.weapons.data,
           ["Name", "Damage", "Category", "Weight", "Range"],
           "Weapons",
+          sectionConfig.spells.createFn,
+          sectionConfig.spells.editFn,
           sectionConfig.weapons.deleteFn
         );
       case "armors":
@@ -216,6 +251,8 @@ export const AdminPanel = () => {
           sectionConfig.armors.data,
           ["Name", "Defense", "Category", "Type", "Penalty"],
           "Armors",
+          sectionConfig.spells.createFn,
+          sectionConfig.spells.editFn,
           sectionConfig.armors.deleteFn
         );
       case "articles":
@@ -223,6 +260,8 @@ export const AdminPanel = () => {
           sectionConfig.articles.data,
           ["Title", "Author", "Category", "Published", "Status"],
           "Articles",
+          sectionConfig.spells.createFn,
+          sectionConfig.spells.editFn,
           sectionConfig.articles.deleteFn
         );
       case "analytics":
@@ -240,7 +279,7 @@ export const AdminPanel = () => {
       <div className="w-64 bg-white dark:bg-slate-800 shadow-sm border-r border-gray-200 dark:border-slate-700">
         <div className="p-6">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg flex items-center justify-center">
               <LuSparkles className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -259,7 +298,7 @@ export const AdminPanel = () => {
                   onClick={() => setActiveSection(item.id)}
                   className={`w-full flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.id
-                      ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-2 border-blue-700 dark:border-blue-400"
+                      ? "bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-400 border-r-2 border-cyan-700 dark:border-cyan-400"
                       : "text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-700"
                   }`}
                 >

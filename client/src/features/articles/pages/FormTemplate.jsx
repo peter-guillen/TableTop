@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { ChevronDown, Plus, Trash2, Save, Eye, Settings } from "lucide-react";
+import { useState } from "react";
+import {
+  LuChevronDown,
+  LuPlus,
+  LuTrash2,
+  LuSave,
+  LuEye,
+  LuSettings,
+} from "react-icons/lu";
 
 const ContentManagementForm = ({
   config,
@@ -100,7 +107,7 @@ const ContentManagementForm = ({
               <span className={value ? "text-slate-100" : "text-slate-400"}>
                 {value || field.placeholder || "Select an option"}
               </span>
-              <ChevronDown
+              <LuChevronDown
                 className={`w-5 h-5 transition-transform duration-200 ${
                   openDropdowns[field.id] ? "rotate-180" : ""
                 }`}
@@ -188,7 +195,7 @@ const ContentManagementForm = ({
                   onClick={() => handleArrayRemove(field.id, index)}
                   className="p-3 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-lg transition-all duration-200"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <LuTrash2 className="w-5 h-5" />
                 </button>
               </div>
             ))}
@@ -197,7 +204,7 @@ const ContentManagementForm = ({
               onClick={() => handleArrayAdd(field.id)}
               className="flex items-center space-x-2 px-4 py-3 text-amber-400 hover:text-amber-300 hover:bg-amber-900/20 rounded-lg transition-all duration-200 border border-dashed border-slate-600 hover:border-amber-500 w-full"
             >
-              <Plus className="w-5 h-5" />
+              <LuPlus className="w-5 h-5" />
               <span>Add {field.label}</span>
             </button>
           </div>
@@ -214,7 +221,7 @@ const ContentManagementForm = ({
       <div className="bg-gradient-to-r from-slate-800 to-slate-700 border-b border-slate-600 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Settings className="w-8 h-8 text-amber-500" />
+            <LuSettings className="w-8 h-8 text-amber-500" />
             <h1 className="text-2xl font-bold text-slate-100">{title}</h1>
           </div>
           <div className="flex items-center space-x-3">
@@ -223,7 +230,7 @@ const ContentManagementForm = ({
               onClick={onPreview}
               className="flex items-center space-x-2 px-4 py-2 bg-slate-600 hover:bg-slate-500 text-slate-100 rounded-lg transition-colors duration-200"
             >
-              <Eye className="w-5 h-5" />
+              <LuEye className="w-5 h-5" />
               <span>Preview</span>
             </button>
             <button
@@ -231,7 +238,7 @@ const ContentManagementForm = ({
               onClick={() => onSave(formData)}
               className="flex items-center space-x-2 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-900 font-medium rounded-lg transition-colors duration-200"
             >
-              <Save className="w-5 h-5" />
+              <LuSave className="w-5 h-5" />
               <span>Save</span>
             </button>
           </div>
@@ -254,7 +261,7 @@ const ContentManagementForm = ({
                 <h2 className="text-xl font-semibold text-slate-100">
                   {section.title}
                 </h2>
-                <ChevronDown
+                <LuChevronDown
                   className={`w-6 h-6 transition-transform duration-200 ${
                     openSections[section.id] ? "rotate-180" : ""
                   }`}
@@ -302,7 +309,9 @@ const ContentManagementForm = ({
   );
 };
 
+// ---------------------------------------------------------------------------------
 // Example configuration for D&D Character Creation
+// ---------------------------------------------------------------------------------
 const dndCharacterConfig = {
   sections: [
     {
@@ -487,7 +496,9 @@ const dndCharacterConfig = {
   ],
 };
 
+// ---------------------------------------------------------------------------------
 // Demo Component
+// ---------------------------------------------------------------------------------
 const Demo = () => {
   const [formData, setFormData] = useState({});
 

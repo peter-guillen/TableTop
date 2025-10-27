@@ -24,13 +24,13 @@ export const DashboardExample = () => {
                 1,234
               </p>
             </div>
-            <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
-              <LuUsers className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="p-3 bg-cyan-100 dark:bg-cyan-900/20 rounded-full">
+              <LuUsers className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <LuTrendingUp className="w-4 h-4 text-green-500 mr-1" />
-            <span className="text-green-600 dark:text-green-400">+12%</span>
+            <LuTrendingUp className="w-4 h-4 text-emerald-500 mr-1" />
+            <span className="text-emerald-600 dark:text-emerald-400">+12%</span>
             <span className="text-gray-600 dark:text-slate-400 ml-1">
               from last month
             </span>
@@ -46,13 +46,13 @@ export const DashboardExample = () => {
                 87
               </p>
             </div>
-            <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-full">
-              <LuActivity className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <div className="p-3 bg-emerald-100 dark:bg-emerald-900/20 rounded-full">
+              <LuActivity className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <LuTrendingUp className="w-4 h-4 text-green-500 mr-1" />
-            <span className="text-green-600 dark:text-green-400">+5%</span>
+            <LuTrendingUp className="w-4 h-4 text-emerald-500 mr-1" />
+            <span className="text-emerald-600 dark:text-emerald-400">+5%</span>
             <span className="text-gray-600 dark:text-slate-400 ml-1">
               from last week
             </span>
@@ -68,13 +68,13 @@ export const DashboardExample = () => {
                 2,456
               </p>
             </div>
-            <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full">
-              <LuFileText className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <div className="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+              <LuFileText className="w-6 h-6 text-orange-600 dark:text-orange-400" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <LuTrendingUp className="w-4 h-4 text-green-500 mr-1" />
-            <span className="text-green-600 dark:text-green-400">+18%</span>
+            <LuTrendingUp className="w-4 h-4 text-emerald-500 mr-1" />
+            <span className="text-emerald-600 dark:text-emerald-400">+18%</span>
             <span className="text-gray-600 dark:text-slate-400 ml-1">
               from last month
             </span>
@@ -95,8 +95,8 @@ export const DashboardExample = () => {
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <LuTrendingUp className="w-4 h-4 text-green-500 mr-1" />
-            <span className="text-green-600 dark:text-green-400">+8%</span>
+            <LuTrendingUp className="w-4 h-4 text-emerald-500 mr-1" />
+            <span className="text-emerald-600 dark:text-emerald-400">+8%</span>
             <span className="text-gray-600 dark:text-slate-400 ml-1">
               from last month
             </span>
@@ -110,8 +110,8 @@ export const DashboardExample = () => {
           </h3>
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
-                <LuUsers className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <div className="w-8 h-8 bg-cyan-100 dark:bg-cyan-900/20 rounded-full flex items-center justify-center">
+                <LuUsers className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
@@ -123,8 +123,8 @@ export const DashboardExample = () => {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-                <LuFileText className="w-4 h-4 text-green-600 dark:text-green-400" />
+              <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center">
+                <LuFileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
@@ -136,8 +136,8 @@ export const DashboardExample = () => {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center">
-                <LuSparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+              <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
+                <LuSparkles className="w-4 h-4 text-orange-600 dark:text-orange-400" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
@@ -155,13 +155,13 @@ export const DashboardExample = () => {
             Quick Actions
           </h3>
           <div className="grid grid-cols-2 gap-3">
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-cyan-500 dark:hover:border-cyan-400 transition-colors">
               <LuPlus className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add User
               </span>
             </button>
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-purple-500 dark:hover:border-purple-400 transition-colors">
+            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
               <LuSparkles className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add Spell
@@ -173,7 +173,7 @@ export const DashboardExample = () => {
                 Add Weapon
               </span>
             </button>
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-green-500 dark:hover:border-green-400 transition-colors">
+            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
               <LuFileText className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add Article

@@ -4,7 +4,7 @@ import { LuSparkles } from "react-icons/lu";
 export const Header = () => {
   return (
     <header className={""}>
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 px-4">
+      <div className="bg-gradient-to-r from-cyan-600 to-orange-600 text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-center space-x-2 text-sm font-medium">
           <LuSparkles className="w-4 h-4 animate-pulse" />
           <span>New Subscribers: 10% off first purchase!</span>
@@ -19,7 +19,7 @@ export const Header = () => {
       </div>
 
       {/* Optional gradient overlay for visual depth */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
     </header>
   );
 };

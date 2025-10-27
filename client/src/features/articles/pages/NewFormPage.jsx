@@ -108,10 +108,10 @@ const ModalForm = ({
     const value = formData[field.name] || "";
     const hasError = errors[field.name];
 
-    const baseInputClasses = `w-full px-4 py-3 rounded-lg border bg-slate-800/50 text-white placeholder-slate-400 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+    const baseInputClasses = `w-full px-4 py-3 rounded-lg border bg-slate-800/50 text-white placeholder-slate-400 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent ${
       hasError
         ? "border-red-500 dark:border-red-400"
-        : "border-slate-600 hover:border-purple-400 focus:border-purple-500"
+        : "border-slate-600 hover:border-cyan-400 focus:border-cyan-500"
     }`;
 
     switch (field.type) {
@@ -148,7 +148,7 @@ const ModalForm = ({
             <button
               type="button"
               onClick={() => togglePasswordVisibility(field.name)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-400 transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
             >
               {showPassword[field.name] ? (
                 <LuEyeOff className="w-5 h-5" />
@@ -195,7 +195,7 @@ const ModalForm = ({
               type="checkbox"
               checked={value}
               onChange={(e) => handleInputChange(field.name, e.target.checked)}
-              className="w-5 h-5 text-purple-600 bg-slate-700 border-slate-600 rounded focus:ring-purple-500 focus:ring-2"
+              className="w-5 h-5 text-cyan-600 bg-slate-700 border-slate-600 rounded focus:ring-cyan-500 focus:ring-2"
             />
             <span className="text-slate-300">
               {field.checkboxLabel || field.label}
@@ -229,7 +229,7 @@ const ModalForm = ({
               </label>
             </div>
             {value && (
-              <p className="text-sm text-purple-400">
+              <p className="text-sm text-cyan-400">
                 Selected: {value.name || value}
               </p>
             )}
@@ -286,14 +286,12 @@ const ModalForm = ({
 
       {/* Modal */}
       <div className="relative min-h-full flex items-center justify-center p-4">
-        <div className="relative w-full max-w-2xl bg-gradient-to-br from-slate-900 to-purple-900/20 rounded-2xl shadow-2xl border border-purple-500/20 backdrop-blur-md">
+        <div className="relative w-full max-w-2xl bg-gradient-to-br from-slate-900 to-cyan-900/20 rounded-2xl shadow-2xl border border-cyan-500/20 backdrop-blur-md">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-slate-700">
             <div className="flex items-center space-x-3">
-              {config.icon && (
-                <config.icon className="w-6 h-6 text-purple-400" />
-              )}
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+              {config.icon && <config.icon className="w-6 h-6 text-cyan-400" />}
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
                 {isEdit ? `Edit ${title}` : `Create ${title}`}
               </h2>
             </div>
@@ -351,7 +349,7 @@ const ModalForm = ({
             <button
               type="button"
               onClick={handleSubmit}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-lg font-medium transition-all duration-200 transform hover:scale-105 flex items-center space-x-2"
+              className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 text-white rounded-lg font-medium transition-all duration-200 transform hover:scale-105 flex items-center space-x-2"
             >
               <LuSave className="w-4 h-4" />
               <span>
@@ -587,34 +585,34 @@ export const NewFormPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-cyan-900/20 to-slate-900 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
           D&D Content Forms
         </h1>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           <button
             onClick={() => setCurrentModal("spell")}
-            className="p-6 bg-slate-800/50 border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all duration-300 hover:scale-105"
+            className="p-6 bg-slate-800/50 border border-cyan-500/20 rounded-xl hover:border-cyan-500/40 transition-all duration-300 hover:scale-105"
           >
-            <LuSparkles className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+            <LuSparkles className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
             <span className="text-white font-medium">Create Spell</span>
           </button>
 
           <button
             onClick={() => setCurrentModal("weapon")}
-            className="p-6 bg-slate-800/50 border border-blue-500/20 rounded-xl hover:border-blue-500/40 transition-all duration-300 hover:scale-105"
+            className="p-6 bg-slate-800/50 border border-orange-500/20 rounded-xl hover:border-orange-500/40 transition-all duration-300 hover:scale-105"
           >
-            <LuSword className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+            <LuSword className="w-8 h-8 text-orange-400 mx-auto mb-2" />
             <span className="text-white font-medium">Create Weapon</span>
           </button>
 
           <button
             onClick={() => setCurrentModal("article")}
-            className="p-6 bg-slate-800/50 border border-green-500/20 rounded-xl hover:border-green-500/40 transition-all duration-300 hover:scale-105"
+            className="p-6 bg-slate-800/50 border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300 hover:scale-105"
           >
-            <LuBookOpen className="w-8 h-8 text-green-400 mx-auto mb-2" />
+            <LuBookOpen className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
             <span className="text-white font-medium">Create Article</span>
           </button>
 
