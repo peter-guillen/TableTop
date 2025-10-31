@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
-import { LuHouse, LuSearch, LuMapPin, LuSkull } from "react-icons/lu";
+import {
+  LuHouse,
+  LuSearch,
+  LuMapPin,
+  LuCircleArrowOutUpLeft,
+} from "react-icons/lu";
 
 export function NotFound() {
   return (
@@ -9,8 +14,8 @@ export function NotFound() {
         <div className="mb-8 flex justify-center">
           <div className="relative">
             <div className="absolute inset-0 bg-cyan-500 dark:bg-orange-500 blur-3xl opacity-30 animate-pulse"></div>
-            <LuSkull
-              className="relative text-cyan-400 dark:text-orange-400 animate-bounce"
+            <LuCircleArrowOutUpLeft
+              className="relative text-cyan-400 dark:text-orange-400 animate-spin"
               size={120}
             />
           </div>

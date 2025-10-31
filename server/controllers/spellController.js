@@ -28,8 +28,8 @@ const createSpell = async (req, res) => {
     damage,
     healing,
     effect,
-    range,
     casting,
+    range,
     duration,
   } = req.body;
   try {
@@ -42,8 +42,8 @@ const createSpell = async (req, res) => {
       damage,
       healing,
       effect,
-      range,
       casting,
+      range,
       duration,
     });
     res.status(200).json(spell);

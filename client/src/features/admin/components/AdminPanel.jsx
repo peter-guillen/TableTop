@@ -74,8 +74,6 @@ export const AdminPanel = () => {
     users: { data: userList, deleteFn: deleteUser },
   };
 
-  console.log(activeSection);
-
   // Navigation items for sidebar
   const navigationItems = [
     { id: "dashboard", label: "Dashboard", icon: LuHouse },
@@ -110,7 +108,7 @@ export const AdminPanel = () => {
           </p>
         </div>
         {/* Navigation to routes by turning title from plural to singular and lowercase e.g. (/articles/SpellsForm -> /articles/spellForm)*/}
-        <NavLink to={`/articles/create${title.slice(0, -1).toUpperCase()}`}>
+        <NavLink to={`/${activeSection}/create`}>
           <button className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
             <LuPlus className="w-4 h-4" />
             <span>Add {title.slice(0, -1)}</span>
@@ -190,19 +188,17 @@ export const AdminPanel = () => {
                           <LuEye className="w-4 h-4" />
                         </button>
                       </NavLink>
-                      <NavLink to={`/articles/${item._id}/edit`}>
+                      <NavLink to={`/${activeSection}/${item._id}/edit`}>
                         <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
                           <LuPen className="w-4 h-4" />
                         </button>
                       </NavLink>
-                      {deleteFn && (
-                        <button
-                          onClick={() => deleteFn(item._id)}
-                          className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
-                        >
-                          <LuTrash2 className="w-4 h-4" />
-                        </button>
-                      )}
+                      <button
+                        onClick={() => sectionConfig.spells.deleteFn(item._id)}
+                        className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+                      >
+                        <LuTrash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </td>
                 </tr>

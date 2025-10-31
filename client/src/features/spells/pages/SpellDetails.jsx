@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import {
   LuArrowLeft,
   LuSparkles,
@@ -10,12 +11,18 @@ import {
   LuShield,
   LuUsers,
 } from "react-icons/lu";
+import { SpellContext } from "../context/SpellContext";
 
 export function SpellDetails() {
+  const { spellList } = useContext(SpellContext);
+
+  const { id } = useParams();
   const navigate = useNavigate();
   const handleReturn = () => {
     navigate(-1);
   };
+
+  console.log(spellList);
   // Sample spell data - replace with your actual data from context/props
   const spell = {
     name: "Fireball",
@@ -54,7 +61,8 @@ export function SpellDetails() {
     Force: "🌟",
     Psychic: "🧠",
   };
-
+  console.log(spellList);
+  // console.log(formData);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-900 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
       <div className="max-w-5xl mx-auto">

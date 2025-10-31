@@ -3,24 +3,14 @@ const mongoose = require("mongoose");
 const SpellSchema = new mongoose.Schema({
   name: String,
   description: String,
-  domain: { type: String, enum: ["Animancy", "Ergomancy"] },
-  school: {
-    type: String,
-    enum: [
-      "Temperature",
-      "Electromagnetism",
-      "Luminosity",
-      "Psionic",
-      "Soma",
-      "Pnuema",
-    ],
-  },
-  category: { type: String, enum: ["Damage", "Healing", "Boon", "Bane"] },
+  domain: String,
+  school: String,
+  category: String,
   damage: String,
   healing: String,
   effect: String,
-  range: String,
   casting: String,
+  range: String,
   duration: String,
 });
 

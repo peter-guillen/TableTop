@@ -8,9 +8,9 @@ import { AdminArticleEdit } from "./AdminArticleEdit";
 import { NewFormPage } from "./NewFormPage";
 import Demo from "./FormTemplate";
 import CharacterCreator from "./CharacterForm";
-import { SpellForm } from "./SpellForm";
+import { SpellForm } from "../../spells/pages/SpellForm";
 import { WeaponForm } from "./WeaponForm";
-import { SpellDetails } from "./SpellDetails";
+// import { SpellDetails } from "./SpellDetails";
 
 export const ArticlePage = () => {
   return (
@@ -24,9 +24,9 @@ export const ArticlePage = () => {
         <Route path="/newForm" element={<NewFormPage />} />
         <Route path="/demo" element={<Demo />} />
         <Route path="/charSheet" element={<CharacterCreator />} />
-        <Route path="/createSpell" element={<SpellForm />} />
-        <Route path="/:id/edit" element={<SpellForm />} />
-        <Route path="/spellDetails" element={<SpellDetails />} />
+        {/* <Route path="/createSpell" element={<SpellForm />} /> */}
+        {/* <Route path="/:id/edit" element={<SpellForm />} /> */}
+        {/* <Route path="/spellDetails" element={<SpellDetails />} /> */}
         {/* <Route path="/spellModal" element={<QuickSpellModal />} /> */}
         <Route path="/weaponForm" element={<WeaponForm />} />
       </Routes>
