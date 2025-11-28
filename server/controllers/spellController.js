@@ -21,30 +21,50 @@ const getSpell = async (req, res) => {
 const createSpell = async (req, res) => {
   const {
     name,
-    description,
-    domain,
     school,
-    category,
+    tier,
+    element,
+    tags,
+    castingTime,
+    isRitual,
+    stamina,
+    usesPerDay,
+    range,
+    area,
+    target,
+    attackType,
+    duration,
+    requiresConcentration,
     damage,
     healing,
-    effect,
-    casting,
-    range,
-    duration,
+    conditions,
+    buffs,
+    debuffs,
+    description,
   } = req.body;
   try {
     const spell = await Spell.create({
       name,
-      description,
-      domain,
       school,
-      category,
+      tier,
+      element,
+      tags,
+      castingTime,
+      isRitual,
+      stamina,
+      usesPerDay,
+      range,
+      area,
+      target,
+      attackType,
+      duration,
+      requiresConcentration,
       damage,
       healing,
-      effect,
-      casting,
-      range,
-      duration,
+      conditions,
+      buffs,
+      debuffs,
+      description,
     });
     res.status(200).json(spell);
   } catch (error) {
@@ -55,13 +75,25 @@ const createSpell = async (req, res) => {
 const updateSpell = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Spell Not Found!" });
+    return res.status(404).json({ error: "Invalid Spell ID" });
   }
-  const spell = await Spell.findByIdAndUpdate({ _id: id }, { ...req.body });
-  if (!spell) {
-    return res.status(400).json({ error: "Spell Not Found!" });
+  try {
+    const spell = await Spell.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!spell) {
+      return res.status(404).json({ error: "Spell Not Found!" });
+    }
+    res.status(200).json(spell);
+  } catch (error) {
+    console.error("Error updating spell:", error);
+    res.status(400).json({ error: error.message });
   }
-  res.status(200).json(spell);
 };
 
 const deleteSpell = async (req, res) => {

@@ -18,24 +18,28 @@ export const SpellPreview = () => {
 
   const getItemIcon = (category) => {
     const iconMap = {
-      Temperature: GiFireball,
-      Electromagnetism: GiLightningHelix,
-      Luminosity: GiSunbeams,
-      Soma: GiBlood,
-      Psionic: GiWarlockEye,
-      Pnuema: GiSparkSpirit,
+      abjuration: GiFireball,
+      evocation: GiLightningHelix,
+      transmutation: GiSunbeams,
+      divination: GiBlood,
+      necromancy: GiWarlockEye,
+      conjuration: GiSparkSpirit,
+      enchantment: GiSparkSpirit,
+      illusion: GiSparkSpirit,
     };
     return iconMap[category] || GiIceBolt;
   };
 
   const spellBaseColors = {
-    Temperature: "red",
-    Electromagnetism: "blue",
-    Luminosity: "yellow",
-    Soma: "orange",
-    Psionic: "purple",
-    Pnuema: "green",
-    Default: "gray",
+    abjuration: "red",
+    evocation: "blue",
+    transmutation: "yellow",
+    divination: "orange",
+    necromancy: "purple",
+    conjuration: "green",
+    enchantment: "magenta",
+    illusion: "cyan",
+    default: "gray",
   };
 
   const spellStyleContexts = {
@@ -96,7 +100,7 @@ export const SpellPreview = () => {
                           {spell.name}
                         </h3>
                         <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 capitalize">
-                          {spell.domain}
+                          {spell.element}
                         </span>
                       </div>
 
@@ -106,13 +110,25 @@ export const SpellPreview = () => {
                           <span className="font-medium text-gray-900 dark:text-gray-300">
                             Damage:
                           </span>
-                          <span>{spell.damage}</span>
+                          <span>
+                            {spell.damage[0]
+                              ? `${spell.damage[0]?.diceCount ?? 0}d${
+                                  spell.damage[0]?.diceSize ?? 0
+                                }`
+                              : "n/a"}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium text-gray-900 dark:text-gray-300">
                             Healing:
                           </span>
-                          <span>{spell.healing}</span>
+                          <span>
+                            {spell.healing[0]
+                              ? `${spell.healing[0]?.diceCount ?? 0}d${
+                                  spell.healing[0]?.diceSize ?? 0
+                                }`
+                              : "n/a"}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium text-gray-900 dark:text-gray-300">
@@ -136,7 +152,7 @@ export const SpellPreview = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium">Casting:</span>
-                          <span>{spell.casting}</span>
+                          <span>{spell.castingTime}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <span className="font-medium">Duration:</span>
@@ -145,16 +161,19 @@ export const SpellPreview = () => {
                       </div>
 
                       {/* Properties Tags */}
-                      {spell.category && spell.category.length > 0 && (
-                        <div className="flex items-center mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
-                            Properties:
-                          </span>
-                          <span className="text-xs text-gray-600 dark:text-gray-400">
-                            {spell.category}
-                          </span>
-                        </div>
-                      )}
+                      <div className="flex items-center mt-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          Properties:
+                        </span>
+
+                        {spell.tags.map((tag) => (
+                          <div key={tag}>
+                            <span className="text-xs text-gray-600 dark:text-gray-400 mr-2">
+                              {tag}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 

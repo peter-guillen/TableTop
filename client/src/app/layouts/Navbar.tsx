@@ -112,16 +112,10 @@ export const Navbar = () => {
                           Basic Rules
                         </NavLink>
                         <NavLink
-                          to="/rules/advanced"
+                          to="professions"
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
-                          Advanced Mechanics
-                        </NavLink>
-                        <NavLink
-                          to="/rules/house"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          House Rules
+                          Classes
                         </NavLink>
                       </div>
                     </div>
@@ -141,16 +135,10 @@ export const Navbar = () => {
                           Characters
                         </NavLink>
                         <NavLink
-                          to="/rules/advanced"
+                          to="/builder"
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Character Builder
-                        </NavLink>
-                        <NavLink
-                          to="/professions"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Classes
                         </NavLink>
                       </div>
                     </div>
@@ -169,12 +157,6 @@ export const Navbar = () => {
                         >
                           Campaigns
                         </NavLink>
-                        <NavLink
-                          to="/extra"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Extra
-                        </NavLink>
                       </div>
                     </div>
 
@@ -192,18 +174,6 @@ export const Navbar = () => {
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Articles
-                        </NavLink>
-                        <NavLink
-                          to="/guides"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Player Guides
-                        </NavLink>
-                        <NavLink
-                          to="/forums"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Forums
                         </NavLink>
                       </div>
                     </div>
@@ -238,18 +208,6 @@ export const Navbar = () => {
                         >
                           Armors
                         </NavLink>
-                        <NavLink
-                          to="/items"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Items
-                        </NavLink>
-                        <NavLink
-                          to="/specialItems"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Special Items
-                        </NavLink>
                       </div>
                     </div>
 
@@ -273,12 +231,6 @@ export const Navbar = () => {
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Abilities
-                        </NavLink>
-                        <NavLink
-                          to="/weaponSkills"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Weapon Skills
                         </NavLink>
                       </div>
                     </div>
@@ -304,44 +256,9 @@ export const Navbar = () => {
                         >
                           Traits
                         </NavLink>
-                        <NavLink
-                          to="/feats"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Feats
-                        </NavLink>
                       </div>
                     </div>
-
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
                     {/* Category 4: Materials */}
-                    <div className="px-4 py-2">
-                      <div className="flex items-center space-x-2 text-sm font-semibold text-red-600 dark:text-red-400 mb-2">
-                        <LuScroll className="w-4 h-4" />
-                        <span>Materials</span>
-                      </div>
-                      <div className="space-y-1 ml-6">
-                        <NavLink
-                          to="/metals"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Metals
-                        </NavLink>
-                        <NavLink
-                          to="/herbs"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Herbs
-                        </NavLink>
-                        <NavLink
-                          to="/more"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          More
-                        </NavLink>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

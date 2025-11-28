@@ -3,9 +3,29 @@ const API_URL = "http://localhost:1234/api/spells";
 
 interface Spells {
   _id: string;
-  title: string;
   description: string;
-  category: string;
+  // category: string;
+
+  name: string;
+  school: string;
+  tier: string;
+  element: string;
+  tags: [];
+  castingTime: string;
+  isRitual: string;
+  stamina: string;
+  usesPerDay: string;
+  range: string;
+  area: string;
+  target: string;
+  attackType: string;
+  duration: string;
+  requiresConcentration: string;
+  damage: [];
+  healing: [];
+  conditions: [];
+  buffs: [];
+  debuffs: [];
 }
 
 export const fetchSpells = async (): Promise<Spells[]> => {
@@ -14,15 +34,22 @@ export const fetchSpells = async (): Promise<Spells[]> => {
 };
 
 export const createSpell = async (formData: Spells): Promise<Spells> => {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) {
-    throw new Error("Network response was no ok!");
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Full error response:", errorData);
+      throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Caught error:", error);
+    throw error;
   }
-  return await response.json();
 };
 
 export const updateSpell = async (

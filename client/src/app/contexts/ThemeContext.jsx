@@ -20,7 +20,9 @@ export const ThemeContextProvider = ({ children }) => {
     } else {
       htmlElement.classList.remove("dark");
     }
-    document.cookie = "theme=dark; path=/; max-age=" + 60 * 60 * 24 * 365;
+    document.cookie =
+      `theme=${darkMode ? "dark" : "light"}; path=/; max-age=` +
+      60 * 60 * 24 * 365;
   }, [darkMode]);
 
   const toggleTheme = () => {

@@ -2,72 +2,109 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SpellContext } from "../context/SpellContext";
 import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
-import {
-  LuSparkles,
-  LuBookOpen,
-  LuClock,
-  LuTarget,
-  LuFlame,
-} from "react-icons/lu";
-
-// Spell
-// Name - FlameBlast
-// School - Evocation
-// Category - Damage
-// Source - Arcane
-// Element - Fire
-// Range - 60ft
-// Area - 20ft sphere
-// Casting Time - 1 action
-// Duration - Instantaneous
-// Damage - 4d6
-// Effect - Burn
-// Cost - Equivalent to level for DnD
+import { SpellCastingSection } from "../components/SpellCastingSection";
+import { SpellCombatSection } from "../components/SpellCombatSection";
+import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
+import { SpellConditionsSection } from "../components/SpellConditionsSection";
+import { LuSparkles } from "react-icons/lu";
 
 export function SpellForm() {
   const { spellList, createSpell, updateSpell } = useContext(SpellContext);
-  const [currentSpell, setCurrentSpell] = useState("");
   const [formData, setFormData] = useState({
-    name: spellList?.name || "",
-    description: spellList?.description || "",
-    domain: spellList?.domain || "",
-    school: spellList?.school || "",
-    category: spellList?.category || "",
-    damage: spellList?.damage || "",
-    healing: spellList?.healing || "",
-    effect: spellList?.effect || "",
-    casting: spellList?.casting || "",
-    range: spellList?.range || "",
-    duration: spellList?.duration || "",
+    // Basic Info
+    name: "",
+    school: "",
+    tier: "",
+    element: "",
+    tags: [],
+    // domain: "",
+    // category: "",
+
+    // Casting
+    castingTime: "",
+    duration: "",
+    range: "",
+    area: "",
+    stamina: "",
+    usesPerDay: "",
+    isRitual: Boolean,
+    requiresConcentration: Boolean,
+
+    // Combat
+    damage: [],
+    healing: [],
+
+    // Effects & Conditions
+    conditions: [],
+    buffs: [],
+    debuffs: [],
+
+    // Description
+    description: "",
   });
+
+  // Grab the id from url: if there is an id set to Edit Mode
   const { id } = useParams();
   const isEditing = Boolean(id);
 
+  // Return to the previous page
   const navigate = useNavigate();
   const handleCancel = () => {
     navigate(-1);
   };
 
   useEffect(() => {
-    const getSpellById = spellList.find((spell) => spell._id === id);
-    if (getSpellById) {
-      setCurrentSpell(getSpellById.name);
-      setFormData(getSpellById);
+    if (isEditing && spellList && spellList.length > 0) {
+      const spell = spellList.find((spell) => spell._id === id);
+      if (spell) {
+        setFormData(spell);
+      }
     }
-  }, [id, spellList]);
+  }, [id, spellList, isEditing]);
 
+  // Handle input changes
   const handleInputChange = (event) => {
-    // const { name, value } = event.target;
-    // setFormData((prevData) => ({ ...prevData, [name]: value }));
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
   };
 
+  // Handle multiple checked boxes for tags
+  const handleCheckedChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      tags: checked
+        ? [...prevFormData.tags, value] // Add tag
+        : prevFormData.tags.filter((tag) => tag !== value), // Remove tag
+    }));
+  };
+
+  // Handle the array changes for adding or removing an item in the array
+  const handleArrayFieldChange = (fieldName) => {
+    return (newData) => {
+      setFormData((prev) => ({
+        ...prev,
+        [fieldName]: newData,
+      }));
+    };
+  };
+
+  const handleDamageChange = handleArrayFieldChange("damage");
+  const handleHealingChange = handleArrayFieldChange("healing");
+  const handleBuffsChange = handleArrayFieldChange("buffs");
+  const handleDebuffsChange = handleArrayFieldChange("debuffs");
+  const handleConditionsChange = handleArrayFieldChange("conditions");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await createSpell(formData);
+    if (isEditing) {
+      await updateSpell(id, formData);
+    } else {
+      console.log(formData);
+      await createSpell(formData);
+    }
     navigate("/spells");
   };
 
@@ -98,241 +135,46 @@ export function SpellForm() {
               <SpellBasicInfoSection
                 name={formData.name}
                 school={formData.school}
-                handleInputChange={handleInputChange}
+                tier={formData.tier}
+                element={formData.element}
+                tags={formData.tags}
+                onInputChange={handleInputChange}
+                onCheckedChange={handleCheckedChange}
               />
 
               {/* Casting Details */}
-              <section>
-                <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
-                  <LuClock size={20} />
-                  Casting Details
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Casting Time
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter spell name"
-                      name="casting"
-                      onChange={handleInputChange}
-                      value={formData.casting}
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Range
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., 60 feet"
-                      name="range"
-                      onChange={handleInputChange}
-                      value={formData.range}
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Duration
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., Instantaneous"
-                      name="duration"
-                      onChange={handleInputChange}
-                      value={formData.duration}
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Components
-                  </label>
-                  <div className="flex gap-4 mb-3">
-                    <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
-                      />
-                      <span>Verbal (V)</span>
-                    </label>
-                    <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
-                      />
-                      <span>Somatic (S)</span>
-                    </label>
-                    <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
-                      />
-                      <span>Material (M)</span>
-                    </label>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Material components (if applicable)"
-                    className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-                  />
-                </div>
-              </section>
+              <SpellCastingSection
+                castingTime={formData.castingTime}
+                range={formData.range}
+                duration={formData.duration}
+                area={formData.area}
+                stamina={formData.stamina}
+                usesPerDay={formData.usesPerDay}
+                onInputChange={handleInputChange}
+                onCheckedChange={handleCheckedChange}
+              />
 
               {/* Combat Stats */}
-              <section>
-                <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
-                  <LuFlame size={20} />
-                  Combat Properties
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Damage Dice
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., 8d6"
-                      name="damage"
-                      onChange={handleInputChange}
-                      value={formData.damage}
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-                    />
-                  </div>
+              <SpellCombatSection
+                damage={formData.damage}
+                healing={formData.healing}
+                onInputChange={handleInputChange}
+                onDamageChange={handleDamageChange}
+                onHealingChange={handleHealingChange}
+              />
 
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Damage Type
-                    </label>
-                    <select className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all">
-                      <option value="">None</option>
-                      <option>Fire</option>
-                      <option>Water</option>
-                      <option>Lightning</option>
-                      <option>Thunder</option>
-                      <option>Acid</option>
-                      <option>Poison</option>
-                      <option>Vitae</option>
-                      <option>Necrotic</option>
-                      <option>Radiant</option>
-                      <option>Gloom</option>
-                      <option>Force</option>
-                      <option>Psychic</option>
-                      <option>Spirit</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Save Type
-                    </label>
-                    <select className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all">
-                      <option value="">None</option>
-                      <option>Strength</option>
-                      <option>Dexterity</option>
-                      <option>Constitution</option>
-                      <option>Intelligence</option>
-                      <option>Wisdom</option>
-                      <option>Charisma</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Attack Type
-                    </label>
-                    <select className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all">
-                      <option value="">None</option>
-                      <option>Melee Spell Attack</option>
-                      <option>Ranged Spell Attack</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Area of Effect
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., 20-foot radius sphere"
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-                    />
-                  </div>
-                </div>
-              </section>
+              <SpellConditionsSection
+                onInputChange={handleInputChange}
+                onBuffsChange={handleBuffsChange}
+                onDebuffsChange={handleDebuffsChange}
+                onConditionsChange={handleConditionsChange}
+              />
 
               {/* Description */}
-              <section>
-                <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
-                  <LuTarget size={20} />
-                  Spell Description
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      rows="6"
-                      placeholder="Describe what the spell does..."
-                      name="description"
-                      onChange={handleInputChange}
-                      value={formData.description}
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all resize-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      At Higher Levels
-                    </label>
-                    <textarea
-                      rows="3"
-                      placeholder="When you cast this spell using a spell slot of..."
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all resize-none"
-                    />
-                  </div>
-                </div>
-              </section>
-
-              {/* Classes */}
-              <section>
-                <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4">
-                  Available To Classes
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {[
-                    "Bard",
-                    "Cleric",
-                    "Druid",
-                    "Paladin",
-                    "Ranger",
-                    "Sorcerer",
-                    "Warlock",
-                    "Wizard",
-                  ].map((className) => (
-                    <label
-                      key={className}
-                      className="flex items-center gap-2 text-slate-300 cursor-pointer bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-cyan-500/20 dark:border-orange-500/20 hover:border-cyan-500/40 dark:hover:border-orange-500/40 transition-all"
-                    >
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
-                      />
-                      <span>{className}</span>
-                    </label>
-                  ))}
-                </div>
-              </section>
+              <SpellDescriptionSection
+                description={formData.description}
+                onInputChange={handleInputChange}
+              />
             </div>
           </div>
 

@@ -95,7 +95,7 @@ export const AdminPanel = () => {
   );
 
   // Generic table renderer — takes data + column headers + section title
-  const renderTable = (data, columns, title, deleteFn) => (
+  const renderTable = (data, columns, title) => (
     <div className="space-y-6">
       {/* Header with title + add button */}
       <div className="flex justify-between items-center">
@@ -160,18 +160,10 @@ export const AdminPanel = () => {
                     {item.name || item.title || item.username || ""}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                    {item.damage ||
-                      item.defense ||
-                      item.category ||
-                      item.email ||
-                      ""}
+                    {item.defense || item.tier || item.email || ""}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                    {item.school ||
-                      item.type ||
-                      item.category ||
-                      item.role ||
-                      ""}
+                    {item.school || item.category || item.role || ""}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
                     {item.range || item.weight || item.type || ""}
@@ -225,7 +217,7 @@ export const AdminPanel = () => {
       case "spells":
         return renderTable(
           sectionConfig.spells.data,
-          ["Name", "Level", "School", "Range", "Duration"],
+          ["Name", "Tier", "School", "Range", "Duration"],
           "Spells",
           sectionConfig.spells.createFn,
           sectionConfig.spells.editFn,

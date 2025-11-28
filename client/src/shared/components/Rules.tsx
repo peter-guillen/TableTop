@@ -1,1102 +1,644 @@
-// import { useReducer } from "react";
-// import classNames from "classnames";
-// import { twMerge } from "tailwind-merge";
-
-// const attributeContainer = twMerge(classNames("flex flex-wrap gap-2"));
-// const attributeItem = twMerge(
-//   classNames(
-//     "flex00 col-span-2 row-span-2 w-1/6 px-4 py-2 border border-gray-300 rounded-lg flex-1 min-w-[30%] justify-around"
-//   )
-// );
-// const attributeInput = twMerge(
-//   classNames(
-//     "w-full h-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:text-black"
-//   )
-// );
-
-// interface ReducerProps {
-//   stats: { [key: string]: number };
-//   armorType: string | number;
-//   weaponType: string | number;
-// }
-
-// interface Action {
-//   type: string;
-//   payload: {
-//     value: string | number;
-//     stat?: string;
-//   };
-// }
-
-// // No reason for these other than error prevention and to identify an action
-// const UPDATE_STAT = "update_stat";
-// const ARMOR_SELECT = "armor_select";
-// const WEAPON_SELECT = "weapon_select";
-
-// const reducer = (state: ReducerProps, action: Action): ReducerProps => {
-//   let updatedStats;
-//   switch (action.type) {
-//     case UPDATE_STAT:
-//       return {
-//         ...state,
-//         stats: {
-//           ...state.stats,
-//           [action.payload.stat]: action.payload.value,
-//         },
-//       };
-
-//     case ARMOR_SELECT:
-//       updatedStats = { ...state.stats };
-//       // If the new armor is heavyArmor apply the dexterity penatly
-//       if (action.payload.value === "heavyArmor") {
-//         updatedStats.dexterity -= 3;
-//         // If the old armor is heavyArmor remove the dexterity penalty
-//       } else if (state.armorType === "heavyArmor") {
-//         updatedStats.dexterity += 3;
-//       }
-//       if (action.payload.value === "mediumArmor") {
-//         updatedStats.dexterity -= 1;
-//       } else if (state.armorType === "mediumArmor") {
-//         updatedStats.dexterity += 1;
-//       }
-//       return { ...state, armorType: action.payload.value, stats: updatedStats };
-
-//     case WEAPON_SELECT:
-//       updatedStats = { ...state.stats };
-//       if (action.payload.value === "claymore") {
-//         if (updatedStats.strength >= 12) {
-//         } else {
-//           updatedStats.dexterity -= 1;
-//         }
-//       } else if (state.weaponType === "claymore" && state.stats.strength < 12) {
-//         updatedStats.dexterity += 1;
-//       }
-//       return {
-//         ...state,
-//         weaponType: action.payload.value,
-//         stats: updatedStats,
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export const Rules = (): JSX.Element => {
-//   // This initialState is the data object for the dispatcher
-//   const initialState = {
-//     // This is setting one state for the initialState object the others added are the sattes to be changed
-//     armorType: "",
-//     weaponType: "",
-//     // This is the stats changing via the inputs
-//     stats: {
-//       strength: 10,
-//       dexterity: 10,
-//       constitution: 10,
-//       intelligence: 10,
-//       wisdom: 10,
-//       charisma: 10,
-//     },
-//   };
-
-//   const [state, dispatch] = useReducer(reducer, initialState);
-
-//   const handleStatChange = (stat: string, value: number) => {
-//     dispatch({ type: UPDATE_STAT, payload: { stat, value } });
-//   };
-
-//   const handleArmorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { value } = event.target;
-//     dispatch({ type: ARMOR_SELECT, payload: { value } });
-//   };
-
-//   const handleWeaponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { value } = event.target;
-//     dispatch({ type: WEAPON_SELECT, payload: { value } });
-//   };
-
-//   return (
-//     <div className="h-screen">
-//       <div className="container w-2/3 mx-auto px-4 grid grid-cols-4 gap-2 p-4">
-//         <div className="col-span-2 flex flex-wrap items-center justify-center gap-4">
-//           <div className={attributeItem}>
-//             <label>Strength: </label>
-//             <input
-//               type="number"
-//               value={state.stats.strength}
-//               onChange={(e) =>
-//                 handleStatChange("strength", parseInt(e.target.value))
-//               }
-//               className={attributeInput}
-//               max={20}
-//               min={0}
-//             />
-//             <div>Modifier: {Math.floor((state.stats.strength - 10) / 2)}</div>
-//           </div>
-//           <div className={attributeItem}>
-//             <label>Dexterity: </label>
-//             <input
-//               type="number"
-//               value={state.stats.dexterity}
-//               onChange={(e) =>
-//                 handleStatChange("dexterity", parseInt(e.target.value))
-//               }
-//               className={attributeInput}
-//               max={20}
-//               min={0}
-//             />
-//             <div>Modifier: {Math.floor((state.stats.dexterity - 10) / 2)}</div>
-//           </div>
-//           <div className={attributeItem}>
-//             <label>Constitution: </label>
-//             <input
-//               type="number"
-//               value={state.stats.constitution}
-//               onChange={(e) =>
-//                 handleStatChange("constitution", parseInt(e.target.value))
-//               }
-//               className={attributeInput}
-//               max={20}
-//               min={0}
-//             />
-//             <div>
-//               Modifier: {Math.floor((state.stats.constitution - 10) / 2)}
-//             </div>
-//           </div>
-//           <div className={attributeItem}>
-//             <label>Intelligence: </label>
-//             <input
-//               type="number"
-//               value={state.stats.intelligence}
-//               onChange={(e) =>
-//                 handleStatChange("intelligence", parseInt(e.target.value))
-//               }
-//               className={attributeInput}
-//               max={20}
-//               min={0}
-//             />
-//             <div>
-//               Modifier: {Math.floor((state.stats.intelligence - 10) / 2)}
-//             </div>
-//           </div>
-//           <div className={attributeItem}>
-//             <label>Wisdom: </label>
-//             <input
-//               type="number"
-//               value={state.stats.wisdom}
-//               onChange={(e) =>
-//                 handleStatChange("wisdom", parseInt(e.target.value))
-//               }
-//               className={attributeInput}
-//               max={20}
-//               min={0}
-//             />
-//             <div>Modifier: {Math.floor((state.stats.wisdom - 10) / 2)}</div>
-//           </div>
-//           <div className={attributeItem}>
-//             <label>Charisma: </label>
-//             <input
-//               type="number"
-//               value={state.stats.charisma}
-//               onChange={(e) =>
-//                 handleStatChange("charisma", parseInt(e.target.value))
-//               }
-//               className={attributeInput}
-//               max={20}
-//               min={0}
-//             />
-//             <div>Modifier: {Math.floor((state.stats.charisma - 10) / 2)}</div>
-//           </div>
-//         </div>
-//         <div className="col-span-2 border text-center">
-//           <div>Total Stats:</div>
-//           <div>Strength: {state.stats.strength || 0}</div>
-//           <div>Mod: {Math.floor((state.stats.strength - 10) / 2)}</div>
-//           <div>Dexterity: {state.stats.dexterity || 0}</div>
-//           <div>Constitution: {state.stats.constitution || 0}</div>
-//           <div>Intelligence: {state.stats.intelligence || 0}</div>
-//           <div>Wisdom: {state.stats.wisdom || 0}</div>
-//           <div>Charisma: {state.stats.charisma || 0}</div>
-//         </div>
-//         <div>
-//           <div>
-//             <div>
-//               <div>Shield: </div>
-//               <div>
-//                 <input
-//                   type="radio"
-//                   id="shield"
-//                   name="armor"
-//                   value="shield"
-//                   onChange={handleArmorChange}
-//                 />
-//                 <label htmlFor="shield"> Shield</label>
-//               </div>
-//               <div>
-//                 <input
-//                   type="radio"
-//                   id="noshield"
-//                   name="armor"
-//                   value="noshield"
-//                   onChange={handleArmorChange}
-//                 />
-//                 <label htmlFor="noshield"> No Shield</label>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//         <div>
-//           <div>Armor: </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="lightArmor"
-//               name="armor"
-//               value="lightArmor"
-//               onChange={handleArmorChange}
-//             />
-//             <label htmlFor="lightArmor"> Light</label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="mediumArmor"
-//               name="armor"
-//               value="mediumArmor"
-//               onChange={handleArmorChange}
-//             />
-//             <label htmlFor="mediumArmor"> Medium</label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="heavyArmor"
-//               name="armor"
-//               value="heavyArmor"
-//               onChange={handleArmorChange}
-//             />
-//             <label htmlFor="heavyArmor"> Heavy</label>
-//           </div>
-//         </div>
-//         <div>
-//           <div>Weapon: </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="claymore"
-//               name="weapon"
-//               value="claymore"
-//               onChange={handleWeaponChange}
-//             />
-//             <label htmlFor="claymore"> Claymore</label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="sword"
-//               name="weapon"
-//               value="sword"
-//               onChange={handleWeaponChange}
-//             />
-//             <label htmlFor="sword"> Sword</label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="dagger"
-//               name="weapon"
-//               value="dagger"
-//               onChange={handleWeaponChange}
-//             />
-//             <label htmlFor="dagger"> Dagger</label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="spear"
-//               name="weapon"
-//               value="spear"
-//               onChange={handleWeaponChange}
-//             />
-//             <label htmlFor="spear"> Spear</label>
-//           </div>
-//           <div>
-//             <input
-//               type="radio"
-//               id="staff"
-//               name="weapon"
-//               value="staff"
-//               onChange={handleWeaponChange}
-//             />
-//             <label htmlFor="staff"> Staff</label>
-//           </div>
-//         </div>
-//         {/* <div className="bg-yellow-300 col-span-2 flex items-center justify-center">
-//           <div>
-//             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad at enim,
-//             possimus assumenda corporis laborum dicta nemo aliquid excepturi
-//             neque, autem magni porro consequatur officia incidunt facere ipsa
-//             similique a! Molestiae dolorem, officia nesciunt quia fugit illo
-//             saepe, dignissimos magnam dolores iure alias explicabo vitae tenetur
-//             vel? Deserunt explicabo voluptates voluptatibus, necessitatibus,
-//             adipisci in placeat, saepe molestiae amet ullam enim! Adipisci
-//             repudiandae odio facere veniam? Delectus velit accusamus architecto
-//             molestias fugit similique minima non eum, qui, voluptates eius?
-//             Tempora quibusdam esse nobis consequatur commodi sapiente nam rerum
-//             aliquam dignissimos deleniti?
-//           </div>
-//         </div>
-//         <div className="bg-red-300 col-span-2 flex items-center justify-center">
-//           <div>
-//             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a
-//             exercitationem vitae earum accusamus doloribus neque vel aperiam id
-//             consequatur dolorum ipsum eligendi sapiente deserunt sed recusandae,
-//             ut tempora iste! Beatae sint sed aliquid ad quisquam necessitatibus!
-//             Dolor dolore reprehenderit magnam vitae aspernatur alias nisi,
-//             consequuntur nulla voluptatem eius? Repellat quaerat qui commodi
-//             atque ipsa obcaecati? Totam maiores libero cum. Numquam possimus
-//             molestias quis quod, saepe exercitationem aut veritatis id enim
-//             accusantium ullam maxime, delectus mollitia autem. Quis, aliquid.
-//             Deserunt quos repellat nisi corrupti possimus facilis culpa
-//             explicabo omnis nulla.
-//           </div>
-//         </div> */}
-//       </div>
-//     </div>
-//   );
-// };
-
-// -------------------------------------------- VERSION 2 ------------------------------------------------
-// -------------------------------------------- VERSION 2 ------------------------------------------------
-// -------------------------------------------- VERSION 2 ------------------------------------------------
-// -------------------------------------------- VERSION 2 ------------------------------------------------
-// -------------------------------------------- VERSION 2 ------------------------------------------------
-
-// import { useReducer } from "react";
-// import { LuShield, LuSword, LuZap } from "react-icons/lu";
-
-// interface ReducerProps {
-//   stats: { [key: string]: number };
-//   armorType: string | number;
-//   weaponType: string | number;
-// }
-
-// interface Action {
-//   type: string;
-//   payload: {
-//     value: string | number;
-//     stat?: string;
-//   };
-// }
-
-// // No reason for these other than error prevention and to identify an action
-// const UPDATE_STAT = "update_stat";
-// const ARMOR_SELECT = "armor_select";
-// const WEAPON_SELECT = "weapon_select";
-
-// const reducer = (state: ReducerProps, action: Action): ReducerProps => {
-//   let updatedStats;
-//   switch (action.type) {
-//     case UPDATE_STAT:
-//       return {
-//         ...state,
-//         stats: {
-//           ...state.stats,
-//           [action.payload.stat]: action.payload.value,
-//         },
-//       };
-
-//     case ARMOR_SELECT:
-//       updatedStats = { ...state.stats };
-//       // If the new armor is heavyArmor apply the dexterity penatly
-//       if (action.payload.value === "heavyArmor") {
-//         updatedStats.dexterity -= 3;
-//         // If the old armor is heavyArmor remove the dexterity penalty
-//       } else if (state.armorType === "heavyArmor") {
-//         updatedStats.dexterity += 3;
-//       }
-//       if (action.payload.value === "mediumArmor") {
-//         updatedStats.dexterity -= 1;
-//       } else if (state.armorType === "mediumArmor") {
-//         updatedStats.dexterity += 1;
-//       }
-//       return { ...state, armorType: action.payload.value, stats: updatedStats };
-
-//     case WEAPON_SELECT:
-//       updatedStats = { ...state.stats };
-//       if (action.payload.value === "claymore") {
-//         if (updatedStats.strength >= 12) {
-//         } else {
-//           updatedStats.dexterity -= 1;
-//         }
-//       } else if (state.weaponType === "claymore" && state.stats.strength < 12) {
-//         updatedStats.dexterity += 1;
-//       }
-//       return {
-//         ...state,
-//         weaponType: action.payload.value,
-//         stats: updatedStats,
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export const Rules = () => {
-//   // This initialState is the data object for the dispatcher
-//   const initialState = {
-//     // This is setting one state for the initialState object the others added are the sattes to be changed
-//     armorType: "",
-//     weaponType: "",
-//     // This is the stats changing via the inputs
-//     stats: {
-//       strength: 10,
-//       dexterity: 10,
-//       constitution: 10,
-//       intelligence: 10,
-//       wisdom: 10,
-//       charisma: 10,
-//     },
-//   };
-
-//   const [state, dispatch] = useReducer(reducer, initialState);
-
-//   const handleStatChange = (stat: string, value: number) => {
-//     dispatch({ type: UPDATE_STAT, payload: { stat, value } });
-//   };
-
-//   const handleArmorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { value } = event.target;
-//     dispatch({ type: ARMOR_SELECT, payload: { value } });
-//   };
-
-//   const handleWeaponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { value } = event.target;
-//     dispatch({ type: WEAPON_SELECT, payload: { value } });
-//   };
-
-//   const stats = [
-//     { name: "strength", label: "Strength" },
-//     { name: "dexterity", label: "Dexterity" },
-//     { name: "constitution", label: "Constitution" },
-//     { name: "intelligence", label: "Intelligence" },
-//     { name: "wisdom", label: "Wisdom" },
-//     { name: "charisma", label: "Charisma" },
-//   ];
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-red-950 to-slate-900 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
-//       <div className="max-w-7xl mx-auto">
-//         {/* Header */}
-//         <div className="mb-8 text-center">
-//           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-cyan-400 to-red-500 dark:from-red-300 dark:via-cyan-300 dark:to-red-400 mb-2">
-//             Character Stats
-//           </h1>
-//           <p className="text-slate-400 dark:text-slate-500">
-//             Configure your character's abilities
-//           </p>
-//         </div>
-
-//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-//           {/* Stats Section */}
-//           <div className="lg:col-span-2">
-//             <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-red-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-//               <h2 className="text-2xl font-bold text-red-300 dark:text-cyan-300 mb-6 flex items-center gap-2">
-//                 <LuZap size={24} />
-//                 Ability Scores
-//               </h2>
-//               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-//                 {stats.map(({ name, label }) => (
-//                   <div
-//                     key={name}
-//                     className="bg-slate-800/50 dark:bg-slate-900/50 p-6 rounded-xl border border-red-500/20 dark:border-orange-500/20"
-//                   >
-//                     <div className="flex justify-between items-center mb-3">
-//                       <label className="text-lg font-medium text-slate-200">
-//                         {label}
-//                       </label>
-//                       <span className="text-3xl font-bold text-red-400 dark:text-cyan-400">
-//                         {state.stats[name]}
-//                       </span>
-//                     </div>
-
-//                     {/* Stat Input */}
-//                     <input
-//                       type="number"
-//                       value={state.stats[name]}
-//                       onChange={(e) =>
-//                         handleStatChange(name, parseInt(e.target.value) || 0)
-//                       }
-//                       className="w-full px-4 py-3 bg-slate-700/50 dark:bg-slate-800/50 border border-red-500/30 dark:border-orange-500/30 rounded-lg text-white text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-cyan-500 focus:border-transparent transition-all mb-3"
-//                       max={20}
-//                       min={0}
-//                     />
-
-//                     {/* Modifier Display */}
-//                     <div className="flex items-center justify-center gap-2 bg-red-600/20 dark:bg-cyan-600/20 border border-red-500/40 dark:border-orange-500/40 rounded-lg py-2">
-//                       <span className="text-sm text-slate-300">Modifier:</span>
-//                       <span className="text-xl font-bold text-red-300 dark:text-cyan-300">
-//                         {Math.floor((state.stats[name] - 10) / 2) >= 0
-//                           ? "+"
-//                           : ""}
-//                         {Math.floor((state.stats[name] - 10) / 2)}
-//                       </span>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Summary & Equipment Section */}
-//           <div className="space-y-6">
-//             {/* Stats Summary */}
-//             <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-red-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-//               <h2 className="text-xl font-bold text-red-300 dark:text-cyan-300 mb-4">
-//                 Summary
-//               </h2>
-//               <div className="space-y-3">
-//                 {stats.map(({ name, label }) => (
-//                   <div
-//                     key={name}
-//                     className="flex justify-between items-center text-slate-300"
-//                   >
-//                     <span>{label}:</span>
-//                     <div className="flex items-center gap-3">
-//                       <span className="font-bold text-white">
-//                         {state.stats[name]}
-//                       </span>
-//                       <span className="text-sm text-red-400 dark:text-cyan-400">
-//                         (
-//                         {Math.floor((state.stats[name] - 10) / 2) >= 0
-//                           ? "+"
-//                           : ""}
-//                         {Math.floor((state.stats[name] - 10) / 2)})
-//                       </span>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-
-//             {/* Armor Section */}
-//             <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-red-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-//               <h2 className="text-xl font-bold text-red-300 dark:text-cyan-300 mb-4 flex items-center gap-2">
-//                 <LuShield size={20} />
-//                 Armor
-//               </h2>
-//               <div className="space-y-3">
-//                 {[
-//                   {
-//                     id: "lightArmor",
-//                     value: "lightArmor",
-//                     label: "Light Armor",
-//                   },
-//                   {
-//                     id: "mediumArmor",
-//                     value: "mediumArmor",
-//                     label: "Medium Armor",
-//                   },
-//                   {
-//                     id: "heavyArmor",
-//                     value: "heavyArmor",
-//                     label: "Heavy Armor",
-//                   },
-//                   { id: "shield", value: "shield", label: "LuShield" },
-//                   { id: "noshield", value: "noshield", label: "No Shield" },
-//                 ].map(({ id, value, label }) => (
-//                   <label
-//                     key={id}
-//                     className="flex items-center gap-3 p-3 bg-slate-800/30 dark:bg-slate-900/30 rounded-lg border border-red-500/20 dark:border-orange-500/20 hover:border-red-500/40 dark:hover:border-orange-500/40 cursor-pointer transition-all"
-//                   >
-//                     <input
-//                       type="radio"
-//                       id={id}
-//                       name="armor"
-//                       value={value}
-//                       checked={state.armorType === value}
-//                       onChange={handleArmorChange}
-//                       className="w-4 h-4 text-red-500 dark:text-cyan-500 focus:ring-2 focus:ring-red-500 dark:focus:ring-cyan-500"
-//                     />
-//                     <span className="text-slate-300">{label}</span>
-//                   </label>
-//                 ))}
-//               </div>
-//             </div>
-
-//             {/* Weapon Section */}
-//             <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-red-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-//               <h2 className="text-xl font-bold text-red-300 dark:text-cyan-300 mb-4 flex items-center gap-2">
-//                 <LuSword size={20} />
-//                 Weapon
-//               </h2>
-//               <div className="space-y-3">
-//                 {[
-//                   { id: "claymore", value: "claymore", label: "Claymore" },
-//                   { id: "sword", value: "sword", label: "Sword" },
-//                   { id: "dagger", value: "dagger", label: "Dagger" },
-//                   { id: "spear", value: "spear", label: "Spear" },
-//                   { id: "staff", value: "staff", label: "Staff" },
-//                 ].map(({ id, value, label }) => (
-//                   <label
-//                     key={id}
-//                     className="flex items-center gap-3 p-3 bg-slate-800/30 dark:bg-slate-900/30 rounded-lg border border-red-500/20 dark:border-orange-500/20 hover:border-red-500/40 dark:hover:border-orange-500/40 cursor-pointer transition-all"
-//                   >
-//                     <input
-//                       type="radio"
-//                       id={id}
-//                       name="weapon"
-//                       value={value}
-//                       checked={state.weaponType === value}
-//                       onChange={handleWeaponChange}
-//                       className="w-4 h-4 text-red-500 dark:text-cyan-500 focus:ring-2 focus:ring-red-500 dark:focus:ring-cyan-500"
-//                     />
-//                     <span className="text-slate-300">{label}</span>
-//                   </label>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// -------------------------------------------- VERSION 3 ------------------------------------------------
-// -------------------------------------------- VERSION 3 ------------------------------------------------
-// -------------------------------------------- VERSION 3 ------------------------------------------------
-// -------------------------------------------- VERSION 3 ------------------------------------------------
-// -------------------------------------------- VERSION 3 ------------------------------------------------
-
-import { useReducer, useState } from "react";
-import { LuShield, LuSword, LuZap, LuWand } from "react-icons/lu";
-
-interface ReducerProps {
-  stats: { [key: string]: number };
-  armorType: string | number;
-  weaponType: string | number;
-}
-
-interface Action {
-  type: string;
-  payload: {
-    value: string | number;
-    stat?: string;
-  };
-}
-
-// No reason for these other than error prevention and to identify an action
-const UPDATE_STAT = "update_stat";
-const ARMOR_SELECT = "armor_select";
-const WEAPON_SELECT = "weapon_select";
-
-const reducer = (state: ReducerProps, action: Action): ReducerProps => {
-  let updatedStats;
-  switch (action.type) {
-    case UPDATE_STAT:
-      return {
-        ...state,
-        stats: {
-          ...state.stats,
-          [action.payload.stat]: action.payload.value,
-        },
-      };
-
-    case ARMOR_SELECT:
-      updatedStats = { ...state.stats };
-      // If the new armor is heavyArmor apply the dexterity penatly
-      if (action.payload.value === "heavyArmor") {
-        updatedStats.dexterity -= 3;
-        // If the old armor is heavyArmor remove the dexterity penalty
-      } else if (state.armorType === "heavyArmor") {
-        updatedStats.dexterity += 3;
-      }
-      if (action.payload.value === "mediumArmor") {
-        updatedStats.dexterity -= 1;
-      } else if (state.armorType === "mediumArmor") {
-        updatedStats.dexterity += 1;
-      }
-      return { ...state, armorType: action.payload.value, stats: updatedStats };
-
-    case WEAPON_SELECT:
-      updatedStats = { ...state.stats };
-      if (action.payload.value === "claymore") {
-        if (updatedStats.strength >= 12) {
-        } else {
-          updatedStats.dexterity -= 1;
-        }
-      } else if (state.weaponType === "claymore" && state.stats.strength < 12) {
-        updatedStats.dexterity += 1;
-      }
-      return {
-        ...state,
-        weaponType: action.payload.value,
-        stats: updatedStats,
-      };
-
-    default:
-      return state;
-  }
-};
+import { useState } from "react";
+import {
+  LuDice6,
+  LuSword,
+  LuShield,
+  LuMove,
+  LuTarget,
+  LuEye,
+  LuMountain,
+  LuZap,
+} from "react-icons/lu";
 
 export function Rules() {
-  const initialState = {
-    armorType: "",
-    weaponType: "",
-    stats: {
-      strength: 10,
-      dexterity: 10,
-      constitution: 10,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 10,
-    },
-  };
+  const [activeSection, setActiveSection] = useState("dice-rolling");
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [weaponFilter, setWeaponFilter] = useState("all");
-  const [armorFilter, setArmorFilter] = useState("all");
-
-  const handleStatChange = (stat: string, value: number) => {
-    dispatch({ type: UPDATE_STAT, payload: { stat, value } });
-  };
-
-  const handleArmorChange = (value: string) => {
-    dispatch({ type: ARMOR_SELECT, payload: { value } });
-  };
-
-  const handleWeaponChange = (value: string) => {
-    dispatch({ type: WEAPON_SELECT, payload: { value } });
-  };
-
-  const stats = [
-    { name: "strength", label: "Strength" },
-    { name: "dexterity", label: "Dexterity" },
-    { name: "constitution", label: "Constitution" },
-    { name: "intelligence", label: "Intelligence" },
-    { name: "wisdom", label: "Wisdom" },
-    { name: "charisma", label: "Charisma" },
+  const sections = [
+    { id: "dice-rolling", label: "Dice Rolling", icon: LuDice6 },
+    { id: "combat-basics", label: "Combat Basics", icon: LuSword },
+    { id: "attacks-saves", label: "Attacks & Saves", icon: LuTarget },
+    { id: "movement", label: "Movement & Positioning", icon: LuMove },
+    { id: "cover", label: "Cover", icon: LuShield },
+    { id: "flanking", label: "Flanking", icon: LuEye },
+    { id: "height", label: "Height Advantage", icon: LuMountain },
+    { id: "critical-hits", label: "Critical Hits", icon: LuZap },
   ];
 
-  const weaponCategories = [
-    { id: "all", label: "All Weapons" },
-    { id: "oneHanded", label: "One-Handed" },
-    { id: "twoHanded", label: "Two-Handed" },
-    { id: "polearms", label: "Polearms" },
-    { id: "ranged", label: "Ranged" },
-  ];
-
-  const weapons = {
-    oneHanded: [
-      { id: "sword", label: "Sword", damage: "1d8" },
-      { id: "dagger", label: "Dagger", damage: "1d4" },
-      { id: "mace", label: "Mace", damage: "1d6" },
-      { id: "axe", label: "Axe", damage: "1d6" },
-    ],
-    twoHanded: [
-      { id: "claymore", label: "Claymore", damage: "2d6" },
-      { id: "greatsword", label: "Greatsword", damage: "2d6" },
-      { id: "greataxe", label: "Greataxe", damage: "1d12" },
-    ],
-    polearms: [
-      { id: "spear", label: "Spear", damage: "1d6" },
-      { id: "halberd", label: "Halberd", damage: "1d10" },
-      { id: "pike", label: "Pike", damage: "1d10" },
-    ],
-    ranged: [
-      { id: "shortbow", label: "Shortbow", damage: "1d6" },
-      { id: "longbow", label: "Longbow", damage: "1d8" },
-      { id: "crossbow", label: "Crossbow", damage: "1d10" },
-    ],
-  };
-
-  const armorCategories = [
-    { id: "all", label: "All Armor" },
-    { id: "light", label: "Light" },
-    { id: "medium", label: "Medium" },
-    { id: "heavy", label: "Heavy" },
-    { id: "shields", label: "Lus" },
-  ];
-
-  const armors = {
-    light: [
-      { id: "leather", label: "Leather Armor", ac: "11" },
-      { id: "studded", label: "Studded Leather", ac: "12" },
-      { id: "padded", label: "Padded Armor", ac: "11" },
-    ],
-    medium: [
-      { id: "hide", label: "Hide Armor", ac: "12" },
-      { id: "chainShirt", label: "Chain Shirt", ac: "13" },
-      { id: "scaleMail", label: "Scale Mail", ac: "14" },
-    ],
-    heavy: [
-      { id: "chainMail", label: "Chain Mail", ac: "16" },
-      { id: "plateMail", label: "Plate Mail", ac: "18" },
-      { id: "splint", label: "Splint Armor", ac: "17" },
-    ],
-    shields: [
-      { id: "buckler", label: "Buckler", ac: "+1" },
-      { id: "shield", label: "Shield", ac: "+2" },
-      { id: "towerShield", label: "Tower Shield", ac: "+3" },
-    ],
-  };
-
-  const getFilteredWeapons = () => {
-    if (weaponFilter === "all") {
-      return Object.values(weapons).flat();
+  const scrollToSection = (id) => {
+    setActiveSection(id);
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
     }
-    return weapons[weaponFilter] || [];
-  };
-
-  const getFilteredArmors = () => {
-    if (armorFilter === "all") {
-      return Object.values(armors).flat();
-    }
-    return armors[armorFilter] || [];
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-900 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-400 to-orange-500 dark:from-cyan-300 dark:via-cyan-300 dark:to-orange-400 mb-2">
-            Character Configuration
+        <div className="mb-12">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent">
+            Basic Rules
           </h1>
-          <p className="text-slate-400 dark:text-slate-500">
-            Build your perfect adventurer
+          <p className="text-xl text-gray-400">
+            Essential mechanics and rules for gameplay
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Main Content Area */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Stats Section */}
-            <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-orange-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-              <h2 className="text-2xl font-bold text-cyan-300 dark:text-cyan-300 mb-6 flex items-center gap-2">
-                <LuZap size={24} />
-                Ability Scores
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {stats.map(({ name, label }) => (
-                  <div
-                    key={name}
-                    className="bg-slate-800/50 dark:bg-slate-900/50 p-6 rounded-xl border border-orange-500/20 dark:border-orange-500/20"
-                  >
-                    <div className="flex justify-between items-center mb-3">
-                      <label className="text-lg font-medium text-slate-200">
-                        {label}
-                      </label>
-                      <span className="text-3xl font-bold text-cyan-400 dark:text-cyan-400">
-                        {state.stats[name]}
-                      </span>
+        <div className="flex gap-8">
+          {/* Sidebar Navigation */}
+          <aside className="w-64 flex-shrink-0 sticky top-24 self-start hidden lg:block">
+            <nav className="bg-slate-800/50 rounded-xl p-4 border border-cyan-500/20 backdrop-blur-sm">
+              <h3 className="text-sm font-semibold text-cyan-400 mb-4 uppercase tracking-wider">
+                Quick Navigation
+              </h3>
+              <ul className="space-y-2">
+                {sections.map((section) => {
+                  const Icon = section.icon;
+                  return (
+                    <li key={section.id}>
+                      <button
+                        onClick={() => scrollToSection(section.id)}
+                        className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-3 ${
+                          activeSection === section.id
+                            ? "bg-cyan-600/20 text-cyan-300 border-l-2 border-cyan-400"
+                            : "text-gray-400 hover:text-white hover:bg-slate-700/50"
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span className="text-sm">{section.label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 space-y-12">
+            {/* Dice Rolling */}
+            <section id="dice-rolling" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuDice6 className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">
+                    Dice Rolling
+                  </h2>
+                </div>
+
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    Dice are the foundation of all randomness in the game.
+                    Understanding when and how to roll each type of die is
+                    essential.
+                  </p>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      The d20 - Ability Checks & Attack Rolls
+                    </h4>
+                    <p>
+                      Roll a twenty-sided die (d20) whenever you attempt an
+                      action with an uncertain outcome. This includes attack
+                      rolls, ability checks (Strength, Dexterity, Intelligence,
+                      etc.), and saving throws. Add relevant modifiers to the
+                      roll and compare against a target number.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
+                    <h4 className="font-semibold text-orange-300 mb-2">
+                      Damage Dice - d4 through d12
+                    </h4>
+                    <p>
+                      When you hit with an attack or a creature fails a saving
+                      throw against your spell, you roll damage dice:
+                    </p>
+                    <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
+                      <li>
+                        <strong>d4:</strong> Light weapons, weak cantrips
+                      </li>
+                      <li>
+                        <strong>d6:</strong> Standard weapons, common spells
+                      </li>
+                      <li>
+                        <strong>d8:</strong> Versatile or martial weapons,
+                        moderate spells
+                      </li>
+                      <li>
+                        <strong>d10:</strong> Heavy weapons, powerful spells
+                      </li>
+                      <li>
+                        <strong>d12:</strong> Massive weapons, devastating magic
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Combat Basics */}
+            <section id="combat-basics" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuSword className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">
+                    Combat Basics
+                  </h2>
+                </div>
+
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    Combat flows in rounds and turns. Each round represents
+                    approximately 6 seconds of in-game time. On your turn, you
+                    can typically move and take one action.
+                  </p>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      Turn Structure
+                    </h4>
+                    <ul className="list-disc list-inside space-y-1 ml-4">
+                      <li>
+                        <strong>Move:</strong> Move up to your speed (typically
+                        30 feet)
+                      </li>
+                      <li>
+                        <strong>Action:</strong> Attack, cast a spell, dash,
+                        dodge, help, or use an object
+                      </li>
+                      <li>
+                        <strong>Bonus Action:</strong> Special abilities or
+                        spells (if available)
+                      </li>
+                      <li>
+                        <strong>Reaction:</strong> Opportunity attacks or
+                        special abilities triggered by events
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      Initiative
+                    </h4>
+                    <p>
+                      At the start of combat, all participants roll initiative
+                      (d20 + Dexterity modifier). This determines the turn
+                      order, with highest rolls going first.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Attacks & Saving Throws */}
+            <section id="attacks-saves" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuTarget className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">
+                    Attacks & Saving Throws
+                  </h2>
+                </div>
+
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    There are two primary ways to resolve offensive actions:
+                    attack rolls and saving throws. Understanding which to use
+                    depends on the nature of your action.
+                  </p>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+                    <h4 className="font-semibold text-cyan-300 mb-3">
+                      Attack Rolls - Single Target
+                    </h4>
+                    <p className="mb-2">
+                      Used for precise, targeted attacks against a specific
+                      creature. This includes weapon attacks and single-target
+                      spells.
+                    </p>
+                    <div className="bg-slate-800/70 rounded p-3 font-mono text-sm text-cyan-200 mt-2">
+                      Roll: d20 + Attack Modifier vs. Target's AC
+                    </div>
+                    <p className="mt-3">
+                      <strong>Examples:</strong> Sword swing, arrow shot,
+                      Firebolt cantrip, Magic Missile, Ray of Frost
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      If your total equals or exceeds the target's Armor Class
+                      (AC), the attack hits and you roll damage.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
+                    <h4 className="font-semibold text-orange-300 mb-3">
+                      Saving Throws - Area of Effect
+                    </h4>
+                    <p className="mb-2">
+                      Used for area-of-effect attacks or abilities that multiple
+                      creatures can attempt to resist. All creatures in the area
+                      must make a saving throw.
+                    </p>
+                    <div className="bg-slate-800/70 rounded p-3 font-mono text-sm text-orange-200 mt-2">
+                      Target Rolls: d20 + Save Modifier vs. Your Spell DC
+                    </div>
+                    <p className="mt-3">
+                      <strong>Examples:</strong> Fireball, Lightning Bolt,
+                      Dragon's breath weapon, Cloud of Daggers
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Creatures that meet or exceed your Spell Save DC succeed
+                      and typically take half damage. Those who fail take full
+                      damage.
+                    </p>
+                  </div>
+
+                  <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-500/30 mt-4">
+                    <p className="text-cyan-200 font-semibold">
+                      ⚔️ Rule of Thumb: Single target = Roll to hit. Multiple
+                      targets = Saving throw.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Movement & Positioning */}
+            <section id="movement" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuMove className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">
+                    Movement & Positioning
+                  </h2>
+                </div>
+
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    Tactical positioning is crucial in combat. Your location
+                    relative to enemies and the terrain can dramatically affect
+                    your chances of success.
+                  </p>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      Standard Movement
+                    </h4>
+                    <p className="mb-2">
+                      Most creatures have a base movement speed of{" "}
+                      <strong className="text-white">30 feet per turn</strong>,
+                      which equals approximately{" "}
+                      <strong className="text-white">6 tiles</strong> on a
+                      standard 5-foot grid.
+                    </p>
+                    <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
+                      <li>
+                        You can split your movement before and after your action
+                      </li>
+                      <li>
+                        Difficult terrain costs 2 feet for every 1 foot moved
+                      </li>
+                      <li>
+                        Standing up from prone costs half your movement speed
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      Opportunity Attacks
+                    </h4>
+                    <p>
+                      When you move out of an enemy's reach (typically 5 feet
+                      for most creatures), they can use their reaction to make
+                      an opportunity attack against you. Use the Disengage
+                      action to move safely without provoking opportunity
+                      attacks.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Cover */}
+            <section id="cover" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuShield className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">Cover</h2>
+                </div>
+
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    Obstacles between you and an attacker provide cover, making
+                    you harder to hit. Cover grants a bonus to your Armor Class
+                    (AC) and Dexterity saving throws.
+                  </p>
+
+                  <div className="grid md:grid-cols-2 gap-4 mt-4">
+                    <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+                      <h4 className="font-semibold text-cyan-300 mb-2">
+                        Half Cover
+                      </h4>
+                      <div className="text-2xl font-bold text-white mb-2">
+                        +2 AC
+                      </div>
+                      <p className="text-sm">
+                        A creature or object covers at least half of your body.
+                        Examples include low walls, large furniture, or narrow
+                        tree trunks.
+                      </p>
                     </div>
 
-                    <input
-                      type="number"
-                      value={state.stats[name]}
-                      onChange={(e) =>
-                        handleStatChange(name, parseInt(e.target.value) || 0)
-                      }
-                      className="w-full px-4 py-3 bg-slate-700/50 dark:bg-slate-800/50 border border-orange-500/30 dark:border-orange-500/30 rounded-lg text-white text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-500 focus:border-transparent transition-all mb-3"
-                      max={20}
-                      min={0}
-                    />
-
-                    <div className="flex items-center justify-center gap-2 bg-cyan-600/20 dark:bg-cyan-600/20 border border-orange-500/40 dark:border-orange-500/40 rounded-lg py-2">
-                      <span className="text-sm text-slate-300">Modifier:</span>
-                      <span className="text-xl font-bold text-cyan-300 dark:text-cyan-300">
-                        {Math.floor((state.stats[name] - 10) / 2) >= 0
-                          ? "+"
-                          : ""}
-                        {Math.floor((state.stats[name] - 10) / 2)}
-                      </span>
+                    <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
+                      <h4 className="font-semibold text-orange-300 mb-2">
+                        Three-Quarters Cover
+                      </h4>
+                      <div className="text-2xl font-bold text-white mb-2">
+                        +5 AC
+                      </div>
+                      <p className="text-sm">
+                        An obstacle blocks at least three-quarters of your body.
+                        Examples include portcullises, arrow slits, or thick
+                        tree trunks.
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Weapons Section */}
-            <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-orange-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-              <h2 className="text-2xl font-bold text-cyan-300 dark:text-cyan-300 mb-6 flex items-center gap-2">
-                <LuSword size={24} />
-                Weapons
-              </h2>
-
-              {/* Weapon Filter */}
-              <div className="mb-6">
-                <p className="text-sm text-slate-400 mb-3">
-                  Filter by Category
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {weaponCategories.map(({ id, label }) => (
-                    <button
-                      key={id}
-                      onClick={() => setWeaponFilter(id)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                        weaponFilter === id
-                          ? "bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white"
-                          : "bg-slate-800/50 dark:bg-slate-900/50 text-slate-400 hover:text-white hover:bg-slate-800 dark:hover:bg-slate-900"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+                  <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-500/30 mt-4">
+                    <p className="text-cyan-200">
+                      <strong>Note:</strong> Cover also grants the same bonus to
+                      Dexterity saving throws against attacks or effects that
+                      originate from the opposite side of the cover.
+                    </p>
+                  </div>
                 </div>
               </div>
+            </section>
 
-              {/* Weapon Selection Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {getFilteredWeapons().map((weapon) => (
-                  <button
-                    key={weapon.id}
-                    onClick={() => handleWeaponChange(weapon.id)}
-                    className={`p-4 rounded-lg border transition-all text-left ${
-                      state.weaponType === weapon.id
-                        ? "bg-cyan-600/30 dark:bg-cyan-600/30 border-orange-500 dark:border-orange-500"
-                        : "bg-slate-800/30 dark:bg-slate-900/30 border-orange-500/20 dark:border-orange-500/20 hover:border-orange-500/40 dark:hover:border-orange-500/40"
-                    }`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <span className="text-slate-200 font-medium">
-                        {weapon.label}
-                      </span>
-                      <span className="text-cyan-400 dark:text-cyan-400 text-sm">
-                        {weapon.damage}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Flanking */}
+            <section id="flanking" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuEye className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">Flanking</h2>
+                </div>
 
-            {/* Armor Section */}
-            <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-orange-500/30 dark:border-orange-500/30 shadow-2xl p-6">
-              <h2 className="text-2xl font-bold text-cyan-300 dark:text-cyan-300 mb-6 flex items-center gap-2">
-                <LuShield size={24} />
-                Armor
-              </h2>
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    When you and an ally are positioned on opposite sides of an
+                    enemy, you've flanked that enemy, creating a tactical
+                    advantage.
+                  </p>
 
-              {/* Armor Filter */}
-              <div className="mb-6">
-                <p className="text-sm text-slate-400 mb-3">
-                  Filter by Category
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {armorCategories.map(({ id, label }) => (
-                    <button
-                      key={id}
-                      onClick={() => setArmorFilter(id)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                        armorFilter === id
-                          ? "bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white"
-                          : "bg-slate-800/50 dark:bg-slate-900/50 text-slate-400 hover:text-white hover:bg-slate-800 dark:hover:bg-slate-900"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+                    <h4 className="font-semibold text-cyan-300 mb-3">
+                      Flanking Requirements
+                    </h4>
+                    <ul className="list-disc list-inside space-y-2 ml-4">
+                      <li>
+                        You and an ally must be on{" "}
+                        <strong>opposite sides</strong> of the enemy
+                      </li>
+                      <li>
+                        Both you and your ally must be within{" "}
+                        <strong>5 feet</strong> of the enemy
+                      </li>
+                      <li>
+                        Both you and your ally must be able to see and reach the
+                        enemy
+                      </li>
+                      <li>Neither you nor your ally can be incapacitated</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-gradient-to-r from-cyan-900/30 to-orange-900/30 rounded-lg p-6 border border-cyan-500/30 mt-4">
+                    <h4 className="font-semibold text-white mb-2 text-xl">
+                      Advantage on Attack Rolls
+                    </h4>
+                    <p className="text-cyan-200">
+                      When you flank an enemy, you gain{" "}
+                      <strong>advantage</strong> on melee attack rolls against
+                      that creature. Roll two d20s and use the higher result.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 mt-4">
+                    <p className="text-sm text-gray-400">
+                      <strong>Tactical Tip:</strong> Coordinate with your allies
+                      to surround enemies. Flanking can turn the tide of battle
+                      by significantly increasing your chance to hit.
+                    </p>
+                  </div>
                 </div>
               </div>
+            </section>
 
-              {/* Armor Selection Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {getFilteredArmors().map((armor) => (
-                  <button
-                    key={armor.id}
-                    onClick={() => handleArmorChange(armor.id)}
-                    className={`p-4 rounded-lg border transition-all text-left ${
-                      state.armorType === armor.id
-                        ? "bg-cyan-600/30 dark:bg-cyan-600/30 border-orange-500 dark:border-orange-500"
-                        : "bg-slate-800/30 dark:bg-slate-900/30 border-orange-500/20 dark:border-orange-500/20 hover:border-orange-500/40 dark:hover:border-orange-500/40"
-                    }`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <span className="text-slate-200 font-medium">
-                        {armor.label}
-                      </span>
-                      <span className="text-cyan-400 dark:text-cyan-400 text-sm">
-                        AC {armor.ac}
-                      </span>
+            {/* Height Advantage */}
+            <section id="height" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuMountain className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">
+                    Height Advantage
+                  </h2>
+                </div>
+
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    Attacking from higher ground gives you a tactical edge,
+                    making your attacks more accurate and effective.
+                  </p>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+                    <h4 className="font-semibold text-cyan-300 mb-3">
+                      Higher Ground Bonus
+                    </h4>
+                    <p className="mb-3">
+                      When you attack a creature that is at least{" "}
+                      <strong>5 feet below you</strong> (on lower terrain,
+                      stairs, or a different elevation), you gain a bonus to
+                      your attack roll.
+                    </p>
+                    <div className="bg-gradient-to-r from-cyan-900/30 to-orange-900/30 rounded-lg p-4 border border-cyan-500/30">
+                      <div className="text-2xl font-bold text-white mb-1">
+                        +2 to Hit
+                      </div>
+                      <p className="text-cyan-200 text-sm">
+                        Add +2 to your attack roll when attacking from higher
+                        ground
+                      </p>
                     </div>
-                  </button>
-                ))}
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      Examples of Height Advantage
+                    </h4>
+                    <ul className="list-disc list-inside space-y-1 ml-4">
+                      <li>
+                        Standing on a cliff or ledge attacking enemies below
+                      </li>
+                      <li>
+                        Fighting from horseback against grounded opponents
+                      </li>
+                      <li>Shooting arrows from castle walls or towers</li>
+                      <li>
+                        Attacking from the top of stairs or elevated platforms
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-orange-900/20 rounded-lg p-4 border border-orange-500/30 mt-4">
+                    <p className="text-orange-200 text-sm">
+                      <strong>Note:</strong> Height advantage does not stack
+                      with other bonuses like flanking. The +2 bonus is applied
+                      only when there is a clear elevation difference of at
+                      least 5 feet.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </section>
 
-          {/* Right Side Panel - Character Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-orange-500/30 dark:border-orange-500/30 shadow-2xl p-6 sticky top-6">
-              <h2 className="text-xl font-bold text-cyan-300 dark:text-cyan-300 mb-6">
-                Character Summary
-              </h2>
+            {/* Critical Hits */}
+            <section id="critical-hits" className="scroll-mt-24">
+              <div className="bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                    <LuZap className="w-6 h-6 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white">
+                    Critical Hits
+                  </h2>
+                </div>
 
-              {/* Stats Summary */}
-              <div className="mb-6">
-                <h3 className="text-sm font-semibold text-slate-400 mb-3 uppercase">
-                  Ability Scores
-                </h3>
-                <div className="space-y-2">
-                  {stats.map(({ name, label }) => (
-                    <div
-                      key={name}
-                      className="flex justify-between items-center text-slate-300"
-                    >
-                      <span className="text-sm">{label}:</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-white">
-                          {state.stats[name]}
-                        </span>
-                        <span className="text-xs text-cyan-400 dark:text-cyan-400">
-                          (
-                          {Math.floor((state.stats[name] - 10) / 2) >= 0
-                            ? "+"
-                            : ""}
-                          {Math.floor((state.stats[name] - 10) / 2)})
-                        </span>
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>
+                    Critical hits represent moments of exceptional accuracy or
+                    fortune in combat, dealing devastating damage to your
+                    enemies.
+                  </p>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+                    <h4 className="font-semibold text-cyan-300 mb-3">
+                      Critical Threat Range
+                    </h4>
+                    <p className="mb-3">
+                      Unlike traditional systems where only a natural 20 is
+                      critical, this system uses a{" "}
+                      <strong>threshold-based approach</strong> similar to
+                      Pathfinder.
+                    </p>
+                    <div className="bg-slate-800/70 rounded p-4 mt-3">
+                      <p className="font-semibold text-white mb-2">
+                        How It Works:
+                      </p>
+                      <ol className="list-decimal list-inside space-y-2 ml-4">
+                        <li>Roll your attack normally (d20 + modifiers)</li>
+                        <li>
+                          If your <strong>total</strong> exceeds the target's AC
+                          by <strong>10 or more</strong>, it's a critical threat
+                        </li>
+                        <li>
+                          Roll a confirmation roll (another d20 + attack
+                          modifiers)
+                        </li>
+                        <li>
+                          If the confirmation roll hits the target's AC, it's a
+                          confirmed critical hit
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-r from-cyan-900/30 to-orange-900/30 rounded-lg p-6 border border-cyan-500/30">
+                    <h4 className="font-semibold text-white mb-3 text-xl">
+                      Critical Damage
+                    </h4>
+                    <p className="text-cyan-200 mb-2">
+                      On a confirmed critical hit, roll all damage dice{" "}
+                      <strong>twice</strong> and add your normal modifiers only
+                      once.
+                    </p>
+                    <div className="bg-slate-800/50 rounded p-3 mt-3 font-mono text-sm">
+                      <p className="text-gray-300">
+                        Normal Hit: 1d8 + 3 = 7 damage
+                      </p>
+                      <p className="text-orange-300">
+                        Critical Hit: 2d8 + 3 = 15 damage
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-cyan-300 mb-2">
+                      Critical Hit Examples
+                    </h4>
+                    <div className="space-y-3 text-sm">
+                      <div className="bg-slate-800/50 rounded p-3">
+                        <p className="text-gray-400 mb-1">
+                          Target AC: 15 | Attack Roll: 26 total
+                        </p>
+                        <p className="text-white">
+                          26 - 15 = 11 (exceeds by 10+) →{" "}
+                          <span className="text-cyan-300">
+                            Critical Threat!
+                          </span>
+                        </p>
+                        <p className="text-gray-400 mt-1">
+                          Confirmation Roll: 18 (hits AC 15) →{" "}
+                          <span className="text-orange-300 font-semibold">
+                            Confirmed Critical!
+                          </span>
+                        </p>
+                      </div>
+                      <div className="bg-slate-800/50 rounded p-3">
+                        <p className="text-gray-400 mb-1">
+                          Target AC: 18 | Attack Roll: 27 total
+                        </p>
+                        <p className="text-white">
+                          27 - 18 = 9 (doesn't exceed by 10) →{" "}
+                          <span className="text-gray-300">Normal Hit</span>
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Equipment */}
-              <div className="mb-6">
-                <h3 className="text-sm font-semibold text-slate-400 mb-3 uppercase">
-                  Equipment
-                </h3>
-                <div className="space-y-3">
-                  <div className="bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-orange-500/20 dark:border-orange-500/20">
-                    <p className="text-xs text-slate-400 mb-1">Weapon</p>
-                    <p className="text-slate-200 font-medium">
-                      {state.weaponType || "None"}
-                    </p>
                   </div>
-                  <div className="bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-orange-500/20 dark:border-orange-500/20">
-                    <p className="text-xs text-slate-400 mb-1">Armor</p>
-                    <p className="text-slate-200 font-medium">
-                      {state.armorType || "None"}
+
+                  <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-500/30 mt-4">
+                    <p className="text-cyan-200 text-sm">
+                      <strong>Weapons with Improved Critical:</strong> Some
+                      weapons or abilities may have an improved critical range
+                      (threatening on exceeding AC by 8 or less). Check your
+                      weapon or ability description for details.
                     </p>
                   </div>
                 </div>
               </div>
-
-              {/* Spells (Placeholder) */}
-              <div>
-                <h3 className="text-sm font-semibold text-slate-400 mb-3 uppercase flex items-center gap-2">
-                  <LuWand size={16} />
-                  Spells
-                </h3>
-                <div className="bg-slate-800/30 dark:bg-slate-900/30 p-4 rounded-lg border border-orange-500/20 dark:border-orange-500/20 text-center">
-                  <p className="text-slate-500 text-sm">No spells selected</p>
-                </div>
-              </div>
-            </div>
-          </div>
+            </section>
+          </main>
         </div>
       </div>
     </div>

@@ -18,6 +18,7 @@ import { Login } from "../app/pages/Login";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
 import { Rules } from "../shared/components/Rules";
+import { CharacterBuilder } from "../app/pages/CharacterBuilder";
 
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
         <Route path="/login" element={<Login />} />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/rules" element={<Rules />}></Route>
+        <Route path="/builder" element={<CharacterBuilder />}></Route>
         <Route path="/articles/*" element={<ArticlePage />} />
         <Route
           path="/professions/*"
