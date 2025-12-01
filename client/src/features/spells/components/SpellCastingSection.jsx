@@ -110,7 +110,7 @@ export const SpellCastingSection = ({
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               >
-                <option value="">Select Type</option>
+                <option value="">Select Usage</option>
                 <option value="daily">Daily</option>
                 <option value="unlimited">Unlimited</option>
                 <option value="short_rest">Short Rest</option>

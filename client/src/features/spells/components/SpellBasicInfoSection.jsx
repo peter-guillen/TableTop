@@ -33,6 +33,7 @@ export const SpellBasicInfoSection = ({
             name="name"
             onChange={onInputChange}
             value={name}
+            required
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           />
         </div>
@@ -45,8 +46,10 @@ export const SpellBasicInfoSection = ({
             name="school"
             onChange={onInputChange}
             value={school}
+            required
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           >
+            <option value="">Select School</option>
             <option value="abjuration">Abjuration</option>
             <option value="conjuration">Conjuration</option>
             <option value="divination">Divination</option>
@@ -66,8 +69,10 @@ export const SpellBasicInfoSection = ({
             name="tier"
             onChange={onInputChange}
             value={tier}
+            required
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           >
+            <option value={""}>Select Tier</option>
             <option value={1}>Tier 1</option>
             <option value={2}>Tier 2</option>
             <option value={3}>Tier 3</option>
@@ -84,8 +89,10 @@ export const SpellBasicInfoSection = ({
             name="element"
             onChange={onInputChange}
             value={element}
+            required
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           >
+            <option value="">Select Element</option>
             <option value="fire">Fire</option>
             <option value="water">Water</option>
             <option value="earth">Earth</option>

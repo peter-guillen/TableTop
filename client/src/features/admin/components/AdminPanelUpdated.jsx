@@ -20,7 +20,7 @@ import {
   LuChevronRight,
 } from "react-icons/lu";
 
-export const AdminPanel = () => {
+export const AdminPanelUpdated = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
 
