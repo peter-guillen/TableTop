@@ -4,7 +4,7 @@ const generateToken = require("../middlewares/jwtoken");
 
 // Find all users
 const getUsers = async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).select("-password");
   res.json(users);
 };
 

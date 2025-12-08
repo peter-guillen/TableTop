@@ -14,7 +14,6 @@ export const UserPage = () => {
     };
     fetchData();
   }, []);
-
   const handleDelete = async (id) => {
     await deleteUser(id);
     setUserList((prevList) => prevList.filter((user) => user._id !== id));

@@ -17,7 +17,7 @@ import { Register } from "../app/pages/Register";
 import { Login } from "../app/pages/Login";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
-import { Rules } from "../shared/components/Rules";
+import { Rules } from "../app/pages/Rules";
 import { CharacterBuilder } from "../app/pages/CharacterBuilder";
 
 import { Home } from "./pages/Home";
@@ -29,7 +29,6 @@ import { WeaponPage } from "../features/weapons/pages/WeaponPage";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage";
 import { AdminPage } from "../features/admin/pages/AdminPage";
-import { DndApiPage } from "../shared/api/DndApiPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,7 +45,7 @@ const router = createBrowserRouter(
         <Route
           path="/professions/*"
           element={
-            <ProtectedRoute roles={["ADMIN", "MODERATOR", "EDITOR", "USER"]}>
+            <ProtectedRoute roles={["ADMIN"]}>
               <ProfessionPage />
             </ProtectedRoute>
           }
@@ -55,7 +54,6 @@ const router = createBrowserRouter(
         <Route path="/weapons/*" element={<WeaponPage />} />
         <Route path="/armors/*" element={<ArmorPage />} />
         <Route path="/users/*" element={<UserPage />} />
-        <Route path="/dnd/*" element={<DndApiPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
