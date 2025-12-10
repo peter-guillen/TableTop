@@ -262,7 +262,7 @@ export const Navbar = () => {
                   </div>
                 </div>
               </div>
-              {currentUser && currentUser.role === "ADMIN" ? (
+              {currentUser && currentUser.role === "admin" ? (
                 <NavLink
                   to="admin"
                   className="px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"

@@ -25,6 +25,8 @@ export const UserPage = () => {
         {userList.map((user) => (
           <div key={user._id}>
             <div>{user.username}</div>
+            <div>{user.email}</div>
+            <div>{user.role}</div>
             <div
               onClick={() => {
                 handleDelete(user._id);

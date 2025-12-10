@@ -1,4 +1,3 @@
-// const {user._id} = require('../models/UserModel')
 const jwt = require("jsonwebtoken");
 
 const generateToken = (user) => {

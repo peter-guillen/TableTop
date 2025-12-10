@@ -13,8 +13,23 @@ const {
 router.get("/", getSpells);
 router.get("/:id", getSpell);
 
-router.post("/", checkAuthenticated, checkAuthorization, createSpell);
-router.delete("/:id", checkAuthenticated, checkAuthorization, deleteSpell);
-router.patch("/:id", checkAuthenticated, checkAuthorization, updateSpell);
+router.post(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  createSpell
+);
+router.delete(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  deleteSpell
+);
+router.patch(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  updateSpell
+);
 
 module.exports = router;

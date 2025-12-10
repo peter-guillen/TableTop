@@ -70,10 +70,10 @@ const SpellSchema = new mongoose.Schema(
       type: String,
       enum: ["spell_attack", "saving_throw", "auto_hit"],
     },
-    saveType: {
-      type: String,
-      enum: ["fortitude", "resolve", "avoidance"],
-    },
+    // saveType: {
+    //   type: String,
+    //   enum: ["fortitude", "resolve", "avoidance"],
+    // },
     duration: {
       type: String,
       required: true,

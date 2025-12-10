@@ -39,6 +39,7 @@ export const createSpell = async (formData: Spells): Promise<Spells> => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
+      credentials: "include",
     });
     if (!response.ok) {
       const errorData = await response.json();
@@ -60,6 +61,7 @@ export const updateSpell = async (
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Error while updating spell");
@@ -71,6 +73,7 @@ export const deleteSpell = async (id: string): Promise<Spells> => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Error while deleting spell");

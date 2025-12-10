@@ -11,6 +11,7 @@ const professionRoutes = require("./routes/professionRoutes");
 const spellRoutes = require("./routes/spellRoutes");
 const weaponRoutes = require("./routes/weaponRoutes.js");
 const armorRoutes = require("./routes/armorRoutes.js");
+const activityRoutes = require("./routes/activityRoutes.js");
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
@@ -30,6 +31,7 @@ app.use("/api/professions", professionRoutes);
 app.use("/api/spells", spellRoutes);
 app.use("/api/weapons", weaponRoutes);
 app.use("/api/armors", armorRoutes);
+app.use("/api/activity", activityRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

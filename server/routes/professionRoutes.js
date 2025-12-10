@@ -14,7 +14,7 @@ const {
 router.get(
   "/",
   checkAuthenticated,
-  checkAuthorization(["ADMIN", "MODERATOR", "EDITOR", "USER"]),
+  checkAuthorization(["admin", "moderator", "editor", "user"]),
   getProfessions
 );
 router.post("/", createProfession);

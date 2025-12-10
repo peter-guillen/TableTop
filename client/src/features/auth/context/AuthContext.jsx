@@ -38,8 +38,8 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (formData) => {
     const response = await loginUserApi(formData);
     if (!formData.email || !formData.password) {
-      setError(error.message);
-      setErrorMessage("Please enter both username and password");
+      setError("Missing credentials");
+      setErrorMessage("Please enter both email and password");
       return;
     }
     if (response.success) {
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const deleteUser = async (id) => {
     await deleteUserApi(id);
-    const updatedUsers = await userList.filter((user) => user._id === id);
+    const updatedUsers = await userList.filter((user) => user._id !== id);
     setUserList(updatedUsers);
   };
 

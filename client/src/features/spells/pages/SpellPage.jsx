@@ -13,7 +13,7 @@ export const SpellPage = () => {
         <Route
           path="create"
           element={
-            <ProtectedRoute roles={"ADMIN"}>
+            <ProtectedRoute roles={["admin"]}>
               <SpellForm />
             </ProtectedRoute>
           }
@@ -21,7 +21,7 @@ export const SpellPage = () => {
         <Route
           path=":id/edit"
           element={
-            <ProtectedRoute roles={"ADMIN"}>
+            <ProtectedRoute roles={["admin"]}>
               <SpellForm />
             </ProtectedRoute>
           }
