@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { SpellContext } from "../context/SpellContext";
+import { useSpells } from "../hooks/useSpells";
 import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
 import { SpellCastingSection } from "../components/SpellCastingSection";
 import { SpellCombatSection } from "../components/SpellCombatSection";
@@ -9,7 +9,7 @@ import { SpellConditionsSection } from "../components/SpellConditionsSection";
 import { LuSparkles } from "react-icons/lu";
 
 export function SpellForm() {
-  const { spellList, createSpell, updateSpell } = useContext(SpellContext);
+  const { spellList, createSpell, updateSpell } = useSpells();
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",

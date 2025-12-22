@@ -5,6 +5,7 @@ import {
   AnalyticsExample,
   SettingExample,
 } from "../../admin/components/DashboardExample";
+import { ActivityLog } from "./ActivityLog";
 
 export function AdminRouter({
   activeSection,

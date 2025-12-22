@@ -285,7 +285,7 @@ export const Navbar = () => {
               />
             ) : (
               <FaMoon
-                style={{ color: "teal" }}
+                style={{ color: "#1b9c9aff" }}
                 onClick={() => {
                   toggleTheme();
                 }}

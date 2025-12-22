@@ -8,7 +8,7 @@ import {
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import { AuthContextProvider } from "../features/auth/context/AuthContext";
 import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
-import { SpellContextProvider } from "../features/spells/context/SpellContext";
+import { SpellContextProvider } from "../features/spells/context/SpellContextProvider";
 import { WeaponContextProvider } from "../features/weapons/context/WeaponContext";
 import { ArmorContextProvider } from "../features/armors/context/ArmorContext";
 

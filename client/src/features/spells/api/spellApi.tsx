@@ -1,39 +1,13 @@
 import { apiFetch } from "../../auth/api/apiFetch";
 const API_URL = "http://localhost:1234/api/spells";
+import type { Spell } from "../spellTypes";
 
-interface Spells {
-  _id: string;
-  description: string;
-  // category: string;
-
-  name: string;
-  school: string;
-  tier: string;
-  element: string;
-  tags: [];
-  castingTime: string;
-  isRitual: string;
-  stamina: string;
-  usesPerDay: string;
-  range: string;
-  area: string;
-  target: string;
-  attackType: string;
-  duration: string;
-  requiresConcentration: string;
-  damage: [];
-  healing: [];
-  conditions: [];
-  buffs: [];
-  debuffs: [];
-}
-
-export const fetchSpells = async (): Promise<Spells[]> => {
+export const fetchSpells = async (): Promise<Spell[]> => {
   const response = await apiFetch(API_URL);
   return response;
 };
 
-export const createSpell = async (formData: Spells): Promise<Spells> => {
+export const createSpell = async (formData: Spell): Promise<Spell> => {
   try {
     const response = await fetch(API_URL, {
       method: "POST",
@@ -55,8 +29,8 @@ export const createSpell = async (formData: Spells): Promise<Spells> => {
 
 export const updateSpell = async (
   id: string,
-  formData: Spells
-): Promise<Spells> => {
+  formData: Spell
+): Promise<Spell> => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -69,7 +43,7 @@ export const updateSpell = async (
   return await response.json();
 };
 
-export const deleteSpell = async (id: string): Promise<Spells> => {
+export const deleteSpell = async (id: string): Promise<Spell> => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
