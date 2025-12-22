@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 1234;
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const MONGODB_URI = process.allowedNodeEnvironmentFlags.MONGODB_URI;
 
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");
@@ -14,7 +15,13 @@ const armorRoutes = require("./routes/armorRoutes.js");
 const activityRoutes = require("./routes/activityRoutes.js");
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err)); // mongoose.connect("mongodb://127.0.0.1:27017/spells-app");rs
 
 app.use(express.json());
 app.use(cookieParser());
