@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 1234;
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const MONGODB_URI = process.allowedNodeEnvironmentFlags.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");
@@ -16,7 +16,7 @@ const activityRoutes = require("./routes/activityRoutes.js");
 
 const mongoose = require("mongoose");
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
