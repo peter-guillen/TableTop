@@ -1,4 +1,4 @@
-const Spell = require("../models/Spell_Temp");
+const Spell = require("../models/SpellModel");
 const mongoose = require("mongoose");
 const { logAction } = require("../utils/logger");
 
