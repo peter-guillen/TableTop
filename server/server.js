@@ -2,9 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 1234;
+const MONGODB_URI = process.env.MONGODB_URI;
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const MONGODB_URI = process.env.MONGODB_URI;
 
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");
@@ -14,6 +15,9 @@ const weaponRoutes = require("./routes/weaponRoutes.js");
 const armorRoutes = require("./routes/armorRoutes.js");
 const activityRoutes = require("./routes/activityRoutes.js");
 
+if (!process.env.MONGODB_URI && process.env.NODE_ENV === "production") {
+  throw new Error("MONGODB_URI is required in production");
+}
 const mongoose = require("mongoose");
 mongoose
   .connect(MONGODB_URI, {
@@ -21,13 +25,13 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err)); // mongoose.connect("mongodb://127.0.0.1:27017/spells-app");rs
+  .catch((err) => console.error("MongoDB connection error:", err)); // mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: CLIENT_URL,
     credentials: true,
   })
 );
