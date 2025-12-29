@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LuHouse, LuSearch, LuLockKeyhole, LuSkull } from "react-icons/lu";
+import { LuHouse, LuSearch, LuLock, LuSkull } from "react-icons/lu";
 
 export function Forbidden() {
   return (
@@ -34,7 +34,7 @@ export function Forbidden() {
             or be placed in confinement.
           </p>
           <div className="flex items-center justify-center gap-2 text-cyan-400 dark:text-orange-400">
-            <LuLockKeyhole size={20} />
+            <LuLock size={20} />
             <span className="font-semibold">Location: Restricted Area</span>
           </div>
         </div>
