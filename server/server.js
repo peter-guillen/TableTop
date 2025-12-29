@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 1234;
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/spells-app";
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const cookieParser = require("cookie-parser");
-require("dotenv").config();
 
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");
@@ -25,7 +26,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err)); // mongoose.connect("mongodb://127.0.0.1:27017/spells-app");
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use(express.json());
 app.use(cookieParser());
