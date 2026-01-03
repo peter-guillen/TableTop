@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
-const PORT = process.env.PORT || 1234;
+const PORT = process.env.PORT || 5000;
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/spells-app";
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
