@@ -1,9 +1,9 @@
 import { apiFetch } from "../../auth/api/apiFetch";
-const API_URL = "http://localhost:1234/api/spells";
+import API_URL from "../../../shared/api/api";
 import type { Spell } from "../spellTypes";
 
 export const fetchSpells = async (): Promise<Spell[]> => {
-  const response = await apiFetch(API_URL);
+  const response = await apiFetch(`${API_URL}/api/spells`);
   return response;
 };
 

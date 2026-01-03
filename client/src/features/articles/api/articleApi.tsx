@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:1234/api/articles";
-
+import API_URL from "../../../shared/api/api";
 interface Comments {
   author: string;
   body: string;
