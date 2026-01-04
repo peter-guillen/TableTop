@@ -9,7 +9,7 @@ export const fetchSpells = async (): Promise<Spell[]> => {
 
 export const createSpell = async (formData: Spell): Promise<Spell> => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}/api/spells`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -31,7 +31,7 @@ export const updateSpell = async (
   id: string,
   formData: Spell
 ): Promise<Spell> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/spells/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
@@ -44,7 +44,7 @@ export const updateSpell = async (
 };
 
 export const deleteSpell = async (id: string): Promise<Spell> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/spells/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

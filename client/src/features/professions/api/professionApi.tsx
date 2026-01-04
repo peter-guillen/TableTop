@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:1234/api/professions";
-
+import API_URL from "../../../shared/api/api";
 interface Level {
   name: string;
   description: string;
@@ -17,7 +16,7 @@ interface Profession {
 export const fetchProfessions = async (
   token: string
 ): Promise<Profession[]> => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/api/professions`, {
     method: "GET",
     // Applying these headers for the ensureIsAuthenticated middleware in the server.js file
     // Since we're using sessions "include"
@@ -40,7 +39,7 @@ export const createProfession = async (
   token: string,
   formData: Profession
 ): Promise<Profession> => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/api/professions`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -58,7 +57,7 @@ export const deleteProfession = async (
   id: string,
   token: string
 ): Promise<void> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/professions/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -75,7 +74,7 @@ export const updateProfession = async (
   formData: Profession,
   token: string
 ): Promise<Profession> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/professions/${id}`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,

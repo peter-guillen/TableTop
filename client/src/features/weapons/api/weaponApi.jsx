@@ -1,19 +1,19 @@
-const API_URL = "http://localhost:1234/api/weapons";
+import API_URL from "../../../shared/api/api";
 
 export const fetchWeapons = async () => {
-  const response = await fetch(API_URL);
+  const response = await fetch(`${API_URL}/api/weapons`);
   const jsonResponse = response.json();
   return jsonResponse;
 };
 
 export const fetchWeapon = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`);
+  const response = await fetch(`${API_URL}/api/weapons/${id}`);
   const jsonResponse = response.json();
   return jsonResponse;
 };
 
 export const createWeapon = async (formData) => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/api/weapons`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(formData),
@@ -25,7 +25,7 @@ export const createWeapon = async (formData) => {
 };
 
 export const updateWeapon = async (id, formData) => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/weapons/${id}`, {
     method: "PATCH",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(formData),
@@ -37,7 +37,7 @@ export const updateWeapon = async (id, formData) => {
 };
 
 export const deleteWeapon = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/weapons/${id}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },
   });

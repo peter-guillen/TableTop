@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:1234/api/users";
-
+import API_URL from "../../../shared/api/api";
 interface User {
   _id: string;
   username: string;
@@ -9,7 +8,7 @@ interface User {
 }
 
 export const fetchUsers = async (token: string): Promise<User[]> => {
-  const response = await fetch(`${API_URL}/`, {
+  const response = await fetch(`${API_URL}/api/users`, {
     method: "GET",
     credentials: "include",
     headers: {
@@ -27,7 +26,7 @@ export const fetchUsers = async (token: string): Promise<User[]> => {
 };
 
 export const createUser = async (formData: User): Promise<User> => {
-  const response = await fetch(`${API_URL}/register`, {
+  const response = await fetch(`${API_URL}/api/users/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
@@ -49,7 +48,7 @@ export const loginUser = async (
   formData: Pick<User, "email" | "password">,
   token: string
 ): Promise<{ token: string; user: User }> => {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${API_URL}/api/users/login`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -69,7 +68,7 @@ export const loginUser = async (
 };
 
 export const logoutUser = async (): Promise<void> => {
-  const response = await fetch(`${API_URL}/logout`, {
+  const response = await fetch(`${API_URL}/api/users/logout`, {
     method: "POST",
     credentials: "include",
   });
@@ -79,7 +78,7 @@ export const logoutUser = async (): Promise<void> => {
 };
 
 export const deleteUser = async (id: string, token: string): Promise<void> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/users/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

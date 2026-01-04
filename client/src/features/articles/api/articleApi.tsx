@@ -16,7 +16,7 @@ interface Article {
 }
 
 export const fetchArticles = async (): Promise<Article[]> => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/api/articles`, {
     method: "GET",
     credentials: "include",
   });
@@ -25,7 +25,7 @@ export const fetchArticles = async (): Promise<Article[]> => {
 };
 
 export const createArticle = async (formData: Article): Promise<Article> => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/api/articles`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
@@ -40,7 +40,7 @@ export const updateArticle = async (
   id: string,
   formData: Article
 ): Promise<Article> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/articles/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
@@ -52,7 +52,7 @@ export const updateArticle = async (
 };
 
 export const deleteArticle = async (id: string): Promise<void> => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/articles/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });

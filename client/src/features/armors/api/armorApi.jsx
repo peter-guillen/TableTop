@@ -1,19 +1,19 @@
-const API_URL = "http://localhost:1234/api/armors";
+import API_URL from "../../../shared/api/api";
 
 export const fetchArmors = async () => {
-  const response = await fetch(API_URL);
+  const response = await fetch(`${API_URL}/api/armors/`);
   const jsonResponse = response.json();
   return jsonResponse;
 };
 
 export const fetchArmor = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`);
+  const response = await fetch(`${API_URL}/api/armors/${id}`);
   const jsonResponse = response.json();
   return jsonResponse;
 };
 
 export const createArmor = async (formData) => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_URL}/api/armors`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(formData),
@@ -25,7 +25,7 @@ export const createArmor = async (formData) => {
 };
 
 export const updateArmor = async (id, formData) => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/armors/${id}`, {
     method: "PATCH",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(formData),
@@ -37,7 +37,7 @@ export const updateArmor = async (id, formData) => {
 };
 
 export const deleteArmor = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`${API_URL}/api/armors/${id}`, {
     method: "DELETE",
     headers: { "content-type": "application/json" },
   });
