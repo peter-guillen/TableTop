@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext } from "react";
+import API_URL from "../../../shared/api/api";
 import {
   fetchUsers,
   createUser as createUserApi,
@@ -78,7 +79,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:1234/api/users/me", {
+        const response = await fetch(`${API_URL}/api/users/me`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
