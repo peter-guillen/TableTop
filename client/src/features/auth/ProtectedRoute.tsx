@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../../features/auth/context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 import { LoadingSpinner } from "../../shared/components/LoadingSpinner";
 
 interface ProtectedRouteProps {

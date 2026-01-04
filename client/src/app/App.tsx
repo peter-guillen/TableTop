@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import { ThemeContextProvider } from "./contexts/ThemeContext";
-import { AuthContextProvider } from "../features/auth/context/AuthContext";
+import { AuthContextProvider } from "../features/auth/context/AuthContextProvider";
 import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 import { SpellContextProvider } from "../features/spells/context/SpellContextProvider";
 import { WeaponContextProvider } from "../features/weapons/context/WeaponContext";

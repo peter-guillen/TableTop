@@ -5,7 +5,7 @@ import { ArticleContext } from "../../../features/articles/context/ArticleContex
 import { SpellContext } from "../../../features/spells/context/SpellContext";
 import { WeaponContext } from "../../../features/weapons/context/WeaponContext";
 import { ArmorContext } from "../../../features/armors/context/ArmorContext";
-import { AuthContext } from "../../../features/auth/context/AuthContext";
+import { AuthContext } from "../../auth/context/AuthContext";
 
 import {
   LuUsers,
