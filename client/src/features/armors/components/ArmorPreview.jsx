@@ -15,7 +15,6 @@ import {
 
 export const ArmorPreview = () => {
   const { armorList } = useContext(ArmorContext);
-  console.log(armorList);
 
   const getItemIcon = (category) => {
     const iconMap = {

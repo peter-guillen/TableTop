@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SpellContext } from "../context/SpellContext";
+import { SpellContext } from "./SpellContext";
 import {
   fetchSpells,
   createSpell as apiCreateSpell,

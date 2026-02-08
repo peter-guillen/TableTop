@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import API_URL from "../../../shared/api/api";
 
 export const ActivityLog = () => {
   const [logs, setLogs] = useState([]);
@@ -6,7 +7,7 @@ export const ActivityLog = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:1234/api/activity", {
+        const response = await fetch(`${API_URL}/api/activity`, {
           credentials: "include",
         });
 
@@ -26,6 +27,7 @@ export const ActivityLog = () => {
   }, []);
 
   console.log(logs);
+
   return (
     <div>
       <h2>Activity Log</h2>
@@ -36,7 +38,7 @@ export const ActivityLog = () => {
         <ul>
           {logs.map((log) => (
             <li key={log._id}>
-              {log.action} — {log.target} — {log.userId}
+              Action: {log.action} — Target: {log.target} — User: {log.userId}
             </li>
           ))}
         </ul>

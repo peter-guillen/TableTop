@@ -15,7 +15,6 @@ import {
 
 export const WeaponPreview = () => {
   const { weaponList } = useContext(WeaponContext);
-  console.log(weaponList);
 
   const getItemIcon = (category) => {
     const iconMap = {

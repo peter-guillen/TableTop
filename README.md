@@ -1,29 +1,3 @@
-# TableTop
-
-# Global
-
-[x] Fix issue with Logout
-[] Create conditionals for what a user can view
-[] Remove the Role on register page when finished testing
-[] Add a delete confirmation modal in articles and other crud files
-[] Create a user panel for hovering over user icon
-
-# Portfolio
-
-[] Demo video of RBAC + CRUD
-[] Demo video of AUTH (discussing JWT & cookies)
-[] Demo video of drag and drop - displaying realtime changes to the player stats
-[] Demo video of dice rolling
-[] Demo video of search, filter and sort
-
-# Article Fixes
-
-[] Fix CSS of ArticleCard to ensure they all remain the same size
-[] Add a cleaner response to articleCreate when a user fails to fill in inputs
-[] Create a form template for articles create and edit - this could also apply to spells, armors etc.
-[] Add better naviagtion to adminArticleDetails, when clicking back it doesn't return to home
-[] Consolidate the create and edit form
-
 # Tabletop
 
 A custom TTRPG web application built as a full-stack portfolio project, featuring a comprehensive magic system and game mechanics tied to an original fantasy novel universe.
@@ -47,6 +21,9 @@ Tabletop is a web-based tabletop RPG management system that allows users to brow
 - Additional game mechanics implementation
 
 ## Tech Stack
+
+- Javascript
+- MERN Stack
 
 ### Frontend
 
@@ -106,7 +83,7 @@ src/
 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/tabletop.git
+git clone https://github.com/peter-guillen/tabletop.git
 cd tabletop
 ```
 
@@ -141,8 +118,6 @@ npm run dev
 npm run dev
 ```
 
-The application should now be running on `http://localhost:5173` (frontend) and `http://localhost:5000` (backend).
-
 ## API Documentation
 
 ### Authentication Endpoints
@@ -164,26 +139,6 @@ The application should now be running on `http://localhost:5173` (frontend) and 
 | PUT    | `/api/spells/:id` | Update spell     | Admin         |
 | DELETE | `/api/spells/:id` | Delete spell     | Admin         |
 
-### Weapons Endpoints
-
-| Method | Endpoint           | Description       | Auth Required |
-| ------ | ------------------ | ----------------- | ------------- |
-| GET    | `/api/weapons`     | Get all weapons   | No            |
-| GET    | `/api/weapons/:id` | Get single weapon | No            |
-| POST   | `/api/weapons`     | Create weapon     | Admin         |
-| PUT    | `/api/weapons/:id` | Update weapon     | Admin         |
-| DELETE | `/api/weapons/:id` | Delete weapon     | Admin         |
-
-### Armors Endpoints
-
-| Method | Endpoint          | Description      | Auth Required |
-| ------ | ----------------- | ---------------- | ------------- |
-| GET    | `/api/armors`     | Get all armors   | No            |
-| GET    | `/api/armors/:id` | Get single armor | No            |
-| POST   | `/api/armors`     | Create armor     | Admin         |
-| PUT    | `/api/armors/:id` | Update armor     | Admin         |
-| DELETE | `/api/armors/:id` | Delete armor     | Admin         |
-
 ## User Roles
 
 - **Admin** - Full CRUD access to all game content
@@ -191,7 +146,7 @@ The application should now be running on `http://localhost:5173` (frontend) and 
 
 ## Development Status
 
-Currently in active development with plans for production deployment. The core CRUD functionality and authentication system are complete. Future updates will include character creation and campaign management features.
+Currently in active production deployment. The core CRUD functionality and authentication system are complete. Future updates will include character creation and campaign management features.
 
 ## Contributing
 

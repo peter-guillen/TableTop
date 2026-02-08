@@ -12,3 +12,11 @@ const WeaponSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Weapon", WeaponSchema);
+
+// type: "",
+// rarity: "",
+// price: "",
+// tags: [],
+// damageType
+//special
+// requirements

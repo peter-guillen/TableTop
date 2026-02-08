@@ -64,7 +64,9 @@ export const ProfessionPage = () => {
 
   return (
     <>
-      <CardTemplate />
+      <div className="m-6">
+        <CardTemplate />
+      </div>
       <Link to={`/professions/createProfession`}>
         <Button primary>Create a Profession!</Button>
       </Link>

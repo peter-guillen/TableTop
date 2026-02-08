@@ -133,7 +133,7 @@ export function AdminRouter({
 
     // ANALYTICS
     case "analytics":
-      return <AnalyticsExample />;
+      return <ActivityLog />;
 
     // SETTINGS
     case "settings":

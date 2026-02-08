@@ -1,6 +1,7 @@
 import { ProfessionPreview } from "./ProfessionPreview";
 
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
+import { CardTemplate } from "../../../shared/components/CardTemplate";
 
 interface ProfessionListProps {
   professionList: Profession[];
@@ -39,9 +40,12 @@ export const ProfessionList: React.FC<ProfessionListProps> = ({
           professionList.map((profession) => (
             <div key={profession._id}>
               <ProfessionPreview profession={profession} onDelete={onDelete} />
+              <CardTemplate />
             </div>
           ))}
       </div>
+
+      <div></div>
     </div>
   );
 };

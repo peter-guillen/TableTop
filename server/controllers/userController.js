@@ -44,12 +44,13 @@ const loginUser = async (req, res) => {
   }
   // Generate a token imported from jwt middleware
   const token = generateToken(user);
+  const isProduction = process.env.NODE_ENV === "production";
   res
     .cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7days
-      sameSite: "strict",
     })
     .status(200)
     .json({
@@ -89,7 +90,7 @@ const deleteUser = async (req, res) => {
 
 const userMe = async (req, res) => {
   // Finds the user ignoring by userId and not password
-  const user = await User.findById(req.user.userId).select("-password");
+  const user = await User.findById(req.user._id).select("-password");
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

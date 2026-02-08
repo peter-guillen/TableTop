@@ -1,43 +1,23 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSpells } from "../hooks/useSpells";
-import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
-import { SpellCastingSection } from "../components/SpellCastingSection";
-import { SpellCombatSection } from "../components/SpellCombatSection";
-import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
-import { SpellConditionsSection } from "../components/SpellConditionsSection";
+import { useProfessions } from "../hooks/useProfessions";
+import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
+// import { ProfessionCastingSection } from "../components/ProfessionCastingSection";
+// import { ProfessionCombatSection } from "../components/ProfessionCombatSection";
+import { ProfessionDescriptionSection } from "../components/ProfessionDescriptionSection";
+// import { ProfessionConditionsSection } from "../components/ProfessionConditionsSection";
 import { LuSparkles } from "react-icons/lu";
 
-export function SpellForm() {
-  const { spellList, createSpell, updateSpell } = useSpells();
+export function ProfessionForm() {
+  const { professionList, createProfession, updateProfession } =
+    useProfessions();
   const [formData, setFormData] = useState({
     // Basic Info
-    name: "",
-    school: "",
-    tier: "",
-    element: "",
-    tags: [],
-    // domain: "",
-    // category: "",
-
-    // Casting
-    castingTime: "",
-    duration: "",
-    range: "",
-    area: "",
-    stamina: "",
-    usesPerDay: "",
-    isRitual: Boolean,
-    requiresConcentration: Boolean,
-
-    // Combat
-    damage: [],
-    healing: [],
-
-    // Effects & Conditions
-    conditions: [],
-    buffs: [],
-    debuffs: [],
+    title: "",
+    levels: Array.from({ length: 10 }, (_, index) => ({
+      level: `${index + 1}`,
+      description: "",
+    })),
 
     // Description
     description: "",
@@ -54,13 +34,15 @@ export function SpellForm() {
   };
 
   useEffect(() => {
-    if (isEditing && spellList && spellList.length > 0) {
-      const spell = spellList.find((spell) => spell._id === id);
-      if (spell) {
-        setFormData(spell);
+    if (isEditing && professionList && professionList.length > 0) {
+      const profession = professionList.find(
+        (profession) => profession._id === id,
+      );
+      if (profession) {
+        setFormData(profession);
       }
     }
-  }, [id, spellList, isEditing]);
+  }, [id, professionList, isEditing]);
 
   // Handle input changes
   const handleInputChange = (event) => {
@@ -100,11 +82,11 @@ export function SpellForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditing) {
-      await updateSpell(id, formData);
+      await updateProfession(id, formData);
     } else {
-      await createSpell(formData);
+      await createProfession(formData);
     }
-    navigate("/spells");
+    navigate("/professions");
   };
 
   return (
@@ -118,7 +100,7 @@ export function SpellForm() {
               size={32}
             />
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-orange-400 to-cyan-500 dark:from-cyan-300 dark:via-orange-300 dark:to-cyan-400">
-              {isEditing ? "Edit Spell" : "Create Spell"}
+              {isEditing ? "Edit Profession" : "Create Profession"}
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
@@ -131,7 +113,7 @@ export function SpellForm() {
           <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
             <div className="space-y-8">
               {/* Basic Information */}
-              <SpellBasicInfoSection
+              <ProfessionBasicInfoSection
                 name={formData.name}
                 school={formData.school}
                 tier={formData.tier}
@@ -141,36 +123,8 @@ export function SpellForm() {
                 onCheckedChange={handleCheckedChange}
               />
 
-              {/* Casting Details */}
-              <SpellCastingSection
-                castingTime={formData.castingTime}
-                range={formData.range}
-                duration={formData.duration}
-                area={formData.area}
-                stamina={formData.stamina}
-                usesPerDay={formData.usesPerDay}
-                onInputChange={handleInputChange}
-                onCheckedChange={handleCheckedChange}
-              />
-
-              {/* Combat Stats */}
-              <SpellCombatSection
-                damage={formData.damage}
-                healing={formData.healing}
-                onInputChange={handleInputChange}
-                onDamageChange={handleDamageChange}
-                onHealingChange={handleHealingChange}
-              />
-
-              <SpellConditionsSection
-                onInputChange={handleInputChange}
-                onBuffsChange={handleBuffsChange}
-                onDebuffsChange={handleDebuffsChange}
-                onConditionsChange={handleConditionsChange}
-              />
-
               {/* Description */}
-              <SpellDescriptionSection
+              <ProfessionDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
               />
@@ -186,7 +140,7 @@ export function SpellForm() {
               Cancel
             </button>
             <button className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300">
-              {isEditing ? "Update Spell" : "Create Spell"}
+              {isEditing ? "Update Profession" : "Create Profession"}
             </button>
           </div>
         </form>

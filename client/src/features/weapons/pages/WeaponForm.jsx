@@ -1,46 +1,29 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSpells } from "../hooks/useSpells";
-import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
-import { SpellCastingSection } from "../components/SpellCastingSection";
-import { SpellCombatSection } from "../components/SpellCombatSection";
-import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
-import { SpellConditionsSection } from "../components/SpellConditionsSection";
+import { useWeapons } from "../hooks/useWeapons";
+import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection";
+// import { WeaponCastingSection } from "../components/WeaponCastingSection";
+// import { WeaponCombatSection } from "../components/WeaponCombatSection";
+// import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection";
+// import { WeaponConditionsSection } from "../components/WeaponConditionsSection";
 import { LuSparkles } from "react-icons/lu";
 
-export function SpellForm() {
-  const { spellList, createSpell, updateSpell } = useSpells();
+export function WeaponForm() {
+  const { weaponList, createWeapon, updateWeapon } = useWeapons();
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",
-    school: "",
-    tier: "",
-    element: "",
-    tags: [],
-    // domain: "",
-    // category: "",
-
-    // Casting
-    castingTime: "",
-    duration: "",
-    range: "",
-    area: "",
-    stamina: "",
-    usesPerDay: "",
-    isRitual: Boolean,
-    requiresConcentration: Boolean,
-
-    // Combat
-    damage: [],
-    healing: [],
-
-    // Effects & Conditions
-    conditions: [],
-    buffs: [],
-    debuffs: [],
-
-    // Description
     description: "",
+    category: "",
+    properties: "",
+    weight: "",
+    damage: "",
+    skills: "",
+    range: "",
+    type: "",
+    rarity: "",
+    price: "",
+    tags: [],
   });
 
   // Grab the id from url: if there is an id set to Edit Mode
@@ -54,13 +37,13 @@ export function SpellForm() {
   };
 
   useEffect(() => {
-    if (isEditing && spellList && spellList.length > 0) {
-      const spell = spellList.find((spell) => spell._id === id);
-      if (spell) {
-        setFormData(spell);
+    if (isEditing && weaponList && weaponList.length > 0) {
+      const weapon = weaponList.find((weapon) => weapon._id === id);
+      if (weapon) {
+        setFormData(weapon);
       }
     }
-  }, [id, spellList, isEditing]);
+  }, [id, weaponList, isEditing]);
 
   // Handle input changes
   const handleInputChange = (event) => {
@@ -100,11 +83,11 @@ export function SpellForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditing) {
-      await updateSpell(id, formData);
+      await updateWeapon(id, formData);
     } else {
-      await createSpell(formData);
+      await createWeapon(formData);
     }
-    navigate("/spells");
+    navigate("/weapons");
   };
 
   return (
@@ -118,11 +101,11 @@ export function SpellForm() {
               size={32}
             />
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-orange-400 to-cyan-500 dark:from-cyan-300 dark:via-orange-300 dark:to-cyan-400">
-              {isEditing ? "Edit Spell" : "Create Spell"}
+              {isEditing ? "Edit Weapon" : "Create Weapon"}
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
-            Weave your magical creation
+            Forge your new weapon
           </p>
         </div>
 
@@ -131,18 +114,19 @@ export function SpellForm() {
           <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
             <div className="space-y-8">
               {/* Basic Information */}
-              <SpellBasicInfoSection
+              <WeaponBasicInfoSection
                 name={formData.name}
-                school={formData.school}
-                tier={formData.tier}
-                element={formData.element}
+                description={formData.description}
+                rarity={formData.rarity}
+                properties={formData.properties}
                 tags={formData.tags}
+                category={formData.category}
                 onInputChange={handleInputChange}
                 onCheckedChange={handleCheckedChange}
               />
 
               {/* Casting Details */}
-              <SpellCastingSection
+              {/* <WeaponCastingSection
                 castingTime={formData.castingTime}
                 range={formData.range}
                 duration={formData.duration}
@@ -151,29 +135,29 @@ export function SpellForm() {
                 usesPerDay={formData.usesPerDay}
                 onInputChange={handleInputChange}
                 onCheckedChange={handleCheckedChange}
-              />
+              /> */}
 
               {/* Combat Stats */}
-              <SpellCombatSection
+              {/* <WeaponCombatSection
                 damage={formData.damage}
                 healing={formData.healing}
                 onInputChange={handleInputChange}
                 onDamageChange={handleDamageChange}
                 onHealingChange={handleHealingChange}
-              />
+              /> */}
 
-              <SpellConditionsSection
+              {/* <WeaponConditionsSection
                 onInputChange={handleInputChange}
                 onBuffsChange={handleBuffsChange}
                 onDebuffsChange={handleDebuffsChange}
                 onConditionsChange={handleConditionsChange}
-              />
+              /> */}
 
               {/* Description */}
-              <SpellDescriptionSection
+              {/* <WeaponDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
-              />
+              /> */}
             </div>
           </div>
 
@@ -186,7 +170,7 @@ export function SpellForm() {
               Cancel
             </button>
             <button className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300">
-              {isEditing ? "Update Spell" : "Create Spell"}
+              {isEditing ? "Update Weapon" : "Create Weapon"}
             </button>
           </div>
         </form>

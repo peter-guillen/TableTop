@@ -3,7 +3,7 @@ import { AdminRouter } from "../components/AdminRouter";
 
 import { ArticleContext } from "../../../features/articles/context/ArticleContext";
 import { SpellContext } from "../../../features/spells/context/SpellContext";
-import { WeaponContext } from "../../../features/weapons/context/WeaponContext";
+import { WeaponContext } from "../../weapons/context/WeaponContext";
 import { ArmorContext } from "../../../features/armors/context/ArmorContext";
 import { AuthContext } from "../../auth/context/AuthContext";
 
