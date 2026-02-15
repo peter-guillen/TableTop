@@ -19,27 +19,8 @@ const getArmor = async (req, res) => {
 };
 
 const createArmor = async (req, res) => {
-  const {
-    name,
-    description,
-    category,
-    defense,
-    weight,
-    requirement,
-    penalty,
-    material,
-  } = req.body;
   try {
-    const armor = await Armor.create({
-      name,
-      description,
-      category,
-      defense,
-      weight,
-      requirement,
-      penalty,
-      material,
-    });
+    const armor = await Armor.create(req.body);
     res.status(200).json(armor);
   } catch (error) {
     res.status(400).json({ error: error.message });

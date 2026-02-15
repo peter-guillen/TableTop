@@ -10,7 +10,8 @@ import { AuthContextProvider } from "../features/auth/context/AuthContextProvide
 import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 import { SpellContextProvider } from "../features/spells/context/SpellContextProvider";
 import { WeaponContextProvider } from "../features/weapons/context/WeaponContextProvider";
-import { ArmorContextProvider } from "../features/armors/context/ArmorContext";
+import { ArmorContextProvider } from "../features/armors/context/ArmorContextProvider";
+import { ProfessionContextProvider } from "../features/professions/context/ProfessionContextProvider";
 
 import { Navbar } from "./layouts/Navbar";
 import { Register } from "../app/pages/Register";
@@ -39,26 +40,19 @@ const router = createBrowserRouter(
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="/rules" element={<Rules />}></Route>
-        <Route path="/builder" element={<CharacterBuilder />}></Route>
+        <Route path="/rules" element={<Rules />} />
+        <Route path="/builder" element={<CharacterBuilder />} />
         <Route path="/articles/*" element={<ArticlePage />} />
-        <Route
-          path="/professions/*"
-          element={
-            <ProtectedRoute roles={["admin"]}>
-              <ProfessionPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/spells/*" element={<SpellPage />} />
         <Route path="/weapons/*" element={<WeaponPage />} />
         <Route path="/armors/*" element={<ArmorPage />} />
         <Route path="/users/*" element={<UserPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
-    </Route>
+    </Route>,
   ),
-  { future: { v7_fetcherPersist: true } }
+  { future: { v7_fetcherPersist: true } },
 );
 
 function App() {
@@ -70,10 +64,12 @@ function App() {
             <SpellContextProvider>
               <WeaponContextProvider>
                 <ArmorContextProvider>
-                  <RouterProvider
-                    router={router}
-                    future={{ v7_startTransition: true }}
-                  />
+                  <ProfessionContextProvider>
+                    <RouterProvider
+                      router={router}
+                      future={{ v7_startTransition: true }}
+                    />
+                  </ProfessionContextProvider>
                 </ArmorContextProvider>
               </WeaponContextProvider>
             </SpellContextProvider>

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { WeaponContext } from "../context/WeaponContext";
-import { twMerge } from "tailwind-merge";
+import { useColorScheme } from "../../../shared/hooks/useColorScheme";
 
 import {
   GiBroadsword,
@@ -14,8 +14,20 @@ import {
   GiRoundStar,
 } from "react-icons/gi";
 
-export function WeaponPreview() {
+import {
+  rarityBaseColors,
+  rarityContexts,
+  rarityTierEffects,
+} from "../../../shared/hooks/useColorScheme";
+
+export function WeaponPreviewTest() {
   const { weaponList } = useContext(WeaponContext);
+
+  const { getColorScheme } = useColorScheme(
+    rarityBaseColors,
+    rarityContexts,
+    rarityTierEffects,
+  );
 
   const getItemIcon = (category) => {
     const iconMap = {
@@ -30,41 +42,11 @@ export function WeaponPreview() {
     return iconMap[category] || GiSwordSmithing;
   };
 
-  // Rarity drives ALL color styling (shared with armor/items later)
-  const rarityBaseColors = {
-    common: "slate",
-    uncommon: "green",
-    rare: "blue",
-    elite: "purple",
-    heroic: "yellow",
-    legendary: "orange",
-    mythic: "red",
-    default: "slate",
-  };
-
-  // Same template system you used in SpellPreview
-  const weaponStyleContexts = {
-    border: `border-{color}-300 dark:border-{color}-600`,
-    bg: `bg-{color}-50 dark:bg-{color}-900/20`,
-    text: `text-{color}-700 dark:text-{color}-400`,
-    badge: `bg-{color}-500 text-{color}-100`,
-    hover: `group-hover:border-{color}-400 dark:group-hover:border-{color}-500`,
-  };
-
-  function getColorScheme(rarity, context = "border", extra = "") {
-    const color =
-      rarityBaseColors[rarity?.toLowerCase()] || rarityBaseColors.default;
-    const template = weaponStyleContexts[context] || "";
-    const resolved = template.replaceAll("{color}", color);
-
-    return twMerge(resolved, extra);
-  }
-
   return (
     <>
       {weaponList.map((weapon) => {
-        const IconComponent = getItemIcon(weapon.category);
         const rarity = weapon.rarity?.toLowerCase() || "common";
+        const IconComponent = getItemIcon(weapon.category);
         const isWeapon =
           weapon.type?.toLowerCase()?.includes("weapon") || weapon.damage;
 
@@ -74,7 +56,11 @@ export function WeaponPreview() {
             className={getColorScheme(
               rarity,
               "border",
-              "group bg-white dark:bg-slate-800/50 rounded-xl border-2 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.01] cursor-pointer",
+              `group rounded-xl border-2 overflow-hidden 
+               bg-white dark:bg-slate-800/50 
+               transition-all duration-300 
+               hover:scale-[1.02] cursor-pointer 
+               backdrop-blur-sm`,
             )}
           >
             {/* Image Section */}
@@ -102,7 +88,7 @@ export function WeaponPreview() {
                 className={getColorScheme(
                   rarity,
                   "badge",
-                  "absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold uppercase bg-opacity-90 dark:bg-opacity-30 backdrop-blur-sm flex items-center space-x-1",
+                  "absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold uppercase backdrop-blur-sm flex items-center space-x-1",
                 )}
               >
                 <GiRoundStar className="w-3 h-3" />
@@ -115,26 +101,29 @@ export function WeaponPreview() {
               </div>
             </div>
 
-            {/* Content Section */}
-            <div className="p-5">
-              {/* Title */}
+            {/* Content */}
+            <div
+              className={getColorScheme(
+                rarity,
+                "glow",
+                "p-5 transition-all duration-300",
+              )}
+            >
               <h3
-                className={twMerge(
-                  "text-xl font-bold mb-2 transition-colors duration-200",
-                  getColorScheme(rarity, "text"),
-                  "group-hover:opacity-90",
+                className={getColorScheme(
+                  rarity,
+                  "text",
+                  "text-xl font-bold mb-2",
                 )}
               >
                 {weapon.name}
               </h3>
 
-              {/* Description */}
               <p className="text-slate-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
                 {weapon.description ||
                   "A mysterious item awaiting discovery..."}
               </p>
 
-              {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-3 mb-4">
                 {isWeapon && weapon.damage && (
                   <div className="flex items-center space-x-2 rounded-lg p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/20">
@@ -179,7 +168,6 @@ export function WeaponPreview() {
                 )}
               </div>
 
-              {/* Button */}
               <button className="w-full bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform group-hover:scale-[1.02] shadow-md hover:shadow-lg">
                 View Details
               </button>

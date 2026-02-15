@@ -19,27 +19,8 @@ const getWeapon = async (req, res) => {
 };
 
 const createWeapon = async (req, res) => {
-  const {
-    name,
-    description,
-    category,
-    properties,
-    weight,
-    damage,
-    skills,
-    range,
-  } = req.body;
   try {
-    const weapon = await Weapon.create({
-      name,
-      description,
-      category,
-      properties,
-      weight,
-      damage,
-      skills,
-      range,
-    });
+    const weapon = await Weapon.create(req.body);
     res.status(200).json(weapon);
   } catch (error) {
     res.status(400).json({ error: error.message });

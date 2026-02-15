@@ -1,29 +1,46 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useProfessions } from "../hooks/useProfessions";
-import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
-// import { ProfessionCastingSection } from "../components/ProfessionCastingSection";
-// import { ProfessionCombatSection } from "../components/ProfessionCombatSection";
-import { ProfessionDescriptionSection } from "../components/ProfessionDescriptionSection";
-// import { ProfessionConditionsSection } from "../components/ProfessionConditionsSection";
+import { useArmors } from "../hooks/useArmors";
+import { ArmorBasicInfoSection } from "../components/ArmorBasicInfoSection";
+// import { ArmorCastingSection } from "../components/ArmorCastingSection";
+// import { ArmorCombatSection } from "../components/ArmorCombatSection";
+// import { ArmorDescriptionSection } from "../components/ArmorDescriptionSection";
+// import { ArmorConditionsSection } from "../components/ArmorConditionsSection";
 import { LuSparkles } from "react-icons/lu";
 
-export function ProfessionForm() {
-  const { professionList, createProfession, updateProfession } =
-    useProfessions();
+export function ArmorForm() {
+  const { armorList, createArmor, updateArmor } = useArmors();
   const [formData, setFormData] = useState({
     // Basic Info
-    title: "",
-    levels: Array.from({ length: 10 }, (_, index) => ({
-      level: `${index + 1}`,
-      description: "",
-    })),
+    name: "",
+    school: "",
+    tier: "",
+    element: "",
+    tags: [],
+    // domain: "",
+    // category: "",
+
+    // Casting
+    castingTime: "",
+    duration: "",
+    range: "",
+    area: "",
+    stamina: "",
+    usesPerDay: "",
+    isRitual: Boolean,
+    requiresConcentration: Boolean,
+
+    // Combat
+    damage: [],
+    healing: [],
+
+    // Effects & Conditions
+    conditions: [],
+    buffs: [],
+    debuffs: [],
 
     // Description
     description: "",
-    weapon: "",
-    spell: "",
-    armor: "",
   });
 
   // Grab the id from url: if there is an id set to Edit Mode
@@ -37,15 +54,13 @@ export function ProfessionForm() {
   };
 
   useEffect(() => {
-    if (isEditing && professionList && professionList.length > 0) {
-      const profession = professionList.find(
-        (profession) => profession._id === id,
-      );
-      if (profession) {
-        setFormData(profession);
+    if (isEditing && armorList && armorList.length > 0) {
+      const armor = armorList.find((armor) => armor._id === id);
+      if (armor) {
+        setFormData(armor);
       }
     }
-  }, [id, professionList, isEditing]);
+  }, [id, armorList, isEditing]);
 
   // Handle input changes
   const handleInputChange = (event) => {
@@ -85,11 +100,11 @@ export function ProfessionForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditing) {
-      await updateProfession(id, formData);
+      await updateArmor(id, formData);
     } else {
-      await createProfession(formData);
+      await createArmor(formData);
     }
-    navigate("/professions");
+    navigate("/armors");
   };
 
   return (
@@ -103,7 +118,7 @@ export function ProfessionForm() {
               size={32}
             />
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-orange-400 to-cyan-500 dark:from-cyan-300 dark:via-orange-300 dark:to-cyan-400">
-              {isEditing ? "Edit Profession" : "Create Profession"}
+              {isEditing ? "Edit Armor" : "Create Armor"}
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
@@ -116,8 +131,8 @@ export function ProfessionForm() {
           <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
             <div className="space-y-8">
               {/* Basic Information */}
-              <ProfessionBasicInfoSection
-                title={formData.title}
+              <ArmorBasicInfoSection
+                name={formData.name}
                 school={formData.school}
                 tier={formData.tier}
                 element={formData.element}
@@ -126,11 +141,39 @@ export function ProfessionForm() {
                 onCheckedChange={handleCheckedChange}
               />
 
+              {/* Casting Details */}
+              {/* <ArmorCastingSection
+                castingTime={formData.castingTime}
+                range={formData.range}
+                duration={formData.duration}
+                area={formData.area}
+                stamina={formData.stamina}
+                usesPerDay={formData.usesPerDay}
+                onInputChange={handleInputChange}
+                onCheckedChange={handleCheckedChange}
+              /> */}
+
+              {/* Combat Stats */}
+              {/* <ArmorCombatSection
+                damage={formData.damage}
+                healing={formData.healing}
+                onInputChange={handleInputChange}
+                onDamageChange={handleDamageChange}
+                onHealingChange={handleHealingChange}
+              /> */}
+
+              {/* <ArmorConditionsSection
+                onInputChange={handleInputChange}
+                onBuffsChange={handleBuffsChange}
+                onDebuffsChange={handleDebuffsChange}
+                onConditionsChange={handleConditionsChange}
+              /> */}
+
               {/* Description */}
-              <ProfessionDescriptionSection
+              {/* <ArmorDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
-              />
+              /> */}
             </div>
           </div>
 
@@ -143,7 +186,7 @@ export function ProfessionForm() {
               Cancel
             </button>
             <button className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300">
-              {isEditing ? "Update Profession" : "Create Profession"}
+              {isEditing ? "Update Armor" : "Create Armor"}
             </button>
           </div>
         </form>

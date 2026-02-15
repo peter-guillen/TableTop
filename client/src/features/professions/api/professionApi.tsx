@@ -1,4 +1,5 @@
 import API_URL from "../../../shared/api/api";
+import { apiFetch } from "../../../features/auth/api/apiFetch";
 interface Level {
   name: string;
   description: string;
@@ -13,77 +14,56 @@ interface Profession {
   levels: Level[];
 }
 
-export const fetchProfessions = async (
-  token: string
-): Promise<Profession[]> => {
-  const response = await fetch(`${API_URL}/api/professions`, {
-    method: "GET",
-    // Applying these headers for the ensureIsAuthenticated middleware in the server.js file
-    // Since we're using sessions "include"
-    credentials: "include",
-    // Mock token inside of AuthContext is being passed for authorization
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch professions");
-  }
-
-  return await response.json();
+export const fetchProfessions = async (): Promise<Profession[]> => {
+  const response = await apiFetch(`${API_URL}/api/professions`);
+  return response;
 };
 
 export const createProfession = async (
-  token: string,
-  formData: Profession
+  formData: Profession,
 ): Promise<Profession> => {
-  const response = await fetch(`${API_URL}/api/professions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) {
-    throw new Error("Network response was not ok!");
-  }
-  return await response.json();
-};
-
-export const deleteProfession = async (
-  id: string,
-  token: string
-): Promise<void> => {
-  const response = await fetch(`${API_URL}/api/professions/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Error while deleting profession");
+  try {
+    const response = await fetch(`${API_URL}/api/professions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+      credentials: "include",
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Full error response:", errorData);
+      throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Caught error:", error);
+    throw error;
   }
 };
 
 export const updateProfession = async (
   id: string,
   formData: Profession,
-  token: string
 ): Promise<Profession> => {
   const response = await fetch(`${API_URL}/api/professions/${id}`, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
   });
   if (!response.ok) {
     throw new Error("Error while updating profession");
+  }
+  return await response.json();
+};
+
+export const deleteProfession = async (id: string): Promise<void> => {
+  const response = await fetch(`${API_URL}/api/professions/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Error while deleting profession");
   }
   return await response.json();
 };

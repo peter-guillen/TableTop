@@ -16,13 +16,13 @@ export function WeaponForm() {
     description: "",
     category: "",
     properties: "",
-    weight: "",
-    damage: "",
-    skills: "",
-    range: "",
-    type: "",
     rarity: "",
+    damage: "",
+    range: "",
+    weight: "",
     price: "",
+    skills: "",
+    type: "",
     tags: [],
   });
 

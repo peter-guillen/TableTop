@@ -3,8 +3,9 @@ import { AdminRouter } from "../components/AdminRouter";
 
 import { ArticleContext } from "../../../features/articles/context/ArticleContext";
 import { SpellContext } from "../../../features/spells/context/SpellContext";
-import { WeaponContext } from "../../weapons/context/WeaponContext";
+import { WeaponContext } from "../../../features/weapons/context/WeaponContext";
 import { ArmorContext } from "../../../features/armors/context/ArmorContext";
+import { ProfessionContext } from "../../../features/professions/context/ProfessionContext";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 import {
@@ -18,6 +19,7 @@ import {
   LuSettings,
   LuHouse,
   LuChevronRight,
+  LuDrama,
 } from "react-icons/lu";
 
 export const AdminPanel = () => {
@@ -26,6 +28,7 @@ export const AdminPanel = () => {
 
   // Fetch the data and CRUD functions from contexts, contexts pull from API
   const { articleList, deleteArticle } = useContext(ArticleContext);
+  const { professionList, deleteProfession } = useContext(ProfessionContext);
   const { spellList, deleteSpell } = useContext(SpellContext);
   const { weaponList, deleteWeapon } = useContext(WeaponContext);
   const { armorList, deleteArmor } = useContext(ArmorContext);
@@ -36,6 +39,10 @@ export const AdminPanel = () => {
     articles: {
       data: articleList,
       deleteFn: deleteArticle,
+    },
+    professions: {
+      data: professionList,
+      deleteFn: deleteProfession,
     },
     spells: {
       data: spellList,
@@ -60,6 +67,7 @@ export const AdminPanel = () => {
     { id: "dashboard", label: "Dashboard", icon: LuHouse },
     { id: "users", label: "Users", icon: LuUsers },
     { id: "articles", label: "Articles", icon: LuFileText },
+    { id: "professions", label: "Professions", icon: LuDrama },
     { id: "spells", label: "Spells", icon: LuSparkles },
     { id: "abilities", label: "Abilities", icon: LuEye },
     { id: "weapons", label: "Weapons", icon: LuSword },

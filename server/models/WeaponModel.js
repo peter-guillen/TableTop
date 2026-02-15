@@ -5,18 +5,18 @@ const WeaponSchema = new mongoose.Schema({
   description: String,
   category: String,
   properties: String,
-  weight: String,
+  rarity: String,
   damage: String,
-  skills: String,
   range: String,
+  weight: String,
+  value: String,
+  skills: String,
 });
 
 module.exports = mongoose.model("Weapon", WeaponSchema);
 
 // type: "",
-// rarity: "",
-// price: "",
 // tags: [],
 // damageType
-//special
+// special
 // requirements

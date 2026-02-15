@@ -110,6 +110,27 @@ export function AdminRouter({
         />
       );
 
+    // PROFESSIONS
+    case "professions":
+      return (
+        <AdminTable
+          title="Professions"
+          columns={["Title", "Weapon", "Armor", "Spell", "Levels"]}
+          data={sectionConfig.professions.data}
+          activeSection="professions"
+          onDelete={sectionConfig.professions.deleteFn}
+          searchTerm={searchTerm}
+          onSearchChange={onSearchChange}
+          renderRow={(profession) => [
+            profession.title,
+            profession.weapon,
+            profession.armor,
+            profession.spell || "-",
+            profession.spell || "Draft",
+          ]}
+        />
+      );
+
     // ARTICLES
     case "articles":
       return (

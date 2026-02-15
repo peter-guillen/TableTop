@@ -1,187 +1,191 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
 import { ArmorContext } from "../context/ArmorContext";
 import { twMerge } from "tailwind-merge";
 
 import {
-  GiIceBolt,
-  GiFireball,
-  GiLightningHelix,
-  GiSunbeams,
-  GiSparkSpirit,
-  GiBlood,
-  GiWarlockEye,
+  GiBroadsword,
+  GiBroadDagger,
+  GiWarhammer,
+  GiBattleAxe,
+  GiBowArrow,
+  GiCrossbow,
+  GiSpearHook,
+  GiSwordSmithing,
+  GiRoundStar,
 } from "react-icons/gi";
 
-export const ArmorPreview = () => {
+export function ArmorPreview() {
   const { armorList } = useContext(ArmorContext);
 
   const getItemIcon = (category) => {
     const iconMap = {
-      Axe: GiFireball,
-      Hammer: GiLightningHelix,
-      Sword: GiSunbeams,
-      Soma: GiBlood,
-      Psionic: GiWarlockEye,
-      Pnuema: GiSparkSpirit,
+      sword: GiBroadsword,
+      dagger: GiBroadDagger,
+      hammer: GiWarhammer,
+      axe: GiBattleAxe,
+      longbow: GiBowArrow,
+      crossbow: GiCrossbow,
+      spear: GiSpearHook,
     };
-    return iconMap[category] || GiIceBolt;
+    return iconMap[category] || GiSwordSmithing;
   };
 
-  const armorBaseColors = {
-    Axe: "red",
-    Hammer: "blue",
-    Sword: "yellow",
-    Soma: "purple",
-    Psionic: "orange",
-    Pnuema: "green",
-    Default: "gray",
+  // Rarity drives ALL color styling (shared with armor/items later)
+  const rarityBaseColors = {
+    common: "slate",
+    uncommon: "green",
+    rare: "blue",
+    elite: "purple",
+    heroic: "yellow",
+    legendary: "orange",
+    mythic: "red",
+    default: "slate",
   };
 
+  // Same template system you used in SpellPreview
   const armorStyleContexts = {
-    border: `text-{color}-600 dark:text-{color}-400 border-{color}-200 dark:border-{color}-600`,
-    badge: `bg-{color}-500 text-{color}-700 dark:text-{color}-300`,
-    hover: `group-hover:text-{color}-600 dark:group-hover:text-{color}-400`,
-    bg: `group-hover:bg-{color}-600 dark:group-hover:bg-{color}-400`,
+    border: `border-{color}-300 dark:border-{color}-600`,
+    bg: `bg-{color}-50 dark:bg-{color}-900/20`,
+    text: `text-{color}-700 dark:text-{color}-400`,
+    badge: `bg-{color}-500 text-{color}-100`,
+    hover: `group-hover:border-{color}-400 dark:group-hover:border-{color}-500`,
   };
 
-  function getColorScheme(category, context = "border", extra = "") {
-    const color = armorBaseColors[category] || "gray";
+  function getColorScheme(rarity, context = "border", extra = "") {
+    const color =
+      rarityBaseColors[rarity?.toLowerCase()] || rarityBaseColors.default;
     const template = armorStyleContexts[context] || "";
     const resolved = template.replaceAll("{color}", color);
 
-    return twMerge("capitalize", resolved, extra);
+    return twMerge(resolved, extra);
   }
 
   return (
     <>
-      <div className="space-y-2">
-        {armorList.map((armor) => {
-          const IconComponent = getItemIcon(armor.category);
-          return (
-            <NavLink
-              key={armor._id}
-              to={`/armors/${armor._id}`}
-              className="block"
-            >
-              <div
-                className={`
-              
-              ${getColorScheme(
-                armor.category,
-                "border",
-                "group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-gray-50 dark:hover:bg-gray-750"
+      {armorList.map((armor) => {
+        const IconComponent = getItemIcon(armor.category);
+        const rarity = armor.rarity?.toLowerCase() || "common";
+        const isArmor =
+          armor.type?.toLowerCase()?.includes("armor") || armor.damage;
+
+        return (
+          <div
+            key={armor._id}
+            className={getColorScheme(
+              rarity,
+              "border",
+              "group bg-white dark:bg-slate-800/50 rounded-xl border-2 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.01] cursor-pointer",
+            )}
+          >
+            {/* Image Section */}
+            <div
+              className={getColorScheme(
+                rarity,
+                "bg",
+                "relative h-44 overflow-hidden",
               )}
-            `}
-              >
-                <div className="flex items-start justify-between">
-                  {/* Left Section - Icon and Main Info */}
-                  <div className="flex items-start space-x-3">
-                    {/* Icon */}
-                    <div
-                      className={
-                        "p-2 rounded-lg transition-colors duration-200 bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600    "
-                      }
-                    >
-                      <IconComponent
-                        className={getColorScheme(
-                          armor.category,
-                          "",
-                          "w-5 h-5"
-                        )}
-                      />
-                    </div>
-
-                    {/* Main Content */}
-                    <div className="flex-1 min-w-0">
-                      {/* Name and Type */}
-                      <div className="flex items-center space-x-2 mb-1">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
-                          {armor.name}
-                        </h3>
-                        <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 capitalize">
-                          {armor.category}
-                        </span>
-                      </div>
-
-                      {/* Primary Stats Row */}
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium text-gray-900 dark:text-gray-300">
-                            Damage:
-                          </span>
-                          <span>{armor.damage}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium text-gray-900 dark:text-gray-300">
-                            Weight:
-                          </span>
-                          <span>{armor.weight}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium text-gray-900 dark:text-gray-300">
-                            Penalty:
-                          </span>
-                          <span>{armor.penalty}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium text-gray-900 dark:text-gray-300">
-                            Prerequisite:
-                          </span>
-                          <span>{armor.requirement}</span>
-                        </div>
-                      </div>
-
-                      {/* Secondary Stats Row */}
-                      <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-500">
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Range:</span>
-                          <span>{armor.range}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Weight:</span>
-                          <span>{armor.weight}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Material:</span>
-                          <span>{armor.material}</span>
-                        </div>
-                      </div>
-
-                      {/* Properties Tags */}
-                      {armor.category && armor.category.length > 0 && (
-                        <div className="flex items-center mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
-                            Properties:
-                          </span>
-                          <span className="text-xs text-gray-600 dark:text-gray-400">
-                            {armor.category}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Right Section - School Badge */}
-                  {/* Uses the getColorScheme helper function to get the current color */}
-                  <div className="flex flex-col items-end space-y-2">
-                    <div
-                      className={`${getColorScheme(
-                        armor.category,
-                        "badge",
-                        "px-3 py-1 rounded-full text-xs font-medium capitalize bg-opacity-10 dark:bg-opacity-20"
-                      )}
-                      `}
-                    >
-                      {armor.category}
-                    </div>
-                  </div>
+            >
+              {armor.image ? (
+                <img
+                  src={armor.image}
+                  alt={armor.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <IconComponent className="w-16 h-16 text-slate-300 dark:text-slate-600" />
                 </div>
+              )}
+
+              {/* Rarity Badge */}
+              <div
+                className={getColorScheme(
+                  rarity,
+                  "badge",
+                  "absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold uppercase bg-opacity-90 dark:bg-opacity-30 backdrop-blur-sm flex items-center space-x-1",
+                )}
+              >
+                <GiRoundStar className="w-3 h-3" />
+                <span>{armor.rarity || "Common"}</span>
               </div>
-            </NavLink>
-          );
-        })}
-      </div>
+
+              {/* Category Badge */}
+              <div className="absolute top-3 left-3 bg-slate-900/80 dark:bg-slate-800/80 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase backdrop-blur-sm">
+                {armor.category || "Armor"}
+              </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="p-5">
+              {/* Title */}
+              <h3
+                className={twMerge(
+                  "text-xl font-bold mb-2 transition-colors duration-200",
+                  getColorScheme(rarity, "text"),
+                  "group-hover:opacity-90",
+                )}
+              >
+                {armor.name}
+              </h3>
+
+              {/* Description */}
+              <p className="text-slate-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+                {armor.description || "A mysterious item awaiting discovery..."}
+              </p>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {isArmor && armor.damage && (
+                  <div className="flex items-center space-x-2 rounded-lg p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/20">
+                    <GiBroadsword className="w-4 h-4 text-red-600 dark:text-red-400" />
+                    <div>
+                      <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                        Damage
+                      </div>
+                      <div className="text-sm font-bold text-slate-900 dark:text-white">
+                        {armor.damage}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {armor.weight !== undefined && (
+                  <div className="flex items-center space-x-2 rounded-lg p-2 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-600/20">
+                    <GiSwordSmithing className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+                    <div>
+                      <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                        Weight
+                      </div>
+                      <div className="text-sm font-bold text-slate-900 dark:text-white">
+                        {armor.weight} lbs
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {armor.price !== undefined && (
+                  <div className="flex items-center space-x-2 rounded-lg p-2 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-500/20">
+                    <GiCrossbow className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+                    <div>
+                      <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                        Value
+                      </div>
+                      <div className="text-sm font-bold text-slate-900 dark:text-white">
+                        {armor.price} gp
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Button */}
+              <button className="w-full bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform group-hover:scale-[1.02] shadow-md hover:shadow-lg">
+                View Details
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </>
   );
-};
+}

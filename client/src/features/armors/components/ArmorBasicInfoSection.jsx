@@ -1,5 +1,5 @@
 import { LuBookOpen } from "react-icons/lu";
-export const WeaponBasicInfoSection = ({
+export const ArmorBasicInfoSection = ({
   name,
   description,
   category,
@@ -26,11 +26,11 @@ export const WeaponBasicInfoSection = ({
       <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Weapon Name
+            Armor Name
           </label>
           <input
             type="text"
-            placeholder="Enter weapon name"
+            placeholder="Enter armor name"
             name="name"
             onChange={onInputChange}
             value={name}
@@ -48,7 +48,7 @@ export const WeaponBasicInfoSection = ({
             value={category}
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           >
-            <option value="">Select Weapon</option>
+            <option value="">Select Armor</option>
             <option value="sword">Sword</option>
             <option value="spear">Spear</option>
             <option value="axe">Axe</option>
