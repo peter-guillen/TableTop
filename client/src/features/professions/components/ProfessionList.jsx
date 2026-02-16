@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ProfessionContext } from "../context/ProfessionContext";
+import { ProfessionContext } from "../context/Temp-context";
 import { ProfessionPreview } from "./ProfessionPreview";
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
 
