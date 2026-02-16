@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ProfessionContext } from "../context/Temp-context";
+import { ProfessionContext } from "../context/ProfessionContext";
 // Classes Cards Component
 import {
   LuSparkles,

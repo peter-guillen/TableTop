@@ -11,7 +11,7 @@ import { ArticleContextProvider } from "../features/articles/context/ArticleCont
 import { SpellContextProvider } from "../features/spells/context/SpellContextProvider";
 import { WeaponContextProvider } from "../features/weapons/context/WeaponContextProvider";
 import { ArmorContextProvider } from "../features/armors/context/ArmorContextProvider";
-import { ProfessionContextProvider } from "../features/professions/context/Temp_provider";
+import { ProfessionContextProvider } from "../features/professions/context/ProfessionContextProvider";
 
 import { Navbar } from "./layouts/Navbar";
 import { Register } from "../app/pages/Register";
