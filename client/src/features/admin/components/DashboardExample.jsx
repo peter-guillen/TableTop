@@ -4,10 +4,12 @@ import {
   LuSparkles,
   LuFileText,
   LuPlus,
+  LuShield,
   LuTrendingUp,
   LuActivity,
   LuDollarSign,
   LuChartColumn,
+  LuBookOpen,
 } from "react-icons/lu";
 
 export const DashboardExample = () => {
@@ -155,29 +157,57 @@ export const DashboardExample = () => {
             Quick Actions
           </h3>
           <div className="grid grid-cols-2 gap-3">
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-cyan-500 dark:hover:border-cyan-400 transition-colors">
+            {/* <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-cyan-500 dark:hover:border-cyan-400 transition-colors">
               <LuPlus className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add User
               </span>
+            </button> */}
+            <button
+              onClick={() => setCurrentModal("class")}
+              className="p-6 bg-slate-800/50 border border-cyan-500/20 rounded-xl hover:border-cyan-500/40 transition-all duration-300 hover:scale-105"
+            >
+              <LuSparkles className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
+              <span className="text-white font-medium">Create Spell</span>
             </button>
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
+            {/* <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
               <LuSparkles className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add Spell
               </span>
+            </button> */}
+            <button
+              onClick={() => setCurrentModal("spell")}
+              className="p-6 bg-slate-800/50 border border-yellow-500/20 rounded-xl hover:border-yellow-500/40 transition-all duration-300 hover:scale-105"
+            >
+              <LuBookOpen className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+              <span className="text-white font-medium">Create Ability</span>
             </button>
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
+            {/* <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
               <LuSword className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add Weapon
               </span>
+            </button> */}
+            <button
+              onClick={() => setCurrentModal("weapon")}
+              className="p-6 bg-slate-800/50 border border-orange-500/20 rounded-xl hover:border-orange-500/40 transition-all duration-300 hover:scale-105"
+            >
+              <LuSword className="w-8 h-8 text-orange-400 mx-auto mb-2" />
+              <span className="text-white font-medium">Create Weapon</span>
             </button>
-            <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
+            {/* <button className="p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
               <LuFileText className="w-6 h-6 text-gray-400 dark:text-slate-500 mx-auto mb-2" />
               <span className="text-sm font-medium text-gray-600 dark:text-slate-400">
                 Add Article
               </span>
+            </button> */}
+            <button
+              onClick={() => setCurrentModal("article")}
+              className="p-6 bg-slate-800/50 border border-emerald-500/20 rounded-xl hover:border-emerald-500/40 transition-all duration-300 hover:scale-105"
+            >
+              <LuShield className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
+              <span className="text-white font-medium">Create Armor</span>
             </button>
           </div>
         </div>

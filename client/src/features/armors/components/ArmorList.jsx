@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { ArmorContext } from "../context/ArmorContext";
 import { ArmorPreview } from "./ArmorPreview";
-// import { ArmorPreviewTest } from "./ArmorPreviewTest";
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
 
 export const ArmorList = () => {
@@ -25,7 +24,6 @@ export const ArmorList = () => {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <ArmorPreview />
-            {/* <ArmorPreviewTest /> */}
           </div>
         </div>
       </div>

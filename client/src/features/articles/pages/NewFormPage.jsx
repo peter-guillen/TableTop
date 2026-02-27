@@ -56,14 +56,12 @@ const ModalForm = ({
       // Type-specific validation
       if (value && field.validation) {
         if (field.validation.min && value.length < field.validation.min) {
-          newErrors[
-            field.name
-          ] = `${field.label} must be at least ${field.validation.min} characters`;
+          newErrors[field.name] =
+            `${field.label} must be at least ${field.validation.min} characters`;
         }
         if (field.validation.max && value.length > field.validation.max) {
-          newErrors[
-            field.name
-          ] = `${field.label} must be no more than ${field.validation.max} characters`;
+          newErrors[field.name] =
+            `${field.label} must be no more than ${field.validation.max} characters`;
         }
         if (field.validation.pattern && !field.validation.pattern.test(value)) {
           newErrors[field.name] =
@@ -127,7 +125,7 @@ const ModalForm = ({
                 field.name,
                 field.type === "number"
                   ? Number(e.target.value)
-                  : e.target.value
+                  : e.target.value,
               )
             }
             placeholder={field.placeholder}

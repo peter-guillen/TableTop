@@ -2,35 +2,46 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useWeapons } from "../hooks/useWeapons";
 import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection";
-// import { WeaponCastingSection } from "../components/WeaponCastingSection";
-// import { WeaponCombatSection } from "../components/WeaponCombatSection";
-// import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection";
-// import { WeaponConditionsSection } from "../components/WeaponConditionsSection";
+import { WeaponCombatSection } from "../components/WeaponCombatSection";
+import { WeaponSpecialSection } from "../components/WeaponSpecialSection";
+import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection";
 import { LuSparkles } from "react-icons/lu";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
 
 export function WeaponForm() {
   const { weaponList, createWeapon, updateWeapon } = useWeapons();
+
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",
-    description: "",
     category: "",
-    properties: "",
-    rarity: "",
-    damage: "",
-    range: "",
+    rarity: "common",
     weight: "",
-    price: "",
-    skills: "",
-    type: "",
+    value: "",
+
+    // Combat Stats
+    damage: "",
+    damageType: "",
+    range: "",
+    properties: [],
+
+    // Requirements & Special
+    requirements: {
+      strength: 0,
+      proficiency: [],
+      level: 1,
+    },
+    skills: [],
+    special: "",
+
+    // Description
+    description: "",
     tags: [],
   });
 
-  // Grab the id from url: if there is an id set to Edit Mode
   const { id } = useParams();
   const isEditing = Boolean(id);
 
-  // Return to the previous page
   const navigate = useNavigate();
   const handleCancel = () => {
     navigate(-1);
@@ -45,6 +56,13 @@ export function WeaponForm() {
     }
   }, [id, weaponList, isEditing]);
 
+  const {
+    handleCheckedChange,
+    handleArrayFieldChange,
+    handleObjectFieldChange,
+    handleNestedFieldChange,
+  } = useFormHandlers(setFormData);
+
   // Handle input changes
   const handleInputChange = (event) => {
     setFormData({
@@ -53,32 +71,16 @@ export function WeaponForm() {
     });
   };
 
-  // Handle multiple checked boxes for tags
-  const handleCheckedChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      tags: checked
-        ? [...prevFormData.tags, value] // Add tag
-        : prevFormData.tags.filter((tag) => tag !== value), // Remove tag
-    }));
-  };
+  const handlePropertiesChange = handleCheckedChange("properties");
 
-  // Handle the array changes for adding or removing an item in the array
-  const handleArrayFieldChange = (fieldName) => {
-    return (newData) => {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: newData,
-      }));
-    };
-  };
+  const handleSkillsChange = handleArrayFieldChange("skills");
 
-  const handleDamageChange = handleArrayFieldChange("damage");
-  const handleHealingChange = handleArrayFieldChange("healing");
-  const handleBuffsChange = handleArrayFieldChange("buffs");
-  const handleDebuffsChange = handleArrayFieldChange("debuffs");
-  const handleConditionsChange = handleArrayFieldChange("conditions");
+  const handleRequirementChange = handleObjectFieldChange("requirements");
+
+  const handleProficiencyChange = handleNestedFieldChange(
+    "requirements",
+    "proficiency",
+  );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -105,7 +107,7 @@ export function WeaponForm() {
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
-            Forge your new weapon
+            Forge your legendary weapon
           </p>
         </div>
 
@@ -116,60 +118,57 @@ export function WeaponForm() {
               {/* Basic Information */}
               <WeaponBasicInfoSection
                 name={formData.name}
-                description={formData.description}
-                rarity={formData.rarity}
-                properties={formData.properties}
-                tags={formData.tags}
                 category={formData.category}
+                rarity={formData.rarity}
+                weight={formData.weight}
+                value={formData.value}
+                tags={formData.tags}
                 onInputChange={handleInputChange}
                 onCheckedChange={handleCheckedChange}
               />
 
-              {/* Casting Details */}
-              {/* <WeaponCastingSection
-                castingTime={formData.castingTime}
-                range={formData.range}
-                duration={formData.duration}
-                area={formData.area}
-                stamina={formData.stamina}
-                usesPerDay={formData.usesPerDay}
-                onInputChange={handleInputChange}
-                onCheckedChange={handleCheckedChange}
-              /> */}
-
               {/* Combat Stats */}
-              {/* <WeaponCombatSection
+              <WeaponCombatSection
                 damage={formData.damage}
-                healing={formData.healing}
+                damageType={formData.damageType}
+                range={formData.range}
+                properties={formData.properties}
                 onInputChange={handleInputChange}
-                onDamageChange={handleDamageChange}
-                onHealingChange={handleHealingChange}
-              /> */}
+                onPropertyChange={handlePropertiesChange}
+              />
 
-              {/* <WeaponConditionsSection
+              {/* Special & Requirements */}
+              <WeaponSpecialSection
+                requirements={formData.requirements}
+                skills={formData.skills}
+                special={formData.special}
                 onInputChange={handleInputChange}
-                onBuffsChange={handleBuffsChange}
-                onDebuffsChange={handleDebuffsChange}
-                onConditionsChange={handleConditionsChange}
-              /> */}
+                onRequirementChange={handleRequirementChange}
+                onSkillsChange={handleSkillsChange}
+                onProficiencyChange={handleProficiencyChange}
+              />
 
               {/* Description */}
-              {/* <WeaponDescriptionSection
+              <WeaponDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
-              /> */}
+              />
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex justify-between">
             <button
+              type="button"
               onClick={handleCancel}
               className="px-6 py-3 rounded-lg font-medium text-slate-400 hover:text-white hover:bg-orange-800/50 dark:hover:bg-slate-900/50 transition-all duration-300 border border-orange-700 dark:border-orange-800"
             >
               Cancel
             </button>
-            <button className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300">
+            <button
+              type="submit"
+              className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300"
+            >
               {isEditing ? "Update Weapon" : "Create Weapon"}
             </button>
           </div>

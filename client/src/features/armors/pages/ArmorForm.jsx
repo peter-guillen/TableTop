@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useArmors } from "../hooks/useArmors";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
 import { ArmorBasicInfoSection } from "../components/ArmorBasicInfoSection";
-// import { ArmorCastingSection } from "../components/ArmorCastingSection";
-// import { ArmorCombatSection } from "../components/ArmorCombatSection";
-// import { ArmorDescriptionSection } from "../components/ArmorDescriptionSection";
-// import { ArmorConditionsSection } from "../components/ArmorConditionsSection";
+import { ArmorCombatSection } from "../components/ArmorCombatSection";
+import { ArmorDescriptionSection } from "../components/ArmorDescriptionSection";
+import { ArmorSpecialSection } from "../components/ArmorSpecialSection";
 import { LuSparkles } from "react-icons/lu";
 
 export function ArmorForm() {
@@ -13,34 +13,31 @@ export function ArmorForm() {
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",
-    school: "",
-    tier: "",
-    element: "",
-    tags: [],
-    // domain: "",
-    // category: "",
+    category: "",
+    rarity: "common",
+    material: "",
+    weight: "",
+    value: "",
 
-    // Casting
-    castingTime: "",
-    duration: "",
-    range: "",
-    area: "",
-    stamina: "",
-    usesPerDay: "",
-    isRitual: Boolean,
-    requiresConcentration: Boolean,
+    // Defense Stats
+    armorRating: "",
+    shield: false,
+    properties: [],
+    resistances: [],
 
-    // Combat
-    damage: [],
-    healing: [],
-
-    // Effects & Conditions
-    conditions: [],
-    buffs: [],
-    debuffs: [],
+    // Requirements & Special
+    requirements: {
+      strength: 0,
+      proficiency: [],
+      level: 1,
+    },
+    stealthDisadvantage: false,
+    skills: [],
+    special: "",
 
     // Description
     description: "",
+    tags: [],
   });
 
   // Grab the id from url: if there is an id set to Edit Mode
@@ -62,6 +59,13 @@ export function ArmorForm() {
     }
   }, [id, armorList, isEditing]);
 
+  const {
+    handleCheckedChange,
+    handleArrayFieldChange,
+    handleObjectFieldChange,
+    handleNestedFieldChange,
+  } = useFormHandlers(setFormData);
+
   // Handle input changes
   const handleInputChange = (event) => {
     setFormData({
@@ -70,32 +74,11 @@ export function ArmorForm() {
     });
   };
 
-  // Handle multiple checked boxes for tags
-  const handleCheckedChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      tags: checked
-        ? [...prevFormData.tags, value] // Add tag
-        : prevFormData.tags.filter((tag) => tag !== value), // Remove tag
-    }));
-  };
-
-  // Handle the array changes for adding or removing an item in the array
-  const handleArrayFieldChange = (fieldName) => {
-    return (newData) => {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: newData,
-      }));
-    };
-  };
-
-  const handleDamageChange = handleArrayFieldChange("damage");
-  const handleHealingChange = handleArrayFieldChange("healing");
-  const handleBuffsChange = handleArrayFieldChange("buffs");
-  const handleDebuffsChange = handleArrayFieldChange("debuffs");
-  const handleConditionsChange = handleArrayFieldChange("conditions");
+  const handlePropertiesChange = handleCheckedChange("properties");
+  const handleResistancesChange = handleArrayFieldChange("resistances");
+  const handleSkillsChange = handleArrayFieldChange("skills");
+  const handleRequirementChange = handleObjectFieldChange("requirements");
+  const handleProficiencyChange = handleNestedFieldChange("proficiency");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -122,7 +105,7 @@ export function ArmorForm() {
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
-            Weave your magical creation
+            Forge your legendary protection
           </p>
         </div>
 
@@ -133,47 +116,44 @@ export function ArmorForm() {
               {/* Basic Information */}
               <ArmorBasicInfoSection
                 name={formData.name}
-                school={formData.school}
-                tier={formData.tier}
-                element={formData.element}
+                category={formData.category}
+                rarity={formData.rarity}
+                material={formData.material}
+                weight={formData.weight}
+                value={formData.value}
                 tags={formData.tags}
                 onInputChange={handleInputChange}
                 onCheckedChange={handleCheckedChange}
               />
 
-              {/* Casting Details */}
-              {/* <ArmorCastingSection
-                castingTime={formData.castingTime}
-                range={formData.range}
-                duration={formData.duration}
-                area={formData.area}
-                stamina={formData.stamina}
-                usesPerDay={formData.usesPerDay}
-                onInputChange={handleInputChange}
-                onCheckedChange={handleCheckedChange}
-              /> */}
-
               {/* Combat Stats */}
-              {/* <ArmorCombatSection
-                damage={formData.damage}
-                healing={formData.healing}
+              <ArmorCombatSection
+                armorRating={formData.armorRating}
+                shield={formData.shield}
+                properties={formData.properties}
+                resistances={formData.resistances}
                 onInputChange={handleInputChange}
-                onDamageChange={handleDamageChange}
-                onHealingChange={handleHealingChange}
-              /> */}
+                onPropertyChange={handlePropertiesChange}
+                onResistancesChange={handleResistancesChange}
+              />
 
-              {/* <ArmorConditionsSection
+              {/* Special & Requirements */}
+              <ArmorSpecialSection
+                requirements={formData.requirements}
+                stealthDisadvantage={formData.stealthDisadvantage}
+                skills={formData.skills}
+                special={formData.special}
                 onInputChange={handleInputChange}
-                onBuffsChange={handleBuffsChange}
-                onDebuffsChange={handleDebuffsChange}
-                onConditionsChange={handleConditionsChange}
-              /> */}
+                onRequirementChange={handleRequirementChange}
+                onSkillsChange={handleSkillsChange}
+                onProficiencyChange={handleProficiencyChange}
+              />
 
               {/* Description */}
-              {/* <ArmorDescriptionSection
+              <ArmorDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
-              /> */}
+              />
             </div>
           </div>
 

@@ -42,7 +42,7 @@ export const ProfessionPreview = () => {
             </h3>
 
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-              {/* {profession.description} */} Descript
+              {profession.description}
             </p>
 
             {/* Stats */}
@@ -52,7 +52,7 @@ export const ProfessionPreview = () => {
                   Hit Die:
                 </span>
                 <span className="font-medium text-gray-900 dark:text-gray-300">
-                  {/* {profession.armor} */} Armor
+                  {profession.armor}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -60,7 +60,7 @@ export const ProfessionPreview = () => {
                   Primary:
                 </span>
                 <span className="font-medium text-gray-900 dark:text-gray-300">
-                  {/* {profession.weapon} */} Weapon
+                  {profession.weapon}
                 </span>
               </div>
             </div>

@@ -39,7 +39,7 @@ export const Navbar = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setOpenNavbar(false);
+        setIsUserDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -275,15 +275,15 @@ export const Navbar = () => {
               className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               {darkMode ? (
-                <FaSun className="w-5 h-5" style={{ color: "gold" }} />
-              ) : (
                 <FaMoon className="w-5 h-5" style={{ color: "#1b9c9aff" }} />
+              ) : (
+                <FaSun className="w-5 h-5" style={{ color: "#f49912" }} />
               )}
             </button>
 
             {/* User Profile Dropdown - Desktop */}
             {currentUser ? (
-              <div className="hidden sm:block relative">
+              <div className="hidden sm:block relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -291,9 +291,6 @@ export const Navbar = () => {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center">
                     <FaUser className="w-5 h-5 text-white" />
                   </div>
-                  <span className="hidden md:block">
-                    {currentUser.username}
-                  </span>
                   <LuChevronDown
                     className={`w-4 h-4 transition-transform duration-200 ${
                       isUserDropdownOpen ? "rotate-180" : ""

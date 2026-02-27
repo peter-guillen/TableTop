@@ -162,7 +162,7 @@ export function LandingPage() {
               return (
                 <div
                   key={index}
-                  className="group bg-white dark:bg-gradient-to-br dark:from-slate-800/50 dark:to-cyan-900/20 rounded-2xl p-8 border border-slate-200 dark:border-cyan-500/20 hover:border-cyan-400 dark:hover:border-cyan-500/40 transition-all duration-300 hover:scale-[1.02] backdrop-blur-sm cursor-pointer shadow-md hover:shadow-xl"
+                  className="group bg-white dark:bg-gradient-to-br dark:from-cyan-800 dark:to-cyan-900/80 rounded-2xl p-8 border border-slate-200 dark:border-cyan-500/20 hover:border-cyan-400 dark:hover:border-cyan-500/40 transition-all duration-300 hover:scale-[1.02] backdrop-blur-sm cursor-pointer shadow-md hover:shadow-xl"
                 >
                   <Link to={feature.route}>
                     <div className="flex items-start space-x-4">

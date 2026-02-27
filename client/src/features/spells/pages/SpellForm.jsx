@@ -7,6 +7,7 @@ import { SpellCombatSection } from "../components/SpellCombatSection";
 import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
 import { SpellConditionsSection } from "../components/SpellConditionsSection";
 import { LuSparkles } from "react-icons/lu";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
 
 export function SpellForm() {
   const { spellList, createSpell, updateSpell } = useSpells();
@@ -62,33 +63,15 @@ export function SpellForm() {
     }
   }, [id, spellList, isEditing]);
 
+  const { handleCheckedChange, handleArrayFieldChange } =
+    useFormHandlers(setFormData);
+
   // Handle input changes
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
-  };
-
-  // Handle multiple checked boxes for tags
-  const handleCheckedChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      tags: checked
-        ? [...prevFormData.tags, value] // Add tag
-        : prevFormData.tags.filter((tag) => tag !== value), // Remove tag
-    }));
-  };
-
-  // Handle the array changes for adding or removing an item in the array
-  const handleArrayFieldChange = (fieldName) => {
-    return (newData) => {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: newData,
-      }));
-    };
   };
 
   const handleDamageChange = handleArrayFieldChange("damage");
