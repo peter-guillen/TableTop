@@ -21,10 +21,7 @@ if (!process.env.MONGODB_URI && process.env.NODE_ENV === "production") {
 }
 const mongoose = require("mongoose");
 mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -34,7 +31,7 @@ app.use(
   cors({
     origin: CLIENT_URL,
     credentials: true,
-  })
+  }),
 );
 
 app.use("/api/users", userRoutes);

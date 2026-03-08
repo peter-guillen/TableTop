@@ -3,7 +3,6 @@ import { AdminTable } from "./AdminTable";
 import {
   DashboardExample,
   AnalyticsExample,
-  SettingExample,
 } from "../../admin/components/DashboardExample";
 import { ActivityLog } from "./ActivityLog";
 
@@ -155,10 +154,6 @@ export function AdminRouter({
     // ANALYTICS
     case "analytics":
       return <ActivityLog />;
-
-    // SETTINGS
-    case "settings":
-      return <SettingExample />;
 
     // DEFAULT
     default:

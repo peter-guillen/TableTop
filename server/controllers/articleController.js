@@ -13,14 +13,7 @@ const getArticle = async (req, res) => {
 
 const createArticle = async (req, res) => {
   try {
-    const { title, author, body, synopsis, comments } = req.body;
-    const article = await Article.create({
-      title,
-      author,
-      body,
-      synopsis,
-      comments,
-    });
+    const article = await Article.create(req.body);
     res.status(200).json(article);
   } catch (error) {
     console.log(`Error while posting article`, error);

@@ -243,21 +243,3 @@ export const AnalyticsExample = () => {
     </div>
   );
 };
-
-export const SettingExample = () => {
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-        Settings
-      </h2>
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          System Configuration
-        </h3>
-        <p className="text-gray-600 dark:text-slate-400">
-          Configure your application settings here.
-        </p>
-      </div>
-    </div>
-  );
-};

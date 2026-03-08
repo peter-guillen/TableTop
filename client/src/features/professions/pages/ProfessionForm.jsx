@@ -1,86 +1,81 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProfessions } from "../hooks/useProfessions";
-import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
-// import { ProfessionCastingSection } from "../components/ProfessionCastingSection";
-// import { ProfessionCombatSection } from "../components/ProfessionCombatSection";
-import { ProfessionDescriptionSection } from "../components/ProfessionDescriptionSection";
-// import { ProfessionConditionsSection } from "../components/ProfessionConditionsSection";
 import { LuSparkles } from "react-icons/lu";
+
+import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
+import { ProfessionDescriptionSection } from "../components/ProfessionDescriptionSection";
+import { ProfessionProficienciesSection } from "../components/ProfessionProficienciesSection";
+import { ProfessionLevelsSection } from "../components/ProfessionLevelsSection";
+import { ProfessionSpellSlotsSection } from "../components/ProfessionSpellSlotsSection";
+import { ProfessionSubclassSection } from "../components/ProfessionSubclassSection";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
 
 export function ProfessionForm() {
   const { professionList, createProfession, updateProfession } =
     useProfessions();
-  const [formData, setFormData] = useState({
+  const DEFAULT_PROFESSION_FORM = {
     // Basic Info
     title: "",
-    levels: Array.from({ length: 10 }, (_, index) => ({
-      level: `${index + 1}`,
-      description: "",
-    })),
+    hitDie: "",
+    spellcastingAbility: null,
+    sourceBook: "Player's Handbook",
+    isPlayable: true,
 
     // Description
     description: "",
-    weapon: "",
-    spell: "",
-    armor: "",
-  });
 
-  // Grab the id from url: if there is an id set to Edit Mode
+    // Proficiencies
+    armorProficiencies: [],
+    weaponProficiencies: [],
+    toolProficiencies: [],
+    savingThrows: {
+      strength: false,
+      dexterity: false,
+      constitution: false,
+      intelligence: false,
+      wisdom: false,
+      charisma: false,
+    },
+    skillChoices: { choose: 2, from: [] },
+
+    // Level features
+    levels: [],
+
+    // Profession slots
+    spellSlots: [],
+
+    // Subclass
+    subclassName: "",
+    subclassLevel: "",
+    startingEquipment: [],
+  };
+  const [formData, setFormData] = useState(() => ({
+    ...DEFAULT_PROFESSION_FORM,
+  }));
+
   const { id } = useParams();
   const isEditing = Boolean(id);
-
-  // Return to the previous page
   const navigate = useNavigate();
   const handleCancel = () => {
     navigate(-1);
   };
 
   useEffect(() => {
-    if (isEditing && professionList && professionList.length > 0) {
-      const profession = professionList.find(
-        (profession) => profession._id === id,
-      );
-      if (profession) {
-        setFormData(profession);
-      }
+    if (isEditing && professionList?.length > 0) {
+      const profession = professionList.find((p) => p._id === id);
+      if (profession) setFormData(profession);
     }
   }, [id, professionList, isEditing]);
 
-  // Handle input changes
+  const { handleCheckedChange, handleArrayFieldChange } =
+    useFormHandlers(setFormData);
+
+  // Generic scalar field handler (title, hitDie, etc.)
   const handleInputChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  // Handle multiple checked boxes for tags
-  const handleCheckedChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      tags: checked
-        ? [...prevFormData.tags, value] // Add tag
-        : prevFormData.tags.filter((tag) => tag !== value), // Remove tag
-    }));
-  };
-
-  // Handle the array changes for adding or removing an item in the array
-  const handleArrayFieldChange = (fieldName) => {
-    return (newData) => {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: newData,
-      }));
-    };
-  };
-
-  const handleDamageChange = handleArrayFieldChange("damage");
-  const handleHealingChange = handleArrayFieldChange("healing");
-  const handleBuffsChange = handleArrayFieldChange("buffs");
-  const handleDebuffsChange = handleArrayFieldChange("debuffs");
-  const handleConditionsChange = handleArrayFieldChange("conditions");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -107,7 +102,7 @@ export function ProfessionForm() {
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
-            Weave your magical creation
+            Build a path to follow
           </p>
         </div>
 
@@ -115,26 +110,64 @@ export function ProfessionForm() {
         <form onSubmit={handleSubmit}>
           <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
             <div className="space-y-8">
-              {/* Basic Information */}
               <ProfessionBasicInfoSection
                 title={formData.title}
-                school={formData.school}
-                tier={formData.tier}
-                element={formData.element}
-                tags={formData.tags}
+                hitDie={formData.hitDie}
+                spellcastingAbility={formData.spellcastingAbility}
+                sourceBook={formData.sourceBook}
+                isPlayable={formData.isPlayable}
                 onInputChange={handleInputChange}
-                onCheckedChange={handleCheckedChange}
               />
 
-              {/* Description */}
               <ProfessionDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
               />
+
+              <ProfessionProficienciesSection
+                armorProficiencies={formData.armorProficiencies}
+                weaponProficiencies={formData.weaponProficiencies}
+                toolProficiencies={formData.toolProficiencies}
+                savingThrows={formData.savingThrows}
+                skillChoices={formData.skillChoices}
+                onInputChange={handleInputChange}
+                onCheckedChange={handleCheckedChange}
+                onArmorChange={handleArrayFieldChange("armorProficiencies")}
+                onWeaponChange={handleArrayFieldChange("weaponProficiencies")}
+                onToolChange={handleArrayFieldChange("toolProficiencies")}
+                onSavingThrowChange={(val) =>
+                  setFormData((prev) => ({ ...prev, savingThrows: val }))
+                }
+                onSkillChoicesChange={(val) =>
+                  setFormData((prev) => ({ ...prev, skillChoices: val }))
+                }
+              />
+
+              <ProfessionLevelsSection
+                levels={formData.levels}
+                onInputChange={handleInputChange}
+                onLevelsChange={handleArrayFieldChange("levels")}
+              />
+
+              <ProfessionSpellSlotsSection
+                spellSlots={formData.spellSlots}
+                spellcastingAbility={formData.spellcastingAbility}
+                onSpellSlotsChange={handleArrayFieldChange("spellSlots")}
+              />
+
+              <ProfessionSubclassSection
+                subclassName={formData.subclassName}
+                subclassLevel={formData.subclassLevel}
+                startingEquipment={formData.startingEquipment}
+                onInputChange={handleInputChange}
+                onStartingEquipmentChange={handleArrayFieldChange(
+                  "startingEquipment",
+                )}
+              />
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* ----- Action Buttons ----- */}
           <div className="flex justify-between">
             <button
               onClick={handleCancel}

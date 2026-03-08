@@ -1,35 +1,38 @@
 import { LuBookOpen } from "react-icons/lu";
+
+const SPELLCASTING_ABILITIES = [
+  "strength",
+  "dexterity",
+  "constitution",
+  "intelligence",
+  "wisdom",
+  "charisma",
+];
+
 export const ProfessionBasicInfoSection = ({
   title,
-  school,
-  tier,
-  element,
+  hitDie,
+  spellcastingAbility,
+  sourceBook,
+  isPlayable,
   onInputChange,
-  onCheckedChange,
-  tags,
 }) => {
-  const tagOptions = [
-    "damage",
-    "healing",
-    "buff",
-    "debuff",
-    "control",
-    "utility",
-  ];
   return (
     <section>
       <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
         <LuBookOpen size={20} />
         Basic Information
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-        <div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Class Name */}
+        <div className="md:col-span-2">
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Profession Name
+            Class Name
           </label>
           <input
             type="text"
-            placeholder="Enter spell name"
+            placeholder="e.g. Wizard, Fighter, Paladin..."
             name="title"
             onChange={onInputChange}
             value={title}
@@ -37,87 +40,91 @@ export const ProfessionBasicInfoSection = ({
           />
         </div>
 
+        {/* Hit Die */}
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            School of Magic
+            Hit Die
           </label>
           <select
-            name="school"
+            name="hitDie"
             onChange={onInputChange}
-            value={school}
+            value={hitDie}
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           >
-            <option value="">Select School</option>
-            <option value="abjuration">Abjuration</option>
-            <option value="conjuration">Conjuration</option>
-            <option value="divination">Divination</option>
-            <option value="enchantment">Enchantment</option>
-            <option value="evocation">Evocation</option>
-            <option value="illusion">Illusion</option>
-            <option value="necromancy">Necromancy</option>
-            <option value="transmutation">Transmutation</option>
+            <option value="">Select Hit Die</option>
+            <option value={6}>d6</option>
+            <option value={8}>d8</option>
+            <option value={10}>d10</option>
+            <option value={12}>d12</option>
           </select>
+          <p className="text-xs text-slate-500 mt-1">
+            Hit points gained per level
+          </p>
         </div>
 
+        {/* Spellcasting Ability */}
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Tier
+            Spellcasting Ability
           </label>
           <select
-            name="tier"
+            name="spellcastingAbility"
             onChange={onInputChange}
-            value={tier}
+            value={spellcastingAbility ?? ""}
             className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
           >
-            <option value={""}>Select Tier</option>
-            <option value={1}>Tier 1</option>
-            <option value={2}>Tier 2</option>
-            <option value={3}>Tier 3</option>
-            <option value={4}>Tier 4</option>
-            <option value={5}>Tier 5</option>
+            <option value="">None (Non-caster)</option>
+            {SPELLCASTING_ABILITIES.map((ability) => (
+              <option key={ability} value={ability}>
+                {ability.charAt(0).toUpperCase() + ability.slice(1)}
+              </option>
+            ))}
           </select>
+          <p className="text-xs text-slate-500 mt-1">
+            Leave empty for martial classes
+          </p>
         </div>
 
+        {/* Source Book */}
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Element
+            Source Book
           </label>
-          <select
-            name="element"
+          <input
+            type="text"
+            placeholder="e.g. Player's Handbook"
+            name="sourceBook"
             onChange={onInputChange}
-            value={element}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-          >
-            <option value="">Select Element</option>
-            <option value="fire">Fire</option>
-            <option value="water">Water</option>
-            <option value="earth">Earth</option>
-            <option value="air">Air</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
+            value={sourceBook}
+            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+          />
         </div>
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Tags
-        </label>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {tagOptions.map((tag) => (
-            <label
-              key={tag}
-              className="flex items-center gap-2 text-slate-300 cursor-pointer bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-cyan-500/20 dark:border-orange-500/20 hover:border-cyan-500/40 dark:hover:border-orange-500/40 transition-all"
-            >
-              <input
-                type="checkbox"
-                value={tag}
-                // checked={tags.includes(tag)}
-                onChange={onCheckedChange}
-                className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
-              />
-              <span className="capitalize">{tag}</span>
-            </label>
-          ))}
+
+        {/* Is Playable */}
+        <div className="flex items-center gap-4 mt-2">
+          <label className="block text-sm font-medium text-slate-300">
+            Playable Class
+          </label>
+          <button
+            type="button"
+            onClick={() =>
+              onInputChange({
+                target: { name: "isPlayable", value: !isPlayable },
+              })
+            }
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
+              isPlayable ? "bg-cyan-500" : "bg-slate-600"
+            }`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 ${
+                isPlayable ? "translate-x-6" : "translate-x-1"
+              }`}
+            />
+          </button>
+          <span className="text-xs text-slate-400">
+            {isPlayable ? "Available to players" : "Hidden / WIP"}
+          </span>
         </div>
       </div>
     </section>

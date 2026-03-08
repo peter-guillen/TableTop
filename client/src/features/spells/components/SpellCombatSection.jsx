@@ -1,23 +1,27 @@
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
 
 export const SpellCombatSection = ({
-  damage,
+  damage = [],
   healing,
   onDamageChange,
   onHealingChange,
 }) => {
+  const addDamage = () => {
+    onDamageChange([...damage, { diceCount: "", diceSize: "", modifier: 0 }]);
+  };
+
   const updateDamage = (index, field, value) => {
     const newDamage = [...damage];
     newDamage[index] = { ...newDamage[index], [field]: value };
     onDamageChange(newDamage);
   };
 
-  const handleAddDamage = () => {
-    onDamageChange([...damage, { diceCount: "", diceSize: "", modifier: 0 }]);
+  const removeDamage = (index) => {
+    onDamageChange(damage.filter((_, i) => i !== index));
   };
 
-  const handleRemoveDamage = (index) => {
-    onDamageChange(damage.filter((_, i) => i !== index));
+  const addHealing = () => {
+    onHealingChange([...healing, { diceCount: "", diceSize: "", modifier: 0 }]);
   };
 
   const updateHealing = (index, field, value) => {
@@ -26,11 +30,7 @@ export const SpellCombatSection = ({
     onHealingChange(newHealing);
   };
 
-  const handleAddHealing = () => {
-    onHealingChange([...healing, { diceCount: "", diceSize: "", modifier: 0 }]);
-  };
-
-  const handleRemoveHealing = (index) => {
+  const removeHealing = (index) => {
     onHealingChange(healing.filter((_, i) => i !== index));
   };
 
@@ -48,7 +48,7 @@ export const SpellCombatSection = ({
           </label>
           <button
             type="button"
-            onClick={handleAddDamage}
+            onClick={addDamage}
             className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
           >
             <LuPlus size={16} />
@@ -114,7 +114,7 @@ export const SpellCombatSection = ({
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleRemoveDamage(index)}
+                  onClick={() => removeDamage(index)}
                   className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
                 >
                   <LuTrash2 size={16} />
@@ -134,7 +134,7 @@ export const SpellCombatSection = ({
           </label>
           <button
             type="button"
-            onClick={handleAddHealing}
+            onClick={addHealing}
             className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
           >
             <LuPlus size={16} />
@@ -200,7 +200,7 @@ export const SpellCombatSection = ({
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleRemoveHealing(index)}
+                  onClick={() => removeHealing(index)}
                   className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
                 >
                   <LuTrash2 size={16} />

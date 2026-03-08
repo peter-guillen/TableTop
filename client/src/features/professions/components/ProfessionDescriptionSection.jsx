@@ -7,7 +7,7 @@ export const ProfessionDescriptionSection = ({
     <section>
       <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
         <LuTarget size={20} />
-        Spell Description
+        Class Description
       </h2>
       <div className="space-y-4">
         <div>

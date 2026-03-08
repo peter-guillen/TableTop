@@ -16,7 +16,6 @@ import {
   LuFileText,
   LuChartColumn,
   LuEye,
-  LuSettings,
   LuHouse,
   LuChevronRight,
   LuDrama,
@@ -73,7 +72,6 @@ export const AdminPanel = () => {
     { id: "weapons", label: "Weapons", icon: LuSword },
     { id: "armors", label: "Armors", icon: LuShield },
     { id: "analytics", label: "Analytics", icon: LuChartColumn },
-    { id: "settings", label: "Settings", icon: LuSettings },
   ];
 
   return (

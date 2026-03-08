@@ -17,11 +17,17 @@ import {
   LuScroll,
   LuSwords,
   LuChevronDown,
-  LuSettings,
   LuLogOut,
   LuLogIn,
   LuMenu,
   LuX,
+  LuDrama,
+  LuSparkles,
+  LuBook,
+  LuFlag,
+  LuCrown,
+  LuAnvil,
+  LuBicepsFlexed,
 } from "react-icons/lu";
 
 export const Navbar = () => {
@@ -99,7 +105,7 @@ export const Navbar = () => {
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2">
                     <div className="px-4 py-2">
                       <div className="flex items-center space-x-2 text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
-                        <LuScroll className="w-4 h-4" />
+                        <LuBook className="w-4 h-4" />
                         <span>Rules & Mechanics</span>
                       </div>
                       <div className="space-y-1 ml-6">
@@ -108,12 +114,6 @@ export const Navbar = () => {
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Basic Rules
-                        </NavLink>
-                        <NavLink
-                          to="/professions"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Classes
                         </NavLink>
                       </div>
                     </div>
@@ -144,15 +144,15 @@ export const Navbar = () => {
 
                     <div className="px-4 py-2">
                       <div className="flex items-center space-x-2 text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">
-                        <LuSwords className="w-4 h-4" />
+                        <LuFlag className="w-4 h-4" />
                         <span>Campaigns</span>
                       </div>
                       <div className="space-y-1 ml-6">
                         <NavLink
-                          to="/campaigns"
+                          to="/comingSoon"
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
-                          Campaigns
+                          Coming Soon...
                         </NavLink>
                       </div>
                     </div>
@@ -188,19 +188,36 @@ export const Navbar = () => {
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2">
                     <div className="px-4 py-2">
                       <div className="flex items-center space-x-2 text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
-                        <LuSwords className="w-4 h-4" />
+                        <LuDrama className="w-4 h-4" />
+                        <span>Classes</span>
+                      </div>
+                      <div className="space-y-1 ml-6">
+                        <NavLink
+                          to="/professions"
+                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                        >
+                          Classes
+                        </NavLink>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+
+                    <div className="px-4 py-2">
+                      <div className="flex items-center space-x-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
+                        <LuAnvil className="w-4 h-4" />
                         <span>Equipment & Items</span>
                       </div>
                       <div className="space-y-1 ml-6">
                         <NavLink
                           to="/weapons"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Weapons
                         </NavLink>
                         <NavLink
                           to="/armors"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Armors
                         </NavLink>
@@ -210,45 +227,16 @@ export const Navbar = () => {
                     <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
                     <div className="px-4 py-2">
-                      <div className="flex items-center space-x-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
-                        <FaUsers className="w-4 h-4" />
+                      <div className="flex items-center space-x-2 text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">
+                        <LuSparkles className="w-4 h-4" />
                         <span>Spells & Abilities</span>
                       </div>
                       <div className="space-y-1 ml-6">
                         <NavLink
                           to="/spells"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Spells
-                        </NavLink>
-                        <NavLink
-                          to="/abilities"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Abilities
-                        </NavLink>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-                    <div className="px-4 py-2">
-                      <div className="flex items-center space-x-2 text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">
-                        <FaUsers className="w-4 h-4" />
-                        <span>Talents & Traits</span>
-                      </div>
-                      <div className="space-y-1 ml-6">
-                        <NavLink
-                          to="/talents"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Talents
-                        </NavLink>
-                        <NavLink
-                          to="/traits"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Traits
                         </NavLink>
                       </div>
                     </div>
@@ -314,14 +302,6 @@ export const Navbar = () => {
                     >
                       <FaUser className="w-4 h-4" />
                       <span>Profile</span>
-                    </NavLink>
-
-                    <NavLink
-                      to="register"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <LuSettings className="w-4 h-4" />
-                      <span>Settings</span>
                     </NavLink>
                     <button
                       className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
@@ -390,13 +370,6 @@ export const Navbar = () => {
                     Basic Rules
                   </NavLink>
                   <NavLink
-                    to="professions"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Classes
-                  </NavLink>
-                  <NavLink
                     to="/articles/newForm"
                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -409,13 +382,6 @@ export const Navbar = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Character Builder
-                  </NavLink>
-                  <NavLink
-                    to="/campaigns"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Campaigns
                   </NavLink>
                   <NavLink
                     to="/articles"
@@ -433,6 +399,13 @@ export const Navbar = () => {
                   Game Resources
                 </div>
                 <div className="space-y-1 ml-4">
+                  <NavLink
+                    to="professions"
+                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Classes
+                  </NavLink>
                   <NavLink
                     to="/weapons"
                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
@@ -453,27 +426,6 @@ export const Navbar = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Spells
-                  </NavLink>
-                  <NavLink
-                    to="/abilities"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Abilities
-                  </NavLink>
-                  <NavLink
-                    to="/talents"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Talents
-                  </NavLink>
-                  <NavLink
-                    to="/traits"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Traits
                   </NavLink>
                 </div>
               </div>
@@ -502,14 +454,7 @@ export const Navbar = () => {
                     <FaUser className="w-4 h-4" />
                     <span>Profile</span>
                   </NavLink>
-                  <NavLink
-                    to="register"
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <LuSettings className="w-4 h-4" />
-                    <span>Settings</span>
-                  </NavLink>
+
                   <button
                     className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md w-full text-left"
                     onClick={() => {

@@ -12,15 +12,8 @@ const getProfession = async (req, res) => {
 };
 
 const createProfession = async (req, res) => {
-  const { title, spell, weapon, armor, levels } = req.body;
   try {
-    const profession = await Profession.create({
-      title,
-      spell,
-      weapon,
-      armor,
-      levels,
-    });
+    const profession = await Profession.create(req.body);
     res
       .status(200)
       .json({ success: true, message: "Profession CREATED.", profession });
@@ -33,7 +26,7 @@ const updateProfession = async (req, res) => {
   const { id } = req.params;
   const profession = await Profession.findByIdAndUpdate(
     { _id: id },
-    { ...req.body }
+    { ...req.body },
   );
   res.status(200).json(profession);
 };
