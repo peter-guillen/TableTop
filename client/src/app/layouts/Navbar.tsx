@@ -147,13 +147,8 @@ export const Navbar = () => {
                         <LuFlag className="w-4 h-4" />
                         <span>Campaigns</span>
                       </div>
-                      <div className="space-y-1 ml-6">
-                        <NavLink
-                          to="/comingSoon"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Coming Soon...
-                        </NavLink>
+                      <div className="space-y-1 ml-6 text-sm">
+                        Coming Soon...
                       </div>
                     </div>
 

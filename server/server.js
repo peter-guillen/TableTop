@@ -15,6 +15,7 @@ const spellRoutes = require("./routes/spellRoutes");
 const weaponRoutes = require("./routes/weaponRoutes.js");
 const armorRoutes = require("./routes/armorRoutes.js");
 const activityRoutes = require("./routes/activityRoutes.js");
+const libraryRoutes = require("./routes/libraryRoutes.js");
 
 if (!process.env.MONGODB_URI && process.env.NODE_ENV === "production") {
   throw new Error("MONGODB_URI is required in production");
@@ -34,6 +35,7 @@ app.use(
   }),
 );
 
+app.use("/api/library", libraryRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/professions", professionRoutes);

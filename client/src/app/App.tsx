@@ -18,8 +18,8 @@ import { Register } from "../app/pages/Register";
 import { Login } from "../app/pages/Login";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
-import { Rules } from "../app/pages/Rules";
-import { CharacterBuilder } from "../app/pages/CharacterBuilder";
+import { Rules } from "../features/playerTools/components/Rules";
+import { CharacterBuilder } from "../features/characters/components/CharacterBuilder";
 
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
@@ -30,7 +30,6 @@ import { WeaponPage } from "../features/weapons/pages/WeaponPage";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage";
 import { AdminPage } from "../features/admin/pages/AdminPage";
-import { ComingSoon } from "../app/pages/ComingSoon";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,7 +40,6 @@ const router = createBrowserRouter(
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="/comingSoon" element={<ComingSoon />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/builder" element={<CharacterBuilder />} />
         <Route path="/articles/*" element={<ArticlePage />} />

@@ -88,8 +88,6 @@ export function ProfessionDetails() {
     (a, b) => a.level - b.level,
   );
 
-  console.log(profession);
-
   return (
     // Page background — matches LandingPage exactly
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-6 transition-colors duration-300">

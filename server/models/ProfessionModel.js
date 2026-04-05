@@ -22,6 +22,7 @@ const SpellSlotSchema = new mongoose.Schema({
     7: { type: Number, default: 0 },
     8: { type: Number, default: 0 },
     9: { type: Number, default: 0 },
+    10: { type: Number, default: 0 },
   },
 });
 
