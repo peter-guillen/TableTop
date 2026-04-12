@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import { Link } from "react-router-dom";
 
 import {
   GiBroadsword,
@@ -175,9 +176,11 @@ export function ArmorPreview({ armors }) {
               </div>
 
               {/* Button */}
-              <button className="w-full bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform group-hover:scale-[1.02] shadow-md hover:shadow-lg">
-                View Details
-              </button>
+              <Link to={`/armors/${armor._id}`}>
+                <button className="w-full bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform group-hover:scale-[1.02] shadow-md hover:shadow-lg">
+                  View Details
+                </button>
+              </Link>
             </div>
           </div>
         );

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useGetSpellQuery } from "../api/spellApi";
 import {
   LuArrowLeft,
   LuSparkles,
@@ -11,16 +11,16 @@ import {
   LuShield,
   LuUsers,
 } from "react-icons/lu";
-import { SpellContext } from "../context/SpellContext";
 
 export function SpellDetails() {
-  const { spellList } = useContext(SpellContext);
-
   const { id } = useParams();
+  const { data: spell, error, isLoading } = useGetSpellQuery(id);
+
   const navigate = useNavigate();
   const handleReturn = () => navigate(-1);
 
-  const spell = spellList.find((spell) => spell._id === id);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Something went wrong.</p>;
 
   if (!spell) {
     return (

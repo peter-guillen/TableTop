@@ -1,12 +1,27 @@
 import { useContext, useState } from "react";
 import { AdminRouter } from "../components/AdminRouter";
 
+// Contexts for accessing data and actions across the admin panel
 import { ArticleContext } from "../../../features/articles/context/ArticleContext";
-import { SpellContext } from "../../../features/spells/context/SpellContext";
-import { WeaponContext } from "../../../features/weapons/context/WeaponContext";
-import { ArmorContext } from "../../../features/armors/context/ArmorContext";
-import { ProfessionContext } from "../../professions/context/ProfessionContext";
 import { AuthContext } from "../../auth/context/AuthContext";
+
+// Query hooks for fetching data and mutations for deleting items
+import {
+  useGetArmorsQuery,
+  useDeleteArmorMutation,
+} from "../../../features/armors/api/armorApi";
+import {
+  useGetProfessionsQuery,
+  useDeleteProfessionMutation,
+} from "../../../features/professions/api/professionApi";
+import {
+  useGetSpellsQuery,
+  useDeleteSpellMutation,
+} from "../../../features/spells/api/spellApi";
+import {
+  useGetWeaponsQuery,
+  useDeleteWeaponMutation,
+} from "../../../features/weapons/api/weaponApi";
 
 import {
   LuUsers,
@@ -27,13 +42,35 @@ export const AdminPanel = () => {
 
   // Fetch the data and CRUD functions from contexts, contexts pull from API
   const { articleList, deleteArticle } = useContext(ArticleContext);
-  const { professionList, deleteProfession } = useContext(ProfessionContext);
-  const { spellList, deleteSpell } = useContext(SpellContext);
-  const { weaponList, deleteWeapon } = useContext(WeaponContext);
-  const { armorList, deleteArmor } = useContext(ArmorContext);
   const { userList, deleteUser } = useContext(AuthContext);
 
-  // Provide a data and actions map that  AdminRouter consumes
+  // Fetch data and delete functions for each section using RTK Query hooks
+  const {
+    data: armorList = [],
+    isLoading: armorLoading,
+    isError: armorError,
+  } = useGetArmorsQuery();
+  const [deleteArmor] = useDeleteArmorMutation();
+  const {
+    data: professionList = [],
+    isLoading: professionLoading,
+    isError: professionError,
+  } = useGetProfessionsQuery();
+  const [deleteProfession] = useDeleteProfessionMutation();
+  const {
+    data: spellList = [],
+    isLoading: spellLoading,
+    isError: spellError,
+  } = useGetSpellsQuery();
+  const [deleteSpell] = useDeleteSpellMutation();
+  const {
+    data: weaponList = [],
+    isLoading: weaponLoading,
+    isError: weaponError,
+  } = useGetWeaponsQuery();
+  const [deleteWeapon] = useDeleteWeaponMutation();
+
+  // Provide a data and actions map that AdminRouter consumes
   const sectionConfig = {
     articles: {
       data: articleList,
@@ -60,6 +97,14 @@ export const AdminPanel = () => {
       deleteFn: deleteUser,
     },
   };
+
+  if (armorLoading || professionLoading || spellLoading || weaponLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (armorError || professionError || spellError || weaponError) {
+    return <p>Something went wrong while fetching data.</p>;
+  }
 
   // Sidebar items
   const navigationItems = [

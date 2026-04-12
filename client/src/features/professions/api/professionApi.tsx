@@ -17,20 +17,27 @@ interface Profession {
 export const professionApi = createApi({
   reducerPath: "professionApi",
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  tagTypes: ["Profession"],
   endpoints: (builder) => ({
     getProfessions: builder.query<Profession[], void>({
       query: () => "/api/professions",
+      providesTags: [{ type: "Profession", id: "LIST" }],
     }),
+
     getProfession: builder.query<Profession, string>({
       query: (id) => `/api/professions/${id}`,
+      providesTags: (result, error, id) => [{ type: "Profession", id }],
     }),
+
     createProfession: builder.mutation<Profession, Profession>({
       query: (newProfession) => ({
         url: "/api/professions",
         method: "POST",
         body: newProfession,
       }),
+      invalidatesTags: [{ type: "Profession", id: "LIST" }],
     }),
+
     updateProfession: builder.mutation<
       Profession,
       { id: string; data: Profession }
@@ -40,12 +47,21 @@ export const professionApi = createApi({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Profession", id },
+        { type: "Profession", id: "LIST" },
+      ],
     }),
+
     deleteProfession: builder.mutation<void, string>({
       query: (id) => ({
         url: `/api/professions/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Profession", id },
+        { type: "Profession", id: "LIST" },
+      ],
     }),
   }),
 });

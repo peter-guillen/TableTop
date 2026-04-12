@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import { ArmorList } from "../components/ArmorList";
-import { ArmorDetails } from "../components/ArmorDetails";
+import { ArmorDetails } from "../pages/ArmorDetails";
 import { ArmorForm } from "../pages/ArmorForm";
 import { ProtectedRoute } from "../../../features/auth/ProtectedRoute";
 // import {ArmorCreate } from "./ArmorCreate";

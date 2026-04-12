@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import { WeaponList } from "../components/WeaponList";
-import { WeaponDetails } from "../components/WeaponDetails";
+import { WeaponDetails } from "../pages/WeaponDetails";
 import { WeaponForm } from "../pages/WeaponForm";
 import { ProtectedRoute } from "../../../features/auth/ProtectedRoute";
 import { SearchBar } from "../../admin/components/SearchBar";

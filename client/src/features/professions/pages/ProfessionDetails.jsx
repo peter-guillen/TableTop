@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext } from "react";
+import { useGetProfessionQuery } from "../api/professionApi";
 import {
   LuArrowLeft,
   LuCrown,
@@ -13,7 +13,6 @@ import {
   LuPackage,
   LuCircle,
 } from "react-icons/lu";
-import { ProfessionContext } from "../context/ProfessionContext";
 
 const ABILITY_LABELS = {
   strength: "STR",
@@ -62,11 +61,14 @@ function StatTile({ label, value }) {
 }
 
 export function ProfessionDetails() {
-  const { professionList } = useContext(ProfessionContext);
   const { id } = useParams();
+
+  const { data: profession, error, isLoading } = useGetProfessionQuery(id);
+
   const navigate = useNavigate();
 
-  const profession = professionList.find((p) => p._id === id);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Something went wrong.</p>;
 
   if (!profession) {
     return (
