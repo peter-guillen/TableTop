@@ -1,13 +1,18 @@
-import { useContext } from "react";
-import { ProfessionContext } from "../context/ProfessionContext";
 import { ProfessionPreview } from "./ProfessionPreview";
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
+import { useGetProfessionsQuery } from "../api/professionApi";
 
 export const ProfessionList = () => {
-  const { professionList } = useContext(ProfessionContext);
-  if (!professionList || professionList.length === 0) {
+  const { data: professions, isLoading, isError } = useGetProfessionsQuery();
+
+  if (isLoading) {
     return <LoadingSpinner />;
   }
+
+  if (isError) {
+    return <div className="text-red-500">Error fetching professions</div>;
+  }
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-8 transition-colors duration-300">
@@ -23,7 +28,10 @@ export const ProfessionList = () => {
         </div>
         <div className="flex justify-center">
           <div className="w-3/4">
-            <ProfessionPreview />
+            <ProfessionPreview
+              keys={professions._id}
+              professions={professions}
+            />
           </div>
         </div>
       </div>

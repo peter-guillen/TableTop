@@ -3,7 +3,7 @@ import { ProtectedRoute } from "../../../features/auth/ProtectedRoute";
 import { SpellList } from "../components/SpellList";
 import { SpellDetails } from "./SpellDetails";
 import { SpellForm } from "./SpellForm";
-import SearchBar from "../../admin/components/SearchBar";
+import { SearchBar } from "../../admin/components/SearchBar";
 
 export const SpellPage = () => {
   return (

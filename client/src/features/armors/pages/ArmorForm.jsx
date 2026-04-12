@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useArmors } from "../hooks/useArmors";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
 import { ArmorBasicInfoSection } from "../components/ArmorBasicInfoSection";
 import { ArmorCombatSection } from "../components/ArmorCombatSection";
 import { ArmorDescriptionSection } from "../components/ArmorDescriptionSection";
 import { ArmorSpecialSection } from "../components/ArmorSpecialSection";
 import { LuSparkles } from "react-icons/lu";
+import {
+  useGetArmorsQuery,
+  useCreateArmorMutation,
+  useUpdateArmorMutation,
+} from "../api/armorApi";
 
 export function ArmorForm() {
-  const { armorList, createArmor, updateArmor } = useArmors();
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",
@@ -46,18 +49,13 @@ export function ArmorForm() {
 
   // Return to the previous page
   const navigate = useNavigate();
-  const handleCancel = () => {
-    navigate(-1);
-  };
-
-  useEffect(() => {
-    if (isEditing && armorList && armorList.length > 0) {
-      const armor = armorList.find((armor) => armor._id === id);
-      if (armor) {
-        setFormData(armor);
-      }
-    }
-  }, [id, armorList, isEditing]);
+  const {
+    data: armor,
+    isLoading,
+    isError,
+  } = useGetArmorsQuery({ skip: !isEditing });
+  const [createArmor] = useCreateArmorMutation();
+  const [updateArmor] = useUpdateArmorMutation();
 
   const {
     handleCheckedChange,
@@ -65,6 +63,19 @@ export function ArmorForm() {
     handleObjectFieldChange,
     handleNestedFieldChange,
   } = useFormHandlers(setFormData);
+
+  useEffect(() => {
+    if (isEditing && armor) {
+      if (armor) {
+        setFormData(armor);
+      }
+    }
+  }, [isEditing, armor]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
+  const handleCancel = () => navigate(-1);
 
   // Handle input changes
   const handleInputChange = (event) => {

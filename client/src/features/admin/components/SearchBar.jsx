@@ -2,7 +2,7 @@
 import React from "react";
 import { LuSearch } from "react-icons/lu";
 
-export default function SearchBar({
+export function SearchBar({
   value,
   onChange,
   placeholder = "Search...",

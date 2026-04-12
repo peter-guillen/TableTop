@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { ArmorContext } from "../context/ArmorContext";
 import { twMerge } from "tailwind-merge";
 
 import {
@@ -14,9 +12,7 @@ import {
   GiRoundStar,
 } from "react-icons/gi";
 
-export function ArmorPreview() {
-  const { armorList } = useContext(ArmorContext);
-
+export function ArmorPreview({ armors }) {
   const getItemIcon = (category) => {
     const iconMap = {
       sword: GiBroadsword,
@@ -62,7 +58,7 @@ export function ArmorPreview() {
 
   return (
     <>
-      {armorList.map((armor) => {
+      {armors.map((armor) => {
         const IconComponent = getItemIcon(armor.category);
         const rarity = armor.rarity?.toLowerCase() || "common";
         const isArmor =

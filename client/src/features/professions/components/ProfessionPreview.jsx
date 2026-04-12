@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ProfessionContext } from "../context/ProfessionContext";
 import {
   LuCrown,
   LuShield,
@@ -58,12 +56,10 @@ function StatChip({ label, value }) {
   );
 }
 
-export const ProfessionPreview = () => {
-  const { professionList } = useContext(ProfessionContext);
-
+export const ProfessionPreview = ({ professions }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {professionList.map((profession) => {
+      {professions.map((profession) => {
         const Icon = getClassIcon(profession.title);
         const role = deriveRole(profession);
         const spellAbility = profession.spellcastingAbility

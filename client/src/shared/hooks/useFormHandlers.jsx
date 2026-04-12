@@ -1,4 +1,5 @@
 // Factory function to handle multiple checkboxes
+// useContext
 export function useFormHandlers(setFormData) {
   const handleCheckedChange = (fieldName) => {
     return (e) => {
@@ -52,3 +53,26 @@ export function useFormHandlers(setFormData) {
     handleNestedFieldChange,
   };
 }
+
+// features/shared/formReducers.js
+export const formReducers = {
+  updateField(state, action) {
+    const { field, value } = action.payload;
+    state[field] = value;
+  },
+  toggleArrayItem(state, action) {
+    const { field, value, checked } = action.payload;
+    if (checked) {
+      state[field].push(value);
+    } else {
+      state[field] = state[field].filter((item) => item !== value);
+    }
+  },
+  updateObjectField(state, action) {
+    const { objectName, field, value } = action.payload;
+    state[objectName][field] = value;
+  },
+  resetForm() {
+    return initialState;
+  },
+};

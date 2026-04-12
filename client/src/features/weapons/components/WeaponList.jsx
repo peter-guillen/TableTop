@@ -1,14 +1,11 @@
-import { useContext } from "react";
-import { WeaponContext } from "../context/WeaponContext";
 import { WeaponPreview } from "./WeaponPreview";
-import { WeaponPreviewTest } from "./WeaponPreviewTest";
-import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
+import { useGetWeaponsQuery } from "../api/weaponApi";
 
 export const WeaponList = () => {
-  const { weaponList } = useContext(WeaponContext);
-  if (!weaponList || weaponList.length === 0) {
-    return <LoadingSpinner />;
-  }
+  const { data: weapons, isLoading, isError } = useGetWeaponsQuery();
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-8 transition-colors duration-300">
@@ -24,8 +21,7 @@ export const WeaponList = () => {
         </div>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <WeaponPreview />
-            <WeaponPreviewTest />
+            <WeaponPreview key={weapons._id} weapons={weapons} />
           </div>
         </div>
       </div>

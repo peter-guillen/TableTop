@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSpells } from "../hooks/useSpells";
 import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
 import { SpellCastingSection } from "../components/SpellCastingSection";
 import { SpellCombatSection } from "../components/SpellCombatSection";
@@ -8,9 +7,13 @@ import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
 import { SpellConditionsSection } from "../components/SpellConditionsSection";
 import { LuSparkles } from "react-icons/lu";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import {
+  useGetSpellsQuery,
+  useCreateSpellMutation,
+  useUpdateSpellMutation,
+} from "../api/spellApi";
 
 export function SpellForm() {
-  const { spellList, createSpell, updateSpell } = useSpells();
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",
@@ -50,21 +53,29 @@ export function SpellForm() {
 
   // Return to the previous page
   const navigate = useNavigate();
-  const handleCancel = () => {
-    navigate(-1);
-  };
+
+  const {
+    data: spell,
+    isLoading,
+    isError,
+  } = useGetSpellsQuery(id, { skip: !isEditing });
+  const [createSpell] = useCreateSpellMutation();
+  const [updateSpell] = useUpdateSpellMutation();
+
+  const { handleCheckedChange, handleArrayFieldChange } =
+    useFormHandlers(setFormData);
 
   useEffect(() => {
-    if (isEditing && spellList && spellList.length > 0) {
-      const spell = spellList.find((spell) => spell._id === id);
+    if (isEditing && spell) {
       if (spell) {
         setFormData(spell);
       }
     }
-  }, [id, spellList, isEditing]);
+  }, [isEditing, spell]);
 
-  const { handleCheckedChange, handleArrayFieldChange } =
-    useFormHandlers(setFormData);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+  const handleCancel = () => navigate(-1);
 
   // Handle input changes
   const handleInputChange = (event) => {
@@ -83,7 +94,7 @@ export function SpellForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditing) {
-      await updateSpell(id, formData);
+      await updateSpell({ id, formData });
     } else {
       await createSpell(formData);
     }

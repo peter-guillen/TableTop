@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useWeapons } from "../hooks/useWeapons";
 import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection";
 import { WeaponCombatSection } from "../components/WeaponCombatSection";
 import { WeaponSpecialSection } from "../components/WeaponSpecialSection";
 import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection";
 import { LuSparkles } from "react-icons/lu";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import {
+  useGetWeaponsQuery,
+  useCreateWeaponMutation,
+  useUpdateWeaponMutation,
+} from "../api/weaponApi";
 
 export function WeaponForm() {
-  const { weaponList, createWeapon, updateWeapon } = useWeapons();
-
   const [formData, setFormData] = useState({
     // Basic Info
     name: "",
@@ -43,18 +45,14 @@ export function WeaponForm() {
   const isEditing = Boolean(id);
 
   const navigate = useNavigate();
-  const handleCancel = () => {
-    navigate(-1);
-  };
 
-  useEffect(() => {
-    if (isEditing && weaponList && weaponList.length > 0) {
-      const weapon = weaponList.find((weapon) => weapon._id === id);
-      if (weapon) {
-        setFormData(weapon);
-      }
-    }
-  }, [id, weaponList, isEditing]);
+  const {
+    data: weapon,
+    isLoading,
+    isError,
+  } = useGetWeaponsQuery(id, { skip: !isEditing });
+  const [createWeapon] = useCreateWeaponMutation();
+  const [updateWeapon] = useUpdateWeaponMutation();
 
   const {
     handleCheckedChange,
@@ -62,6 +60,19 @@ export function WeaponForm() {
     handleObjectFieldChange,
     handleNestedFieldChange,
   } = useFormHandlers(setFormData);
+
+  useEffect(() => {
+    if (isEditing && weapon) {
+      if (weapon) {
+        setFormData(weapon);
+      }
+    }
+  }, [isEditing, weapon]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
+  const handleCancel = () => navigate(-1);
 
   // Handle input changes
   const handleInputChange = (event) => {
@@ -72,11 +83,8 @@ export function WeaponForm() {
   };
 
   const handlePropertiesChange = handleCheckedChange("properties");
-
   const handleSkillsChange = handleArrayFieldChange("skills");
-
   const handleRequirementChange = handleObjectFieldChange("requirements");
-
   const handleProficiencyChange = handleNestedFieldChange(
     "requirements",
     "proficiency",
@@ -85,7 +93,7 @@ export function WeaponForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditing) {
-      await updateWeapon(id, formData);
+      await updateWeapon({ id, formData });
     } else {
       await createWeapon(formData);
     }

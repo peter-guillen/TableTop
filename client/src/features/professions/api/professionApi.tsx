@@ -1,5 +1,5 @@
 import API_URL from "../../../shared/api/api";
-import { apiFetch } from "../../../features/auth/api/apiFetch";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 interface Level {
   name: string;
   description: string;
@@ -14,56 +14,46 @@ interface Profession {
   levels: Level[];
 }
 
-export const fetchProfessions = async (): Promise<Profession[]> => {
-  const response = await apiFetch(`${API_URL}/api/professions`);
-  return response;
-};
+export const professionApi = createApi({
+  reducerPath: "professionApi",
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  endpoints: (builder) => ({
+    getProfessions: builder.query<Profession[], void>({
+      query: () => "/api/professions",
+    }),
+    getProfession: builder.query<Profession, string>({
+      query: (id) => `/api/professions/${id}`,
+    }),
+    createProfession: builder.mutation<Profession, Profession>({
+      query: (newProfession) => ({
+        url: "/api/professions",
+        method: "POST",
+        body: newProfession,
+      }),
+    }),
+    updateProfession: builder.mutation<
+      Profession,
+      { id: string; data: Profession }
+    >({
+      query: ({ id, data }) => ({
+        url: `/api/professions/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    deleteProfession: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/api/professions/${id}`,
+        method: "DELETE",
+      }),
+    }),
+  }),
+});
 
-export const createProfession = async (
-  formData: Profession,
-): Promise<Profession> => {
-  try {
-    const response = await fetch(`${API_URL}/api/professions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-      credentials: "include",
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Full error response:", errorData);
-      throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Caught error:", error);
-    throw error;
-  }
-};
-
-export const updateProfession = async (
-  id: string,
-  formData: Profession,
-): Promise<Profession> => {
-  const response = await fetch(`${API_URL}/api/professions/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) {
-    throw new Error("Error while updating profession");
-  }
-  return await response.json();
-};
-
-export const deleteProfession = async (id: string): Promise<void> => {
-  const response = await fetch(`${API_URL}/api/professions/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Error while deleting profession");
-  }
-  return await response.json();
-};
+export const {
+  useGetProfessionsQuery,
+  useGetProfessionQuery,
+  useCreateProfessionMutation,
+  useUpdateProfessionMutation,
+  useDeleteProfessionMutation,
+} = professionApi;

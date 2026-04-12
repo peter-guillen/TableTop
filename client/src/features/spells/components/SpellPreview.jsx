@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { SpellContext } from "../context/SpellContext";
 import { twMerge } from "tailwind-merge";
 
 import {
@@ -13,9 +11,7 @@ import {
   GiWarlockEye,
 } from "react-icons/gi";
 
-export const SpellPreview = () => {
-  const { spellList } = useContext(SpellContext);
-
+export const SpellPreview = ({ spells }) => {
   const getItemIcon = (category) => {
     const iconMap = {
       abjuration: GiFireball,
@@ -60,7 +56,7 @@ export const SpellPreview = () => {
   return (
     <>
       <div className="space-y-2">
-        {spellList.map((spell) => {
+        {spells.map((spell) => {
           const IconComponent = getItemIcon(spell.school);
           return (
             <NavLink
@@ -74,7 +70,7 @@ export const SpellPreview = () => {
               ${getColorScheme(
                 spell.school,
                 "border",
-                "group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-gray-50 dark:hover:bg-gray-750"
+                "group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-gray-50 dark:hover:bg-gray-750",
               )}
             `}
               >
@@ -184,7 +180,7 @@ export const SpellPreview = () => {
                       className={`${getColorScheme(
                         spell.school,
                         "badge",
-                        "px-3 py-1 rounded-full text-xs font-medium capitalize bg-opacity-10 dark:bg-opacity-20"
+                        "px-3 py-1 rounded-full text-xs font-medium capitalize bg-opacity-10 dark:bg-opacity-20",
                       )}
                       `}
                     >

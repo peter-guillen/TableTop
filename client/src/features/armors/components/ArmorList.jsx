@@ -1,13 +1,11 @@
-import { useContext } from "react";
-import { ArmorContext } from "../context/ArmorContext";
 import { ArmorPreview } from "./ArmorPreview";
-import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
+import { useGetArmorsQuery } from "../api/armorApi";
 
 export const ArmorList = () => {
-  const { armorList } = useContext(ArmorContext);
-  if (!armorList || armorList.length === 0) {
-    return <LoadingSpinner />;
-  }
+  const { data: armors, isLoading, isError } = useGetArmorsQuery();
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-8 transition-colors duration-300">
@@ -17,13 +15,13 @@ export const ArmorList = () => {
               Armors
             </h1>
             <p className="text-xl text-slate-600 dark:text-gray-300">
-              Armors so your enemies don't SLAY you!
+              Armors so your enemies do not SLAY you!
             </p>
           </div>
         </div>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <ArmorPreview />
+            <ArmorPreview key={armors._id} armors={armors} />
           </div>
         </div>
       </div>

@@ -4,10 +4,12 @@ import { WeaponList } from "../components/WeaponList";
 import { WeaponDetails } from "../components/WeaponDetails";
 import { WeaponForm } from "../pages/WeaponForm";
 import { ProtectedRoute } from "../../../features/auth/ProtectedRoute";
+import { SearchBar } from "../../admin/components/SearchBar";
 
 export const WeaponPage = () => {
   return (
     <>
+      <SearchBar>Search Here</SearchBar>
       <Routes>
         <Route path="/" element={<WeaponList />} />
         <Route path=":id" element={<WeaponDetails />} />

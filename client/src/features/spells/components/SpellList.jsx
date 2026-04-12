@@ -1,14 +1,10 @@
-import { useContext } from "react";
-import { SpellContext } from "../context/SpellContext";
 import { SpellPreview } from "./SpellPreview";
-import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
+import { useGetSpellsQuery } from "../api/spellApi";
 
 export const SpellList = () => {
-  const { spellList } = useContext(SpellContext);
-  if (!spellList || spellList.length === 0) {
-    return <LoadingSpinner />;
-  }
-
+  const { data: spells, isLoading, isError } = useGetSpellsQuery();
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-8 transition-colors duration-300">
@@ -24,7 +20,7 @@ export const SpellList = () => {
         </div>
         <div className="flex justify-center">
           <div className="w-3/4">
-            <SpellPreview />
+            <SpellPreview key={spells._id} spells={spells} />
           </div>
         </div>
       </div>

@@ -8,10 +8,6 @@ import {
 import { ThemeContextProvider } from "./contexts/ThemeContext";
 import { AuthContextProvider } from "../features/auth/context/AuthContextProvider";
 import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
-import { SpellContextProvider } from "../features/spells/context/SpellContextProvider";
-import { WeaponContextProvider } from "../features/weapons/context/WeaponContextProvider";
-import { ArmorContextProvider } from "../features/armors/context/ArmorContextProvider";
-import { ProfessionContextProvider } from "../features/professions/context/ProfessionContextProvider";
 
 import { Navbar } from "./layouts/Navbar";
 import { Register } from "../app/pages/Register";
@@ -61,18 +57,10 @@ function App() {
       <AuthContextProvider>
         <ThemeContextProvider>
           <ArticleContextProvider>
-            <SpellContextProvider>
-              <WeaponContextProvider>
-                <ArmorContextProvider>
-                  <ProfessionContextProvider>
-                    <RouterProvider
-                      router={router}
-                      future={{ v7_startTransition: true }}
-                    />
-                  </ProfessionContextProvider>
-                </ArmorContextProvider>
-              </WeaponContextProvider>
-            </SpellContextProvider>
+            <RouterProvider
+              router={router}
+              future={{ v7_startTransition: true }}
+            />
           </ArticleContextProvider>
         </ThemeContextProvider>
       </AuthContextProvider>

@@ -1,19 +1,10 @@
-// ─── Imports ──────────────────────────────────────────────────────────────────
 import { useState, useCallback, useEffect } from "react";
-import { fetchLibrary } from "../../library/api/libraryApi";
+import { useGetLibraryItemsQuery } from "../../library/api/libraryApi";
 import { SKILLS } from "./Skills";
 
-// ─── Constants ────────────────────────────────────────────────────────────────
 const SOURCES = ["Arcane", "Natural", "Psionic", "Divine", "Blood", "Chi"];
 
-const TABS = [
-  "Overview",
-  "Features",
-  "Powers",
-  "Weapons",
-  "Skills",
-  "Equipment",
-];
+const TABS = ["Features", "Powers", "Weapons", "Skills", "Equipment"];
 
 const POWER_TYPES = ["Passive", "Major Action", "Minor Action", "Reaction"];
 
@@ -24,8 +15,6 @@ const ARMOR = [
   { key: "Robes", label: "Arcane Robes", def: 0 },
 ];
 
-// Base stats keyed by profession title — overridden by library data when available.
-// Falls back to Classless for unknown keys.
 const BASE_STATS = {
   Martial: {
     mov: 6,
@@ -108,28 +97,51 @@ const STAT_DEFS = [
   { key: "atk", label: "Attack", fmt: (v) => (v >= 0 ? "+" : "") + v },
   { key: "acc", label: "Accuracy", fmt: (v) => v },
   { key: "dom", label: "Dominance", fmt: (v) => v },
+  // { key: "dom", label: "Dominance", fmt: (v) => v + (v >= 0 ? "+10" : "") },
   { key: "def", label: "Defense", fmt: (v) => v },
   { key: "rsl", label: "Resolve", fmt: (v) => v },
   { key: "res", label: "Resilience", fmt: (v) => v },
-  { key: "hp", label: "HP", fmt: (v) => v, isRes: true },
-  { key: "mp", label: "MP", fmt: (v) => v, isRes: true },
-  { key: "momCap", label: "Momentum", fmt: (v) => v, isRes: true },
   { key: "mov", label: "Movement", fmt: (v) => v },
   { key: "init", label: "Initiative", fmt: (v) => v },
+  { key: "misc", label: "Something", fmt: (v) => v },
+];
+
+const STAT_GROUPS = [
+  {
+    label: "Offense",
+    keys: ["atk", "acc", "dom"],
+    header: "text-orange-600 dark:text-orange-400",
+    card: "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-700/40",
+    labelCls: "text-orange-500 dark:text-orange-500",
+    valueCls: "text-orange-700 dark:text-orange-300",
+  },
+  {
+    label: "Defense",
+    keys: ["def", "rsl", "res"],
+    header: "text-cyan-600 dark:text-cyan-400",
+    card: "bg-cyan-50 dark:bg-cyan-900/20 border-cyan-200 dark:border-cyan-700/40",
+    labelCls: "text-cyan-500 dark:text-cyan-500",
+    valueCls: "text-cyan-700 dark:text-cyan-300",
+  },
+  {
+    label: "Mobility",
+    keys: ["mov", "init", "misc"],
+    header: "text-green-500 dark:text-green-400",
+    card: "bg-green-50 dark:bg-green-800/50 border-green-200 dark:border-green-700/50",
+    labelCls: "text-green-400 dark:text-green-500",
+    valueCls: "text-green-700 dark:text-green-300",
+  },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Returns the correct feature pool depending on mode/class/sources. */
 function getPool({ mode, cls, sources, library }) {
   if (mode === "classed") {
-    // Use library.features if available, otherwise nothing
     return (library?.features || []).filter((f) => f.profession === cls);
   }
   return (library?.features || []).filter((f) => sources.includes(f.src));
 }
 
-/** Derives a tag variant class from a power type string. */
 function typeVariant(type = "") {
   if (type === "Passive") return "innate";
   if (type === "Major Action") return "learned";
@@ -138,14 +150,11 @@ function typeVariant(type = "") {
   return "neutral";
 }
 
-/** Computes all derived stats from current state + library data. */
 function computeStats(state, library) {
   const { mode, cls, race, bg, selectedFeats, selectedArmor, sources } = state;
-
   const baseKey = mode === "classless" ? "Classless" : cls || "Classless";
   const base = { ...(BASE_STATS[baseKey] || BASE_STATS.Classless) };
 
-  // Race & background mods come from library
   const rm = (library?.races || []).find((r) => r.name === race)?.mods || {};
   const bm =
     (library?.backgrounds || []).find((b) => b.name === bg)?.mods || {};
@@ -211,35 +220,29 @@ function Tag({ label, variant = "neutral" }) {
   return <span className={styles[variant] || styles.neutral}>{label}</span>;
 }
 
-function StatCard({ label, value, highlighted, isRes }) {
+function StatCard({ label, value, highlighted }) {
   return (
     <div
       className={`rounded-lg p-2 text-center border transition-all duration-200 ${
-        isRes
-          ? "bg-orange-50 dark:bg-orange-800/10 border-orange-300 dark:border-orange-500/30"
-          : highlighted
-            ? "bg-cyan-50 dark:bg-cyan-800/20 border-cyan-300 dark:border-cyan-500/40"
-            : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50"
+        highlighted
+          ? "bg-cyan-50 dark:bg-cyan-800/20 border-cyan-300 dark:border-cyan-500/40"
+          : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50"
       }`}
     >
       <p
         className={`text-[9px] font-bold uppercase tracking-wider mb-1 ${
-          isRes
-            ? "text-orange-500 dark:text-orange-400"
-            : highlighted
-              ? "text-cyan-600 dark:text-cyan-400"
-              : "text-slate-500 dark:text-slate-400"
+          highlighted
+            ? "text-cyan-600 dark:text-cyan-400"
+            : "text-slate-500 dark:text-slate-400"
         }`}
       >
         {label}
       </p>
       <p
         className={`text-lg font-extrabold leading-none ${
-          isRes
-            ? "text-orange-600 dark:text-orange-300"
-            : highlighted
-              ? "text-cyan-600 dark:text-cyan-300"
-              : "text-slate-900 dark:text-white"
+          highlighted
+            ? "text-cyan-600 dark:text-cyan-300"
+            : "text-slate-900 dark:text-white"
         }`}
       >
         {value}
@@ -256,7 +259,6 @@ function CharacterHeader({ state, set }) {
 
   return (
     <div className="grid grid-cols-[120px_1fr] gap-4 mb-4 items-start">
-      {/* Portrait */}
       <label className="cursor-pointer group">
         <div className="w-[120px] h-[120px] rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800/50 flex flex-col items-center justify-center gap-2 group-hover:border-cyan-400 dark:group-hover:border-cyan-500 transition-colors overflow-hidden">
           {state.portrait ? (
@@ -300,7 +302,6 @@ function CharacterHeader({ state, set }) {
         />
       </label>
 
-      {/* Name + meta */}
       <div className="flex flex-col gap-2 justify-center h-[120px]">
         <input
           className="bg-transparent border-0 border-b-2 border-slate-300 dark:border-slate-600 text-2xl font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-cyan-500 dark:focus:border-cyan-400 pb-1 transition-colors w-full"
@@ -308,7 +309,6 @@ function CharacterHeader({ state, set }) {
           value={state.name}
           onChange={(e) => set({ name: e.target.value })}
         />
-
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
             Pronouns
@@ -330,7 +330,6 @@ function CharacterHeader({ state, set }) {
               {pronounDisplay}
             </span>
           )}
-
           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-2">
             Age
           </span>
@@ -347,165 +346,304 @@ function CharacterHeader({ state, set }) {
   );
 }
 
-// ─── Sub-component: IdentityBand ──────────────────────────────────────────────
+// ─── Sub-component: ModeChooser ───────────────────────────────────────────────
+// Sits above the identity band as its own prominent row.
 
-function IdentityBand({ state, set, library, setMode, toggleSource }) {
+// function ModeChooser({ mode, setMode }) {
+//   return (
+//     <div className="mb-3">
+//       <SectionLabel>Character Mode</SectionLabel>
+//       <div className="grid grid-cols-2 gap-3">
+//         {[
+//           {
+//             id: "classed",
+//             title: "Classed",
+//             desc: "Primary class + optional 5-level dip. Tighter class fantasy.",
+//           },
+//           {
+//             id: "classless",
+//             title: "Classless",
+//             desc: "Choose a single power source. Freeform archetype building.",
+//           },
+//         ].map((m) => {
+//           const active = mode === m.id;
+//           return (
+//             <button
+//               key={m.id}
+//               onClick={() => setMode(m.id)}
+//               className={`rounded-xl px-5 py-3 border-2 text-left transition-all duration-200 ${
+//                 active
+//                   ? "bg-cyan-50 dark:bg-cyan-800/20 border-cyan-400 dark:border-cyan-500"
+//                   : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600"
+//               }`}
+//             >
+//               <p
+//                 className={`text-sm font-bold mb-0.5 ${active ? "text-cyan-700 dark:text-cyan-300" : "text-slate-900 dark:text-white"}`}
+//               >
+//                 {m.title}
+//               </p>
+//               <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-snug">
+//                 {m.desc}
+//               </p>
+//             </button>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// }
+
+// ─── Sub-component: IdentityBand ──────────────────────────────────────────────
+// Mode toggle removed. Classless source is now a single-select dropdown in the same band.
+
+// function IdentityBand({ state, set, library }) {
+//   const selectCls =
+//     "bg-transparent border-none text-cyan-700 dark:text-cyan-300 text-[13px] font-semibold outline-none cursor-pointer w-full";
+
+//   const races = library?.races || [];
+//   const bgs = library?.backgrounds || [];
+//   const classes = library?.professions || [];
+
+//   // For classless: single source
+//   function setSource(src) {
+//     set({ sources: src ? [src] : [], selectedFeats: [] });
+//   }
+
+//   const colCount = state.mode === "classed" ? 4 : 4; // always 4 columns
+
+//   return (
+//     <div className={`grid grid-cols-${colCount} gap-2 mb-3`}>
+//       {/* Race */}
+//       <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
+//         <SectionLabel>Race</SectionLabel>
+//         <select
+//           className={selectCls}
+//           value={state.race}
+//           onChange={(e) => set({ race: e.target.value })}
+//         >
+//           <option value="">— choose —</option>
+//           {races.length
+//             ? races.map((r) => <option key={r._id || r.name}>{r.name}</option>)
+//             : ["Human", "Elf", "Dwarf", "Halfling", "Tiefling"].map((r) => (
+//                 <option key={r}>{r}</option>
+//               ))}
+//         </select>
+//       </div>
+
+//       {/* Background */}
+//       <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
+//         <SectionLabel>Background</SectionLabel>
+//         <select
+//           className={selectCls}
+//           value={state.bg}
+//           onChange={(e) => set({ bg: e.target.value })}
+//         >
+//           <option value="">— choose —</option>
+//           {bgs.length
+//             ? bgs.map((b) => <option key={b._id || b.name}>{b.name}</option>)
+//             : ["Soldier", "Scholar", "Wanderer", "Acolyte", "Criminal"].map(
+//                 (b) => <option key={b}>{b}</option>,
+//               )}
+//         </select>
+//       </div>
+
+//       {/* Classed: primary class */}
+//       {state.mode === "classed" && (
+//         <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
+//           <SectionLabel>Primary Class</SectionLabel>
+//           <select
+//             className={selectCls}
+//             value={state.cls}
+//             onChange={(e) =>
+//               set({ cls: e.target.value, dip: "", selectedFeats: [] })
+//             }
+//           >
+//             <option value="">— choose —</option>
+//             {classes.map((p) => (
+//               <option key={p._id || p.title}>{p.title}</option>
+//             ))}
+//           </select>
+//         </div>
+//       )}
+
+//       {/* Classed: dip */}
+//       {state.mode === "classed" && (
+//         <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
+//           <SectionLabel>Auxiliary (Dip)</SectionLabel>
+//           <select
+//             className={selectCls}
+//             value={state.dip}
+//             onChange={(e) => set({ dip: e.target.value })}
+//           >
+//             <option value="">None</option>
+//             {classes
+//               .filter((p) => p.title !== state.cls)
+//               .map((p) => (
+//                 <option key={p._id || p.title}>{p.title}</option>
+//               ))}
+//           </select>
+//         </div>
+//       )}
+
+//       {/* Classless: single power source dropdown */}
+//       {state.mode === "classless" && (
+//         <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
+//           <SectionLabel>Power Source</SectionLabel>
+//           <select
+//             className={selectCls}
+//             value={state.sources[0] || ""}
+//             onChange={(e) => setSource(e.target.value)}
+//           >
+//             <option value="">— choose —</option>
+//             {SOURCES.map((s) => (
+//               <option key={s}>{s}</option>
+//             ))}
+//           </select>
+//         </div>
+//       )}
+
+//       {/* Classless: 4th slot — empty placeholder to keep grid even, or could show a hint */}
+//       {state.mode === "classless" && (
+//         <div className="bg-slate-50 dark:bg-slate-800/20 border border-dashed border-slate-200 dark:border-slate-700/30 rounded-xl px-4 py-2.5 flex items-center justify-center">
+//           <span className="text-[10px] text-slate-400 dark:text-slate-500 italic text-center leading-snug">
+//             One source at
+//             <br />a time
+//           </span>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+function IdentityBand({ state, set, library, setMode }) {
   const selectCls =
-    "bg-transparent border-none text-cyan-700 dark:text-cyan-300 text-[13px] font-semibold outline-none cursor-pointer w-full";
+    "bg-transparent border-none text-slate-900 dark:text-white text-xs font-semibold outline-none cursor-pointer w-full mt-0.5 leading-tight";
 
   const races = library?.races || [];
   const bgs = library?.backgrounds || [];
   const classes = library?.professions || [];
 
+  const fieldCls =
+    "bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg px-3 py-2 flex flex-col justify-center min-w-0";
+
   return (
-    <div className="mb-4">
-      {/* Mode toggle + identity cards */}
-      <div
-        className={`grid gap-2 mb-2 ${
-          state.mode === "classed"
-            ? "grid-cols-[auto_1fr_1fr_1fr_1fr]"
-            : "grid-cols-[auto_1fr_1fr]"
-        }`}
-      >
-        {/* Mode toggle */}
-        <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 flex flex-col justify-center">
-          <SectionLabel>Mode</SectionLabel>
-          <div className="flex bg-slate-100 dark:bg-slate-700/40 rounded-md p-0.5 gap-0.5">
-            {["classed", "classless"].map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                className={`flex-1 py-1 px-2 rounded text-[10px] font-bold uppercase tracking-wide transition-all duration-150 ${
-                  state.mode === m
-                    ? "bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm"
-                    : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200"
-                }`}
-              >
-                {m === "classed" ? "Classed" : "Classless"}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Race */}
-        <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
-          <SectionLabel>Race</SectionLabel>
-          <select
-            className={selectCls}
-            value={state.race}
-            onChange={(e) => set({ race: e.target.value })}
+    <div className="flex items-stretch gap-2 mb-3 flex-wrap">
+      {/* Mode pill toggle */}
+      <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
+        {["classed", "classless"].map((m) => (
+          <button
+            key={m}
+            onClick={() => setMode(m)}
+            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wide transition-all duration-150 ${
+              state.mode === m
+                ? "bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            }`}
           >
-            <option value="">— choose —</option>
-            {races.length
-              ? races.map((r) => (
-                  <option key={r._id || r.name}>{r.name}</option>
-                ))
-              : ["Human", "Elf", "Dwarf", "Halfling", "Tiefling"].map((r) => (
-                  <option key={r}>{r}</option>
-                ))}
-          </select>
-        </div>
-
-        {/* Background */}
-        <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
-          <SectionLabel>Background</SectionLabel>
-          <select
-            className={selectCls}
-            value={state.bg}
-            onChange={(e) => set({ bg: e.target.value })}
-          >
-            <option value="">— choose —</option>
-            {bgs.length
-              ? bgs.map((b) => <option key={b._id || b.name}>{b.name}</option>)
-              : ["Soldier", "Scholar", "Wanderer", "Acolyte", "Criminal"].map(
-                  (b) => <option key={b}>{b}</option>,
-                )}
-          </select>
-        </div>
-
-        {/* Classed: primary + dip */}
-        {state.mode === "classed" && (
-          <>
-            <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
-              <SectionLabel>Primary Class</SectionLabel>
-              <select
-                className={selectCls}
-                value={state.cls}
-                onChange={(e) =>
-                  set({ cls: e.target.value, dip: "", selectedFeats: [] })
-                }
-              >
-                <option value="">— choose —</option>
-                {classes.map((p) => (
-                  <option key={p._id || p.title}>{p.title}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5">
-              <SectionLabel>Auxiliary (Dip)</SectionLabel>
-              <select
-                className={selectCls}
-                value={state.dip}
-                onChange={(e) => set({ dip: e.target.value })}
-              >
-                <option value="">None</option>
-                {classes
-                  .filter((p) => p.title !== state.cls)
-                  .map((p) => (
-                    <option key={p._id || p.title}>{p.title}</option>
-                  ))}
-              </select>
-            </div>
-          </>
-        )}
+            {m === "classed" ? "Classed" : "Classless"}
+          </button>
+        ))}
       </div>
 
-      {/* Classless: power sources row */}
+      {/* Race */}
+      <div className={`${fieldCls} flex-1 min-w-[90px]`}>
+        <SectionLabel>Race</SectionLabel>
+        <select
+          className={selectCls}
+          value={state.race}
+          onChange={(e) => set({ race: e.target.value })}
+        >
+          <option value="">—</option>
+          {(races.length
+            ? races.map((r) => r.name)
+            : ["Human", "Elf", "Dwarf", "Halfling", "Tiefling"]
+          ).map((r) => (
+            <option key={r}>{r}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Background */}
+      <div className={`${fieldCls} flex-1 min-w-[90px]`}>
+        <SectionLabel>Background</SectionLabel>
+        <select
+          className={selectCls}
+          value={state.bg}
+          onChange={(e) => set({ bg: e.target.value })}
+        >
+          <option value="">—</option>
+          {(bgs.length
+            ? bgs.map((b) => b.name)
+            : ["Soldier", "Scholar", "Wanderer", "Acolyte", "Criminal"]
+          ).map((b) => (
+            <option key={b}>{b}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Classed: Primary Class */}
+      {state.mode === "classed" && (
+        <div className={`${fieldCls} flex-1 min-w-[100px]`}>
+          <SectionLabel>Class</SectionLabel>
+          <select
+            className={selectCls}
+            value={state.cls}
+            onChange={(e) =>
+              set({ cls: e.target.value, dip: "", selectedFeats: [] })
+            }
+          >
+            <option value="">—</option>
+            {classes.map((p) => (
+              <option key={p._id || p.title}>{p.title}</option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* Classed: Dip */}
+      {state.mode === "classed" && (
+        <div className={`${fieldCls} flex-1 min-w-[100px]`}>
+          <SectionLabel>Dip</SectionLabel>
+          <select
+            className={selectCls}
+            value={state.dip}
+            onChange={(e) => set({ dip: e.target.value })}
+          >
+            <option value="">None</option>
+            {classes
+              .filter((p) => p.title !== state.cls)
+              .map((p) => (
+                <option key={p._id || p.title}>{p.title}</option>
+              ))}
+          </select>
+        </div>
+      )}
+
+      {/* Classless: Power Source */}
       {state.mode === "classless" && (
-        <div className="grid grid-cols-6 gap-2">
-          {SOURCES.map((src) => {
-            const sel = state.sources.includes(src);
-            return (
-              <button
-                key={src}
-                onClick={() => toggleSource(src)}
-                className={`py-2 rounded-lg text-[11px] font-bold border transition-all duration-150 ${
-                  sel
-                    ? "bg-cyan-50 dark:bg-cyan-800/30 border-cyan-300 dark:border-cyan-500/40 text-cyan-700 dark:text-cyan-300"
-                    : "bg-white dark:bg-slate-800/30 border-slate-200 dark:border-slate-700/50 text-slate-400 dark:text-slate-500 hover:border-cyan-300 dark:hover:border-cyan-500/30 hover:text-slate-700 dark:hover:text-slate-200"
-                }`}
-              >
-                {src}
-              </button>
-            );
-          })}
+        <div className={`${fieldCls} flex-1 min-w-[110px]`}>
+          <SectionLabel>Power Source</SectionLabel>
+          <select
+            className={selectCls}
+            value={state.sources[0] || ""}
+            onChange={(e) => {
+              const src = e.target.value;
+              set({ sources: src ? [src] : [], selectedFeats: [] });
+            }}
+          >
+            <option value="">—</option>
+            {SOURCES.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </select>
         </div>
       )}
     </div>
   );
 }
 
-// ─── Sub-component: StatGrid ──────────────────────────────────────────────────
-
-function StatGrid({ stats }) {
-  const modKeys = new Set(stats.modSources?.map((m) => m.key) || []);
-  return (
-    <div className="grid grid-cols-11 gap-1.5 mb-4">
-      {STAT_DEFS.map(({ key, label, fmt, isRes }) => (
-        <StatCard
-          key={key}
-          label={label}
-          value={fmt(stats[key] ?? 0)}
-          highlighted={modKeys.has(key)}
-          isRes={isRes}
-        />
-      ))}
-    </div>
-  );
-}
-
 // ─── Sub-component: ResourceRow ───────────────────────────────────────────────
+// Now sits ABOVE the stat grid.
 
 function ResourceRow({ state, stats, set }) {
   function adjust(key, maxKey, dir) {
@@ -519,57 +657,157 @@ function ResourceRow({ state, stats, set }) {
       label: "HP",
       currentKey: "hpCurrent",
       maxKey: "hp",
-      color: "text-green-500 dark:text-green-400",
+      color: "text-orange-500 dark:text-orange-400",
+      border: "border-orange-200 dark:border-orange-700/40",
+      bg: "bg-orange-50 dark:bg-orange-900/10",
+      labelColor: "text-orange-600 dark:text-orange-500",
     },
     {
       label: "MP",
       currentKey: "mpCurrent",
       maxKey: "mp",
       color: "text-cyan-500 dark:text-cyan-400",
+      border: "border-cyan-200 dark:border-cyan-700/40",
+      bg: "bg-cyan-50 dark:bg-cyan-900/10",
+      labelColor: "text-cyan-600 dark:text-cyan-500",
     },
     {
       label: "Momentum",
       currentKey: "momCurrent",
       maxKey: "momCap",
-      color: "text-orange-500 dark:text-orange-400",
+      color: "text-green-500 dark:text-green-400",
+      border: "border-green-200 dark:border-green-700/40",
+      bg: "bg-green-50 dark:bg-green-900/10",
+      labelColor: "text-green-600 dark:text-green-500",
     },
   ];
 
   return (
-    <div className="flex gap-2 mb-4">
-      {resources.map(({ label, currentKey, maxKey, color }) => (
-        <div
-          key={label}
-          className="flex-1 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 flex items-center justify-between"
-        >
-          <div>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-0.5">
-              {label}
-            </p>
-            <p className="text-[11px] text-slate-400 dark:text-slate-500">
-              / {stats[maxKey] || 0}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex flex-col gap-0.5">
-              <button
-                onClick={() => adjust(currentKey, maxKey, 1)}
-                className="w-5 h-4 bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 rounded text-[10px] text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500 transition-colors leading-none flex items-center justify-center"
-              >
-                ▲
-              </button>
-              <button
-                onClick={() => adjust(currentKey, maxKey, -1)}
-                className="w-5 h-4 bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 rounded text-[10px] text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500 transition-colors leading-none flex items-center justify-center"
-              >
-                ▼
-              </button>
-            </div>
-            <span
-              className={`text-2xl font-extrabold leading-none min-w-[2ch] text-right ${color}`}
+    <div className="flex gap-2 mb-3">
+      {resources.map(
+        ({ label, currentKey, maxKey, color, border, bg, labelColor }) => {
+          const max = stats[maxKey] || 0;
+          const cur = state[currentKey] || 0;
+          const pct = max > 0 ? (cur / max) * 100 : 0;
+
+          return (
+            <div
+              key={label}
+              className={`flex-1 ${bg} border ${border} rounded-xl px-4 py-2.5 flex items-center justify-between`}
             >
-              {state[currentKey] || 0}
-            </span>
+              <div className="flex-1 mr-4">
+                <div className="flex justify-between items-baseline mb-1.5">
+                  <p
+                    className={`text-[9px] font-bold uppercase tracking-widest ${labelColor}`}
+                  >
+                    {label}
+                  </p>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                    <span className={`text-base font-extrabold ${color}`}>
+                      {cur}
+                    </span>
+                    {" / "}
+                    {max}
+                  </p>
+                </div>
+                {/* Progress bar */}
+                <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-700/50 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      label === "HP"
+                        ? "bg-orange-400 dark:bg-orange-500"
+                        : label === "MP"
+                          ? "bg-cyan-400 dark:bg-cyan-500"
+                          : "bg-green-400 dark:bg-green-500"
+                    }`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <button
+                  onClick={() => adjust(currentKey, maxKey, 1)}
+                  className="w-6 h-5 bg-white dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 rounded text-[10px] text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500 transition-colors leading-none flex items-center justify-center"
+                >
+                  ▲
+                </button>
+                <button
+                  onClick={() => adjust(currentKey, maxKey, -1)}
+                  className="w-6 h-5 bg-white dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 rounded text-[10px] text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500 transition-colors leading-none flex items-center justify-center"
+                >
+                  ▼
+                </button>
+              </div>
+            </div>
+          );
+        },
+      )}
+    </div>
+  );
+}
+
+// ─── Sub-component: StatGrid ──────────────────────────────────────────────────
+// HP, MP, Momentum removed — they live in ResourceRow above.
+
+// function StatGrid({ stats }) {
+//   const modKeys = new Set(stats.modSources?.map((m) => m.key) || []);
+//   return (
+//     <div className="grid grid-cols-8 gap-1.5 mb-3">
+//       {STAT_DEFS.map(({ key, label, fmt }) => (
+//         <StatCard
+//           key={key}
+//           label={label}
+//           value={fmt(stats[key] ?? 0)}
+//           highlighted={modKeys.has(key)}
+//         />
+//       ))}
+//     </div>
+//   );
+// }
+
+function StatGrid({ stats }) {
+  const modKeys = new Set(stats.modSources?.map((m) => m.key) || []);
+  const statMap = Object.fromEntries(
+    STAT_DEFS.map(({ key, fmt }) => [key, fmt(stats[key] ?? 0)]),
+  );
+
+  return (
+    <div className="flex gap-3 mb-3">
+      {STAT_GROUPS.map(({ label, keys, header, card, labelCls, valueCls }) => (
+        <div key={label} className={`flex-1`}>
+          <p
+            className={`text-[9px] font-bold uppercase tracking-widest mb-1.5 ${header}`}
+          >
+            {label}
+          </p>
+          <div
+            className={`grid gap-1.5 ${keys.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}
+          >
+            {keys.map((key) => {
+              const def = STAT_DEFS.find((d) => d.key === key);
+              const boosted = modKeys.has(key);
+              return (
+                <div
+                  key={key}
+                  className={`rounded-lg p-2 text-center border transition-all duration-200 ${card} ${
+                    boosted
+                      ? "ring-2 ring-offset-1 ring-cyan-400 dark:ring-cyan-500"
+                      : ""
+                  }`}
+                >
+                  <p
+                    className={`text-[9px] font-bold uppercase tracking-wider mb-1 ${labelCls}`}
+                  >
+                    {def?.label}
+                  </p>
+                  <p
+                    className={`text-lg font-extrabold leading-none ${valueCls}`}
+                  >
+                    {statMap[key]}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}
@@ -577,26 +815,68 @@ function ResourceRow({ state, stats, set }) {
   );
 }
 
-// ─── Sub-component: Sidebar ───────────────────────────────────────────────────
+// ─── Sub-component: OverviewPanel ─────────────────────────────────────────────
+// Replaces the old Sidebar. Larger, always visible, shows identity + selected powers.
 
-function Sidebar({ state, stats, library }) {
+function OverviewPanel({ state, stats, library }) {
   const pool = getPool({
     mode: state.mode,
     cls: state.cls,
     sources: state.sources,
     library,
   });
+  const armorLabel = state.selectedArmor
+    ? ARMOR.find((a) => a.key === state.selectedArmor)?.label
+    : null;
+
+  function Row({ label, value }) {
+    return (
+      <div className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-700/40 last:border-0">
+        <span className="text-xs text-slate-500 dark:text-slate-400">
+          {label}
+        </span>
+        <span className="text-xs font-semibold text-slate-900 dark:text-white">
+          {value || "—"}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3">
+      {/* Identity */}
+      <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
+        <SectionLabel>Identity</SectionLabel>
+        <Row label="Race" value={state.race} />
+        <Row label="Background" value={state.bg} />
+        <Row
+          label="Mode"
+          value={state.mode === "classless" ? "Classless" : "Classed"}
+        />
+        {state.mode === "classed" && <Row label="Class" value={state.cls} />}
+        {state.mode === "classed" && state.dip && (
+          <Row label="Dip" value={state.dip} />
+        )}
+        {state.mode === "classless" && state.sources[0] && (
+          <Row label="Source" value={state.sources[0]} />
+        )}
+      </div>
+
+      {/* Loadout */}
+      <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
+        <SectionLabel>Loadout</SectionLabel>
+        <Row label="Weapon" value={state.selectedWeapon} />
+        <Row label="Armor" value={armorLabel} />
+      </div>
+
       {/* Active modifiers */}
       {stats.modSources?.length > 0 && (
         <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
-          <SectionLabel>Active Modifiers</SectionLabel>
+          <SectionLabel>Stat Modifiers</SectionLabel>
           {stats.modSources.map((m, i) => (
             <div
               key={i}
-              className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-700/50 last:border-0"
+              className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-700/40 last:border-0"
             >
               <span className="text-xs text-slate-500 dark:text-slate-400">
                 {m.label}
@@ -609,160 +889,47 @@ function Sidebar({ state, stats, library }) {
         </div>
       )}
 
-      {/* Selected powers summary */}
-      <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
+      {/* Selected powers — this is the main real-estate now */}
+      <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4 flex-1">
         <SectionLabel>
           Selected Powers ({state.selectedFeats.length}/3)
         </SectionLabel>
         {state.selectedFeats.length === 0 ? (
-          <p className="text-xs italic text-slate-400 dark:text-slate-500">
-            None selected.
-          </p>
+          <div className="text-center py-6">
+            <p className="text-xs italic text-slate-400 dark:text-slate-500">
+              No powers selected yet.
+            </p>
+            <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-1">
+              Pick up to 3 from Features or Powers.
+            </p>
+          </div>
         ) : (
           state.selectedFeats.map((name) => {
             const f = pool.find((x) => x.name === name);
             return (
               <div
                 key={name}
-                className="py-2 border-b border-slate-100 dark:border-slate-700/50 last:border-0"
+                className="py-3 border-b border-slate-100 dark:border-slate-700/40 last:border-0"
               >
-                <p className="text-xs font-bold text-cyan-600 dark:text-cyan-400 mb-1">
-                  {name}
-                </p>
+                <div className="flex justify-between items-start gap-1 mb-1">
+                  <p className="text-sm font-bold text-cyan-600 dark:text-cyan-400">
+                    {name}
+                  </p>
+                  {f && <Tag label={f.type} variant={typeVariant(f.type)} />}
+                </div>
                 {f && (
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
                     {f.desc}
                   </p>
                 )}
-                {f && (
-                  <div className="mt-1">
-                    <Tag label={f.type} variant={typeVariant(f.type)} />
-                  </div>
+                {f?.cost && (
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+                    Cost: {f.cost}
+                  </p>
                 )}
               </div>
             );
           })
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ─── Sub-component: OverviewTab ───────────────────────────────────────────────
-
-function OverviewTab({ state, stats, library }) {
-  const pool = getPool({
-    mode: state.mode,
-    cls: state.cls,
-    sources: state.sources,
-    library,
-  });
-  const armorLabel = state.selectedArmor
-    ? ARMOR.find((a) => a.key === state.selectedArmor)?.label
-    : null;
-
-  function Row({ label, value, accent }) {
-    return (
-      <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
-        <span className="text-sm text-slate-500 dark:text-slate-400">
-          {label}
-        </span>
-        <span
-          className={`text-sm font-semibold ${accent ? "text-cyan-600 dark:text-cyan-400" : "text-slate-900 dark:text-white"}`}
-        >
-          {value || "—"}
-        </span>
-      </div>
-    );
-  }
-
-  const cardCls =
-    "bg-gradient-to-br from-slate-50 to-orange-50 dark:from-slate-800/60 dark:to-slate-900/60 rounded-xl border border-slate-200 dark:border-slate-700/50 px-4 py-1 mb-4";
-
-  return (
-    <div className="grid md:grid-cols-2 gap-5">
-      <div>
-        <SectionLabel>Identity</SectionLabel>
-        <div className={cardCls}>
-          <Row label="Race" value={state.race} />
-          <Row label="Background" value={state.bg} />
-          <Row
-            label="Mode"
-            value={state.mode === "classless" ? "Classless" : "Classed"}
-          />
-          {state.mode === "classed" && <Row label="Class" value={state.cls} />}
-          {state.mode === "classed" && state.dip && (
-            <Row label="Dip" value={state.dip} />
-          )}
-          {state.mode === "classless" && state.sources.length > 0 && (
-            <Row label="Sources" value={state.sources.join(", ")} />
-          )}
-        </div>
-        <SectionLabel>Loadout</SectionLabel>
-        <div className={cardCls}>
-          <Row label="Weapon" value={state.selectedWeapon} />
-          <Row label="Armor" value={armorLabel} />
-        </div>
-      </div>
-
-      <div>
-        <SectionLabel>
-          Active Powers ({state.selectedFeats.length}/3)
-        </SectionLabel>
-        <div className={cardCls}>
-          {state.selectedFeats.length === 0 ? (
-            <p className="text-sm italic text-slate-400 dark:text-slate-500 py-3">
-              No powers selected yet.
-            </p>
-          ) : (
-            state.selectedFeats.map((name) => {
-              const f = pool.find((x) => x.name === name);
-              return (
-                <div
-                  key={name}
-                  className="py-2 border-b border-slate-100 dark:border-slate-700/50 last:border-0"
-                >
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm font-semibold text-cyan-600 dark:text-cyan-400">
-                      {name}
-                    </span>
-                    <div className="flex gap-1">
-                      {f && (
-                        <Tag label={f.type} variant={typeVariant(f.type)} />
-                      )}
-                      {f && <Tag label={f.cost} />}
-                    </div>
-                  </div>
-                  {f && (
-                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      {f.desc}
-                    </p>
-                  )}
-                </div>
-              );
-            })
-          )}
-        </div>
-
-        {stats.modSources?.length > 0 && (
-          <>
-            <SectionLabel>Stat Modifiers</SectionLabel>
-            <div className={cardCls}>
-              {stats.modSources.map((m, i) => (
-                <div
-                  key={i}
-                  className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-700/50 last:border-0"
-                >
-                  <span className="text-sm text-slate-500 dark:text-slate-400">
-                    {m.label}
-                  </span>
-                  <span className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                    +{m.val} {m.key.toUpperCase()}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </>
         )}
       </div>
     </div>
@@ -784,7 +951,7 @@ function FeaturesTab({ state, library, onToggleFeat }) {
       <p className="text-sm italic text-slate-400 dark:text-slate-500 pt-2">
         {state.mode === "classed"
           ? "Choose a class to see features."
-          : "Select at least one power source."}
+          : "Select a power source."}
       </p>
     );
   }
@@ -867,7 +1034,6 @@ function PowersTab({ state, library, set, onToggleFeat }) {
 
   return (
     <>
-      {/* Inner tab bar */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {POWER_TYPES.map((t) => (
           <button
@@ -884,10 +1050,9 @@ function PowersTab({ state, library, set, onToggleFeat }) {
         ))}
       </div>
 
-      {/* Power list */}
       {filtered.length === 0 ? (
         <p className="text-sm italic text-slate-400 dark:text-slate-500">
-          No {state.innerTab.toLowerCase()}s available for this class.
+          No {state.innerTab.toLowerCase()}s available.
         </p>
       ) : (
         filtered.map((f) => {
@@ -909,7 +1074,6 @@ function PowersTab({ state, library, set, onToggleFeat }) {
                   : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50"
               }`}
             >
-              {/* Header row — always visible */}
               <div
                 className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors"
                 onClick={() => set({ expandedPower: open ? null : f.name })}
@@ -928,7 +1092,6 @@ function PowersTab({ state, library, set, onToggleFeat }) {
                 </span>
               </div>
 
-              {/* Expanded detail */}
               {open && (
                 <div className="px-4 pb-4 border-t border-slate-100 dark:border-slate-700/50">
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-3">
@@ -967,8 +1130,6 @@ function PowersTab({ state, library, set, onToggleFeat }) {
 
 function WeaponsTab({ state, library, onToggleWeapon }) {
   const weapons = library?.weapons || [];
-
-  // Group by category field; fall back to flat list under "General"
   const grouped = weapons.reduce((acc, w) => {
     const cat = w.category || "General";
     if (!acc[cat]) acc[cat] = [];
@@ -1025,13 +1186,10 @@ function WeaponsTab({ state, library, onToggleWeapon }) {
 // ─── Sub-component: SkillsTab ─────────────────────────────────────────────────
 
 function SkillsTab({ state, library }) {
-  // Use library skills if available, fall back to local SKILLS constant
   const key =
     state.mode === "classless" ? "Classless" : state.cls || "Classless";
   const skills =
     library?.skills?.[key] || SKILLS?.[key] || SKILLS?.Classless || [];
-
-  // Background bonus comes from library.backgrounds
   const bgEntry = (library?.backgrounds || []).find((b) => b.name === state.bg);
   const bgBonus = bgEntry?.mods?.skillBonus || null;
 
@@ -1140,7 +1298,6 @@ function EquipmentTab({ state, onToggleArmor }) {
 
 export function CharacterBuilder() {
   const [state, setState] = useState({
-    // Identity
     name: "",
     subPronoun: "",
     objPronoun: "",
@@ -1148,36 +1305,31 @@ export function CharacterBuilder() {
     portrait: null,
     race: "",
     bg: "",
-    // Class
     mode: "classed",
     cls: "",
     dip: "",
     sources: [],
-    // Selections
     selectedFeats: [],
     selectedWeapon: "",
     selectedArmor: "",
-    // Resources (current values; maxes come from computeStats)
     hpCurrent: 0,
     mpCurrent: 0,
     momCurrent: 0,
-    // UI
-    currentTab: "Overview",
+    currentTab: "Features",
     innerTab: "Passive",
     expandedPower: null,
   });
 
   const [library, setLibrary] = useState({});
 
-  useEffect(() => {
-    fetchLibrary().then((data) => setLibrary(data || {}));
-  }, []);
+  // useEffect(() => {
+  //   fetchLibrary().then((data) => setLibrary(data || {}));
+  // }, []);
 
   const set = useCallback((patch) => setState((s) => ({ ...s, ...patch })), []);
 
   const stats = computeStats(state, library);
 
-  // ── Action handlers ──
   function toggleFeat(name) {
     const s = state.selectedFeats;
     if (s.includes(name)) {
@@ -1185,14 +1337,6 @@ export function CharacterBuilder() {
     } else if (s.length < 3) {
       set({ selectedFeats: [...s, name] });
     }
-  }
-
-  function toggleSource(src) {
-    const s = state.sources;
-    set({
-      sources: s.includes(src) ? s.filter((x) => x !== src) : [...s, src],
-      selectedFeats: [],
-    });
   }
 
   function setMode(m) {
@@ -1207,11 +1351,8 @@ export function CharacterBuilder() {
     });
   }
 
-  // ── Tab renderer ──
   function renderTab() {
     switch (state.currentTab) {
-      case "Overview":
-        return <OverviewTab state={state} stats={stats} library={library} />;
       case "Features":
         return (
           <FeaturesTab
@@ -1257,30 +1398,35 @@ export function CharacterBuilder() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50/30 to-slate-50 dark:from-slate-900 dark:via-cyan-950/20 dark:to-slate-900 text-slate-900 dark:text-white transition-colors duration-300 p-5 md:p-6">
-      {/* Character header: portrait, name, pronouns, age */}
+      {/* Character header */}
       <CharacterHeader state={state} set={set} />
 
-      {/* Identity band: mode toggle, race, background, class/dip or sources */}
+      {/* ① Mode chooser — prominent, above identity band */}
+      {/* <ModeChooser mode={state.mode} setMode={setMode} /> */}
+
+      {/* ② Identity band — race, background, class/dip or single source */}
+      {/* <IdentityBand state={state} set={set} library={library} /> */}
       <IdentityBand
         state={state}
         set={set}
         library={library}
         setMode={setMode}
-        toggleSource={toggleSource}
       />
 
-      {/* Stat grid */}
-      <StatGrid stats={stats} />
-
-      {/* Resource trackers */}
+      {/* ③ Resources — HP/MP/Mom now sit above stats */}
       <ResourceRow state={state} stats={stats} set={set} />
 
-      {/* Two-column layout: sidebar + tab panel */}
-      <div className="grid md:grid-cols-[200px_1fr] gap-4 items-start">
-        <Sidebar state={state} stats={stats} library={library} />
+      {/* ④ Stat grid — combat stats only, no resource duplication */}
+      <StatGrid stats={stats} />
 
+      {/* ⑤ Two-column layout: Overview panel (left) + tab panel (right) */}
+      {/* Overview panel is wider now; tab panel is narrower */}
+      <div className="grid md:grid-cols-[280px_1fr] gap-4 items-start">
+        {/* Left: persistent overview */}
+        <OverviewPanel state={state} stats={stats} library={library} />
+
+        {/* Right: Features / Powers / Weapons / Skills / Equipment */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-sm">
-          {/* Tab bar */}
           <div className="flex border-b border-slate-200 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/30 overflow-x-auto">
             {TABS.map((tab) => (
               <button
@@ -1296,8 +1442,6 @@ export function CharacterBuilder() {
               </button>
             ))}
           </div>
-
-          {/* Tab body */}
           <div className="p-4 md:p-5 min-h-80">{renderTab()}</div>
         </div>
       </div>

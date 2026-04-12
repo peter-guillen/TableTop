@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useProfessions } from "../hooks/useProfessions";
 import { LuSparkles } from "react-icons/lu";
 
 import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
@@ -10,10 +9,13 @@ import { ProfessionLevelsSection } from "../components/ProfessionLevelsSection";
 import { ProfessionSpellSlotsSection } from "../components/ProfessionSpellSlotsSection";
 import { ProfessionSubclassSection } from "../components/ProfessionSubclassSection";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import {
+  useGetProfessionsQuery,
+  useCreateProfessionMutation,
+  useUpdateProfessionMutation,
+} from "../api/professionApi";
 
 export function ProfessionForm() {
-  const { professionList, createProfession, updateProfession } =
-    useProfessions();
   const DEFAULT_PROFESSION_FORM = {
     // Basic Info
     title: "",
@@ -57,19 +59,27 @@ export function ProfessionForm() {
   const { id } = useParams();
   const isEditing = Boolean(id);
   const navigate = useNavigate();
-  const handleCancel = () => {
-    navigate(-1);
-  };
+  const handleCancel = () => navigate(-1);
 
-  useEffect(() => {
-    if (isEditing && professionList?.length > 0) {
-      const profession = professionList.find((p) => p._id === id);
-      if (profession) setFormData(profession);
-    }
-  }, [id, professionList, isEditing]);
+  const {
+    data: profession,
+    isLoading,
+    isError,
+  } = useGetProfessionsQuery(id, { skip: !isEditing });
+  const [createProfession] = useCreateProfessionMutation();
+  const [updateProfession] = useUpdateProfessionMutation();
 
   const { handleCheckedChange, handleArrayFieldChange } =
     useFormHandlers(setFormData);
+
+  useEffect(() => {
+    if (isEditing && profession) {
+      if (profession) setFormData(profession);
+    }
+  }, [isEditing, profession]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
 
   // Generic scalar field handler (title, hitDie, etc.)
   const handleInputChange = (event) => {
