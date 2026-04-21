@@ -1,6 +1,6 @@
 # Tabletop
 
-A custom TTRPG web application built as a full-stack portfolio project, featuring a comprehensive magic system and game mechanics tied to an original fantasy novel universe.
+A custom TTRPG web application built as a full-stack portfolio project, featuring a comprehensive magic system and game mechanics.
 
 ## Overview
 
@@ -9,7 +9,7 @@ Tabletop is a web-based tabletop RPG management system that allows users to brow
 ## Features
 
 - **Spell Library** - Browse and search through custom spells with detailed descriptions
-- **Weapons & Armor Catalogs** - Explore equipment with full statistics and lore
+- **Weapons & Armor Catalogs** - Explore equipment with full statistics
 - **Admin Panel** - Complete CRUD operations for game content management
 - **User Authentication** - Secure JWT-based authentication with session cookies
 - **Dark/Light Theme** - Theme preference stored via cookies
@@ -157,10 +157,6 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## Screenshots
-
-_Screenshots will be added here_
 
 ## Contact
 

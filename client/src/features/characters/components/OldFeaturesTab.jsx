@@ -1,32 +1,10 @@
-const POWER_TYPES = ["Passive", "Major Action", "Minor Action", "Reaction"];
-
-const Tag = ({ label, variant = "neutral" }) => {
-  const base =
-    "text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide whitespace-nowrap";
-  const styles = {
-    learned: `${base} bg-cyan-100   dark:bg-cyan-800/30   text-cyan-800   dark:text-cyan-300   border-cyan-300   dark:border-cyan-500/40`,
-    innate: `${base} bg-orange-100 dark:bg-orange-800/30 text-orange-800 dark:text-orange-300 border-orange-300 dark:border-orange-500/40`,
-    reaction: `${base} bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300 border-purple-300 dark:border-purple-500/40`,
-    neutral: `${base} bg-slate-100  dark:bg-slate-700/50  text-slate-500  dark:text-slate-400  border-slate-200  dark:border-slate-600/40`,
-  };
-  return <span className={styles[variant] || styles.neutral}>{label}</span>;
-};
-
-function typeVariant(type = "") {
-  if (type === "Passive") return "innate";
-  if (type === "Major Action") return "learned";
-  if (type === "Minor Action") return "neutral";
-  if (type === "Reaction") return "reaction";
-  return "neutral";
-}
-
-export const FeaturesTab = ({ state, library, onToggleFeat }) => {
-  const features = library?.features || [];
-
-  const pool =
-    state.mode === "classed"
-      ? features.filter((f) => f.profession === state.cls)
-      : features.filter((f) => state.sources.includes(f.src));
+export function FeaturesTab({ state, library, onToggleFeat }) {
+  const pool = getPool({
+    mode: state.mode,
+    cls: state.cls,
+    sources: state.sources,
+    library,
+  });
 
   if (!pool.length) {
     return (
@@ -68,11 +46,7 @@ export const FeaturesTab = ({ state, library, onToggleFeat }) => {
             >
               <div className="flex justify-between items-start gap-2 mb-1.5">
                 <span
-                  className={`text-sm font-semibold ${
-                    sel
-                      ? "text-cyan-600 dark:text-cyan-400"
-                      : "text-slate-900 dark:text-white"
-                  }`}
+                  className={`text-sm font-semibold ${sel ? "text-cyan-600 dark:text-cyan-400" : "text-slate-900 dark:text-white"}`}
                 >
                   {f.name}
                 </span>
@@ -95,4 +69,4 @@ export const FeaturesTab = ({ state, library, onToggleFeat }) => {
       </div>
     </>
   );
-};
+}

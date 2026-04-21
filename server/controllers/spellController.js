@@ -4,25 +4,33 @@ const { logAction } = require("../utils/logger");
 
 // Get all spells
 const getSpells = async (req, res) => {
-  // The lean() method greatly reduces size and turns the data into a JSON objects
-  const spells = await Spell.find({}).lean();
-  res.status(200).json(spells);
+  try {
+    // The lean() method greatly reduces size and turns the data into a JSON objects
+    const spells = await Spell.find({}).lean();
+    res.status(200).json(spells);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 // Get a single spell
 const getSpell = async (req, res) => {
-  const { id } = req.params;
-  // Verify that the data is a valid type
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid spell type!" });
+  try {
+    const { id } = req.params;
+    // Verify that the data is a valid type
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: "Invalid spell type!" });
+    }
+    // Find the spell by its ID in the database
+    const spell = await Spell.findById(id).lean();
+    // Verify the spell exists
+    if (!spell) {
+      return res.status(404).json({ error: "Spell Not Found!" });
+    }
+    res.status(200).json(spell);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  // Find the spell by its ID in the database
-  const spell = await Spell.findById(id).lean();
-  // Verify the spell exists
-  if (!spell) {
-    return res.status(404).json({ error: "Spell Not Found!" });
-  }
-  res.status(200).json(spell);
 };
 
 const createSpell = async (req, res) => {
@@ -39,7 +47,7 @@ const createSpell = async (req, res) => {
         after: spell.toObject(),
       },
     });
-    res.status(200).json(spell);
+    res.status(201).json(spell);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -61,7 +69,7 @@ const updateSpell = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     ).lean();
     await logAction({
       userId: req.user._id,

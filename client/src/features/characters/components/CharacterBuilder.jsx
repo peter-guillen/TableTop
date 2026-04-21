@@ -1014,6 +1014,7 @@ function FeaturesTab({ state, library, onToggleFeat }) {
 // ─── Sub-component: PowersTab ─────────────────────────────────────────────────
 
 function PowersTab({ state, library, set, onToggleFeat }) {
+  const spells = library?.spells || [];
   const pool = getPool({
     mode: state.mode,
     cls: state.cls,
@@ -1320,7 +1321,9 @@ export function CharacterBuilder() {
     expandedPower: null,
   });
 
-  const [library, setLibrary] = useState({});
+  const { data: library, isLoading, isError } = useGetLibraryItemsQuery();
+
+  // const [library, setLibrary] = useState({});
 
   // useEffect(() => {
   //   fetchLibrary().then((data) => setLibrary(data || {}));

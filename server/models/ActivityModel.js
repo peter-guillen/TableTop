@@ -20,11 +20,11 @@ const ActivityLogSchema = new mongoose.Schema(
       required: false,
     },
     metadata: {
-      type: Object, // before and after
-      default: {},
+      before: { type: mongoose.Schema.Types.Mixed, default: null },
+      after: { type: mongoose.Schema.Types.Mixed, default: null },
     },
   },
-  { timestamps: true } // adds createdAt and updatedAt
+  { timestamps: true }, // adds createdAt and updatedAt
 );
 
 module.exports = mongoose.model("ActivityLog", ActivityLogSchema);

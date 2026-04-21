@@ -4,6 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const libraryApi = createApi({
   reducerPath: "libraryApi",
   baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api` }),
+  tagTypes: ["Library"],
   endpoints: (builder) => ({
     getLibraryItems: builder.query({
       query: () => "/library",

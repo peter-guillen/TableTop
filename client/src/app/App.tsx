@@ -16,6 +16,7 @@ import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
 import { Rules } from "../features/playerTools/components/Rules";
 import { CharacterBuilder } from "../features/characters/components/CharacterBuilder";
+import { CharacterBuilderPage } from "../features/characters/components/CharacterBuilderPage";
 
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/builder" element={<CharacterBuilder />} />
+        <Route path="/builder/page" element={<CharacterBuilderPage />} />
         <Route path="/articles/*" element={<ArticlePage />} />
         <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/spells/*" element={<SpellPage />} />
