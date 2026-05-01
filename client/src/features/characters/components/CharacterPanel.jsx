@@ -7,19 +7,19 @@ import { EquipmentTab } from "./EquipmentTab";
 const TABS = ["Features", "Powers", "Weapons", "Skills", "Equipment"];
 
 export const CharacterPanel = ({
-  state,
-  updateInput,
+  formData,
+  patchForm,
   library,
   onToggleFeat,
   onToggleWeapon,
   onToggleArmor,
 }) => {
   function renderTab() {
-    switch (state.currentTab) {
+    switch (formData.currentTab) {
       case "Features":
         return (
           <FeaturesTab
-            state={state}
+            formData={formData}
             library={library}
             onToggleFeat={onToggleFeat}
           />
@@ -27,8 +27,8 @@ export const CharacterPanel = ({
       case "Powers":
         return (
           <PowersTab
-            state={state}
-            updateInput={updateInput}
+            formData={formData}
+            patchForm={patchForm}
             library={library}
             onToggleFeat={onToggleFeat}
           />
@@ -36,18 +36,18 @@ export const CharacterPanel = ({
       case "Weapons":
         return (
           <WeaponsTab
-            state={state}
-            updateInput={updateInput}
+            formData={formData}
+            patchForm={patchForm}
             library={library}
             onToggleWeapon={onToggleWeapon}
           />
         );
       case "Skills":
-        return <SkillsTab state={state} library={library} />;
+        return <SkillsTab formData={formData} library={library} />;
       case "Equipment":
         return (
           <EquipmentTab
-            state={state}
+            formData={formData}
             library={library}
             onToggleArmor={onToggleArmor}
           />
@@ -63,9 +63,9 @@ export const CharacterPanel = ({
         {TABS.map((tab) => (
           <button
             key={tab}
-            onClick={() => updateInput({ currentTab: tab })}
+            onClick={() => patchForm({ currentTab: tab })}
             className={`px-4 py-3 text-sm whitespace-nowrap border-b-2 font-semibold transition-all duration-150 ${
-              state.currentTab === tab
+              formData.currentTab === tab
                 ? "border-cyan-500 dark:border-cyan-400 text-cyan-600 dark:text-cyan-400 bg-white dark:bg-transparent"
                 : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
             }`}

@@ -1,8 +1,17 @@
-export const WeaponsTab = ({ state, set, library, onToggleWeapon }) => {
+export const WeaponsTab = ({
+  formData,
+  patchForm,
+  library,
+  // onToggleWeapon,
+}) => {
   const weapons = library?.weapons || [];
 
-  const selectedWeapon = weapons.find((w) => w.name === state.selectedWeapon);
-  const selectedOffhand = weapons.find((w) => w.name === state.selectedOffhand);
+  const selectedWeapon = weapons.find(
+    (w) => w.name === formData.selectedWeapon,
+  );
+  const selectedOffhand = weapons.find(
+    (w) => w.name === formData.selectedOffhand,
+  );
 
   const isTwoHanded = selectedWeapon?.hands === 2;
 
@@ -17,16 +26,19 @@ export const WeaponsTab = ({ state, set, library, onToggleWeapon }) => {
   function handleMainHandChange(name) {
     const next = weapons.find((w) => w.name === name);
     const willBeTwoHanded = next?.hands === 2;
-    set({
+    patchForm({
       selectedWeapon: name,
-      selectedOffhand: willBeTwoHanded ? "" : state.selectedOffhand,
+      selectedOffhand: willBeTwoHanded ? "" : formData.selectedOffhand,
     });
-    onToggleWeapon(name);
+    // onToggleWeapon(name);
   }
 
   function handleOffhandChange(name) {
-    set({ selectedOffhand: name });
+    patchForm({ selectedOffhand: name });
   }
+
+  console.log(formData);
+  console.log(library);
 
   return (
     <div className="grid grid-cols-[1fr_2fr] gap-4">
@@ -37,14 +49,31 @@ export const WeaponsTab = ({ state, set, library, onToggleWeapon }) => {
           <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">
             Main Hand
           </p>
-
           {/* One-handed */}
           <p className="text-[9px] font-bold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-1.5">
             One-Handed
           </p>
           <div className="flex flex-col gap-1 mb-3">
+            {weapons.map((w) => {
+              // const sel = formData.selectedWeapon === w.name;
+              return (
+                <button
+                  key={w._id || w.name}
+                  onClick={() => handleMainHandChange(w.name)}
+                  className={`text-left px-3 py-2 rounded-lg border text-xs font-semibold transition-all duration-150 ${
+                    w
+                      ? "bg-orange-50 dark:bg-orange-800/20 border-orange-300 dark:border-orange-500/40 text-orange-600 dark:text-orange-400"
+                      : "bg-white dark:bg-slate-800/30 border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-orange-300 dark:hover:border-orange-500/30"
+                  }`}
+                >
+                  {w.name}
+                </button>
+              );
+            })}
+          </div>
+          {/* <div className="flex flex-col gap-1 mb-3">
             {oneHandedWeapons.map((w) => {
-              const sel = state.selectedWeapon === w.name;
+              const sel = formData.selectedWeapon === w.name;
               return (
                 <button
                   key={w._id || w.name}
@@ -59,7 +88,7 @@ export const WeaponsTab = ({ state, set, library, onToggleWeapon }) => {
                 </button>
               );
             })}
-          </div>
+          </div> */}
 
           {/* Two-handed */}
           <p className="text-[9px] font-bold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-1.5">
@@ -67,7 +96,7 @@ export const WeaponsTab = ({ state, set, library, onToggleWeapon }) => {
           </p>
           <div className="flex flex-col gap-1">
             {twoHandedWeapons.map((w) => {
-              const sel = state.selectedWeapon === w.name;
+              const sel = formData.selectedWeapon === w.name;
               return (
                 <button
                   key={w._id || w.name}
@@ -103,7 +132,7 @@ export const WeaponsTab = ({ state, set, library, onToggleWeapon }) => {
           </p>
           <div className="flex flex-col gap-1">
             {oneHandedWeapons.map((w) => {
-              const sel = state.selectedOffhand === w.name;
+              const sel = formData.selectedOffhand === w.name;
               return (
                 <button
                   key={w._id || w.name}

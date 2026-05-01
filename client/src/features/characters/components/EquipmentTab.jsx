@@ -1,5 +1,5 @@
-export const EquipmentTab = ({ state, library, onToggleArmor }) => {
-  const armor = library?.armor || [];
+export const EquipmentTab = ({ formData, library, onToggleArmor }) => {
+  const armor = library?.armors || [];
 
   if (!armor.length) {
     return (
@@ -12,7 +12,7 @@ export const EquipmentTab = ({ state, library, onToggleArmor }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
       {armor.map((a) => {
-        const sel = state.selectedArmor === a.key;
+        const sel = formData.selectedArmor === a.key;
         return (
           <div
             key={a._id || a.key}

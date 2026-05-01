@@ -133,7 +133,7 @@ export const Navbar = () => {
                           Characters
                         </NavLink>
                         <NavLink
-                          to="/builder"
+                          to="/form"
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Character Builder

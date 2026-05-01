@@ -1,8 +1,8 @@
-export const SkillsTab = ({ state, library }) => {
+export const SkillsTab = ({ formData, library }) => {
   const skills = library?.skills || [];
   const backgrounds = library?.backgrounds || [];
 
-  const bgEntry = backgrounds.find((b) => b.name === state.bg);
+  const bgEntry = backgrounds.find((b) => b.name === formData.bg);
   const bgBonus = bgEntry?.mods?.skillBonus || null;
 
   if (!skills.length) {

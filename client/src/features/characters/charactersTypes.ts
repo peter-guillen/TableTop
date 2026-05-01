@@ -1,0 +1,31 @@
+export interface Character {
+  name: "";
+  mode: "classed";
+  subPronoun: "";
+  objPronoun: "";
+  portrait: null;
+  age: "";
+  species: "";
+  background: "";
+  profession: "";
+  subProfession: "";
+  affinity: "";
+  selectedFeats: [];
+  selectedWeapons: [];
+  selectedArmor: "";
+  hpMax: 50;
+  hpCurrent: 0;
+  mpMax: 30;
+  mpCurrent: 0;
+  momMax: 5;
+  momCurrent: 0;
+  attack: 0;
+  accuracy: 0;
+  dominance: 0;
+  defense: 0;
+  resolve: 0;
+  resilience: 0;
+  movement: 0;
+  initiative: 0;
+  modSources: [];
+}

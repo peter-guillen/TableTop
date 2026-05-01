@@ -23,11 +23,13 @@ const Tag = ({ label, variant = "neutral" }) => {
   return <span className={styles[variant] || styles.neutral}>{label}</span>;
 };
 
-function getPool({ mode, cls, sources, library }) {
+function getPool({ mode, cls, library }) {
   if (mode === "classed") {
     return (library?.features || []).filter((f) => f.profession === cls);
   }
-  return (library?.features || []).filter((f) => sources.includes(f.src));
+  return (library?.features || []).filter((f) =>
+    library?.sources?.includes(f.src),
+  );
 }
 
 function typeVariant(type = "") {
@@ -47,16 +49,15 @@ const Row = ({ label, value }) => (
   </div>
 );
 
-export const CharacterOverview = ({ state, stats, library }) => {
+export const CharacterOverview = ({ formData, library }) => {
   const pool = getPool({
-    mode: state.mode,
-    cls: state.cls,
-    sources: state.sources,
+    mode: formData.mode,
+    cls: formData.cls,
     library,
   });
 
-  const armorLabel = state.selectedArmor
-    ? ARMOR.find((a) => a.key === state.selectedArmor)?.label
+  const armorLabel = formData.selectedArmor
+    ? ARMOR.find((a) => a.key === formData.selectedArmor)?.label
     : null;
 
   return (
@@ -64,33 +65,35 @@ export const CharacterOverview = ({ state, stats, library }) => {
       {/* Identity */}
       <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
         <SectionLabel>Identity</SectionLabel>
-        <Row label="Race" value={state.race} />
-        <Row label="Background" value={state.bg} />
+        <Row label="Species" value={formData.species} />
+        <Row label="Background" value={formData.background} />
         <Row
           label="Mode"
-          value={state.mode === "classless" ? "Classless" : "Classed"}
+          value={formData.mode === "classless" ? "Classless" : "Classed"}
         />
-        {state.mode === "classed" && <Row label="Class" value={state.cls} />}
-        {state.mode === "classed" && state.dip && (
-          <Row label="Dip" value={state.dip} />
+        {formData.mode === "classed" && (
+          <Row label="Class" value={formData.profession} />
         )}
-        {state.mode === "classless" && state.sources[0] && (
-          <Row label="Source" value={state.sources[0]} />
+        {formData.mode === "classed" && formData.subProfession && (
+          <Row label="Dip" value={formData.subProfession} />
+        )}
+        {formData.mode === "classless" && formData.affinity && (
+          <Row label="Affinity" value={formData.affinity} />
         )}
       </div>
 
       {/* Loadout */}
       <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
         <SectionLabel>Loadout</SectionLabel>
-        <Row label="Weapon" value={state.selectedWeapon} />
+        <Row label="Weapon" value={formData.selectedWeapon} />
         <Row label="Armor" value={armorLabel} />
       </div>
 
       {/* Active modifiers */}
-      {stats?.modSources?.length > 0 && (
+      {library?.modSources?.length > 0 && (
         <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4">
           <SectionLabel>Stat Modifiers</SectionLabel>
-          {stats?.modSources.map((m, i) => (
+          {library?.modSources.map((m, i) => (
             <div
               key={i}
               className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-700/40 last:border-0"
@@ -109,9 +112,9 @@ export const CharacterOverview = ({ state, stats, library }) => {
       {/* Selected powers */}
       <div className="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4 flex-1">
         <SectionLabel>
-          Selected Powers ({state.selectedFeats?.length}/3)
+          Selected Powers ({formData.selectedFeats?.length}/3)
         </SectionLabel>
-        {state.selectedFeats?.length === 0 ? (
+        {formData.selectedFeats?.length === 0 ? (
           <div className="text-center py-6">
             <p className="text-xs italic text-slate-400 dark:text-slate-500">
               No powers selected yet.
@@ -121,7 +124,7 @@ export const CharacterOverview = ({ state, stats, library }) => {
             </p>
           </div>
         ) : (
-          state?.selectedFeats?.map((name) => {
+          formData?.selectedFeats?.map((name) => {
             const f = pool.find((x) => x.name === name);
             return (
               <div

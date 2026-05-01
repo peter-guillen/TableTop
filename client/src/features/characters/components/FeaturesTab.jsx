@@ -20,40 +20,43 @@ function typeVariant(type = "") {
   return "neutral";
 }
 
-export const FeaturesTab = ({ state, library, onToggleFeat }) => {
-  const features = library?.features || [];
+export const FeaturesTab = ({ formData, library, onToggleFeat }) => {
+  const features = library?.traits || [];
 
   const pool =
-    state.mode === "classed"
-      ? features.filter((f) => f.profession === state.cls)
-      : features.filter((f) => state.sources.includes(f.src));
+    formData.mode === "classed"
+      ? features.filter((f) => f.profession === formData.profession)
+      : features.filter((f) => formData.affinities.includes(f.src));
 
   if (!pool.length) {
     return (
       <p className="text-sm italic text-slate-400 dark:text-slate-500 pt-2">
-        {state.mode === "classed"
+        {formData.mode === "classed"
           ? "Choose a class to see features."
           : "Select a power source."}
       </p>
     );
   }
 
+  console.log(formData);
+  console.log(library);
+
   return (
     <>
       <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-        {state.selectedFeats.length} / 3 selected
+        {formData.selectedFeats.length} / 3 selected
       </p>
+      <p>{features.map((feature) => <p>{feature.name}</p>).join(", ")}</p>;
       <div className="grid md:grid-cols-2 gap-3">
         {pool.map((f) => {
-          const sel = state.selectedFeats.includes(f.name);
-          const maxed = state.selectedFeats.length >= 3 && !sel;
+          const sel = formData.selectedFeats.includes(f.name);
+          const maxed = formData.selectedFeats.length >= 3 && !sel;
           const modStr = f.mods
             ? Object.entries(f.mods)
                 .filter(([, v]) => v !== 0)
                 .map(([k, v]) => `+${v} ${k.toUpperCase()}`)
                 .join("  ")
             : "";
-
           return (
             <div
               key={f.name}

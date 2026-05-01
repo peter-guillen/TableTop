@@ -96,7 +96,7 @@ export function SpellForm() {
     if (isEditing) {
       await updateSpell({ id, formData });
     } else {
-      await createSpell(formData);
+      await createSpell({ formData });
     }
     navigate("/spells");
   };

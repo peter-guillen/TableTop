@@ -1,20 +1,14 @@
-const SOURCES = ["Arcane", "Natural", "Psionic", "Divine", "Blood", "Chi"];
-
 const SectionLabel = ({ children }) => (
-  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">
+  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-white-400 mb-2">
     {children}
   </p>
 );
 
-export const CharacterArchetype = ({ state, set, setMode, library }) => {
-  const races = library?.races || [];
-  const bgs = library?.backgrounds || [];
-  const classes = library?.professions || [];
-
-  const selectCls =
+export const CharacterArchetype = ({ formData, patchForm, library }) => {
+  const selectClasses =
     "bg-transparent border-none text-slate-900 dark:text-white text-xs font-semibold outline-none cursor-pointer w-full mt-0.5 leading-tight";
 
-  const fieldCls =
+  const fieldClasses =
     "bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg px-3 py-2 flex flex-col justify-center min-w-0";
 
   return (
@@ -24,9 +18,9 @@ export const CharacterArchetype = ({ state, set, setMode, library }) => {
         {["classed", "classless"].map((m) => (
           <button
             key={m}
-            onClick={() => setMode(m)}
+            onClick={() => patchForm({ mode: m })}
             className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wide transition-all duration-150 ${
-              state.mode === m
+              formData.mode === m
                 ? "bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm"
                 : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
             }`}
@@ -36,89 +30,102 @@ export const CharacterArchetype = ({ state, set, setMode, library }) => {
         ))}
       </div>
 
-      {/* Race */}
-      <div className={`${fieldCls} flex-1 min-w-[90px]`}>
-        <SectionLabel>Race</SectionLabel>
+      {/* Species */}
+      <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
+        <SectionLabel>Species</SectionLabel>
         <select
-          className={selectCls}
-          value={state.race}
-          onChange={(e) => set({ race: e.target.value })}
+          className={selectClasses}
+          value={formData.species}
+          onChange={(e) => patchForm({ species: e.target.value })}
         >
           <option value="">—</option>
-          {races.map((r) => (
-            <option key={r._id || r.name}>{r.name}</option>
+          {library?.species?.map((s) => (
+            <option key={s._id || s.name} value={s.name}>
+              {s.name}
+            </option>
           ))}
         </select>
       </div>
 
       {/* Background */}
-      <div className={`${fieldCls} flex-1 min-w-[90px]`}>
+      <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
         <SectionLabel>Background</SectionLabel>
         <select
-          className={selectCls}
-          value={state.bg}
-          onChange={(e) => set({ bg: e.target.value })}
+          className={selectClasses}
+          value={formData.background}
+          onChange={(e) => patchForm({ background: e.target.value })}
         >
           <option value="">—</option>
-          {bgs.map((b) => (
-            <option key={b._id || b.name}>{b.name}</option>
+          {library?.backgrounds?.map((b) => (
+            <option key={b._id || b.name} value={b.name}>
+              {b.name}
+            </option>
           ))}
         </select>
       </div>
 
       {/* Classed: Primary Class */}
-      {state.mode === "classed" && (
-        <div className={`${fieldCls} flex-1 min-w-[100px]`}>
+      {formData.mode === "classed" && (
+        <div className={`${fieldClasses} flex-1 min-w-[100px]`}>
           <SectionLabel>Class</SectionLabel>
           <select
-            className={selectCls}
-            value={state.cls}
+            className={selectClasses}
+            value={formData.profession}
             onChange={(e) =>
-              set({ cls: e.target.value, dip: "", selectedFeats: [] })
+              patchForm({
+                profession: e.target.value,
+                subProfession: "",
+                selectedFeats: [],
+              })
             }
           >
             <option value="">—</option>
-            {classes.map((p) => (
-              <option key={p._id || p.title}>{p.title}</option>
+            {library?.professions?.map((p) => (
+              <option key={p._id || p.title} value={p.title}>
+                {p.title}
+              </option>
             ))}
           </select>
         </div>
       )}
 
       {/* Classed: Dip */}
-      {state.mode === "classed" && (
-        <div className={`${fieldCls} flex-1 min-w-[100px]`}>
+      {formData.mode === "classed" && (
+        <div className={`${fieldClasses} flex-1 min-w-[100px]`}>
           <SectionLabel>Dip</SectionLabel>
           <select
-            className={selectCls}
-            value={state.dip}
-            onChange={(e) => set({ dip: e.target.value })}
+            className={selectClasses}
+            value={formData.subProfession}
+            onChange={(e) => patchForm({ subProfession: e.target.value })}
           >
             <option value="">None</option>
-            {classes
-              .filter((p) => p.title !== state.cls)
-              .map((p) => (
-                <option key={p._id || p.title}>{p.title}</option>
+            {library?.professions
+              .filter((p) => p.title !== formData.profession)
+              ?.map((p) => (
+                <option key={p._id || p.title} value={p.title}>
+                  {p.title}
+                </option>
               ))}
           </select>
         </div>
       )}
 
       {/* Classless: Power Source */}
-      {state.mode === "classless" && (
-        <div className={`${fieldCls} flex-1 min-w-[110px]`}>
+      {formData.mode === "classless" && (
+        <div className={`${fieldClasses} flex-1 min-w-[110px]`}>
           <SectionLabel>Power Source</SectionLabel>
           <select
-            className={selectCls}
-            value={state.sources[0] || ""}
+            className={selectClasses}
+            value={formData.affinity}
             onChange={(e) => {
-              const src = e.target.value;
-              set({ sources: src ? [src] : [], selectedFeats: [] });
+              patchForm({ affinity: e.target.value, selectedFeats: [] });
             }}
           >
             <option value="">—</option>
-            {SOURCES.map((s) => (
-              <option key={s}>{s}</option>
+            {library?.affinities?.map((s) => (
+              <option key={s._id || s.name} value={s.name}>
+                {s.name}
+              </option>
             ))}
           </select>
         </div>

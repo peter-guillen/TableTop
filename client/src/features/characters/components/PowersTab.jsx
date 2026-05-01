@@ -20,20 +20,20 @@ function typeVariant(type = "") {
   return "neutral";
 }
 
-export const PowersTab = ({ state, set, library, onToggleFeat }) => {
+export const PowersTab = ({ formData, patchForm, library, onToggleFeat }) => {
   const powers = library?.powers || [];
 
   const pool =
-    state.mode === "classed"
-      ? powers.filter((p) => p.profession === state.cls)
-      : powers.filter((p) => state.sources.includes(p.src));
+    formData.mode === "classed"
+      ? powers.filter((p) => p.profession === formData.cls)
+      : powers.filter((p) => formData.sources.includes(p.src));
 
-  const filtered = pool.filter((p) => p.type === state.innerTab);
+  const filtered = pool.filter((p) => p.type === formData.innerTab);
 
   if (!pool.length) {
     return (
       <p className="text-sm italic text-slate-400 dark:text-slate-500 pt-2">
-        {state.mode === "classed"
+        {formData.mode === "classed"
           ? "Choose a class first."
           : "Select a power source."}
       </p>
@@ -47,9 +47,9 @@ export const PowersTab = ({ state, set, library, onToggleFeat }) => {
         {POWER_TYPES.map((t) => (
           <button
             key={t}
-            onClick={() => set({ innerTab: t, expandedPower: null })}
+            onClick={() => patchForm({ innerTab: t, expandedPower: null })}
             className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border transition-all duration-150 ${
-              state.innerTab === t
+              formData.innerTab === t
                 ? "bg-orange-50 dark:bg-orange-800/30 border-orange-300 dark:border-orange-500/40 text-orange-700 dark:text-orange-300"
                 : "bg-white dark:bg-slate-800/30 border-slate-200 dark:border-slate-700/50 text-slate-400 dark:text-slate-500 hover:border-slate-300 dark:hover:border-slate-600"
             }`}
@@ -62,13 +62,13 @@ export const PowersTab = ({ state, set, library, onToggleFeat }) => {
       {/* Power list */}
       {filtered.length === 0 ? (
         <p className="text-sm italic text-slate-400 dark:text-slate-500">
-          No {state.innerTab.toLowerCase()}s available.
+          No {formData.innerTab.toLowerCase()}s available.
         </p>
       ) : (
         filtered.map((p) => {
-          const open = state.expandedPower === p.name;
-          const sel = state.selectedFeats.includes(p.name);
-          const maxed = state.selectedFeats.length >= 3 && !sel;
+          const open = formData.expandedPower === p.name;
+          const sel = formData.selectedFeats.includes(p.name);
+          const maxed = formData.selectedFeats.length >= 3 && !sel;
           const modStr = p.mods
             ? Object.entries(p.mods)
                 .filter(([, v]) => v !== 0)
@@ -88,7 +88,9 @@ export const PowersTab = ({ state, set, library, onToggleFeat }) => {
               {/* Header row — always visible */}
               <div
                 className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors"
-                onClick={() => set({ expandedPower: open ? null : p.name })}
+                onClick={() =>
+                  patchForm({ expandedPower: open ? null : p.name })
+                }
               >
                 <div className="flex items-center gap-2 flex-wrap">
                   <span
