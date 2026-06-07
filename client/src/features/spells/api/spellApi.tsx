@@ -7,12 +7,12 @@ export const spellApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes: ["Spell"],
   endpoints: (builder) => ({
-    getSpells: builder.query<Spell[], void>({
+    getAllSpells: builder.query<Spell[], void>({
       query: () => "/api/spells",
       providesTags: [{ type: "Spell", id: "LIST" }],
     }),
 
-    getSpell: builder.query<Spell, string>({
+    getSpellById: builder.query<Spell, string>({
       query: (id) => `/api/spells/${id}`,
       providesTags: (result, error, id) => [{ type: "Spell", id }],
     }),
@@ -52,8 +52,8 @@ export const spellApi = createApi({
 });
 
 export const {
-  useGetSpellsQuery,
-  useGetSpellQuery,
+  useGetAllSpellsQuery,
+  useGetSpellByIdQuery,
   useCreateSpellMutation,
   useUpdateSpellMutation,
   useDeleteSpellMutation,

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetSpellQuery } from "../api/spellApi";
+import { useGetSpellByIdQuery } from "../api/spellApi";
 import {
   LuArrowLeft,
   LuSparkles,
@@ -14,7 +14,7 @@ import {
 
 export function SpellDetails() {
   const { id } = useParams();
-  const { data: spell, error, isLoading } = useGetSpellQuery(id);
+  const { data: spell, error, isLoading } = useGetSpellByIdQuery(id);
 
   const navigate = useNavigate();
   const handleReturn = () => navigate(-1);

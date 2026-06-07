@@ -15,7 +15,7 @@ import {
   useDeleteProfessionMutation,
 } from "../../../features/professions/api/professionApi";
 import {
-  useGetSpellsQuery,
+  useGetAllSpellsQuery,
   useDeleteSpellMutation,
 } from "../../../features/spells/api/spellApi";
 import {
@@ -61,7 +61,7 @@ export const AdminPanel = () => {
     data: spellList = [],
     isLoading: spellLoading,
     isError: spellError,
-  } = useGetSpellsQuery();
+  } = useGetAllSpellsQuery();
   const [deleteSpell] = useDeleteSpellMutation();
   const {
     data: weaponList = [],

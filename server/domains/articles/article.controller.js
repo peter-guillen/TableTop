@@ -1,0 +1,35 @@
+import Article from "./article.model.js";
+
+const getArticles = async (req, res) => {
+  const articles = await Article.find({});
+  res.status(200).json(articles);
+};
+
+const getArticle = async (req, res) => {
+  const { id } = req.params;
+  const article = await Article.findById(id);
+  res.status(200).json(article);
+};
+
+const createArticle = async (req, res) => {
+  try {
+    const article = await Article.create(req.body);
+    res.status(200).json(article);
+  } catch (error) {
+    console.log(`Error while posting article`, error);
+  }
+};
+
+const updateArticle = async (req, res) => {
+  const { id } = req.params;
+  const article = await Article.findByIdAndUpdate({ _id: id }, { ...req.body });
+  res.status(200).json(article);
+};
+
+const deleteArticle = async (req, res) => {
+  const { id } = req.params;
+  const article = await Article.findByIdAndDelete(id);
+  res.status(200).json(article);
+};
+
+export { getArticles, getArticle, createArticle, updateArticle, deleteArticle };

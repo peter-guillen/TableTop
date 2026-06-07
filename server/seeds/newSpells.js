@@ -278,4 +278,4 @@ const spells = [
   },
 ];
 
-module.exports = spells;
+export default spells;

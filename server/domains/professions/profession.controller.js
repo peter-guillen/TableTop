@@ -1,0 +1,46 @@
+import Profession from "./profession.model.js";
+
+const getProfessions = async (req, res) => {
+  const professions = await Profession.find({});
+  res.status(200).json(professions);
+};
+
+const getProfession = async (req, res) => {
+  const { id } = req.params;
+  const profession = await Profession.findById(id);
+  res.status(200).json(profession);
+};
+
+const createProfession = async (req, res) => {
+  try {
+    const profession = await Profession.create(req.body);
+    res
+      .status(200)
+      .json({ success: true, message: "Profession CREATED.", profession });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateProfession = async (req, res) => {
+  const { id } = req.params;
+  const profession = await Profession.findByIdAndUpdate(
+    { _id: id },
+    { ...req.body },
+  );
+  res.status(200).json(profession);
+};
+
+const deleteProfession = async (req, res) => {
+  const { id } = req.params;
+  const profession = await Profession.findByIdAndDelete(id);
+  res.status(200).json(profession);
+};
+
+export {
+  getProfessions,
+  getProfession,
+  createProfession,
+  updateProfession,
+  deleteProfession,
+};

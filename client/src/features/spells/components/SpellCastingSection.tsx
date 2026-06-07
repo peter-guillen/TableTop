@@ -1,35 +1,46 @@
 import { LuClock } from "react-icons/lu";
 
-export const ArmorCombatSection = ({
+interface SpellCastingSectionProps {
+  castingTime: string;
+  range: string;
+  duration: string;
+  area: string;
+  stamina: number;
+  usesPerDay: string;
+  onInputChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
+  onCheckedChange: (fieldName: any) => (e: any) => void;
+}
+
+export const SpellCastingSection = ({
+  castingTime,
+  range,
+  duration,
+  area,
+  stamina,
+  usesPerDay,
   onInputChange,
-  requirement,
-  material,
-  penalty,
-  defense,
-  weight,
-  value,
-  onCheckedChange,
-  tags,
-}) => {
+}: SpellCastingSectionProps) => {
   return (
     <>
       <section>
         <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
           <LuClock size={20} />
-          Combat Stats
+          Casting & Duration
         </h2>
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Defense *
+                Casting Time *
               </label>
               <input
                 type="text"
-                placeholder="e.g., 14"
-                name="defense"
+                placeholder="e.g., 1 action, 10 minutes"
+                name="castingTime"
                 onChange={onInputChange}
-                value={defense}
+                value={castingTime}
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               />
@@ -37,46 +48,14 @@ export const ArmorCombatSection = ({
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Weight *
+                Duration *
               </label>
               <input
                 type="text"
-                placeholder="e.g., 20lbs"
-                name="weight"
+                placeholder="e.g., Instantaneous, 1 minute"
+                name="duration"
                 onChange={onInputChange}
-                value={weight}
-                required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Requirements *
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Heavy Armor Proficiency"
-                name="requirement"
-                onChange={onInputChange}
-                value={requirement}
-                required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Penalty *
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., -5 Movement"
-                name="penalty"
-                onChange={onInputChange}
-                value={penalty}
+                value={duration}
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               />
@@ -86,14 +65,46 @@ export const ArmorCombatSection = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Value *
+                Range *
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., 1 action, 10 minutes"
+                name="range"
+                onChange={onInputChange}
+                value={range}
+                required
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Area *
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., 20ft sphere, 30ft cone"
+                name="area"
+                onChange={onInputChange}
+                value={area}
+                required
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Mana Cost *
               </label>
               <input
                 type="number"
                 placeholder="Cost in mana"
-                name="value"
+                name="stamina"
                 onChange={onInputChange}
-                value={value}
+                value={stamina}
                 min="0"
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
@@ -102,53 +113,41 @@ export const ArmorCombatSection = ({
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Material
+                Uses Per Day
               </label>
               <select
-                name="material"
+                name="usesPerDay"
                 onChange={onInputChange}
-                value={material}
+                value={usesPerDay}
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               >
-                <option value="">Select Material</option>
-                <option value="cloth">Cloth</option>
-                <option value="leather">Leather</option>
-                <option value="hide">Hide</option>
-                <option value="chainmail">Chainmail</option>
-                <option value="scale">Scale</option>
-                <option value="plate">Plate</option>
-                <option value="steel">Steel</option>
-                <option value="iron">Iron</option>
-                <option value="mithral">Mithral</option>
-                <option value="adamantine">Adamantine</option>
-                <option value="silver">Silver</option>
-                <option value="orichalcum">Orichalcum</option>
-                <option value="dragonscale">Dragonscale</option>
+                <option value="">Select Usage</option>
+                <option value="daily">Daily</option>
+                <option value="unlimited">Unlimited</option>
+                <option value="short_rest">Short Rest</option>
+                <option value="long_rest">Long Rest</option>
               </select>
             </div>
           </div>
 
           <div className="flex gap-6">
-            <div className="block text-sm font-medium text-slate-300 mb-2">
-              Shield
-            </div>
             <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
               <input
-                type="radio"
-                name="true"
+                type="checkbox"
+                name="isRitual"
                 className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
               />
-              <span>Yes</span>
+              <span>Ritual Spell</span>
             </label>
 
             <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
               <input
-                type="radio"
-                name="false"
+                type="checkbox"
+                name="requiresConcentration"
                 className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
               />
-              <span>No</span>
+              <span>Requires Concentration</span>
             </label>
           </div>
         </div>

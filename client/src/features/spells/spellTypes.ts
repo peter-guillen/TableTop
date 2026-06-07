@@ -1,26 +1,41 @@
+export interface DiceRoll {
+  diceCount: number;
+  diceSize: number;
+  modifier: number;
+}
+
+export type SpellSchool =
+  | "abjuration"
+  | "evocation"
+  | "transmutation"
+  | "divination"
+  | "necromancy"
+  | "conjuration"
+  | "enchantment"
+  | "illusion";
+
 export interface Spell {
   _id: string;
-  description: string;
-  // category: string;
-
   name: string;
-  school: string;
+  description: string;
+  category: string;
+  school: SpellSchool;
   tier: string;
   element: string;
-  tags: [];
+  tags: string[];
   castingTime: string;
-  isRitual: string;
-  stamina: string;
+  isRitual: boolean;
+  stamina: number;
   usesPerDay: string;
   range: string;
   area: string;
   target: string;
   attackType: string;
   duration: string;
-  requiresConcentration: string;
-  damage: [];
-  healing: [];
-  conditions: [];
-  buffs: [];
-  debuffs: [];
+  requiresConcentration: boolean;
+  damage: DiceRoll[];
+  healing: DiceRoll[];
+  conditions: string[];
+  buffs: string[];
+  debuffs: string[];
 }
