@@ -14,6 +14,8 @@ app.use(
   }),
 );
 
+import constantsRoutes from "./shared/constants/constants.routes.js";
+
 import activityRoutes from "./domains/activity/activity.routes.js";
 import affinityRoutes from "./domains/affinities/affinity.routes.js";
 import armorRoutes from "./domains/armors/armor.routes.js";
@@ -27,6 +29,8 @@ import spellRoutes from "./domains/spells/spell.routes.js";
 import traitRoutes from "./domains/traits/trait.routes.js";
 import userRoutes from "./domains/users/user.routes.js";
 import weaponRoutes from "./domains/weapons/weapon.routes.js";
+
+app.use("/api/constants", constantsRoutes);
 
 app.use("/api/activity", activityRoutes);
 app.use("/api/affinities", affinityRoutes);

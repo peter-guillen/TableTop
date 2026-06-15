@@ -64,6 +64,7 @@ export const SKILLS = {
   ATHLETICS: "Athletics",
   CRAFTING: "Crafting",
   DECEPTION: "Deception",
+  ENDURANCE: "Endurance",
   HISTORY: "History",
   INSIGHT: "Insight",
   INTIMIDATION: "Intimidation",
@@ -77,4 +78,7 @@ export const SKILLS = {
   LARCENY: "Larceny",
   STEALTH: "Stealth",
   SURVIVAL: "Survival",
+  TACTICS: "Tactics",
+  TAMING: "Taming",
+  WARFARE: "Warfare",
 };

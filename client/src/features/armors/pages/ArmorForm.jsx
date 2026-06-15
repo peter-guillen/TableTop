@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { ArmorBasicInfoSection } from "../components/ArmorBasicInfoSection";
 import { ArmorCombatSection } from "../components/ArmorCombatSection";
 import { ArmorDescriptionSection } from "../components/ArmorDescriptionSection";

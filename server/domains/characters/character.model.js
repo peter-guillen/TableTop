@@ -4,7 +4,7 @@ import {
   PROFESSIONS,
   STATS,
   SKILLS,
-} from "../../shared/utils/constants.js";
+} from "../../shared/constants/constants.js";
 
 const CharacterSchema = new mongoose.Schema(
   {

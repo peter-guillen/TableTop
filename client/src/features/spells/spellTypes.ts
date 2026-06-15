@@ -14,6 +14,13 @@ export type SpellSchool =
   | "enchantment"
   | "illusion";
 
+export interface StatModifier {
+  stat: string;
+  value: number;
+  duration: string;
+  target: string;
+  description: string;
+}
 export interface Spell {
   _id: string;
   name: string;
@@ -36,6 +43,5 @@ export interface Spell {
   damage: DiceRoll[];
   healing: DiceRoll[];
   conditions: string[];
-  buffs: string[];
-  debuffs: string[];
+  statModifiers: StatModifier[];
 }

@@ -6,7 +6,7 @@ import { SpellCombatSection } from "../components/SpellCombatSection";
 import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
 import { SpellConditionsSection } from "../components/SpellConditionsSection";
 import { LuSparkles } from "react-icons/lu";
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { Spell, SpellSchool } from "../spellTypes";
 import {
   useGetSpellByIdQuery,
@@ -44,8 +44,7 @@ export function SpellForm() {
 
     // Effects & Conditions
     conditions: [],
-    buffs: [],
-    debuffs: [],
+    statModifiers: [],
 
     // Description
     description: "",
@@ -66,7 +65,7 @@ export function SpellForm() {
   const [createSpell] = useCreateSpellMutation();
   const [updateSpell] = useUpdateSpellMutation();
 
-  const { handleCheckedChange, handleArrayFieldChange } =
+  const { handleInputChange, handleCheckedChange, handleArrayFieldChange } =
     useFormHandlers(setFormData);
 
   useEffect(() => {
@@ -79,18 +78,9 @@ export function SpellForm() {
   if (isError) return <p>Something went wrong.</p>;
   const handleCancel = () => navigate(-1);
 
-  // Handle input changes
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   const handleDamageChange = handleArrayFieldChange("damage");
   const handleHealingChange = handleArrayFieldChange("healing");
-  const handleBuffsChange = handleArrayFieldChange("buffs");
-  const handleDebuffsChange = handleArrayFieldChange("debuffs");
+  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
   const handleConditionsChange = handleArrayFieldChange("conditions");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -158,9 +148,9 @@ export function SpellForm() {
               />
 
               <SpellConditionsSection
-                onInputChange={handleInputChange}
-                onBuffsChange={handleBuffsChange}
-                onDebuffsChange={handleDebuffsChange}
+                statModifiers={formData.statModifiers}
+                conditions={formData.conditions}
+                onStatModifiersChange={handleStatModifiersChange}
                 onConditionsChange={handleConditionsChange}
               />
 

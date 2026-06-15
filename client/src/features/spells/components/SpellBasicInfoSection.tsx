@@ -1,21 +1,40 @@
-import { SpellSchool } from "../spellTypes";
+import { Spell, SpellSchool } from "../spellTypes";
 import { LuBookOpen } from "react-icons/lu";
 
+/**
+ * Props for the SpellBasicInfoSection component.
+ * In TypeScript, documenting the interface fields is the most efficient approach,
+ * as modern IDEs automatically map these descriptions directly to the component usage.
+ */
 interface SpellBasicInfoProps {
+  /** The user-defined name of the custom spell. */
   name: string;
+  /** The magical discipline group (e.g., Evocation, Necromancy) from `spellTypes`. */
   school: SpellSchool;
+  /** The power scaling classification (currently numerical Tiers 1 through 5). */
   tier: string;
+  /** The elemental alignment forcing damage/resistance calculations. */
   element: string;
+  /** An array of descriptive flags indicating the spell's combat application. */
   tags: string[];
+  /** Standard change handler tracking text inputs and dropdown select events. */
   onInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
-  onCheckedChange: <T>(
-    fieldName: keyof T,
+  /**
+   * Curried handler explicitly managing structural object checkbox states.
+   * Uses a generic `<T>` to safely type-lock checkbox assignments to valid state keys.
+   */
+  onCheckedChange: (
+    fieldName: keyof Spell,
   ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
-  // onCheckedChange: (fieldName: any) => (e: any) => void; // Technical Debt, sure it solves the issue but "any" defeats the purpose of TypeScript
 }
 
+/**
+ * Form sub-section component capturing core metadata for a spell creation workflow.
+ * Renders name inputs, systemic dropdown categorization, and checkbox tagging matrices.
+ * * Part of the broader `Spells` domain view state tracking.
+ */
 export const SpellBasicInfoSection = ({
   name,
   school,
@@ -25,6 +44,8 @@ export const SpellBasicInfoSection = ({
   onInputChange,
   onCheckedChange,
 }: SpellBasicInfoProps) => {
+  // NOTE: If these tags expand significantly, consider migrating this array
+  // out of the rendering tree or importing it from a shared constant config file.
   const tagOptions = [
     "damage",
     "healing",
@@ -134,6 +155,8 @@ export const SpellBasicInfoSection = ({
                 type="checkbox"
                 value={tag}
                 checked={tags.includes(tag)}
+                // Hardcoding "tags" here is perfectly fine since this section
+                // is highly specialized for assigning the tags collection array.
                 onChange={onCheckedChange("tags")}
                 className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
               />

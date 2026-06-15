@@ -1,4 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+
+import { constantsApi } from "../shared/constants/constantsApi.js";
+
 import { affinityApi } from "../features/affinities/api/affinityApi.js";
 import { armorApi } from "../features/armors/api/armorApi.jsx";
 import { backgroundApi } from "../features/backgrounds/api/backgroundApi.jsx";
@@ -12,6 +15,8 @@ import { weaponApi } from "../features/weapons/api/weaponApi.jsx";
 
 export const store = configureStore({
   reducer: {
+    [constantsApi.reducerPath]: constantsApi.reducer,
+
     [affinityApi.reducerPath]: affinityApi.reducer,
     [armorApi.reducerPath]: armorApi.reducer,
     [backgroundApi.reducerPath]: backgroundApi.reducer,
@@ -25,6 +30,8 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
+      constantsApi.middleware,
+
       affinityApi.middleware,
       armorApi.middleware,
       backgroundApi.middleware,

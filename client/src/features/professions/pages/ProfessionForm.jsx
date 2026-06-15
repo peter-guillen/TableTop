@@ -8,7 +8,7 @@ import { ProfessionProficienciesSection } from "../components/ProfessionProficie
 import { ProfessionLevelsSection } from "../components/ProfessionLevelsSection";
 import { ProfessionSpellSlotsSection } from "../components/ProfessionSpellSlotsSection";
 import { ProfessionSubclassSection } from "../components/ProfessionSubclassSection";
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import {
   useGetProfessionsQuery,
   useCreateProfessionMutation,

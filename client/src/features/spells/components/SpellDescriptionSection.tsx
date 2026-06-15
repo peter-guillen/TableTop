@@ -1,5 +1,16 @@
 import { LuTarget } from "react-icons/lu";
-export const SpellDescriptionSection = ({ description, onInputChange }) => {
+
+interface SpellDescriptionProps {
+  description: string;
+  onInputChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+}
+
+export const SpellDescriptionSection = ({
+  description,
+  onInputChange,
+}: SpellDescriptionProps) => {
   return (
     <section>
       <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
@@ -12,7 +23,7 @@ export const SpellDescriptionSection = ({ description, onInputChange }) => {
             Description
           </label>
           <textarea
-            rows="6"
+            rows={6}
             placeholder="Describe what the spell does..."
             name="description"
             onChange={onInputChange}

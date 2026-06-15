@@ -26,6 +26,7 @@ import { WeaponPage } from "../features/weapons/pages/WeaponPage";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage";
 import { AdminPage } from "../features/admin/pages/AdminPage";
+import { useGetConstantsQuery } from "../shared/constants/constantsApi";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  useGetConstantsQuery();
   return (
     <>
       <AuthContextProvider>

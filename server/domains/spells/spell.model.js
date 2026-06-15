@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+import Condition from "../../shared/schemas/conditionSchema.js";
+import HealthEffectsSchema from "../../shared/schemas/healthEffectSchema.js";
+import StatModifierSchema from "../../shared/schemas/statModiferSchema.js";
+
 const SpellSchema = new mongoose.Schema(
   {
     name: {
@@ -82,57 +86,43 @@ const SpellSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    damage: [
-      {
-        diceCount: Number,
-        diceSize: Number,
-        modifier: {
-          type: Number,
-          default: 0,
-        },
-      },
-    ],
-    healing: [
-      {
-        diceCount: Number,
-        diceSize: Number,
-        modifier: {
-          type: Number,
-          default: 0,
-        },
-      },
-    ],
-    conditions: [
-      {
-        type: String,
-        enum: [
-          "burning",
-          "stunned",
-          "poisoned",
-          "blinded",
-          "deafened",
-          "paralyzed",
-          "frozen",
-          "shocked",
-          "rooted",
-          "slowed",
-        ],
-      },
-    ],
-    buffs: [
-      {
-        stat: String,
-        value: String,
-        duration: String,
-      },
-    ],
-    debuffs: [
-      {
-        stat: String,
-        value: String,
-        duration: String,
-      },
-    ],
+    // damage: [
+    //   {
+    //     diceCount: Number,
+    //     diceSize: Number,
+    //     modifier: {
+    //       type: Number,
+    //       default: 0,
+    //     },
+    //   },
+    // ],
+    // healing: [
+    //   {
+    //     diceCount: Number,
+    //     diceSize: Number,
+    //     modifier: {
+    //       type: Number,
+    //       default: 0,
+    //     },
+    //   },
+    // ],
+    healthEffects: [HealthEffectsSchema], // Handles damage or healing amounts and application type
+    statModifiers: [StatModifierSchema], // Handles buffs or debuffs and application type
+    conditions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Condition" }], // Conditions applied may be in conjunction with buffs or debuffs but remains independent
+    // buffs: [
+    //   {
+    //     stat: String,
+    //     value: String,
+    //     duration: String,
+    //   },
+    // ],
+    // debuffs: [
+    //   {
+    //     stat: String,
+    //     value: String,
+    //     duration: String,
+    //   },
+    // ],
     description: {
       type: String,
       required: true,

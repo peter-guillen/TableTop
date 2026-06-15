@@ -13,14 +13,14 @@ import {
 } from "react-icons/lu";
 
 export function SpellDetails() {
-  const { id } = useParams();
-  const { data: spell, error, isLoading } = useGetSpellByIdQuery(id);
+  const { id } = useParams<{ id: string }>();
+  const { data: spell, isLoading, isError } = useGetSpellByIdQuery(id!);
 
   const navigate = useNavigate();
   const handleReturn = () => navigate(-1);
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Something went wrong.</p>;
+  if (isError) return <p>Something went wrong.</p>;
 
   if (!spell) {
     return (
@@ -30,18 +30,6 @@ export function SpellDetails() {
     );
   }
 
-  const damageTypeIcons = {
-    Fire: "🔥",
-    Cold: "❄️",
-    Lightning: "⚡",
-    Thunder: "💥",
-    Acid: "🧪",
-    Poison: "☠️",
-    Necrotic: "💀",
-    Radiant: "✨",
-    Force: "🌟",
-    Psychic: "🧠",
-  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-900 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
       <div className="max-w-5xl mx-auto">
@@ -133,14 +121,13 @@ export function SpellDetails() {
               <p className="text-sm text-slate-400 mb-2">Damage</p>
               <div className="flex items-center gap-3">
                 <p className="text-3xl font-bold text-cyan-400 dark:text-orange-400">
-                  {`${spell.damage[0].diceCount}d${spell.damage[0].diceSize}`}
+                  {spell.damage.map((diceRoll) => {
+                    return `${diceRoll.diceCount}d${diceRoll.diceSize}`;
+                  })}
                 </p>
                 <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-600/30 to-orange-600/30 dark:from-cyan-500/30 dark:to-orange-500/30 rounded-lg border border-cyan-500/40 dark:border-orange-500/40">
-                  <span className="text-2xl">
-                    {damageTypeIcons[spell.damageType] || "💫"}
-                  </span>
                   <span className="text-white font-semibold">
-                    {spell.modifier} - 0
+                    {spell.damage.map((diceRoll) => diceRoll.modifier)}
                   </span>
                 </div>
               </div>
@@ -155,9 +142,7 @@ export function SpellDetails() {
 
             <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
               <p className="text-sm text-slate-400 mb-2">Area of Effect</p>
-              <p className="text-xl font-semibold text-white">
-                {spell.areaOfEffect}
-              </p>
+              <p className="text-xl font-semibold text-white">{spell.area}</p>
             </div>
           </div>
         </div>

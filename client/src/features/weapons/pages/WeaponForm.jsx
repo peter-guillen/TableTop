@@ -5,7 +5,7 @@ import { WeaponCombatSection } from "../components/WeaponCombatSection";
 import { WeaponSpecialSection } from "../components/WeaponSpecialSection";
 import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection";
 import { LuSparkles } from "react-icons/lu";
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers";
+import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import {
   useGetWeaponsQuery,
   useCreateWeaponMutation,
