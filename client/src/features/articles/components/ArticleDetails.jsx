@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArticleContext } from "../context/ArticleContext";
 
-import { NotFound } from "../../../app/pages/NotFound";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 import { Button } from "../../../shared/components/Button";
 
 import { twMerge } from "tailwind-merge";
@@ -19,7 +19,7 @@ export const ArticleDetails = () => {
   const container = twMerge(classNames("p-5 m-5 border-2 rounded-md w-3/4"));
 
   const containerHeading = twMerge(
-    classNames("text-white text-4xl rounded-md text-center")
+    classNames("text-white text-4xl rounded-md text-center"),
   );
 
   return (

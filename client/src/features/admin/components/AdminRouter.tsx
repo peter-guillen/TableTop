@@ -1,17 +1,21 @@
 // components/AdminRouter.jsx
-import { AdminTable } from "./AdminTable";
-import {
-  DashboardExample,
-  AnalyticsExample,
-} from "../../admin/components/DashboardExample";
-import { ActivityLog } from "./ActivityLog";
+import { AdminTable } from "./AdminTable.tsx";
+import { DashboardExample, AnalyticsExample } from "./DashboardExample.tsx";
+import { ActivityLog } from "./ActivityLog.tsx";
+
+interface AdminRouterTypes {
+  activeSection: string;
+  searchTerm: string;
+  onSearchChange: (e: any) => (e: any) => void;
+  sectionConfig: string[];
+}
 
 export function AdminRouter({
   activeSection,
   searchTerm,
   onSearchChange,
   sectionConfig,
-}) {
+}: AdminRouterTypes) {
   switch (activeSection) {
     // DASHBOARD
     case "dashboard":

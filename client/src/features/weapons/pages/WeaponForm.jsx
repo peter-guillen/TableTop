@@ -7,7 +7,7 @@ import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection
 import { LuSparkles } from "react-icons/lu";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import {
-  useGetWeaponsQuery,
+  useGetAllWeaponsQuery,
   useCreateWeaponMutation,
   useUpdateWeaponMutation,
 } from "../api/weaponApi";
@@ -50,7 +50,7 @@ export function WeaponForm() {
     data: weapon,
     isLoading,
     isError,
-  } = useGetWeaponsQuery(id, { skip: !isEditing });
+  } = useGetAllWeaponsQuery(id, { skip: !isEditing });
   const [createWeapon] = useCreateWeaponMutation();
   const [updateWeapon] = useUpdateWeaponMutation();
 

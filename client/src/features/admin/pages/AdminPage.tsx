@@ -1,4 +1,4 @@
-import { AdminPanel } from "../../admin/components/AdminPanel";
+import { AdminPanel } from "../../admin/components/AdminPanel.tsx";
 
 export const AdminPage = () => {
   return (

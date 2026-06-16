@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import API_URL from "../../../shared/api/api";
 
+interface ActivityLogTypes {
+  _id: string;
+  action: string;
+  target: string;
+  userId: string;
+}
+
 export const ActivityLog = () => {
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState<ActivityLogTypes[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -5,27 +5,27 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { ThemeContextProvider } from "./contexts/ThemeContext";
+import { ThemeContextProvider } from "./contexts/ThemeContext.tsx";
 import { AuthContextProvider } from "../features/auth/context/AuthContextProvider";
 import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 
 import { Navbar } from "./layouts/Navbar";
-import { Register } from "../app/pages/Register";
-import { Login } from "../app/pages/Login";
+import { Register } from "./pages/Register.tsx";
+import { Login } from "./pages/Login.tsx";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
 import { Rules } from "../features/playerTools/components/Rules";
 import { CharacterForm } from "../features/characters/components/CharacterForm";
 
-import { Home } from "./pages/Home";
-import { NotFound } from "./pages/NotFound";
+import { Home } from "./pages/Home.tsx";
+import { NotFound } from "./pages/NotFound.tsx";
 import { ArticlePage } from "../features/articles/pages/ArticlePage";
 import { ProfessionPage } from "../features/professions/pages/ProfessionPage";
 import { SpellPage } from "../features/spells/pages/SpellPage";
 import { WeaponPage } from "../features/weapons/pages/WeaponPage";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage";
-import { AdminPage } from "../features/admin/pages/AdminPage";
+import { AdminPage } from "../features/admin/pages/AdminPage.tsx";
 import { useGetConstantsQuery } from "../shared/constants/constantsApi";
 
 const router = createBrowserRouter(

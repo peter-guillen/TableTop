@@ -6,12 +6,12 @@ export const armorApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api` }),
   tagTypes: ["Armor"],
   endpoints: (builder) => ({
-    getArmors: builder.query({
+    getAllArmors: builder.query({
       query: () => "/armors",
       providesTags: [{ type: "Armor", id: "LIST" }],
     }),
 
-    getArmor: builder.query({
+    getArmorById: builder.query({
       query: (id) => `/armors/${id}`,
       providesTags: (result, error, id) => [{ type: "Armor", id }],
     }),
@@ -51,8 +51,8 @@ export const armorApi = createApi({
 });
 
 export const {
-  useGetArmorsQuery,
-  useGetArmorQuery,
+  useGetAllArmorsQuery,
+  useGetArmorByIdQuery,
   useCreateArmorMutation,
   useUpdateArmorMutation,
   useDeleteArmorMutation,

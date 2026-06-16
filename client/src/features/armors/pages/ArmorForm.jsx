@@ -7,7 +7,7 @@ import { ArmorDescriptionSection } from "../components/ArmorDescriptionSection";
 import { ArmorSpecialSection } from "../components/ArmorSpecialSection";
 import { LuSparkles } from "react-icons/lu";
 import {
-  useGetArmorsQuery,
+  useGetAllArmorsQuery,
   useCreateArmorMutation,
   useUpdateArmorMutation,
 } from "../api/armorApi";
@@ -53,7 +53,7 @@ export function ArmorForm() {
     data: armor,
     isLoading,
     isError,
-  } = useGetArmorsQuery({ skip: !isEditing });
+  } = useGetAllArmorsQuery({ skip: !isEditing });
   const [createArmor] = useCreateArmorMutation();
   const [updateArmor] = useUpdateArmorMutation();
 

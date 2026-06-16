@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import { NotFound } from "../../../app/pages/NotFound";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 
-import { useGetArmorQuery } from "../api/armorApi";
+import { useGetArmorByIdQuery } from "../api/armorApi";
 
 export const ArmorDetails = () => {
   const { id } = useParams();
-  const { data: armor, error, isLoading } = useGetArmorQuery(id);
+  const { data: armor, error, isLoading } = useGetArmorByIdQuery(id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Something went wrong.</p>;
   if (!armor) {

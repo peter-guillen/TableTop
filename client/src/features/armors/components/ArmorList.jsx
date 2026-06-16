@@ -1,8 +1,8 @@
 import { ArmorPreview } from "./ArmorPreview";
-import { useGetArmorsQuery } from "../api/armorApi";
+import { useGetAllArmorsQuery } from "../api/armorApi";
 
 export const ArmorList = () => {
-  const { data: armors, isLoading, isError } = useGetArmorsQuery();
+  const { data: armors, isLoading, isError } = useGetAllArmorsQuery();
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong.</p>;
 

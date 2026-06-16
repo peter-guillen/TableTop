@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import { NotFound } from "../../../app/pages/NotFound";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 
-import { useGetWeaponQuery } from "../api/weaponApi";
+import { useGetWeaponByIdQuery } from "../api/weaponApi";
 
 export const WeaponDetails = () => {
   const { id } = useParams();
-  const { data: weapon, error, isLoading } = useGetWeaponQuery(id);
+  const { data: weapon, error, isLoading } = useGetWeaponByIdQuery(id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Something went wrong.</p>;
   if (!weapon) {

@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../features/auth/context/AuthContext";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../contexts/ThemeContext.tsx";
 
 import {
   FaMoon,
@@ -15,7 +15,6 @@ import {
 } from "react-icons/fa6";
 import {
   LuScroll,
-  LuSwords,
   LuChevronDown,
   LuLogOut,
   LuLogIn,
@@ -25,15 +24,15 @@ import {
   LuSparkles,
   LuBook,
   LuFlag,
-  LuCrown,
   LuAnvil,
-  LuBicepsFlexed,
 } from "react-icons/lu";
 
 export const Navbar = () => {
-  const [openNavbar, setOpenNavbar] = useState(false);
-  const { currentUser, logout, message } = useContext(AuthContext);
-  const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const { currentUser, logout } = useContext(AuthContext);
+  const themeContext = useContext(ThemeContext);
+  if (!themeContext)
+    throw new Error("Navbar must be inside ThemeContextProvider");
+  const { darkMode, toggleTheme } = themeContext;
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);

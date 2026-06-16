@@ -1,8 +1,8 @@
 import { WeaponPreview } from "./WeaponPreview";
-import { useGetWeaponsQuery } from "../api/weaponApi";
+import { useGetAllWeaponsQuery } from "../api/weaponApi";
 
 export const WeaponList = () => {
-  const { data: weapons, isLoading, isError } = useGetWeaponsQuery();
+  const { data: weapons, isLoading, isError } = useGetAllWeaponsQuery();
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong.</p>;
 

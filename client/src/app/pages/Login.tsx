@@ -1,30 +1,35 @@
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../features/auth/context/AuthContext";
-import { LuSparkles, LuArrowRight } from "react-icons/lu";
+import { LuSword, LuArrowRight } from "react-icons/lu";
 
-export const Register = () => {
-  const { signup } = useContext(AuthContext);
+interface UserLogin {
+  email: string;
+  password: string;
+}
+
+export const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
+  const [formData, setFormData] = useState<UserLogin>({
     email: "",
     password: "",
-    role: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const { login, error } = useContext(AuthContext);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await signup(formData);
+    const response = await login(formData);
     if (response.success) {
       navigate("/");
     } else {
-      console.log(response.message);
+      setErrorMessage(error);
+      console.log(errorMessage);
     }
   };
 
@@ -42,9 +47,9 @@ export const Register = () => {
         {/* Badge */}
         <div className="flex justify-center mb-8">
           <div className="inline-flex items-center space-x-3 bg-cyan-100 dark:bg-cyan-800/30 rounded-full px-6 py-3 backdrop-blur-sm border border-cyan-300 dark:border-cyan-500/20">
-            <LuSparkles className="w-5 h-5 text-cyan-600 dark:text-cyan-400 animate-pulse" />
+            <LuSword className="w-5 h-5 text-cyan-600 dark:text-cyan-400 animate-pulse" />
             <span className="text-cyan-800 dark:text-cyan-200 text-sm font-medium">
-              Begin Your Adventure
+              Welcome Back, Adventurer
             </span>
           </div>
         </div>
@@ -52,37 +57,25 @@ export const Register = () => {
         {/* Card */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-cyan-800 dark:to-cyan-900/80 rounded-2xl p-8 border border-slate-200 dark:border-cyan-500/20 shadow-xl backdrop-blur-sm">
           <h2 className="text-4xl font-bold mb-2 text-center bg-gradient-to-r from-cyan-600 via-orange-500 to-orange-500 dark:from-cyan-400 dark:via-orange-400 dark:to-orange-400 bg-clip-text text-transparent">
-            Create Account
+            Login
           </h2>
           <p className="text-center text-slate-500 dark:text-gray-400 text-sm mb-8">
-            Join the adventure — it's free to start
+            Continue your journey
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {[
               {
-                id: "username",
-                label: "Username",
-                type: "text",
-                placeholder: "Enter your username",
-              },
-              {
-                id: "email",
+                id: "email" as keyof UserLogin,
                 label: "Email",
                 type: "email",
                 placeholder: "Enter your email",
               },
               {
-                id: "password",
+                id: "password" as keyof UserLogin,
                 label: "Password",
                 type: "password",
                 placeholder: "Enter your password",
-              },
-              {
-                id: "role",
-                label: "Role",
-                type: "text",
-                placeholder: "Enter your role",
               },
             ].map(({ id, label, type, placeholder }) => (
               <div key={id}>
@@ -104,22 +97,28 @@ export const Register = () => {
               </div>
             ))}
 
+            {errorMessage && (
+              <p className="text-red-500 dark:text-red-400 text-sm text-center">
+                {errorMessage}
+              </p>
+            )}
+
             <button
               type="submit"
               className="group w-full mt-2 bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 px-8 py-4 rounded-xl font-semibold text-lg text-white transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-2xl hover:shadow-cyan-500/25 flex items-center justify-center space-x-2"
             >
-              <span>Sign Up</span>
+              <span>Login</span>
               <LuArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-gray-400">
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
-              to="/login"
+              to="/register"
               className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-medium hover:underline transition-colors"
             >
-              Login
+              Sign up
             </Link>
           </p>
         </div>

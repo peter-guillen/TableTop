@@ -1,27 +1,27 @@
 import { useContext, useState } from "react";
-import { AdminRouter } from "../components/AdminRouter";
+import { AdminRouter } from "./AdminRouter";
 
 // Contexts for accessing data and actions across the admin panel
-import { ArticleContext } from "../../../features/articles/context/ArticleContext";
+import { ArticleContext } from "../../articles/context/ArticleContext";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 // Query hooks for fetching data and mutations for deleting items
 import {
-  useGetArmorsQuery,
+  useGetAllArmorsQuery,
   useDeleteArmorMutation,
-} from "../../../features/armors/api/armorApi";
+} from "../../armors/api/armorApi";
 import {
   useGetProfessionsQuery,
   useDeleteProfessionMutation,
-} from "../../../features/professions/api/professionApi";
+} from "../../professions/api/professionApi";
 import {
   useGetAllSpellsQuery,
   useDeleteSpellMutation,
-} from "../../../features/spells/api/spellApi";
+} from "../../spells/api/spellApi";
 import {
-  useGetWeaponsQuery,
+  useGetAllWeaponsQuery,
   useDeleteWeaponMutation,
-} from "../../../features/weapons/api/weaponApi";
+} from "../../weapons/api/weaponApi";
 
 import {
   LuUsers,
@@ -49,7 +49,7 @@ export const AdminPanel = () => {
     data: armorList = [],
     isLoading: armorLoading,
     isError: armorError,
-  } = useGetArmorsQuery();
+  } = useGetAllArmorsQuery();
   const [deleteArmor] = useDeleteArmorMutation();
   const {
     data: professionList = [],
@@ -67,7 +67,7 @@ export const AdminPanel = () => {
     data: weaponList = [],
     isLoading: weaponLoading,
     isError: weaponError,
-  } = useGetWeaponsQuery();
+  } = useGetAllWeaponsQuery();
   const [deleteWeapon] = useDeleteWeaponMutation();
 
   // Provide a data and actions map that AdminRouter consumes

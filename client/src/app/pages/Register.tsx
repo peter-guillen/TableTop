@@ -1,30 +1,37 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../features/auth/context/AuthContext";
-import { LuSword, LuArrowRight } from "react-icons/lu";
+import { LuSparkles, LuArrowRight } from "react-icons/lu";
 
-export const Login = () => {
+interface RegisterUser {
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+export const Register = () => {
+  const { signup } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterUser>({
+    username: "",
     email: "",
     password: "",
+    role: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const { login, error } = useContext(AuthContext);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await login(formData);
+    const response = await signup(formData);
     if (response.success) {
       navigate("/");
     } else {
-      setErrorMessage(error);
-      console.log(errorMessage);
+      console.log(response.message);
     }
   };
 
@@ -42,9 +49,9 @@ export const Login = () => {
         {/* Badge */}
         <div className="flex justify-center mb-8">
           <div className="inline-flex items-center space-x-3 bg-cyan-100 dark:bg-cyan-800/30 rounded-full px-6 py-3 backdrop-blur-sm border border-cyan-300 dark:border-cyan-500/20">
-            <LuSword className="w-5 h-5 text-cyan-600 dark:text-cyan-400 animate-pulse" />
+            <LuSparkles className="w-5 h-5 text-cyan-600 dark:text-cyan-400 animate-pulse" />
             <span className="text-cyan-800 dark:text-cyan-200 text-sm font-medium">
-              Welcome Back, Adventurer
+              Begin Your Adventure
             </span>
           </div>
         </div>
@@ -52,25 +59,37 @@ export const Login = () => {
         {/* Card */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-cyan-800 dark:to-cyan-900/80 rounded-2xl p-8 border border-slate-200 dark:border-cyan-500/20 shadow-xl backdrop-blur-sm">
           <h2 className="text-4xl font-bold mb-2 text-center bg-gradient-to-r from-cyan-600 via-orange-500 to-orange-500 dark:from-cyan-400 dark:via-orange-400 dark:to-orange-400 bg-clip-text text-transparent">
-            Login
+            Create Account
           </h2>
           <p className="text-center text-slate-500 dark:text-gray-400 text-sm mb-8">
-            Continue your journey
+            Join the adventure — it's free to start
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {[
               {
-                id: "email",
+                id: "username" as keyof RegisterUser,
+                label: "Username",
+                type: "text",
+                placeholder: "Enter your username",
+              },
+              {
+                id: "email" as keyof RegisterUser,
                 label: "Email",
                 type: "email",
                 placeholder: "Enter your email",
               },
               {
-                id: "password",
+                id: "password" as keyof RegisterUser,
                 label: "Password",
                 type: "password",
                 placeholder: "Enter your password",
+              },
+              {
+                id: "role" as keyof RegisterUser,
+                label: "Role",
+                type: "text",
+                placeholder: "Enter your role",
               },
             ].map(({ id, label, type, placeholder }) => (
               <div key={id}>
@@ -92,28 +111,22 @@ export const Login = () => {
               </div>
             ))}
 
-            {errorMessage && (
-              <p className="text-red-500 dark:text-red-400 text-sm text-center">
-                {errorMessage}
-              </p>
-            )}
-
             <button
               type="submit"
               className="group w-full mt-2 bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 px-8 py-4 rounded-xl font-semibold text-lg text-white transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-2xl hover:shadow-cyan-500/25 flex items-center justify-center space-x-2"
             >
-              <span>Login</span>
+              <span>Sign Up</span>
               <LuArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-gray-400">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link
-              to="/register"
+              to="/login"
               className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-medium hover:underline transition-colors"
             >
-              Sign up
+              Login
             </Link>
           </p>
         </div>

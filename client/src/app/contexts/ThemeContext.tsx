@@ -1,13 +1,17 @@
-import { useState, useEffect, createContext } from "react";
-
-function getCookie(name) {
+import { useState, useEffect, createContext, ReactNode } from "react";
+interface ThemeContextType {
+  darkMode: boolean;
+  toggleTheme: () => void;
+}
+function getCookie(name: string): string | undefined {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  if (parts.length === 2) return parts.pop()?.split(";").shift();
 }
-export const ThemeContext = createContext();
 
-export const ThemeContextProvider = ({ children }) => {
+export const ThemeContext = createContext<ThemeContextType | null>(null);
+
+export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = getCookie("theme");
     return savedTheme === "dark";

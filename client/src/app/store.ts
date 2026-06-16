@@ -4,7 +4,7 @@ import { constantsApi } from "../shared/constants/constantsApi.js";
 
 import { affinityApi } from "../features/affinities/api/affinityApi.js";
 import { armorApi } from "../features/armors/api/armorApi.jsx";
-import { backgroundApi } from "../features/backgrounds/api/backgroundApi.jsx";
+import { backgroundApi } from "../features/backgrounds/api/backgroundApi.js";
 import { characterApi } from "../features/characters/api/characterApi.js";
 import { libraryApi } from "../features/library/api/libraryApi.jsx";
 import { professionApi } from "../features/professions/api/professionApi.js";

@@ -11,6 +11,17 @@ import {
   LuGlobe,
 } from "react-icons/lu";
 
+type ContentColor = "cyan" | "orange" | "red";
+
+interface PopularContentItem {
+  icon: React.ElementType;
+  label: string;
+  route: string;
+  color: ContentColor;
+  title: string;
+  description: string;
+}
+
 export function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
 
@@ -49,7 +60,7 @@ export function LandingPage() {
     },
   ];
 
-  const popularContent = [
+  const popularContent: PopularContentItem[] = [
     {
       icon: LuSparkles,
       label: "Browse Spells",
@@ -205,7 +216,7 @@ export function LandingPage() {
               Begin Your Journey
             </h2>
             <p className="text-xl text-slate-600 dark:text-gray-300">
-              Whether you're a new player or seasoned veteran, start your
+              Whether you are a new player or seasoned veteran, start your
               adventure in three simple steps.
             </p>
           </div>

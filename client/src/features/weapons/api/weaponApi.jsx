@@ -6,12 +6,12 @@ export const weaponApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api` }),
   tagTypes: ["Weapon"],
   endpoints: (builder) => ({
-    getWeapons: builder.query({
+    getAllWeapons: builder.query({
       query: () => "/weapons",
       providesTags: [{ type: "Weapon", id: "LIST" }],
     }),
 
-    getWeapon: builder.query({
+    getWeaponById: builder.query({
       query: (id) => `/weapons/${id}`,
       providesTags: (result, error, id) => [{ type: "Weapon", id }],
     }),
@@ -51,8 +51,8 @@ export const weaponApi = createApi({
 });
 
 export const {
-  useGetWeaponsQuery,
-  useGetWeaponQuery,
+  useGetAllWeaponsQuery,
+  useGetWeaponByIdQuery,
   useCreateWeaponMutation,
   useUpdateWeaponMutation,
   useDeleteWeaponMutation,
