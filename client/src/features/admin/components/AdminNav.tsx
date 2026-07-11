@@ -36,8 +36,6 @@ import {
   LuDrama,
 } from "react-icons/lu";
 
-interface;
-
 export const AdminNav = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
