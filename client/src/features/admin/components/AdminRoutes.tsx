@@ -1,16 +1,22 @@
 // components/AdminRouter.jsx
 import { AdminTable } from "./AdminTable.tsx";
-import { DashboardExample, AnalyticsExample } from "./DashboardExample.tsx";
+import { DashboardExample } from "./DashboardExample.tsx";
 import { ActivityLog } from "./ActivityLog.tsx";
+import React from "react";
+
+type SectionEntry = {
+  data: any[];
+  deleteFn: (id: string) => void;
+};
 
 interface AdminRouterTypes {
   activeSection: string;
   searchTerm: string;
-  onSearchChange: (e: any) => (e: any) => void;
-  sectionConfig: string[];
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  sectionConfig: Record<string, SectionEntry>;
 }
 
-export function AdminRouter({
+export function AdminRoutes({
   activeSection,
   searchTerm,
   onSearchChange,
@@ -36,7 +42,7 @@ export function AdminRouter({
           onDelete={sectionConfig.users.deleteFn}
           searchTerm={searchTerm}
           onSearchChange={onSearchChange}
-          renderRow={(user) => [
+          renderRow={(user: any) => [
             user.username || user.name,
             user.email,
             user.role,

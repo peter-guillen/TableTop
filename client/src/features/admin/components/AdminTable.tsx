@@ -2,7 +2,18 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { LuPlus, LuSearch, LuEye, LuPen, LuTrash2 } from "react-icons/lu";
 
-export function AdminTable({
+interface AdminTableProps<T> {
+  title: string;
+  columns: string[];
+  data: T[];
+  activeSection: string;
+  onDelete: (id: string) => void;
+  searchTerm: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  renderRow: (row: T) => React.ReactNode[];
+}
+
+export function AdminTable<T extends { _id?: string; id?: string }>({
   title,
   columns = [],
   data = [],
@@ -11,53 +22,53 @@ export function AdminTable({
   renderRow,
   searchTerm = "",
   onSearchChange = () => {},
-}) {
+}: AdminTableProps<T>) {
   // ==================== SEARCH FILTERING ====================
   const filteredData = React.useMemo(() => {
     if (!searchTerm) return data || [];
 
     const searchQuery = searchTerm.toLowerCase();
-    return (data || []).filter((item) =>
-      JSON.stringify(item).toLowerCase().includes(searchQuery),
+    return (data || []).filter((row) =>
+      JSON.stringify(row).toLowerCase().includes(searchQuery),
     );
   }, [data, searchTerm]);
 
   // ==================== ROW RENDERING ====================
   /**
-   * Attempts to match column headers to item properties.
+   * Attempts to match column headers to row properties.
    * Tries multiple naming conventions (camelCase, lowercase, etc.)
    * to handle inconsistent data structures.
    */
-  const defaultRenderRow = (item) => {
+  const defaultRenderRow = (row: T) => {
     return columns.map((columnName) => {
-      const cellValue = findMatchingProperty(item, columnName);
+      const cellValue = findMatchingProperty(row, columnName);
       return cellValue ?? "";
     });
   };
 
   /**
-   * Searches for a property in the item that matches the column name.
+   * Searches for a property in the row that matches the column name.
    * Tries various naming conventions to be flexible.
    */
-  const findMatchingProperty = (item, columnName) => {
+  const findMatchingProperty = (row: T, columnName: string) => {
     // Try different naming variations
     const namingVariations = generateNamingVariations(columnName);
 
     for (const propertyName of namingVariations) {
-      if (propertyName in item) {
-        return item[propertyName];
+      if (propertyName in row) {
+        return row[propertyName];
       }
     }
 
     // Fallback to common property names
-    return item.name || item.title || item.username || "";
+    return row.name || row.title || row.username || "";
   };
 
   /**
    * Generates common naming convention variations for a column name.
    * Example: "Last Active" → ["Last Active", "last active", "LastActive", "lastActive"]
    */
-  const generateNamingVariations = (columnName) => {
+  const generateNamingVariations = (columnName: string) => {
     return [
       columnName, // "Last Active"
       columnName.toLowerCase(), // "last active"
@@ -71,7 +82,7 @@ export function AdminTable({
    * Converts a string to camelCase.
    * Example: "Last Active" → "lastActive"
    */
-  const toCamelCase = (str) => {
+  const toCamelCase = (str: string) => {
     return str
       .toLowerCase()
       .split(" ")
@@ -82,16 +93,16 @@ export function AdminTable({
   };
 
   // ==================== RENDER HELPERS ====================
-  const getRowKey = (item) => {
-    return item._id || item.id || JSON.stringify(item).slice(0, 32);
+  const getRowKey = (row: string[]) => {
+    return row._id || row.id || JSON.stringify(row).slice(0, 32);
   };
 
-  const renderTableRow = (item) => {
-    const cells = renderRow ? renderRow(item) : defaultRenderRow(item);
+  const renderTableRow = (row) => {
+    const cells = renderRow ? renderRow(row) : defaultRenderRow(row);
 
     return (
       <tr
-        key={getRowKey(item)}
+        key={getRowKey(row)}
         className="hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
       >
         {/* Data Cells */}
@@ -106,26 +117,26 @@ export function AdminTable({
 
         {/* Action Buttons */}
         <td className="px-6 py-4 text-sm text-gray-500 dark:text-slate-400">
-          <div className="flex space-x-2">{renderActionButtons(item)}</div>
+          <div className="flex space-x-2">{renderActionButtons(row)}</div>
         </td>
       </tr>
     );
   };
 
-  const renderActionButtons = (item) => {
-    const itemId = item._id || item.id;
+  const renderActionButtons = (row) => {
+    const rowId = row._id || row.id;
 
     return (
       <>
         {/* View Button */}
-        <NavLink to={`/${activeSection}/${itemId}`}>
+        <NavLink to={`/${activeSection}/${rowId}`}>
           <button className="text-cyan-600 dark:text-cyan-400 hover:text-blue-800 dark:hover:text-blue-300">
             <LuEye className="w-4 h-4" />
           </button>
         </NavLink>
 
         {/* Edit Button */}
-        <NavLink to={`/${activeSection}/${itemId}/edit`}>
+        <NavLink to={`/${activeSection}/${rowId}/edit`}>
           <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
             <LuPen className="w-4 h-4" />
           </button>
@@ -133,7 +144,7 @@ export function AdminTable({
 
         {/* Delete Button */}
         <button
-          onClick={() => onDelete(itemId)}
+          onClick={() => onDelete(rowId)}
           className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
         >
           <LuTrash2 className="w-4 h-4" />

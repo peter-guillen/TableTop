@@ -1,9 +1,9 @@
-import { AdminPanel } from "../../admin/components/AdminPanel.tsx";
+import { AdminNav } from "../components/AdminNav.tsx";
 
 export const AdminPage = () => {
   return (
     <>
-      <AdminPanel />
+      <AdminNav />
     </>
   );
 };

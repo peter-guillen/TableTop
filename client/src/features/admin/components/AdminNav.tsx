@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { AdminRouter } from "./AdminRouter";
+import { AdminRoutes } from "./AdminRoutes";
 
 // Contexts for accessing data and actions across the admin panel
 import { ArticleContext } from "../../articles/context/ArticleContext";
@@ -36,7 +36,9 @@ import {
   LuDrama,
 } from "react-icons/lu";
 
-export const AdminPanel = () => {
+interface;
+
+export const AdminNav = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -70,7 +72,7 @@ export const AdminPanel = () => {
   } = useGetAllWeaponsQuery();
   const [deleteWeapon] = useDeleteWeaponMutation();
 
-  // Provide a data and actions map that AdminRouter consumes
+  // Provide a data and actions map that AdminRoutes consumes
   const sectionConfig = {
     articles: {
       data: articleList,
@@ -163,7 +165,7 @@ export const AdminPanel = () => {
       {/* Main Dashboard Content */}
       <div className="flex-1 overflow-auto">
         <div className="p-6">
-          <AdminRouter
+          <AdminRoutes
             activeSection={activeSection}
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
