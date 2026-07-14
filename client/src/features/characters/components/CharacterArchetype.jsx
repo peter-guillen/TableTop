@@ -17,6 +17,7 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
       <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
         {["classed", "classless"].map((m) => (
           <button
+            type="button"
             key={m}
             onClick={() => patchForm({ mode: m })}
             className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wide transition-all duration-150 ${

@@ -37,14 +37,7 @@ const WeaponSchema = new mongoose.Schema(
     value: { type: Number }, // in gold/currency
     rarity: {
       type: String,
-      enum: [
-        "common",
-        "uncommon",
-        "rare",
-        "very rare",
-        "legendary",
-        "artifact",
-      ],
+      enum: ["common", "rare", "heroic", "epic", "legendary", "mythic"],
       default: "common",
     },
 

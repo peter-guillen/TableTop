@@ -179,12 +179,14 @@ export const CharacterStats = ({ formData, patchForm, library }) => {
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <button
+                    type="button"
                     onClick={() => adjust(currentKey, maxKey, 1)}
                     className="w-6 h-5 bg-white dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 rounded text-[10px] text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500 transition-colors leading-none flex items-center justify-center"
                   >
                     ▲
                   </button>
                   <button
+                    type="button"
                     onClick={() => adjust(currentKey, maxKey, -1)}
                     className="w-6 h-5 bg-white dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 rounded text-[10px] text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500 transition-colors leading-none flex items-center justify-center"
                   >

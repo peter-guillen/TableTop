@@ -58,6 +58,7 @@ export const WeaponsTab = ({
               // const sel = formData.selectedWeapon === w.name;
               return (
                 <button
+                  type="button"
                   key={w._id || w.name}
                   onClick={() => handleMainHandChange(w.name)}
                   className={`text-left px-3 py-2 rounded-lg border text-xs font-semibold transition-all duration-150 ${
@@ -76,6 +77,7 @@ export const WeaponsTab = ({
               const sel = formData.selectedWeapon === w.name;
               return (
                 <button
+                type="button"
                   key={w._id || w.name}
                   onClick={() => handleMainHandChange(w.name)}
                   className={`text-left px-3 py-2 rounded-lg border text-xs font-semibold transition-all duration-150 ${
@@ -99,6 +101,7 @@ export const WeaponsTab = ({
               const sel = formData.selectedWeapon === w.name;
               return (
                 <button
+                  type="button"
                   key={w._id || w.name}
                   onClick={() => handleMainHandChange(w.name)}
                   className={`text-left px-3 py-2 rounded-lg border text-xs font-semibold transition-all duration-150 ${
@@ -135,6 +138,7 @@ export const WeaponsTab = ({
               const sel = formData.selectedOffhand === w.name;
               return (
                 <button
+                  type="button"
                   key={w._id || w.name}
                   onClick={() => handleOffhandChange(sel ? "" : w.name)}
                   className={`text-left px-3 py-2 rounded-lg border text-xs font-semibold transition-all duration-150 ${

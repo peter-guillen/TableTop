@@ -57,11 +57,13 @@ export const CharacterPanel = ({
     }
   }
 
+  console.log(formData);
   return (
     <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-sm">
       <div className="flex border-b border-slate-200 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/30 overflow-x-auto">
         {TABS.map((tab) => (
           <button
+            type="button"
             key={tab}
             onClick={() => patchForm({ currentTab: tab })}
             className={`px-4 py-3 text-sm whitespace-nowrap border-b-2 font-semibold transition-all duration-150 ${

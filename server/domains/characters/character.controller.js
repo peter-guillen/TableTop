@@ -72,7 +72,7 @@ const updateCharacter = async (req, res) => {
     if (!before) {
       return res.status(404).json({ error: "Character Not Found!" });
     }
-    const after = await Character.findByIdAndUpdate(
+    const after = await Character.findOneAndUpdate(
       { _id: id, user: req.user._id },
       { $set: req.body },
       {

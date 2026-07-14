@@ -26,15 +26,15 @@ export const SkillsTab = ({ formData, library }) => {
         </tr>
       </thead>
       <tbody>
-        {skills.map((sk) => {
-          const boosted = sk === bgBonus;
+        {skills.map((skill) => {
+          const boosted = skill === bgBonus;
           return (
             <tr
-              key={sk}
+              key={skill}
               className="border-t border-slate-100 dark:border-slate-700/50"
             >
               <td className="py-2 text-sm text-slate-900 dark:text-white">
-                {sk}
+                {skill}
                 {boosted && (
                   <span className="ml-2 text-[10px] text-cyan-600 dark:text-cyan-400 font-bold">
                     (+bg)

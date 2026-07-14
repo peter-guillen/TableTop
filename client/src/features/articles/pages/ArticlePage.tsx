@@ -7,7 +7,7 @@ import { AdminArticleCreate } from "./AdminArticleCreate";
 import { AdminArticleEdit } from "./AdminArticleEdit";
 import { NewFormPage } from "./NewFormPage";
 import Demo from "./FormTemplate";
-import CharacterCreator from "./CharacterForm";
+import { CharacterCreator } from "./CharacterCreator";
 import { SpellForm } from "../../spells/pages/SpellForm";
 import { WeaponForm } from "./WeaponForm";
 // import { SpellDetails } from "./SpellDetails";

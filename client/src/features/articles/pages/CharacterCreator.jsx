@@ -7,7 +7,7 @@ import {
   LuScrollText,
 } from "react-icons/lu";
 
-export default function CharacterCreator() {
+export function CharacterCreator() {
   const [activeTab, setActiveTab] = useState("basics");
 
   const tabs = [

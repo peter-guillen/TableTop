@@ -1,9 +1,9 @@
-import { CharacterIdentity } from "./CharacterIdentity";
-import { CharacterArchetype } from "./CharacterArchetype";
-import { CharacterStats } from "./CharacterStats";
-import { CharacterOverview } from "./CharacterOverview";
-import { CharacterPanel } from "./CharacterPanel";
-import { useGetLibraryItemsQuery } from "../../library/api/libraryApi";
+import { CharacterIdentity } from "../components/CharacterIdentity";
+import { CharacterArchetype } from "../components/CharacterArchetype";
+import { CharacterStats } from "../components/CharacterStats";
+import { CharacterOverview } from "../components/CharacterOverview";
+import { CharacterPanel } from "../components/CharacterPanel";
+import { useGetAllLibraryItemsQuery } from "../../library/api/libraryApi";
 import { useState, useCallback } from "react";
 import {
   useCreateCharacterMutation,
@@ -11,7 +11,7 @@ import {
 } from "../api/characterApi";
 
 export const CharacterForm = () => {
-  const { data: library, isLoading, isError } = useGetLibraryItemsQuery();
+  const { data: library, isLoading, isError } = useGetAllLibraryItemsQuery();
 
   // Patch form helper to avoid having to spread form data everywhere when updating fields in nested components
   // Example usage: patchForm({ species: "Human", background: "Noble" })
@@ -62,6 +62,8 @@ export const CharacterForm = () => {
     event.preventDefault();
     await createCharacter(formData);
   };
+
+  console.log(library);
 
   return (
     <form onSubmit={handleSumbit}>

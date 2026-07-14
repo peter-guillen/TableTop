@@ -6,10 +6,10 @@ export const libraryApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api` }),
   tagTypes: ["Library"],
   endpoints: (builder) => ({
-    getLibraryItems: builder.query({
+    getAllLibraryItems: builder.query({
       query: () => "/library",
     }),
   }),
 });
 
-export const { useGetLibraryItemsQuery } = libraryApi;
+export const { useGetAllLibraryItemsQuery } = libraryApi;

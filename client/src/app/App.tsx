@@ -15,7 +15,7 @@ import { Login } from "./pages/Login.tsx";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
 import { Rules } from "../features/playerTools/components/Rules";
-import { CharacterForm } from "../features/characters/components/CharacterForm";
+import { CharacterForm } from "../features/characters/pages/CharacterForm.tsx";
 
 import { Home } from "./pages/Home.tsx";
 import { NotFound } from "./pages/NotFound.tsx";

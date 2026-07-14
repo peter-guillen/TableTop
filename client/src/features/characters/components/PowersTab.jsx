@@ -46,6 +46,7 @@ export const PowersTab = ({ formData, patchForm, library, onToggleFeat }) => {
       <div className="flex gap-2 mb-4 flex-wrap">
         {POWER_TYPES.map((t) => (
           <button
+            type="button"
             key={t}
             onClick={() => patchForm({ innerTab: t, expandedPower: null })}
             className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border transition-all duration-150 ${
@@ -122,6 +123,7 @@ export const PowersTab = ({ formData, patchForm, library, onToggleFeat }) => {
                     </p>
                   )}
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       onToggleFeat(p.name);

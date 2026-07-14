@@ -1,8 +1,4 @@
-export interface DiceRoll {
-  diceCount: number;
-  diceSize: number;
-  modifier: number;
-}
+import { DiceRoll } from "../library/constantTypes";
 
 export type SpellSchool =
   | "abjuration"

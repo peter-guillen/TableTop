@@ -1,4 +1,4 @@
-const POWER_TYPES = ["Passive", "Major Action", "Minor Action", "Reaction"];
+const ACTION_TYPES = ["Passive", "Major Action", "Minor Action", "Reaction"];
 
 const Tag = ({ label, variant = "neutral" }) => {
   const base =
@@ -25,8 +25,8 @@ export const FeaturesTab = ({ formData, library, onToggleFeat }) => {
 
   const pool =
     formData.mode === "classed"
-      ? features.filter((f) => f.profession === formData.profession)
-      : features.filter((f) => formData.affinities.includes(f.src));
+      ? features.filter((f) => f?.profession === formData?.profession)
+      : features.filter((f) => formData?.affinities?.includes(f.src));
 
   if (!pool.length) {
     return (
@@ -37,9 +37,6 @@ export const FeaturesTab = ({ formData, library, onToggleFeat }) => {
       </p>
     );
   }
-
-  console.log(formData);
-  console.log(library);
 
   return (
     <>
