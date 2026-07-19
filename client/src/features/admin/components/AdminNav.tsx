@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AdminRoutes } from "./AdminRoutes";
 
 import {
@@ -6,7 +6,10 @@ import {
   useDeleteUserMutation,
 } from "../../users/api/userApi.tsx";
 
-import { ArticleContext } from "../../articles/context/ArticleContext";
+import {
+  useGetAllArticlesQuery,
+  useDeleteArticleMutation,
+} from "../../articles/api/articleApi.tsx";
 
 import {
   useGetAllArmorsQuery,
@@ -39,13 +42,17 @@ import {
 } from "react-icons/lu";
 
 export const AdminNav = () => {
-  const { data: userList, isLoading, isError } = useGetAllUsersQuery();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { articleList, deleteArticle } = useContext(ArticleContext);
-
+  const { data: userList, isLoading, isError } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
+  const {
+    data: articleList = [],
+    isLoading: articleLoading,
+    isError: articleError,
+  } = useGetAllArticlesQuery();
+  const [deleteArticle] = useDeleteArticleMutation();
 
   const {
     data: armorList = [],
@@ -100,11 +107,23 @@ export const AdminNav = () => {
     },
   };
 
-  if (armorLoading || professionLoading || spellLoading || weaponLoading) {
+  if (
+    armorLoading ||
+    articleLoading ||
+    professionLoading ||
+    spellLoading ||
+    weaponLoading
+  ) {
     return <p>Loading...</p>;
   }
 
-  if (armorError || professionError || spellError || weaponError) {
+  if (
+    armorError ||
+    articleError ||
+    professionError ||
+    spellError ||
+    weaponError
+  ) {
     return <p>Something went wrong while fetching data.</p>;
   }
 
@@ -115,7 +134,6 @@ export const AdminNav = () => {
     { id: "articles", label: "Articles", icon: LuFileText },
     { id: "professions", label: "Professions", icon: LuDrama },
     { id: "spells", label: "Spells", icon: LuSparkles },
-    { id: "abilities", label: "Abilities", icon: LuEye },
     { id: "weapons", label: "Weapons", icon: LuSword },
     { id: "armors", label: "Armors", icon: LuShield },
     { id: "analytics", label: "Analytics", icon: LuChartColumn },

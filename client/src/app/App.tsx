@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 
 import { ThemeContextProvider } from "./contexts/ThemeContext.tsx";
-import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 
 import { Navbar } from "./layouts/Navbar";
 import { Register } from "./pages/Register.tsx";
@@ -56,12 +55,7 @@ function App() {
   return (
     <>
       <ThemeContextProvider>
-        <ArticleContextProvider>
-          <RouterProvider
-            router={router}
-            future={{ v7_startTransition: true }}
-          />
-        </ArticleContextProvider>
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
       </ThemeContextProvider>
     </>
   );

@@ -6,6 +6,7 @@ import { userApi } from "../features/users/api/userApi.tsx";
 
 import { affinityApi } from "../features/affinities/api/affinityApi.js";
 import { armorApi } from "../features/armors/api/armorApi.jsx";
+import { articleApi } from "../features/articles/api/articleApi.tsx";
 import { backgroundApi } from "../features/backgrounds/api/backgroundApi.js";
 import { characterApi } from "../features/characters/api/characterApi.js";
 import { libraryApi } from "../features/library/api/libraryApi.jsx";
@@ -23,6 +24,7 @@ export const store = configureStore({
 
     [affinityApi.reducerPath]: affinityApi.reducer,
     [armorApi.reducerPath]: armorApi.reducer,
+    [articleApi.reducerPath]: articleApi.reducer,
     [backgroundApi.reducerPath]: backgroundApi.reducer,
     [characterApi.reducerPath]: characterApi.reducer,
     [libraryApi.reducerPath]: libraryApi.reducer,
@@ -40,6 +42,7 @@ export const store = configureStore({
 
       affinityApi.middleware,
       armorApi.middleware,
+      articleApi.middleware,
       backgroundApi.middleware,
       characterApi.middleware,
       libraryApi.middleware,

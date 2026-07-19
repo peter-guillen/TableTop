@@ -73,10 +73,6 @@ export function AdminRoutes({
         />
       );
 
-    // ABILITIES
-    case "abilities":
-      return <div>Coming Soon...</div>;
-
     // WEAPONS
     case "weapons":
       return (

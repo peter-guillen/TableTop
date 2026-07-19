@@ -1,62 +1,63 @@
 import API_URL from "../../../shared/api/api";
-interface Comments {
-  author: string;
-  body: string;
-  date: Date;
-}
-interface Article {
-  _id: string;
-  title: string;
-  body: string;
-  synopsis: string;
-  author: string;
-  comments: Comments[];
-  createdAt: string;
-  updatedAt: string;
-}
+import type { ArticleFormData } from "../articleTypes.ts";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const fetchArticles = async (): Promise<Article[]> => {
-  const response = await fetch(`${API_URL}/api/articles`, {
-    method: "GET",
-    credentials: "include",
-  });
-  const jsonResponse = await response.json();
-  return jsonResponse;
-};
+export const articleApi = createApi({
+  reducerPath: "articleApi",
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  tagTypes: ["Article"],
+  endpoints: (builder) => ({
+    getAllArticles: builder.query<ArticleFormData[], void>({
+      query: () => "/api/articles",
+      providesTags: [{ type: "Article", id: "LIST" }],
+    }),
 
-export const createArticle = async (formData: Article): Promise<Article> => {
-  const response = await fetch(`${API_URL}/api/articles`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) {
-    throw new Error("Network response not okay");
-  }
-  return await response.json();
-};
+    getArticleById: builder.query<ArticleFormData, string>({
+      query: (id) => `/api/articles/${id}`,
+      providesTags: (result, error, id) => [{ type: "Article", id }],
+    }),
 
-export const updateArticle = async (
-  id: string,
-  formData: Article
-): Promise<Article> => {
-  const response = await fetch(`${API_URL}/api/articles/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) {
-    throw new Error("Failed to update article");
-  }
-  return await response.json();
-};
+    createArticle: builder.mutation<ArticleFormData, ArticleFormData>({
+      query: (newArticle) => ({
+        url: "/api/articles",
+        method: "POST",
+        body: newArticle,
+      }),
+      invalidatesTags: [{ type: "Article", id: "LIST" }],
+    }),
 
-export const deleteArticle = async (id: string): Promise<void> => {
-  const response = await fetch(`${API_URL}/api/articles/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!response.ok) {
-    throw new Error("Error while deleting");
-  }
-};
+    updateArticle: builder.mutation<
+      ArticleFormData,
+      { id: string; data: ArticleFormData }
+    >({
+      query: ({ id, data }) => ({
+        url: `/api/articles/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Article", id },
+        { type: "Article", id: "LIST" },
+      ],
+    }),
+
+    deleteArticle: builder.mutation<ArticleFormData, string>({
+      query: (id) => ({
+        url: `/api/articles/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Article", id },
+        { type: "Article", id: "LIST" },
+      ],
+    }),
+  }),
+});
+
+export const {
+  useGetAllArticlesQuery,
+  useGetArticleByIdQuery,
+  useCreateArticleMutation,
+  useUpdateArticleMutation,
+  useDeleteArticleMutation,
+} = articleApi;

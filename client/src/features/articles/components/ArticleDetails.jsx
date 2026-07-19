@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArticleContext } from "../context/ArticleContext";
+// import { ArticleContext } from "../context/ArticleContext";
 
 import { NotFound } from "../../../app/pages/NotFound.tsx";
 import { Button } from "../../../shared/components/Button";
@@ -8,8 +8,11 @@ import { Button } from "../../../shared/components/Button";
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
 
+import { useGetAllArticlesQuery } from "../api/articleApi.tsx";
+
 export const ArticleDetails = () => {
-  const { articleList } = useContext(ArticleContext);
+  const { data: articleList, isLoading, isError } = useGetAllArticlesQuery();
+  // const { articleList } = useContext(ArticleContext);
   const { id } = useParams();
   const article = articleList.find((a) => a._id === id);
   if (!article) {
