@@ -1,12 +1,12 @@
 import Weapon from "./weapon.model.js";
 import mongoose from "mongoose";
 
-const getWeapons = async (req, res) => {
+const getAllWeapons = async (req, res) => {
   const weapons = await Weapon.find({});
   res.status(200).json(weapons);
 };
 
-const getWeapon = async (req, res) => {
+const getWeaponById = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Weapon Not Found!" });
@@ -51,4 +51,10 @@ const deleteWeapon = async (req, res) => {
   res.status(200).json(weapon);
 };
 
-export { getWeapons, getWeapon, createWeapon, updateWeapon, deleteWeapon };
+export {
+  getAllWeapons,
+  getWeaponById,
+  createWeapon,
+  updateWeapon,
+  deleteWeapon,
+};

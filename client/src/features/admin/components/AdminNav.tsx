@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import { AdminRoutes } from "./AdminRoutes";
 
-// Contexts for accessing data and actions across the admin panel
-import { ArticleContext } from "../../articles/context/ArticleContext";
-import { AuthContext } from "../../auth/context/AuthContext";
+import {
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+} from "../../users/api/userApi.tsx";
 
-// Query hooks for fetching data and mutations for deleting items
+import { ArticleContext } from "../../articles/context/ArticleContext";
+
 import {
   useGetAllArmorsQuery,
   useDeleteArmorMutation,
@@ -21,7 +23,7 @@ import {
 import {
   useGetAllWeaponsQuery,
   useDeleteWeaponMutation,
-} from "../../weapons/api/weaponApi";
+} from "../../weapons/api/weaponApi.tsx";
 
 import {
   LuUsers,
@@ -37,14 +39,14 @@ import {
 } from "react-icons/lu";
 
 export const AdminNav = () => {
+  const { data: userList, isLoading, isError } = useGetAllUsersQuery();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch the data and CRUD functions from contexts, contexts pull from API
   const { articleList, deleteArticle } = useContext(ArticleContext);
-  const { userList, deleteUser } = useContext(AuthContext);
 
-  // Fetch data and delete functions for each section using RTK Query hooks
+  const [deleteUser] = useDeleteUserMutation();
+
   const {
     data: armorList = [],
     isLoading: armorLoading,

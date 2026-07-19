@@ -1,5 +1,5 @@
 import API_URL from "../../../shared/api/api";
-import type { Spell } from "../spellTypes";
+import type { SpellFormData } from "../spellTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const spellApi = createApi({
@@ -7,17 +7,17 @@ export const spellApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes: ["Spell"],
   endpoints: (builder) => ({
-    getAllSpells: builder.query<Spell[], void>({
+    getAllSpells: builder.query<SpellFormData[], void>({
       query: () => "/api/spells",
       providesTags: [{ type: "Spell", id: "LIST" }],
     }),
 
-    getSpellById: builder.query<Spell, string>({
+    getSpellById: builder.query<SpellFormData, string>({
       query: (id) => `/api/spells/${id}`,
       providesTags: (result, error, id) => [{ type: "Spell", id }],
     }),
 
-    createSpell: builder.mutation<Spell, Spell>({
+    createSpell: builder.mutation<SpellFormData, SpellFormData>({
       query: (newSpell) => ({
         url: "/api/spells",
         method: "POST",
@@ -26,7 +26,10 @@ export const spellApi = createApi({
       invalidatesTags: [{ type: "Spell", id: "LIST" }],
     }),
 
-    updateSpell: builder.mutation<Spell, { id: string; data: Spell }>({
+    updateSpell: builder.mutation<
+      SpellFormData,
+      { id: string; data: SpellFormData }
+    >({
       query: ({ id, data }) => ({
         url: `/api/spells/${id}`,
         method: "PATCH",
@@ -38,7 +41,7 @@ export const spellApi = createApi({
       ],
     }),
 
-    deleteSpell: builder.mutation<Spell, string>({
+    deleteSpell: builder.mutation<SpellFormData, string>({
       query: (id) => ({
         url: `/api/spells/${id}`,
         method: "DELETE",

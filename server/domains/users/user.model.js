@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: {
     type: String,
@@ -13,14 +13,12 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Hash the password before saving it
-UserSchema.pre("save", async function (next) {
+UserSchema.pre("save", async function () {
   if (this.isModified("password")) {
     const salt = await bcrypt.genSalt(10);
     const pepper = process.env.PEPPER;
-    // This is where I could add the pepper to ensure an extra layer of saftey
     this.password = await bcrypt.hash(this.password + pepper, salt);
   }
-  next();
 });
 
 // Method to compare the password

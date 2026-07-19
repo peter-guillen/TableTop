@@ -17,7 +17,7 @@ export interface StatModifier {
   target: string;
   description: string;
 }
-export interface Spell {
+export interface SpellFormData {
   _id: string;
   name: string;
   description: string;

@@ -1,29 +1,24 @@
-import { useContext } from "react";
+import type { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { useGetCurrentUserQuery } from "../auth/api/authApi.tsx";
 import { LoadingSpinner } from "../../shared/components/LoadingSpinner";
+import type { UserType } from "../users/userTypes.ts";
 
 interface ProtectedRouteProps {
-  children: JSX.Element;
-  roles?: string[];
+  children: ReactElement;
+  roles?: UserType["role"][];
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   roles,
 }) => {
-  const { currentUser, isLoading } = useContext(AuthContext);
+  const { data: currentUser, isLoading, isFetching } = useGetCurrentUserQuery();
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (!currentUser) {
-    return <Navigate to="/login" />;
-  }
-
+  if (isLoading || isFetching) return <LoadingSpinner />;
+  if (!currentUser) return <Navigate to="/login" replace />;
   if (roles && !roles.includes(currentUser.role)) {
-    return <Navigate to="/forbidden" />;
+    return <Navigate to="/forbidden" replace />;
   }
 
   return children;

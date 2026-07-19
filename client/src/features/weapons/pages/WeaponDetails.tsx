@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { NotFound } from "../../../app/pages/NotFound.tsx";
 
-import { useGetWeaponByIdQuery } from "../api/weaponApi";
+import { useGetWeaponByIdQuery } from "../api/weaponApi.tsx";
 
 export const WeaponDetails = () => {
   const { id } = useParams();

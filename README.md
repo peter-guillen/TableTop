@@ -58,6 +58,8 @@ client/
 
 ## Getting Started
 
+— To use an explore as an admin use username: demo password: demo
+
 ### Prerequisites
 
 - Node.js (v18 or higher recommended)

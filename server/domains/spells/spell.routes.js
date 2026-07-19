@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+
 import {
   getAllSpells,
   getSpellById,
@@ -19,17 +20,17 @@ router.post(
   checkAuthorization(["admin"]),
   createSpell,
 );
-router.delete(
-  "/:id",
-  checkAuthenticated,
-  checkAuthorization(["admin"]),
-  deleteSpell,
-);
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
   updateSpell,
+);
+router.delete(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  deleteSpell,
 );
 
 export default router;

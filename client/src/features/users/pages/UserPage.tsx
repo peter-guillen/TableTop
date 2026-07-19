@@ -1,11 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import { fetchUsers } from "../api/userApi";
-import { deleteUser } from "../api/userApi";
-import { AuthContext } from "../../auth/context/AuthContext";
+// import { fetchUsers } from "../api/userApi";
+// import { deleteUser } from "../api/userApi";
+// import { AuthContext } from "../../auth/context/AuthContext";
 
 export const UserPage = () => {
   const [userList, setUserList] = useState([]);
-  const { users } = useContext(AuthContext);
+  // const { users } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {

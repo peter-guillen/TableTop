@@ -1,7 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import {
+  useGetCurrentUserQuery,
+  useLogoutMutation,
+} from "../../features/auth/api/authApi.tsx";
 
-import { AuthContext } from "../../features/auth/context/AuthContext";
 import { ThemeContext } from "../contexts/ThemeContext.tsx";
 
 import {
@@ -28,7 +31,10 @@ import {
 } from "react-icons/lu";
 
 export const Navbar = () => {
-  const { currentUser, logout } = useContext(AuthContext);
+  const { data: currentUser } = useGetCurrentUserQuery();
+
+  const [logout] = useLogoutMutation();
+
   const themeContext = useContext(ThemeContext);
   if (!themeContext)
     throw new Error("Navbar must be inside ThemeContextProvider");
@@ -238,7 +244,7 @@ export const Navbar = () => {
                 </div>
               </div>
 
-              {currentUser && currentUser.role === "admin" ? (
+              {(currentUser && currentUser.role === "admin") || "moderator" ? (
                 <NavLink
                   to="admin"
                   className="px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"

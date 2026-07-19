@@ -1,21 +1,25 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
-import { SpellCastingSection } from "../components/SpellCastingSection";
-import { SpellCombatSection } from "../components/SpellCombatSection";
-import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
-import { SpellConditionsSection } from "../components/SpellConditionsSection";
+import { useEffect, useState } from "react";
 import { LuSparkles } from "react-icons/lu";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
-import { Spell, SpellSchool } from "../spellTypes";
+
 import {
   useGetSpellByIdQuery,
   useCreateSpellMutation,
   useUpdateSpellMutation,
 } from "../api/spellApi";
 
+import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
+import { SpellCastingSection } from "../components/SpellCastingSection";
+import { SpellCombatSection } from "../components/SpellCombatSection";
+import { SpellConditionsSection } from "../components/SpellConditionsSection";
+import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
+
+import { SpellFormData, SpellSchool } from "../spellTypes";
+
 export function SpellForm() {
-  const [formData, setFormData] = useState<Spell>({
+  const [formData, setFormData] = useState<SpellFormData>({
     // Basic Info
     _id: "",
     name: "",

@@ -37,9 +37,6 @@ export const WeaponsTab = ({
     patchForm({ selectedOffhand: name });
   }
 
-  console.log(formData);
-  console.log(library);
-
   return (
     <div className="grid grid-cols-[1fr_2fr] gap-4">
       {/* Left: weapon selection */}

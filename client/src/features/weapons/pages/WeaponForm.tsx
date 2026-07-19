@@ -1,33 +1,41 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection";
-import { WeaponCombatSection } from "../components/WeaponCombatSection";
-import { WeaponSpecialSection } from "../components/WeaponSpecialSection";
-import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection";
+import { useEffect,useState } from "react";
 import { LuSparkles } from "react-icons/lu";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Apis and factory functions
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
+
 import {
-  useGetAllWeaponsQuery,
   useCreateWeaponMutation,
+  useGetAllWeaponsQuery,
   useUpdateWeaponMutation,
-} from "../api/weaponApi";
+} from "../api/weaponApi.tsx";
+
+// Children components
+import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection.tsx";
+import { WeaponCombatSection } from "../components/WeaponCombatSection.tsx";
+import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection.tsx";
+import { WeaponSpecialSection } from "../components/WeaponSpecialSection.tsx";
+
+import { DiceRoll } from "../../library/constantTypes.ts";
+import { Category, DamageType,Weapon } from "../weaponTypes.ts";
 
 export function WeaponForm() {
-  const [formData, setFormData] = useState({
-    // Basic Info
+  const [formData, setFormData] = useState<Weapon>({
+    // Basic Info Section
     name: "",
-    category: "",
+    category: "" as Category,
     rarity: "common",
-    weight: "",
-    value: "",
+    weight: 0,
+    value: 0,
 
-    // Combat Stats
-    damage: "",
-    damageType: "",
+    // Combat Section
+    damage: [] as DiceRoll[],
+    damageType: "" as DamageType,
     range: "",
     properties: [],
 
-    // Requirements & Special
+    // Special Section
     requirements: {
       strength: 0,
       proficiency: [],
@@ -36,7 +44,7 @@ export function WeaponForm() {
     skills: [],
     special: "",
 
-    // Description
+    // Description Section
     description: "",
     tags: [],
   });
@@ -75,7 +83,7 @@ export function WeaponForm() {
   const handleCancel = () => navigate(-1);
 
   // Handle input changes
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -90,7 +98,7 @@ export function WeaponForm() {
     "proficiency",
   );
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isEditing) {
       await updateWeapon({ id, formData });

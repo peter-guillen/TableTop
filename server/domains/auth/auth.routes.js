@@ -3,16 +3,10 @@ const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
 
-import {
-  getAllUsers,
-  getUserById,
-  createUser,
-  deleteUser,
-} from "./user.controller.js";
+import { userMe, loginUser, logoutUser } from "./auth.controller.js";
 
-router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-router.post("/register", createUser);
-router.delete("/:id", deleteUser);
+router.get("/me", checkAuthenticated, userMe);
+router.post("/login", loginUser);
+router.post("/logout", logoutUser);
 
 export default router;
