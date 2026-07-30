@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Affinity from "../affinities/affinity.model.js";
 import Armor from "../armors/armor.model.js";
 import Background from "../backgrounds/background.model.js";
+import Condition from "../conditions/condition.model.js";
 import Profession from "../professions/profession.model.js";
 import Species from "../species/species.model.js";
 import Spell from "../spells/spell.model.js";
@@ -14,6 +15,7 @@ const getLibrary = async (req, res) => {
       affinities,
       armors,
       backgrounds,
+      conditions,
       professions,
       species,
       spells,
@@ -23,6 +25,7 @@ const getLibrary = async (req, res) => {
       Affinity.find({}),
       Armor.find({}),
       Background.find({}),
+      Conditions.find({}),
       Profession.find({}),
       Species.find({}),
       Spell.find({}),
@@ -33,6 +36,7 @@ const getLibrary = async (req, res) => {
       affinities,
       armors,
       backgrounds,
+      conditions,
       professions,
       species,
       spells,

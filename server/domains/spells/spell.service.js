@@ -1,5 +1,5 @@
-import Spell from "./spell.model.js";
 import mongoose from "mongoose";
+import Spell from "./spell.model.js";
 import { logAction } from "../../shared/utils/logger.js";
 
 const getAllSpells = async () => {

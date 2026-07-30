@@ -5,35 +5,35 @@ import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
 import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
 import {
-  getAllSpells,
-  getSpellById,
-  createSpell,
-  deleteSpell,
-  updateSpell,
-} from "./spell.controller.js";
+  getAllConditions,
+  getConditionById,
+  createCondition,
+  deleteCondition,
+  updateCondition,
+} from "./condition.controller.js";
 
-router.get("/", getAllSpells);
-router.get("/:id", validateObjectId, getSpellById);
+router.get("/", getAllConditions);
+router.get("/:id", validateObjectId, getConditionById);
 
 router.post(
   "/",
   checkAuthenticated,
   checkAuthorization(["admin"]),
-  createSpell,
+  createCondition,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
   validateObjectId,
-  updateSpell,
+  updateCondition,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
   validateObjectId,
-  deleteSpell,
+  deleteCondition,
 );
 
 export default router;

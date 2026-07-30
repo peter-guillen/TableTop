@@ -1,10 +1,22 @@
-import { SpellPreview } from "./SpellPreview";
+import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi";
 import { useGetAllSpellsQuery } from "../api/spellApi";
+
+import { SpellPreview } from "./SpellPreview";
 
 export const SpellList = () => {
   const { data: spells, isLoading, isError } = useGetAllSpellsQuery();
+
+  const {
+    data: conditions = [],
+    isLoading: loadingCondition,
+    isError: errorCondition,
+  } = useGetAllConditionsQuery();
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong</p>;
+  if (loadingCondition) return <p>Loading...</p>;
+  if (errorCondition) return <p>Something went wrong</p>;
+  const conditionsById = Object.fromEntries(conditions.map((c) => [c._id, c]));
 
   return (
     <>
@@ -21,7 +33,9 @@ export const SpellList = () => {
         </div>
         <div className="flex justify-center">
           <div className="w-3/4">
-            {spells && <SpellPreview spells={spells} />}
+            {spells && (
+              <SpellPreview spells={spells} conditionsById={conditionsById} />
+            )}
           </div>
         </div>
       </div>

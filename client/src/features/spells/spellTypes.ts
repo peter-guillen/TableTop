@@ -1,43 +1,77 @@
-import { DiceRoll } from "../library/constantTypes";
+import {
+  EffectType,
+  DamageType,
+  HealthEffect,
+  StatModifier,
+  OffensiveStat,
+} from "../library/constantTypes";
+
+export interface SpellCondition {
+  condition: string;
+  durationType: "turns" | "until_broken" | "permanent";
+  duration?: number;
+}
 
 export type SpellSchool =
-  | "abjuration"
   | "evocation"
-  | "transmutation"
-  | "divination"
-  | "necromancy"
+  | "abjuration"
   | "conjuration"
+  | "divination"
   | "enchantment"
-  | "illusion";
+  | "illusion"
+  | "necromancy"
+  | "transmutation";
 
-export interface StatModifier {
-  stat: string;
-  value: number;
-  duration: string;
-  target: string;
-  description: string;
+export type CastingAction = "major_action" | "minor_action" | "reaction";
+
+export type Recharge = "unlimited" | "short_rest" | "long_rest" | "daily";
+
+export type TargetCategory = "creature" | "object" | "point";
+
+export type TargetShape =
+  | "sphere"
+  | "cone"
+  | "line"
+  | "cube"
+  | "wall"
+  | "cylinder";
+
+export interface Casting {
+  action: CastingAction;
+  ritual: boolean;
+  concentration: boolean;
+  channel: boolean;
+  castTime: number;
+  duration: number;
+  stamina?: number;
 }
-export interface SpellFormData {
-  _id: string;
+
+export interface Targeting {
+  targetCategory: TargetCategory;
+  targetCount: number;
+  range: number;
+  shape?: TargetShape;
+  size?: number;
+}
+
+export interface Spell {
+  _id?: string;
   name: string;
-  description: string;
-  category: string;
   school: SpellSchool;
-  tier: string;
-  element: string;
-  tags: string[];
-  castingTime: string;
-  isRitual: boolean;
-  stamina: number;
-  usesPerDay: string;
-  range: string;
-  area: string;
-  target: string;
-  attackType: string;
-  duration: string;
-  requiresConcentration: boolean;
-  damage: DiceRoll[];
-  healing: DiceRoll[];
-  conditions: string[];
+  tier: number;
+
+  effectType: EffectType[];
+  damageType: DamageType[];
+
+  healthEffects: HealthEffect[];
   statModifiers: StatModifier[];
+  conditions: SpellCondition[];
+
+  casting: Casting;
+  recharge: Recharge;
+  targeting: Targeting;
+
+  offensiveStat: OffensiveStat;
+
+  description: string;
 }

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { constantsApi } from "../shared/constants/constantsApi.js";
+import { constantsApi } from "../shared/api/constantsApi.js";
 import { authApi } from "../features/auth/api/authApi.js";
 import { userApi } from "../features/users/api/userApi.tsx";
 
@@ -9,6 +9,7 @@ import { armorApi } from "../features/armors/api/armorApi.jsx";
 import { articleApi } from "../features/articles/api/articleApi.tsx";
 import { backgroundApi } from "../features/backgrounds/api/backgroundApi.js";
 import { characterApi } from "../features/characters/api/characterApi.js";
+import { conditionApi } from "../features/conditions/api/conditionApi.ts";
 import { libraryApi } from "../features/library/api/libraryApi.jsx";
 import { professionApi } from "../features/professions/api/professionApi.js";
 import { speciesApi } from "../features/species/api/speciesApi.js";
@@ -27,6 +28,7 @@ export const store = configureStore({
     [articleApi.reducerPath]: articleApi.reducer,
     [backgroundApi.reducerPath]: backgroundApi.reducer,
     [characterApi.reducerPath]: characterApi.reducer,
+    [conditionApi.reducerPath]: conditionApi.reducer,
     [libraryApi.reducerPath]: libraryApi.reducer,
     [professionApi.reducerPath]: professionApi.reducer,
     [speciesApi.reducerPath]: speciesApi.reducer,
@@ -45,6 +47,7 @@ export const store = configureStore({
       articleApi.middleware,
       backgroundApi.middleware,
       characterApi.middleware,
+      conditionApi.middleware,
       libraryApi.middleware,
       professionApi.middleware,
       speciesApi.middleware,

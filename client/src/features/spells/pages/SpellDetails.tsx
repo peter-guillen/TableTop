@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetSpellByIdQuery } from "../api/spellApi";
 import {
   LuArrowLeft,
   LuSparkles,
@@ -12,9 +11,14 @@ import {
   LuUsers,
 } from "react-icons/lu";
 
+import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi.ts";
+import { useGetSpellByIdQuery } from "../api/spellApi";
+
 export function SpellDetails() {
   const { id } = useParams<{ id: string }>();
   const { data: spell, isLoading, isError } = useGetSpellByIdQuery(id!);
+  const { data: conditions = [] } = useGetAllConditionsQuery();
+  const conditionsById = Object.fromEntries(conditions.map((c) => [c._id, c]));
 
   const navigate = useNavigate();
   const handleReturn = () => navigate(-1);
@@ -29,6 +33,29 @@ export function SpellDetails() {
       </div>
     );
   }
+
+  const damageEffect = spell.healthEffects.find(
+    (e) => e.direction === "damage",
+  );
+  const healingEffect = spell.healthEffects.find(
+    (e) => e.direction === "healing",
+  );
+
+  const damageDisplay = damageEffect
+    ? damageEffect.flat != null
+      ? `${damageEffect.flat}`
+      : damageEffect.diceCount != null && damageEffect.diceSize != null
+        ? `${damageEffect.diceCount}d${damageEffect.diceSize}`
+        : null
+    : null;
+
+  const healingDisplay = healingEffect
+    ? healingEffect.flat != null
+      ? `${healingEffect.flat}`
+      : healingEffect.diceCount != null && healingEffect.diceSize != null
+        ? `${healingEffect.diceCount}d${healingEffect.diceSize}`
+        : null
+    : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-900 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
@@ -58,7 +85,7 @@ export function SpellDetails() {
                 </h1>
               </div>
               <p className="text-xl text-slate-300 italic">
-                {spell.tier} {spell.school}
+                Tier {spell.tier} &bull; {spell.school}
               </p>
             </div>
             <div
@@ -81,8 +108,16 @@ export function SpellDetails() {
                 </p>
               </div>
               <p className="text-xl text-white font-semibold">
-                {spell.castingTime}
+                {spell.casting.action
+                  .split("_")
+                  .map((word) => word[0].toUpperCase() + word.slice(1))
+                  .join(" ")}
               </p>
+              {spell.casting.castTime > 0 && (
+                <p className="text-sm text-slate-400 mt-1">
+                  +{spell.casting.castTime} cast time
+                </p>
+              )}
             </div>
 
             <div className="bg-slate-800/50 dark:bg-slate-900/50 rounded-lg p-4 border border-cyan-500/20 dark:border-orange-500/20">
@@ -93,7 +128,11 @@ export function SpellDetails() {
                 />
                 <p className="text-sm text-slate-400 font-medium">Range</p>
               </div>
-              <p className="text-xl text-white font-semibold">{spell.range}</p>
+              <p className="text-xl text-white font-semibold">
+                {spell.targeting.range === 0
+                  ? "Self"
+                  : `${spell.targeting.range} ft`}
+              </p>
             </div>
 
             <div className="bg-slate-800/50 dark:bg-slate-900/50 rounded-lg p-4 border border-cyan-500/20 dark:border-orange-500/20">
@@ -105,7 +144,9 @@ export function SpellDetails() {
                 <p className="text-sm text-slate-400 font-medium">Duration</p>
               </div>
               <p className="text-xl text-white font-semibold">
-                {spell.duration}
+                {spell.casting.duration === 0
+                  ? "Instant"
+                  : `${spell.casting.duration} turn${spell.casting.duration === 1 ? "" : "s"}`}
               </p>
             </div>
           </div>
@@ -117,38 +158,175 @@ export function SpellDetails() {
             Combat Properties
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
-              <p className="text-sm text-slate-400 mb-2">Damage</p>
-              <div className="flex items-center gap-3">
+            {damageDisplay && (
+              <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
+                <p className="text-sm text-slate-400 mb-2">Damage</p>
                 <p className="text-3xl font-bold text-cyan-400 dark:text-orange-400">
-                  {spell.damage.map((diceRoll) => {
-                    return `${diceRoll.diceCount}d${diceRoll.diceSize}`;
-                  })}
+                  {damageDisplay}
                 </p>
-                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-600/30 to-orange-600/30 dark:from-cyan-500/30 dark:to-orange-500/30 rounded-lg border border-cyan-500/40 dark:border-orange-500/40">
-                  <span className="text-white font-semibold">
-                    {spell.damage.map((diceRoll) => diceRoll.modifier)}
-                  </span>
-                </div>
+                {damageEffect?.persistent && (
+                  <p className="text-sm text-slate-400 mt-1">
+                    Persistent for{" "}
+                    {(damageEffect.durationType ?? "turns") === "permanent"
+                      ? "Permanent"
+                      : (damageEffect.durationType ?? "turns") ===
+                          "until_broken"
+                        ? "Until Broken"
+                        : `${damageEffect.duration ?? 0} turn${damageEffect.duration === 1 ? "" : "s"}`}
+                  </p>
+                )}
               </div>
-            </div>
+            )}
+
+            {healingDisplay && (
+              <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
+                <p className="text-sm text-slate-400 mb-2">Healing</p>
+                <p className="text-3xl font-bold text-cyan-400 dark:text-orange-400">
+                  {healingDisplay}
+                </p>
+              </div>
+            )}
+
+            {spell.offensiveStat && (
+              <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
+                <p className="text-sm text-slate-400 mb-2">Offensive Stat</p>
+                <p className="text-xl font-semibold text-white">
+                  {spell.offensiveStat}
+                </p>
+              </div>
+            )}
 
             <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
-              <p className="text-sm text-slate-400 mb-2">Attack Type</p>
+              <div className="flex items-center gap-2 mb-2">
+                <LuUsers size={16} className="text-slate-400" />
+                <p className="text-sm text-slate-400">Area of Effect</p>
+              </div>
               <p className="text-xl font-semibold text-white">
-                {spell.attackType}
+                {spell.targeting.shape
+                  ? `${spell.targeting.size ? `${spell.targeting.size} ft ` : ""}${spell.targeting.shape
+                      .split("_")
+                      .map((word) => word[0].toUpperCase() + word.slice(1))
+                      .join(" ")}`
+                  : spell.targeting.targetCount > 1
+                    ? `${spell.targeting.targetCount} Targets`
+                    : "Single Target"}
               </p>
             </div>
+          </div>
 
-            <div className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-6 border border-cyan-500/20 dark:border-orange-500/20">
-              <p className="text-sm text-slate-400 mb-2">Area of Effect</p>
-              <p className="text-xl font-semibold text-white">{spell.area}</p>
-            </div>
+          {/* Effect Type / Damage Type Tags */}
+          <div className="flex flex-wrap gap-2 mt-6">
+            {spell.effectType.map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 dark:bg-orange-500/20 dark:text-orange-300 capitalize"
+              >
+                {tag}
+              </span>
+            ))}
+            {spell.damageType.map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 capitalize"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Casting Flags */}
+          <div className="flex flex-wrap gap-2 mt-4 text-sm text-slate-400">
+            <span>
+              Recharge:{" "}
+              {spell.recharge
+                .split("_")
+                .map((word) => word[0].toUpperCase() + word.slice(1))
+                .join(" ")}
+            </span>
+            {spell.casting.stamina != null && (
+              <span>&bull; Stamina: {spell.casting.stamina}</span>
+            )}
+            {spell.casting.ritual && <span>&bull; Ritual</span>}
+            {spell.casting.concentration && <span>&bull; Concentration</span>}
+            {spell.casting.channel && <span>&bull; Channel</span>}
           </div>
         </div>
+
+        {/* Stat Modifiers Section */}
+        {spell.statModifiers.length > 0 && (
+          <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
+            <h2 className="text-2xl font-bold text-cyan-300 dark:text-orange-300 mb-6 flex items-center gap-2">
+              <LuShield size={24} />
+              Stat Modifiers
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {spell.statModifiers.map((mod, idx) => (
+                <div
+                  key={idx}
+                  className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-4 border border-cyan-500/20 dark:border-orange-500/20"
+                >
+                  <p className="text-white font-semibold">
+                    {mod.stat} {mod.value > 0 ? "+" : ""}
+                    {mod.value}
+                  </p>
+                  {mod.durationType && (
+                    <p className="text-sm text-slate-400">
+                      {mod.durationType === "permanent"
+                        ? "Permanent"
+                        : mod.durationType === "until_broken"
+                          ? "Until Broken"
+                          : `${mod.duration ?? 0} turn${mod.duration === 1 ? "" : "s"}`}
+                    </p>
+                  )}
+                  {mod.description && (
+                    <p className="text-sm text-slate-400 mt-1">
+                      {mod.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Conditions Inflicted Section */}
+        {spell.conditions.length > 0 && (
+          <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
+            <h2 className="text-2xl font-bold text-cyan-300 dark:text-orange-300 mb-6 flex items-center gap-2">
+              <LuUsers size={24} />
+              Conditions Inflicted
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {spell.conditions.map((spellCondition, idx) => {
+                const condition = conditionsById[spellCondition.condition];
+                if (!condition) return null;
+
+                return (
+                  <div
+                    key={`${spellCondition.condition}-${idx}`}
+                    className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg px-4 py-2 border border-cyan-500/20 dark:border-orange-500/20"
+                  >
+                    <p className="text-white font-semibold capitalize">
+                      {condition.condition}
+                    </p>
+                    <p className="text-sm text-slate-400">
+                      {spellCondition.durationType === "permanent"
+                        ? "Permanent"
+                        : spellCondition.durationType === "until_broken"
+                          ? "Until Broken"
+                          : `${spellCondition.duration ?? 0} turn${spellCondition.duration === 1 ? "" : "s"}`}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Description Section */}
         <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-cyan-300 dark:text-orange-300 mb-4">
+          <h2 className="text-2xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+            <LuBookOpen size={24} />
             Description
           </h2>
           <div className="prose prose-invert max-w-none">

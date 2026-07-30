@@ -41,11 +41,23 @@ export const CONDITIONS = [
   "unconscious",
 ];
 
+export const EFFECT_TYPES = [
+  "damage",
+  "healing",
+  "buff",
+  "debuff",
+  "control",
+  "utility",
+  "summon",
+];
+
+export const DAMAGE_TYPES = ["fire", "water", "air", "earth", "light", "dark"];
+
 export const STATS = {
-  ATTACK: "Attack",
+  MIGHT: "Might",
   ACCURACY: "Accuracy",
   DOMINANCE: "Dominance",
-  DEFENSE: "Defense",
+  EVASION: "Evasion",
   RESOLVE: "Resolve",
   RESILIENCE: "Resilience",
   MOVEMENT: "Movement",
@@ -57,6 +69,8 @@ export const STATS = {
   MOM: "mom",
   MOM_MAX: "momMax",
 };
+
+export const OFFENSIVE_STATS = [STATS.MIGHT, STATS.ACCURACY, STATS.DOMINANCE];
 
 export const SKILLS = {
   ACROBATICS: "Acrobatics",
