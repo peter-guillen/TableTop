@@ -1,11 +1,16 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AdminRoutes } from "./AdminRoutes";
 
-// Contexts for accessing data and actions across the admin panel
-import { ArticleContext } from "../../articles/context/ArticleContext";
-import { AuthContext } from "../../auth/context/AuthContext";
+import {
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+} from "../../users/api/userApi.tsx";
 
-// Query hooks for fetching data and mutations for deleting items
+import {
+  useGetAllArticlesQuery,
+  useDeleteArticleMutation,
+} from "../../articles/api/articleApi.tsx";
+
 import {
   useGetAllArmorsQuery,
   useDeleteArmorMutation,
@@ -21,7 +26,7 @@ import {
 import {
   useGetAllWeaponsQuery,
   useDeleteWeaponMutation,
-} from "../../weapons/api/weaponApi";
+} from "../../weapons/api/weaponApi.tsx";
 
 import {
   LuUsers,
@@ -40,11 +45,15 @@ export const AdminNav = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch the data and CRUD functions from contexts, contexts pull from API
-  const { articleList, deleteArticle } = useContext(ArticleContext);
-  const { userList, deleteUser } = useContext(AuthContext);
+  const { data: userList, isLoading, isError } = useGetAllUsersQuery();
+  const [deleteUser] = useDeleteUserMutation();
+  const {
+    data: articleList = [],
+    isLoading: articleLoading,
+    isError: articleError,
+  } = useGetAllArticlesQuery();
+  const [deleteArticle] = useDeleteArticleMutation();
 
-  // Fetch data and delete functions for each section using RTK Query hooks
   const {
     data: armorList = [],
     isLoading: armorLoading,
@@ -98,11 +107,23 @@ export const AdminNav = () => {
     },
   };
 
-  if (armorLoading || professionLoading || spellLoading || weaponLoading) {
+  if (
+    armorLoading ||
+    articleLoading ||
+    professionLoading ||
+    spellLoading ||
+    weaponLoading
+  ) {
     return <p>Loading...</p>;
   }
 
-  if (armorError || professionError || spellError || weaponError) {
+  if (
+    armorError ||
+    articleError ||
+    professionError ||
+    spellError ||
+    weaponError
+  ) {
     return <p>Something went wrong while fetching data.</p>;
   }
 
@@ -113,7 +134,6 @@ export const AdminNav = () => {
     { id: "articles", label: "Articles", icon: LuFileText },
     { id: "professions", label: "Professions", icon: LuDrama },
     { id: "spells", label: "Spells", icon: LuSparkles },
-    { id: "abilities", label: "Abilities", icon: LuEye },
     { id: "weapons", label: "Weapons", icon: LuSword },
     { id: "armors", label: "Armors", icon: LuShield },
     { id: "analytics", label: "Analytics", icon: LuChartColumn },

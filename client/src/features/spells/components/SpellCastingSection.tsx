@@ -1,26 +1,35 @@
 import { LuClock } from "react-icons/lu";
+import {
+  Casting,
+  Targeting,
+  Recharge,
+  CastingAction,
+  TargetCategory,
+  TargetShape,
+} from "../spellTypes";
 
 interface SpellCastingSectionProps {
-  castingTime: string;
-  range: string;
-  duration: string;
-  area: string;
-  stamina: number;
-  usesPerDay: string;
-  onInputChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  casting: Casting;
+  targeting: Targeting;
+  recharge: Recharge;
+  onCastingChange: <K extends keyof Casting>(
+    field: K,
+    value: Casting[K],
   ) => void;
-  onCheckedChange: (fieldName: any) => (e: any) => void;
+  onTargetingChange: <K extends keyof Targeting>(
+    field: K,
+    value: Targeting[K],
+  ) => void;
+  onRechargeChange: (value: Recharge) => void;
 }
 
 export const SpellCastingSection = ({
-  castingTime,
-  range,
-  duration,
-  area,
-  stamina,
-  usesPerDay,
-  onInputChange,
+  casting,
+  targeting,
+  recharge,
+  onCastingChange,
+  onTargetingChange,
+  onRechargeChange,
 }: SpellCastingSectionProps) => {
   return (
     <>
@@ -33,29 +42,36 @@ export const SpellCastingSection = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Casting Time *
+                Action Type *
               </label>
-              <input
-                type="text"
-                placeholder="e.g., 1 action, 10 minutes"
-                name="castingTime"
-                onChange={onInputChange}
-                value={castingTime}
+              <select
+                name="action"
+                onChange={(e) =>
+                  onCastingChange("action", e.target.value as CastingAction)
+                }
+                value={casting.action}
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
-              />
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              >
+                <option value="major_action">Major Action</option>
+                <option value="minor_action">Minor Action</option>
+                <option value="reaction">Reaction</option>
+              </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Duration *
+                Cast Time (rounds) *
               </label>
               <input
-                type="text"
-                placeholder="e.g., Instantaneous, 1 minute"
-                name="duration"
-                onChange={onInputChange}
-                value={duration}
+                type="number"
+                placeholder="0"
+                name="castTime"
+                onChange={(e) =>
+                  onCastingChange("castTime", Number(e.target.value))
+                }
+                value={casting.castTime}
+                min="0"
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               />
@@ -65,14 +81,17 @@ export const SpellCastingSection = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Range *
+                Duration (rounds) *
               </label>
               <input
-                type="text"
-                placeholder="e.g., 1 action, 10 minutes"
-                name="range"
-                onChange={onInputChange}
-                value={range}
+                type="number"
+                placeholder="0"
+                name="duration"
+                onChange={(e) =>
+                  onCastingChange("duration", Number(e.target.value))
+                }
+                value={casting.duration}
+                min="0"
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               />
@@ -80,16 +99,106 @@ export const SpellCastingSection = ({
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Area *
+                Range (ft) *
               </label>
               <input
-                type="text"
-                placeholder="e.g., 20ft sphere, 30ft cone"
-                name="area"
-                onChange={onInputChange}
-                value={area}
+                type="number"
+                placeholder="0"
+                name="range"
+                onChange={(e) =>
+                  onTargetingChange("range", Number(e.target.value))
+                }
+                value={targeting.range}
+                min="0"
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Target Category *
+              </label>
+              <select
+                name="targetCategory"
+                onChange={(e) =>
+                  onTargetingChange(
+                    "targetCategory",
+                    e.target.value as TargetCategory,
+                  )
+                }
+                value={targeting.targetCategory}
+                required
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+              >
+                <option value="creature">Creature</option>
+                <option value="object">Object</option>
+                <option value="point">Point</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Target Count *
+              </label>
+              <input
+                type="number"
+                placeholder="1"
+                name="targetCount"
+                onChange={(e) =>
+                  onTargetingChange("targetCount", Number(e.target.value))
+                }
+                value={targeting.targetCount}
+                min="0"
+                required
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Area Shape
+              </label>
+              <select
+                name="shape"
+                onChange={(e) =>
+                  onTargetingChange(
+                    "shape",
+                    (e.target.value || undefined) as TargetShape | undefined,
+                  )
+                }
+                value={targeting.shape ?? ""}
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+              >
+                <option value="">None</option>
+                <option value="sphere">Sphere</option>
+                <option value="cone">Cone</option>
+                <option value="line">Line</option>
+                <option value="cube">Cube</option>
+                <option value="wall">Wall</option>
+                <option value="cylinder">Cylinder</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Area Size (ft)
+              </label>
+              <input
+                type="number"
+                placeholder="0"
+                name="size"
+                onChange={(e) =>
+                  onTargetingChange("size", Number(e.target.value))
+                }
+                value={targeting.size ?? 0}
+                min="0"
+                disabled={!targeting.shape}
+                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all disabled:opacity-40"
               />
             </div>
           </div>
@@ -103,8 +212,10 @@ export const SpellCastingSection = ({
                 type="number"
                 placeholder="Cost in mana"
                 name="stamina"
-                onChange={onInputChange}
-                value={stamina}
+                onChange={(e) =>
+                  onCastingChange("stamina", Number(e.target.value))
+                }
+                value={casting.stamina ?? 0}
                 min="0"
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
@@ -113,18 +224,17 @@ export const SpellCastingSection = ({
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Uses Per Day
+                Recharge
               </label>
               <select
-                name="usesPerDay"
-                onChange={onInputChange}
-                value={usesPerDay}
+                name="recharge"
+                onChange={(e) => onRechargeChange(e.target.value as Recharge)}
+                value={recharge}
                 required
                 className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
               >
-                <option value="">Select Usage</option>
-                <option value="daily">Daily</option>
                 <option value="unlimited">Unlimited</option>
+                <option value="daily">Daily</option>
                 <option value="short_rest">Short Rest</option>
                 <option value="long_rest">Long Rest</option>
               </select>
@@ -135,7 +245,9 @@ export const SpellCastingSection = ({
             <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
               <input
                 type="checkbox"
-                name="isRitual"
+                name="ritual"
+                checked={casting.ritual}
+                onChange={(e) => onCastingChange("ritual", e.target.checked)}
                 className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
               />
               <span>Ritual Spell</span>
@@ -144,10 +256,25 @@ export const SpellCastingSection = ({
             <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
               <input
                 type="checkbox"
-                name="requiresConcentration"
+                name="concentration"
+                checked={casting.concentration}
+                onChange={(e) =>
+                  onCastingChange("concentration", e.target.checked)
+                }
                 className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
               />
               <span>Requires Concentration</span>
+            </label>
+
+            <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <input
+                type="checkbox"
+                name="channel"
+                checked={casting.channel}
+                onChange={(e) => onCastingChange("channel", e.target.checked)}
+                className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+              />
+              <span>Channeled</span>
             </label>
           </div>
         </div>

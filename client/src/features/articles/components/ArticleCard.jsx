@@ -1,10 +1,12 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ArticleContext } from "../context/ArticleContext";
+// import { ArticleContext } from "../context/ArticleContext";
 import { LuSparkles } from "react-icons/lu";
+import { useGetAllArticlesQuery } from "../api/articleApi";
 
 export const ArticleCard = () => {
-  const { articleList } = useContext(ArticleContext);
+  const { data: articleList } = useGetAllArticlesQuery();
+  // const { articleList } = useContext(ArticleContext);
 
   return (
     <>

@@ -1,24 +1,20 @@
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "../../features/auth/context/AuthContext";
 import { LuSparkles, LuArrowRight } from "react-icons/lu";
+import { useCreateUserMutation } from "../../features/users/api/userApi";
+import { UserFormData } from "../../features/users/userTypes";
 
-interface RegisterUser {
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-}
+type RegisterUser = Omit<UserFormData, "_id" | "role">;
 
 export const Register = () => {
-  const { signup } = useContext(AuthContext);
+  const [createUser] = useCreateUserMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterUser>({
     username: "",
     email: "",
     password: "",
-    role: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -27,11 +23,11 @@ export const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await signup(formData);
-    if (response.success) {
+    try {
+      await createUser(formData).unwrap();
       navigate("/");
-    } else {
-      console.log(response.message);
+    } catch (error) {
+      setErrorMessage("Registration failed");
     }
   };
 

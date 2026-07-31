@@ -1,8 +1,23 @@
 import mongoose from "mongoose";
 
-import Condition from "../../shared/schemas/conditionSchema.js";
-import HealthEffectsSchema from "../../shared/schemas/healthEffectSchema.js";
-import StatModifierSchema from "../../shared/schemas/statModiferSchema.js";
+import { HealthEffectSchema } from "../../shared/schemas/healthEffectSchema.js";
+import { StatModifierSchema } from "../../shared/schemas/statModifierSchema.js";
+import { OFFENSIVE_STATS } from "../../shared/constants/constants.js";
+
+export const SpellConditionSchema = new mongoose.Schema(
+  {
+    condition: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Condition",
+    },
+    durationType: {
+      type: String,
+      enum: ["turns", "until_broken", "permanent"],
+    },
+    duration: { type: Number }, // only when durationType === "turns"
+  },
+  { _id: false },
+);
 
 const SpellSchema = new mongoose.Schema(
   {
@@ -14,11 +29,11 @@ const SpellSchema = new mongoose.Schema(
     school: {
       type: String,
       enum: [
-        "evocation",
         "abjuration",
         "conjuration",
         "divination",
         "enchantment",
+        "evocation",
         "illusion",
         "necromancy",
         "transmutation",
@@ -31,98 +46,100 @@ const SpellSchema = new mongoose.Schema(
       max: 5,
       required: true,
     },
-    element: {
-      type: String,
-      enum: ["fire", "water", "air", "earth", "light", "dark"],
-      required: true,
-    },
-    tags: [
+
+    effectType: [
       {
         type: String,
-        enum: ["damage", "healing", "buff", "debuff", "control", "utility"],
+        enum: [
+          "damage",
+          "healing",
+          "buff",
+          "debuff",
+          "control",
+          "utility",
+          "summon",
+        ],
       },
     ],
-    castingTime: {
-      type: String,
+    damageType: {
+      type: [
+        {
+          type: String,
+          enum: ["fire", "water", "air", "earth", "light", "dark"],
+        },
+      ],
       required: true,
     },
-    isRitual: {
-      type: Boolean,
-      default: false,
-    },
-    stamina: {
-      type: Number,
-      required: true,
-    },
-    usesPerDay: {
-      type: String,
-      enum: ["daily", "unlimited", "short_rest", "long_rest"],
-    },
-    range: {
-      type: String,
-      required: true,
-    },
-    area: {
-      type: String,
-      default: 0,
-    },
-    target: {
-      type: String,
-      enum: ["single", "multiple", "self", "point", "area"],
-    },
-    attackType: {
-      type: String,
-      enum: ["spell_attack", "saving_throw", "auto_hit"],
-    },
-    // saveType: {
-    //   type: String,
-    //   enum: ["fortitude", "resolve", "avoidance"],
-    // },
-    duration: {
-      type: String,
-      required: true,
-    },
-    requiresConcentration: {
-      type: Boolean,
-      default: false,
-    },
-    // damage: [
-    //   {
-    //     diceCount: Number,
-    //     diceSize: Number,
-    //     modifier: {
-    //       type: Number,
-    //       default: 0,
-    //     },
-    //   },
-    // ],
-    // healing: [
-    //   {
-    //     diceCount: Number,
-    //     diceSize: Number,
-    //     modifier: {
-    //       type: Number,
-    //       default: 0,
-    //     },
-    //   },
-    // ],
-    healthEffects: [HealthEffectsSchema], // Handles damage or healing amounts and application type
+
+    healthEffects: [HealthEffectSchema], // Handles damage or healing amounts and application type
     statModifiers: [StatModifierSchema], // Handles buffs or debuffs and application type
-    conditions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Condition" }], // Conditions applied may be in conjunction with buffs or debuffs but remains independent
-    // buffs: [
-    //   {
-    //     stat: String,
-    //     value: String,
-    //     duration: String,
-    //   },
-    // ],
-    // debuffs: [
-    //   {
-    //     stat: String,
-    //     value: String,
-    //     duration: String,
-    //   },
-    // ],
+    conditions: [SpellConditionSchema], // Conditions applied may be in conjunction with buffs or debuffs but remains independent
+
+    casting: {
+      action: {
+        type: String,
+        enum: ["major_action", "minor_action", "reaction"],
+        required: true,
+      },
+      ritual: {
+        type: Boolean,
+        default: false,
+      },
+      concentration: {
+        type: Boolean,
+        default: false,
+      },
+      channel: {
+        type: Boolean,
+        default: false,
+      },
+      castTime: {
+        type: Number,
+        default: 0,
+      },
+      duration: {
+        type: Number,
+        required: true,
+      },
+      stamina: {
+        type: Number,
+      },
+    },
+
+    recharge: {
+      type: String,
+      enum: ["unlimited", "short_rest", "long_rest", "daily"],
+      default: "unlimited",
+    },
+
+    targeting: {
+      targetCategory: {
+        type: String,
+        enum: ["creature", "object", "point"],
+        required: true,
+      },
+      targetCount: {
+        type: Number,
+        default: 1,
+      },
+      range: {
+        type: Number,
+        required: true,
+      },
+      shape: {
+        type: String,
+        enum: ["sphere", "cone", "line", "cube", "wall", "cylinder"],
+      },
+      size: {
+        type: Number,
+      },
+    },
+
+    offensiveStat: {
+      type: String,
+      enum: OFFENSIVE_STATS,
+    },
+
     description: {
       type: String,
       required: true,

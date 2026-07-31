@@ -1,12 +1,13 @@
-import { useGetConstantsQuery } from "../../../shared/constants/constantsApi";
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
-import { StatModifier } from "../spellTypes";
+import { SpellCondition } from "../spellTypes";
+import { StatModifier } from "../../library/constantTypes";
+import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi";
 
 interface SpellConditionsProps {
   statModifiers: StatModifier[];
-  conditions: string[];
+  conditions: SpellCondition[];
   onStatModifiersChange: (newModifiers: StatModifier[]) => void;
-  onConditionsChange: (newModifiers: string[]) => void;
+  onConditionsChange: (newConditions: SpellCondition[]) => void;
 }
 
 export const SpellConditionsSection = ({
@@ -15,14 +16,42 @@ export const SpellConditionsSection = ({
   onStatModifiersChange,
   onConditionsChange,
 }: SpellConditionsProps) => {
-  const { data: constants } = useGetConstantsQuery();
-  const afflictions = constants?.CONDITIONS ?? [];
+  const {
+    data: allConditions,
+    isLoading,
+    isError,
+  } = useGetAllConditionsQuery();
 
-  const handleConditionChange = (condition: string) => {
-    const updated = conditions.includes(condition)
-      ? conditions.filter((c) => c !== condition)
-      : [...conditions, condition];
-    onConditionsChange(updated);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
+  const isConditionSelected = (conditionId: string) =>
+    conditions.some((c) => c.condition === conditionId);
+
+  const getSelectedCondition = (conditionId: string) =>
+    conditions.find((c) => c.condition === conditionId);
+
+  const handleConditionToggle = (conditionId: string) => {
+    if (isConditionSelected(conditionId)) {
+      onConditionsChange(conditions.filter((c) => c.condition !== conditionId));
+    } else {
+      onConditionsChange([
+        ...conditions,
+        { condition: conditionId, durationType: "turns", duration: 1 },
+      ]);
+    }
+  };
+
+  const handleConditionFieldChange = (
+    conditionId: string,
+    field: keyof SpellCondition,
+    value: string | number,
+  ) => {
+    onConditionsChange(
+      conditions.map((c) =>
+        c.condition === conditionId ? { ...c, [field]: value } : c,
+      ),
+    );
   };
 
   const handleAddModifier = () => {
@@ -166,21 +195,64 @@ export const SpellConditionsSection = ({
           <label className="block text-sm font-medium text-slate-300 mb-2">
             Conditions
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {afflictions.map((condition) => (
-              <label
-                key={condition}
-                className="flex items-center gap-2 text-slate-300 cursor-pointer bg-slate-800/30 dark:bg-slate-900/30 p-2 rounded-lg border border-cyan-500/20 dark:border-orange-500/20 hover:border-cyan-500/40 dark:hover:border-orange-500/40 transition-all"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {allConditions.map((condition) => (
+              <div
+                key={condition._id}
+                className="bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-cyan-500/20 dark:border-orange-500/20"
               >
-                <input
-                  type="checkbox"
-                  value="conditions"
-                  checked={conditions.includes(condition)}
-                  onChange={() => handleConditionChange(condition)}
-                  className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
-                />
-                <span className="capitalize text-sm">{condition}</span>
-              </label>
+                <label className="flex items-center gap-2 text-slate-300 cursor-pointer mb-2">
+                  <input
+                    type="checkbox"
+                    checked={isConditionSelected(condition._id)}
+                    onChange={() => handleConditionToggle(condition._id)}
+                    className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                  />
+                  <span className="capitalize text-sm">
+                    {condition.condition}
+                  </span>
+                </label>
+
+                {isConditionSelected(condition._id) && (
+                  <div className="grid grid-cols-2 gap-2 pl-6">
+                    <select
+                      value={getSelectedCondition(condition._id)?.durationType}
+                      onChange={(e) =>
+                        handleConditionFieldChange(
+                          condition._id,
+                          "durationType",
+                          e.target.value,
+                        )
+                      }
+                      className="px-2 py-2 text-sm bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                    >
+                      <option value="turns">Turns</option>
+                      <option value="until_broken">Until broken</option>
+                      <option value="permanent">Permanent</option>
+                    </select>
+
+                    {getSelectedCondition(condition._id)?.durationType ===
+                      "turns" && (
+                      <input
+                        type="number"
+                        min={1}
+                        placeholder="Duration (turns)"
+                        value={
+                          getSelectedCondition(condition._id)?.duration ?? ""
+                        }
+                        onChange={(e) =>
+                          handleConditionFieldChange(
+                            condition._id,
+                            "duration",
+                            Number(e.target.value),
+                          )
+                        }
+                        className="px-2 py-2 text-sm bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>

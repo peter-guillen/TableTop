@@ -6,8 +6,6 @@ import {
 } from "react-router-dom";
 
 import { ThemeContextProvider } from "./contexts/ThemeContext.tsx";
-import { AuthContextProvider } from "../features/auth/context/AuthContextProvider";
-import { ArticleContextProvider } from "../features/articles/context/ArticleContext";
 
 import { Navbar } from "./layouts/Navbar";
 import { Register } from "./pages/Register.tsx";
@@ -22,11 +20,11 @@ import { NotFound } from "./pages/NotFound.tsx";
 import { ArticlePage } from "../features/articles/pages/ArticlePage";
 import { ProfessionPage } from "../features/professions/pages/ProfessionPage";
 import { SpellPage } from "../features/spells/pages/SpellPage";
-import { WeaponPage } from "../features/weapons/pages/WeaponPage";
+import { WeaponPage } from "../features/weapons/pages/WeaponPage.tsx";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
-import { UserPage } from "../features/users/pages/UserPage";
+import { UserPage } from "../features/users/pages/UserPage.tsx";
 import { AdminPage } from "../features/admin/pages/AdminPage.tsx";
-import { useGetConstantsQuery } from "../shared/constants/constantsApi";
+import { useGetConstantsQuery } from "../shared/api/constantsApi.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,16 +54,9 @@ function App() {
   useGetConstantsQuery();
   return (
     <>
-      <AuthContextProvider>
-        <ThemeContextProvider>
-          <ArticleContextProvider>
-            <RouterProvider
-              router={router}
-              future={{ v7_startTransition: true }}
-            />
-          </ArticleContextProvider>
-        </ThemeContextProvider>
-      </AuthContextProvider>
+      <ThemeContextProvider>
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
+      </ThemeContextProvider>
     </>
   );
 }

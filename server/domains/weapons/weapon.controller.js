@@ -1,54 +1,66 @@
-import Weapon from "./weapon.model.js";
-import mongoose from "mongoose";
+import * as weaponService from "./weapon.service.js";
 
-const getWeapons = async (req, res) => {
-  const weapons = await Weapon.find({});
-  res.status(200).json(weapons);
-};
-
-const getWeapon = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Weapon Not Found!" });
-  }
-  const weapon = await Weapon.findById(id);
-  if (!weapon) {
-    return res.status(404).json({ error: "Weapon Not Found!" });
-  }
-  res.status(200).json(weapon);
-};
-
-const createWeapon = async (req, res) => {
+const getAllWeapons = async (req, res) => {
   try {
-    const weapon = await Weapon.create(req.body);
+    const weapons = await weaponService.getAllWeapons();
+    res.status(200).json(weapons);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getWeaponById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const weapon = await weaponService.getWeaponById(id);
+    if (!weapon) {
+      return res.status(404).json({ error: "Weapon Not Found!" });
+    }
     res.status(200).json(weapon);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const updateWeapon = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Weapon Not Found!" });
+const createWeapon = async (req, res, next) => {
+  try {
+    const weapon = await weaponService.createWeapon(req.body, req.user._id);
+    res.status(201).json(weapon);
+  } catch (error) {
+    next(error);
   }
-  const weapon = await Weapon.findByIdAndUpdate({ _id: id }, { ...req.body });
-  if (!weapon) {
-    return res.status(400).json({ error: "Weapon Not Found!" });
-  }
-  res.status(200).json(weapon);
 };
 
-const deleteWeapon = async (req, res) => {
+const updateWeapon = async (req, res, next) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Weapon Not Found!" });
+  try {
+    const weapon = await weaponService.updateWeapon(id, req.body, req.user._id);
+    if (!weapon) {
+      return res.status(404).json({ error: "Weapon Not Found!" });
+    }
+    res.status(200).json(weapon);
+  } catch (error) {
+    next(error);
   }
-  const weapon = await Weapon.findByIdAndDelete(id);
-  if (!weapon) {
-    res.status(400).json({ error: "Weapon Not Found!" });
-  }
-  res.status(200).json(weapon);
 };
 
-export { getWeapons, getWeapon, createWeapon, updateWeapon, deleteWeapon };
+const deleteWeapon = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const weapon = await weaponService.deleteWeapon(id, req.user._id);
+    if (!weapon) {
+      return res.status(404).json({ error: "Weapon Not Found!" });
+    }
+    res.status(200).json(weapon);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  getAllWeapons,
+  getWeaponById,
+  createWeapon,
+  updateWeapon,
+  deleteWeapon,
+};

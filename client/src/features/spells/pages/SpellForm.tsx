@@ -1,62 +1,32 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
-import { SpellCastingSection } from "../components/SpellCastingSection";
-import { SpellCombatSection } from "../components/SpellCombatSection";
-import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
-import { SpellConditionsSection } from "../components/SpellConditionsSection";
 import { LuSparkles } from "react-icons/lu";
+
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
-import { Spell, SpellSchool } from "../spellTypes";
+import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
+
 import {
   useGetSpellByIdQuery,
   useCreateSpellMutation,
   useUpdateSpellMutation,
 } from "../api/spellApi";
 
+import { SpellBasicInfoSection } from "../components/SpellBasicInfoSection";
+import { SpellCastingSection } from "../components/SpellCastingSection";
+import { SpellCombatSection } from "../components/SpellCombatSection";
+import { SpellConditionsSection } from "../components/SpellConditionsSection";
+import { SpellDescriptionSection } from "../components/SpellDescriptionSection";
+
+import { Spell } from "../spellTypes";
+import { defaultSpellFormData } from "../spellDefaults.ts";
+
 export function SpellForm() {
-  const [formData, setFormData] = useState<Spell>({
-    // Basic Info
-    _id: "",
-    name: "",
-    school: "" as SpellSchool,
-    tier: "",
-    element: "",
-    tags: [],
-    // domain: "",
-    category: "",
-
-    // Casting
-    castingTime: "",
-    duration: "",
-    range: "",
-    area: "",
-    stamina: 0,
-    usesPerDay: "",
-    isRitual: false,
-    requiresConcentration: false,
-    target: "",
-    attackType: "",
-
-    // Combat
-    damage: [],
-    healing: [],
-
-    // Effects & Conditions
-    conditions: [],
-    statModifiers: [],
-
-    // Description
-    description: "",
-  });
-
-  // Grab the id from url: if there is an id set to Edit Mode
+  const [formData, setFormData] = useState<Spell>(defaultSpellFormData);
   const { id } = useParams();
   const isEditing = Boolean(id);
-
-  // Return to the previous page
   const navigate = useNavigate();
 
+  const { data: constants } = useGetConstantsQuery();
   const {
     data: spell,
     isLoading,
@@ -65,23 +35,23 @@ export function SpellForm() {
   const [createSpell] = useCreateSpellMutation();
   const [updateSpell] = useUpdateSpellMutation();
 
-  const { handleInputChange, handleCheckedChange, handleArrayFieldChange } =
-    useFormHandlers(setFormData);
+  const {
+    handleInputChange,
+    handleFieldChange,
+    handleCheckedChange,
+    handleArrayFieldChange,
+    handleObjectFieldChange,
+  } = useFormHandlers(setFormData);
 
-  useEffect(() => {
-    if (isEditing && spell) {
-      setFormData({ ...spell });
-    }
-  }, [isEditing, spell]);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
-  const handleCancel = () => navigate(-1);
-
-  const handleDamageChange = handleArrayFieldChange("damage");
-  const handleHealingChange = handleArrayFieldChange("healing");
+  const handleHealthChange = handleArrayFieldChange("healthEffects");
   const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
   const handleConditionsChange = handleArrayFieldChange("conditions");
+  const handleCastingChange = handleObjectFieldChange("casting");
+  const handleTargetingChange = handleObjectFieldChange("targeting");
+  const handleRechargeChange = handleFieldChange("recharge");
+  const handleTierChange = handleFieldChange("tier");
+
+  const handleCancel = () => navigate(-1);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -92,6 +62,15 @@ export function SpellForm() {
     }
     navigate("/spells");
   };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
+  useEffect(() => {
+    if (isEditing && spell) {
+      setFormData({ ...spell });
+    }
+  }, [isEditing, spell]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-350 via-cyan-350 to-slate-300 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
@@ -121,30 +100,31 @@ export function SpellForm() {
                 name={formData.name}
                 school={formData.school}
                 tier={formData.tier}
-                element={formData.element}
-                tags={formData.tags}
+                offensiveStat={formData.offensiveStat}
+                offensiveStatOptions={constants?.OFFENSIVE_STATS ?? []}
+                damageType={formData.damageType}
+                damageTypeOptions={constants?.DAMAGE_TYPES ?? []}
+                effectType={formData.effectType}
+                effectTypeOptions={constants?.EFFECT_TYPES ?? []}
                 onInputChange={handleInputChange}
+                onTierChange={handleTierChange}
                 onCheckedChange={handleCheckedChange}
               />
 
               {/* Casting Details */}
               <SpellCastingSection
-                castingTime={formData.castingTime}
-                range={formData.range}
-                duration={formData.duration}
-                area={formData.area}
-                stamina={formData.stamina}
-                usesPerDay={formData.usesPerDay}
-                onInputChange={handleInputChange}
-                onCheckedChange={handleCheckedChange}
+                casting={formData.casting}
+                targeting={formData.targeting}
+                recharge={formData.recharge}
+                onCastingChange={handleCastingChange}
+                onRechargeChange={handleRechargeChange}
+                onTargetingChange={handleTargetingChange}
               />
 
               {/* Combat Stats */}
               <SpellCombatSection
-                damage={formData.damage}
-                healing={formData.healing}
-                onDamageChange={handleDamageChange}
-                onHealingChange={handleHealingChange}
+                healthEffects={formData.healthEffects}
+                onHealthChange={handleHealthChange}
               />
 
               <SpellConditionsSection

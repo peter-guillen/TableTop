@@ -15,6 +15,7 @@ app.use(
 );
 
 import constantsRoutes from "./shared/constants/constants.routes.js";
+import authRoutes from "./domains/auth/auth.routes.js";
 
 import activityRoutes from "./domains/activity/activity.routes.js";
 import affinityRoutes from "./domains/affinities/affinity.routes.js";
@@ -22,6 +23,7 @@ import armorRoutes from "./domains/armors/armor.routes.js";
 import articleRoutes from "./domains/articles/article.routes.js";
 import backgroundRoutes from "./domains/backgrounds/background.routes.js";
 import characterRoutes from "./domains/characters/character.routes.js";
+import conditionRoutes from "./domains/conditions/condition.routes.js";
 import libraryRoutes from "./domains/library/library.routes.js";
 import professionRoutes from "./domains/professions/profession.routes.js";
 import speciesRoutes from "./domains/species/species.routes.js";
@@ -31,6 +33,7 @@ import userRoutes from "./domains/users/user.routes.js";
 import weaponRoutes from "./domains/weapons/weapon.routes.js";
 
 app.use("/api/constants", constantsRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use("/api/activity", activityRoutes);
 app.use("/api/affinities", affinityRoutes);
@@ -38,6 +41,7 @@ app.use("/api/armors", armorRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/backgrounds", backgroundRoutes);
 app.use("/api/characters", characterRoutes);
+app.use("/api/conditions", conditionRoutes);
 app.use("/api/library", libraryRoutes);
 app.use("/api/professions", professionRoutes);
 app.use("/api/species", speciesRoutes);

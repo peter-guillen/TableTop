@@ -22,6 +22,7 @@ import { Dispatch, SetStateAction } from "react";
  *
  * @param {Function} setFormData - The useState setter for the form's data object
  */
+
 export function useFormHandlers<T extends Record<string, any>>(
   setFormData: Dispatch<SetStateAction<T>>,
 ) {
@@ -45,6 +46,23 @@ export function useFormHandlers<T extends Record<string, any>>(
     }));
   };
 
+  /**
+   * Updates a single top-level field on formData directly from a value
+   * rather than an event — for controls that hand back the value itself
+   * (e.g. a child component's onChange callback) instead of a DOM event.
+   * e.g. handleFieldChange("recharge")("daily")
+   *
+   * @param {string} fieldName - The top-level field on formData to update
+   * @returns {Function} Handler that accepts only the new value
+   */
+  const handleFieldChange = <K extends keyof T>(fieldName: K) => {
+    return (value: T[K]) => {
+      setFormData((prev) => ({
+        ...prev,
+        [fieldName]: value,
+      }));
+    };
+  };
   /**
    * Handles checkbox inputs that map to an array field on formData.
    * The checkbox's value attribute is the item to add or remove.
@@ -134,6 +152,7 @@ export function useFormHandlers<T extends Record<string, any>>(
 
   return {
     handleInputChange,
+    handleFieldChange,
     handleCheckedChange,
     handleArrayFieldChange,
     handleObjectFieldChange,

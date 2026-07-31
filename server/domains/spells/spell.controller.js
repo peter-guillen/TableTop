@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-import Spell from "./spell.model.js";
 import * as spellService from "./spell.service.js";
 
 const getAllSpells = async (req, res) => {
@@ -13,9 +11,6 @@ const getAllSpells = async (req, res) => {
 
 const getSpellById = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid Spell ID" });
-  }
   try {
     const spell = await spellService.getSpellById(id);
     if (!spell) {
@@ -38,9 +33,6 @@ const createSpell = async (req, res, next) => {
 
 const updateSpell = async (req, res, next) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid Spell ID" });
-  }
   try {
     const spell = await spellService.updateSpell(id, req.body, req.user._id);
     if (!spell) {
@@ -54,9 +46,6 @@ const updateSpell = async (req, res, next) => {
 
 const deleteSpell = async (req, res, next) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid Spell ID" });
-  }
   try {
     const spell = await spellService.deleteSpell(id, req.user._id);
     if (!spell) {

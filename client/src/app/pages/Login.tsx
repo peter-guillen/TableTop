@@ -1,21 +1,20 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "../../features/auth/context/AuthContext";
 import { LuSword, LuArrowRight } from "react-icons/lu";
-
+import { useLoginMutation } from "../../features/auth/api/authApi";
 interface UserLogin {
   email: string;
   password: string;
 }
 
 export const Login = () => {
+  const [login] = useLoginMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<UserLogin>({
     email: "",
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const { login, error } = useContext(AuthContext);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -24,12 +23,11 @@ export const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await login(formData);
-    if (response.success) {
+    try {
+      await login(formData).unwrap();
       navigate("/");
-    } else {
-      setErrorMessage(error);
-      console.log(errorMessage);
+    } catch (error) {
+      setErrorMessage("Invalid email or password");
     }
   };
 

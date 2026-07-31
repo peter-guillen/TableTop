@@ -1,91 +1,82 @@
 import API_URL from "../../../shared/api/api";
-interface User {
-  _id: string;
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-}
+import type { UserFormData, UserType } from "../userTypes"; // User = Omit<UserFormData, "password">
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RootState } from "../../../app/store.ts";
+import { authApi } from "../../auth/api/authApi.tsx";
 
-export const fetchUsers = async (token: string): Promise<User[]> => {
-  const response = await fetch(`${API_URL}/api/users`, {
-    method: "GET",
+type NewUserInput = Omit<UserFormData, "_id" | "role">;
+type UpdateUserInput = Partial<Omit<UserFormData, "_id">>;
+
+export const userApi = createApi({
+  reducerPath: "usersApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${API_URL}/api/users`,
     credentials: "include",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  }),
+  tagTypes: ["User"],
+  endpoints: (builder) => ({
+    getAllUsers: builder.query<UserType[], void>({
+      query: () => "/",
+      providesTags: [{ type: "User", id: "LIST" }],
+    }),
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Failed to fetch users");
-  }
+    getUserById: builder.query<UserType, string>({
+      query: (id) => `/${id}`,
+      providesTags: (result, error, id) => [{ type: "User", id }],
+    }),
 
-  return await response.json();
-};
+    createUser: builder.mutation<UserType, NewUserInput>({
+      query: (newUser) => ({
+        url: "/register",
+        method: "POST",
+        body: newUser,
+      }),
+      invalidatesTags: [{ type: "User", id: "LIST" }],
+    }),
 
-export const createUser = async (formData: User): Promise<User> => {
-  const response = await fetch(`${API_URL}/api/users/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-    credentials: "include",
-  });
-  // if user exists do not add
-  // const existingUser = await User.findOne({ email });
-  // if (existingUser) {
-  //   return res.status(400).json({ message: "User already exists" });
-  // }
-  if (!response.ok) {
-    const errorDetails = await response.json();
-    throw new Error(errorDetails.message || "Network response was not ok.");
-  }
-  return await response.json();
-};
+    updateUser: builder.mutation<
+      UserType,
+      { id: string; data: UpdateUserInput }
+    >({
+      query: ({ id, data }) => ({
+        url: `/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "User", id },
+        { type: "User", id: "LIST" },
+      ],
+    }),
 
-export const loginUser = async (
-  formData: Pick<User, "email" | "password">,
-  token: string
-): Promise<{ token: string; user: User }> => {
-  const response = await fetch(`${API_URL}/api/users/login`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-    credentials: "include",
-  });
+    deleteUser: builder.mutation<UserType, string>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "User", id },
+        { type: "User", id: "LIST" },
+      ],
+      async onQueryStarted(id, { dispatch, getState, queryFulfilled }) {
+        await queryFulfilled;
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Login failed");
-    // return { success: false, message: error.message };
-  }
+        const currentUser = authApi.endpoints.getCurrentUser.select()(
+          getState() as RootState,
+        ).data;
 
-  return await response.json();
-};
+        if (currentUser?._id === id) {
+          dispatch(authApi.util.invalidateTags(["Auth"]));
+        }
+      },
+    }),
+  }),
+});
 
-export const logoutUser = async (): Promise<void> => {
-  const response = await fetch(`${API_URL}/api/users/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Logout failed");
-  }
-};
-
-export const deleteUser = async (id: string, token: string): Promise<void> => {
-  const response = await fetch(`${API_URL}/api/users/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Error while deleting user");
-  }
-};
+export const {
+  useGetAllUsersQuery,
+  useGetUserByIdQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = userApi;

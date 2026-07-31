@@ -1,10 +1,17 @@
-// src/features/constants/constantsApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  EffectType,
+  DamageType,
+  OffensiveStat,
+} from "../../features/library/constantTypes";
 
 interface Constants {
   PROFESSIONS: string[];
   AFFINITIES: string[];
   CONDITIONS: string[];
+  EFFECT_TYPES: EffectType[];
+  DAMAGE_TYPES: DamageType[];
+  OFFENSIVE_STATS: OffensiveStat[];
   STATS: Record<string, string>;
   SKILLS: Record<string, string>;
 }

@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
+
 import {
   getAllSpells,
   getSpellById,
@@ -11,7 +13,7 @@ import {
 } from "./spell.controller.js";
 
 router.get("/", getAllSpells);
-router.get("/:id", getSpellById);
+router.get("/:id", validateObjectId, getSpellById);
 
 router.post(
   "/",
@@ -19,17 +21,19 @@ router.post(
   checkAuthorization(["admin"]),
   createSpell,
 );
-router.delete(
-  "/:id",
-  checkAuthenticated,
-  checkAuthorization(["admin"]),
-  deleteSpell,
-);
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
+  validateObjectId,
   updateSpell,
+);
+router.delete(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  validateObjectId,
+  deleteSpell,
 );
 
 export default router;
