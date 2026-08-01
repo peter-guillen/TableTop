@@ -41,21 +41,32 @@ export function SpellDetails() {
     (e) => e.direction === "healing",
   );
 
-  const damageDisplay = damageEffect
-    ? damageEffect.flat != null
-      ? `${damageEffect.flat}`
-      : damageEffect.diceCount != null && damageEffect.diceSize != null
-        ? `${damageEffect.diceCount}d${damageEffect.diceSize}`
-        : null
-    : null;
+  function getEffectDisplay(
+    effect:
+      | {
+          flat?: number | null;
+          diceCount?: number | null;
+          diceSize?: number | null;
+        }
+      | null
+      | undefined,
+  ): string | null {
+    // Guard clause: If there is no effect object, there's nothing to display
+    if (!effect) return null;
+    // Priority 1: Check for flat numerical value
+    if (effect.flat != null) {
+      return `${effect.flat}`;
+    }
+    // Priority 2: Check for dice notation (requires both count and size)
+    if (effect.diceCount != null && effect.diceSize != null) {
+      return `${effect.diceCount}d${effect.diceSize}`;
+    }
+    // Fallback: Neither condition was met
+    return null;
+  }
 
-  const healingDisplay = healingEffect
-    ? healingEffect.flat != null
-      ? `${healingEffect.flat}`
-      : healingEffect.diceCount != null && healingEffect.diceSize != null
-        ? `${healingEffect.diceCount}d${healingEffect.diceSize}`
-        : null
-    : null;
+  const damageDisplay = getEffectDisplay(damageEffect);
+  const healingDisplay = getEffectDisplay(healingEffect);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-900 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
@@ -260,27 +271,27 @@ export function SpellDetails() {
               Stat Modifiers
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {spell.statModifiers.map((mod, idx) => (
+              {spell.statModifiers.map((modifier, index) => (
                 <div
-                  key={idx}
+                  key={index}
                   className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg p-4 border border-cyan-500/20 dark:border-orange-500/20"
                 >
                   <p className="text-white font-semibold">
-                    {mod.stat} {mod.value > 0 ? "+" : ""}
-                    {mod.value}
+                    {modifier.stat} {modifier.value > 0 ? "+" : ""}
+                    {modifier.value}
                   </p>
-                  {mod.durationType && (
+                  {modifier.durationType && (
                     <p className="text-sm text-slate-400">
-                      {mod.durationType === "permanent"
+                      {modifier.durationType === "permanent"
                         ? "Permanent"
-                        : mod.durationType === "until_broken"
+                        : modifier.durationType === "until_broken"
                           ? "Until Broken"
-                          : `${mod.duration ?? 0} turn${mod.duration === 1 ? "" : "s"}`}
+                          : `${modifier.duration ?? 0} turn${modifier.duration === 1 ? "" : "s"}`}
                     </p>
                   )}
-                  {mod.description && (
+                  {modifier.description && (
                     <p className="text-sm text-slate-400 mt-1">
-                      {mod.description}
+                      {modifier.description}
                     </p>
                   )}
                 </div>
@@ -307,7 +318,7 @@ export function SpellDetails() {
                     className="bg-slate-800/30 dark:bg-slate-900/30 rounded-lg px-4 py-2 border border-cyan-500/20 dark:border-orange-500/20"
                   >
                     <p className="text-white font-semibold capitalize">
-                      {condition.condition}
+                      {condition.name}
                     </p>
                     <p className="text-sm text-slate-400">
                       {spellCondition.durationType === "permanent"

@@ -58,21 +58,34 @@ export const SpellPreview = ({
           (e) => e.direction === "healing",
         );
 
-        const damageDisplay = damageEffect
-          ? damageEffect.flat != null
-            ? `${damageEffect.flat}`
-            : damageEffect.diceCount != null && damageEffect.diceSize != null
-              ? `${damageEffect.diceCount}d${damageEffect.diceSize}`
-              : null
-          : null;
+        // Helper function to format effect display strings
+        function getEffectDisplay(
+          effect:
+            | {
+                flat?: number | null;
+                diceCount?: number | null;
+                diceSize?: number | null;
+              }
+            | null
+            | undefined,
+        ): string | null {
+          // Guard clause: If there is no effect object, there's nothing to display
+          if (!effect) return null;
+          // Priority 1: Check for flat numerical value
+          if (effect.flat != null) {
+            return `${effect.flat}`;
+          }
+          // Priority 2: Check for dice notation (requires both count and size)
+          if (effect.diceCount != null && effect.diceSize != null) {
+            return `${effect.diceCount}d${effect.diceSize}`;
+          }
+          // Fallback: Neither condition was met
+          return null;
+        }
 
-        const healingDisplay = healingEffect
-          ? healingEffect.flat != null
-            ? `${healingEffect.flat}`
-            : healingEffect.diceCount != null && healingEffect.diceSize != null
-              ? `${healingEffect.diceCount}d${healingEffect.diceSize}`
-              : null
-          : null;
+        // Clean usage in your component or service:
+        const damageDisplay = getEffectDisplay(damageEffect);
+        const healingDisplay = getEffectDisplay(healingEffect);
 
         return (
           <NavLink

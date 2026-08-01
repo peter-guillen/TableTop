@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { LuSparkles } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -17,8 +17,8 @@ import { WeaponCombatSection } from "../components/WeaponCombatSection.tsx";
 import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection.tsx";
 import { WeaponSpecialSection } from "../components/WeaponSpecialSection.tsx";
 
-import { DiceRoll } from "../../library/constantTypes.ts";
-import { Category, DamageType,Weapon } from "../weaponTypes.ts";
+import { DiceRoll } from "../../../shared/constants/constantTypes.ts";
+import { Category, DamageType, Weapon } from "../weaponTypes.ts";
 
 export function WeaponForm() {
   const [formData, setFormData] = useState<Weapon>({

@@ -1,4 +1,4 @@
-import { DiceRoll } from "../library/constantTypes";
+import { DiceRoll } from "../../shared/constants/constantTypes";
 
 export type Rarity =
   | "common"

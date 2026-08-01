@@ -4,7 +4,7 @@ import {
   EffectType,
   DamageType,
   OffensiveStat,
-} from "../../library/constantTypes";
+} from "../../../shared/constants/constantTypes";
 
 interface SpellBasicInfoProps {
   name: string;

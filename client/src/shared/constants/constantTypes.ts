@@ -20,7 +20,8 @@ export type OffensiveStat = "Might" | "Accuracy" | "Dominance";
 export interface StatModifier {
   stat: string;
   value: number;
-  duration: string;
+  durationType: "turns" | "until_broken" | "permanent";
+  duration?: number;
   target: string;
   description: string;
 }
@@ -31,5 +32,6 @@ export interface HealthEffect {
   diceCount?: number;
   flat?: number;
   persistent: boolean;
+  durationType?: "turns" | "until_broken" | "permanent";
   duration?: number;
 }

@@ -1,6 +1,6 @@
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
 import { SpellCondition } from "../spellTypes";
-import { StatModifier } from "../../library/constantTypes";
+import { StatModifier } from "../../../shared/constants/constantTypes";
 import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi";
 
 interface SpellConditionsProps {
@@ -17,7 +17,7 @@ export const SpellConditionsSection = ({
   onConditionsChange,
 }: SpellConditionsProps) => {
   const {
-    data: allConditions,
+    data: allConditions = [],
     isLoading,
     isError,
   } = useGetAllConditionsQuery();
@@ -57,7 +57,14 @@ export const SpellConditionsSection = ({
   const handleAddModifier = () => {
     onStatModifiersChange([
       ...statModifiers,
-      { stat: "", value: 0, duration: "", target: "", description: "" },
+      {
+        stat: "",
+        value: 0,
+        durationType: "turns",
+        duration: 0,
+        target: "",
+        description: "",
+      },
     ]);
   };
 
@@ -208,9 +215,7 @@ export const SpellConditionsSection = ({
                     onChange={() => handleConditionToggle(condition._id)}
                     className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
                   />
-                  <span className="capitalize text-sm">
-                    {condition.condition}
-                  </span>
+                  <span className="capitalize text-sm">{condition.name}</span>
                 </label>
 
                 {isConditionSelected(condition._id) && (

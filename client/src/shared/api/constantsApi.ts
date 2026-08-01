@@ -3,7 +3,7 @@ import {
   EffectType,
   DamageType,
   OffensiveStat,
-} from "../../features/library/constantTypes";
+} from "../constants/constantTypes";
 
 interface Constants {
   PROFESSIONS: string[];

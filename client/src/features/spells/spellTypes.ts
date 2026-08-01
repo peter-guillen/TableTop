@@ -4,7 +4,7 @@ import {
   HealthEffect,
   StatModifier,
   OffensiveStat,
-} from "../library/constantTypes";
+} from "../../shared/constants/constantTypes";
 
 export interface SpellCondition {
   condition: string;
