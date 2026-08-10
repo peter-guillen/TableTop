@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { useColorScheme } from "../../../shared/hooks/useColorScheme";
+import {
+  rarityColorSchemes,
+  useColorScheme,
+} from "../../../shared/hooks/useColorScheme";
 import {
   GiBroadsword,
   GiBowArrow,
@@ -7,13 +10,8 @@ import {
   GiRoundStar,
 } from "react-icons/gi";
 
-import {
-  rarityBaseColors,
-  rarityContexts,
-  rarityTierEffects,
-} from "../../../shared/hooks/useColorScheme";
-
 import { Weapon, Category } from "../weaponTypes";
+import { Rarity } from "../../../shared/constants/constantTypes";
 
 interface WeaponPreviewProps {
   weapons: Weapon[];
@@ -26,16 +24,15 @@ const CATEGORY_ICONS: Record<Category, typeof GiBroadsword> = {
 };
 
 export function WeaponPreview({ weapons }: WeaponPreviewProps) {
-  const { getColorScheme } = useColorScheme(
-    rarityBaseColors,
-    rarityContexts,
-    rarityTierEffects,
+  const { getColorScheme } = useColorScheme<Rarity>(
+    rarityColorSchemes,
+    "common",
   );
 
   return (
     <>
       {weapons.map((weapon) => {
-        const rarity = weapon.rarity?.toLowerCase() || "common";
+        const rarity = weapon.rarity ?? "common";
         const IconComponent = CATEGORY_ICONS[weapon.category] ?? GiBroadsword;
 
         return (
