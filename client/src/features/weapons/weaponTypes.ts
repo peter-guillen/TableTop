@@ -1,69 +1,26 @@
-import { DiceRoll } from "../../shared/constants/constantTypes";
+import {
+  Materials,
+  Quality,
+  Rarity,
+  StatModifier,
+  DamageType,
+  Properties,
+} from "../../shared/constants/constantTypes";
 
-export type Rarity =
-  | "common"
-  | "rare"
-  | "heroic"
-  | "epic"
-  | "legendary"
-  | "mythic";
-
-export type Properties =
-  | "ammunition"
-  | "finesse"
-  | "heavy"
-  | "light"
-  | "loading"
-  | "reach"
-  | "special"
-  | "thrown"
-  | "two-handed"
-  | "versatile"
-  | "silvered"
-  | "adamantine"
-  | "magical";
-
-export type Category =
-  | "simple"
-  | "martial"
-  | "exotic"
-  | "firearm"
-  | "ammunition";
-
-export type DamageType =
-  | "slashing"
-  | "piercing"
-  | "bludgeoning"
-  | "fire"
-  | "cold"
-  | "lightning"
-  | "acid"
-  | "poison"
-  | "radiant"
-  | "necrotic"
-  | "force"
-  | "psychic"
-  | "thunder";
-
-export interface Requirements {
-  strength: number;
-  proficiency: string[];
-  level: number;
-}
+export type Category = "melee" | "ranged" | "magic";
 
 export interface Weapon {
+  _id?: string;
   name: string;
-  category: Category;
-  rarity: Rarity;
-  weight?: number;
-  value?: number;
-  damage: DiceRoll[];
-  damageType?: DamageType;
-  range?: string;
-  properties: Properties[];
-  requirements: Requirements;
-  skills: string[];
-  special?: string;
   description: string;
-  tags: string[];
+  category: Category;
+  quality: Quality[];
+  rarity: Rarity;
+  materials: Materials[];
+  value: number;
+  statModifiers: StatModifier[];
+  damageType: DamageType[];
+  properties: Properties[];
+  skills: string[];
+  uniqueSkills: string[];
 }

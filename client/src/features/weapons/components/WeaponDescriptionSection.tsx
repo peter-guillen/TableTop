@@ -1,5 +1,15 @@
 import { LuTarget } from "react-icons/lu";
-export const WeaponDescriptionSection = ({ description, onInputChange }) => {
+import { Weapon } from "../weaponTypes";
+
+interface WeaponDescriptionSectionProps {
+  description: Weapon["description"];
+  onInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
+
+export const WeaponDescriptionSection = ({
+  description,
+  onInputChange,
+}: WeaponDescriptionSectionProps) => {
   return (
     <section>
       <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
@@ -12,8 +22,8 @@ export const WeaponDescriptionSection = ({ description, onInputChange }) => {
             Description
           </label>
           <textarea
-            rows="6"
-            placeholder="Describe what the armor does..."
+            rows={6}
+            placeholder="Describe what the weapon does..."
             name="description"
             onChange={onInputChange}
             value={description}

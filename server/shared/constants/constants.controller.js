@@ -4,9 +4,13 @@ import {
   CONDITIONS,
   EFFECT_TYPES,
   DAMAGE_TYPES,
-  OFFENSIVE_STATS,
   STATS,
+  OFFENSIVE_STATS,
   SKILLS,
+  RARITY,
+  QUALITY,
+  MATERIALS,
+  PROPERTIES,
 } from "./constants.js";
 
 export const getConstants = (req, res) => {
@@ -16,8 +20,12 @@ export const getConstants = (req, res) => {
     CONDITIONS,
     EFFECT_TYPES,
     DAMAGE_TYPES,
-    OFFENSIVE_STATS,
     STATS,
+    OFFENSIVE_STATS,
     SKILLS,
+    RARITY,
+    QUALITY,
+    MATERIALS,
+    PROPERTIES,
   });
 };

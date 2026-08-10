@@ -19,7 +19,6 @@ export const CharacterForm = () => {
     (updated) => setFormData((prev) => ({ ...prev, ...updated })),
     [],
   );
-
   const [formData, setFormData] = useState({
     name: "",
     mode: "classed",
@@ -31,6 +30,8 @@ export const CharacterForm = () => {
     background: "",
     profession: "",
     subProfession: "",
+    conditions: [],
+
     affinity: "",
     selectedFeats: [],
     selectedWeapons: [],

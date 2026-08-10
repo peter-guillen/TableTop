@@ -10,6 +10,7 @@ export const StatModifierSchema = new mongoose.Schema(
       enum: ["turns", "until_broken", "permanent"],
     },
     duration: { type: Number },
+    target: { type: String },
     description: { type: String },
   },
   { _id: false },

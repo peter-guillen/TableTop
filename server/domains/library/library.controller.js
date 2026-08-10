@@ -25,7 +25,7 @@ const getLibrary = async (req, res) => {
       Affinity.find({}),
       Armor.find({}),
       Background.find({}),
-      Conditions.find({}),
+      Condition.find({}),
       Profession.find({}),
       Species.find({}),
       Spell.find({}),
