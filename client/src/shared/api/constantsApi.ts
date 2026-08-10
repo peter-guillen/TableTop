@@ -3,17 +3,28 @@ import {
   EffectType,
   DamageType,
   OffensiveStat,
+  Rarity,
+  Quality,
+  Materials,
+  Properties,
 } from "../constants/constantTypes";
 
 interface Constants {
   PROFESSIONS: string[];
   AFFINITIES: string[];
+
   CONDITIONS: string[];
+  STATS: Record<string, string>;
+  OFFENSIVE_STATS: OffensiveStat[];
   EFFECT_TYPES: EffectType[];
   DAMAGE_TYPES: DamageType[];
-  OFFENSIVE_STATS: OffensiveStat[];
-  STATS: Record<string, string>;
   SKILLS: Record<string, string>;
+
+  RARITY: Rarity;
+  QUALITY: Quality[];
+  MATERIALS: Materials[];
+
+  PROPERTIES: Properties[];
 }
 
 export const constantsApi = createApi({

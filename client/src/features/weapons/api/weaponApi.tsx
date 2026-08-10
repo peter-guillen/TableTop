@@ -1,4 +1,5 @@
 import API_URL from "../../../shared/api/api";
+import { Weapon } from "../weaponTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const weaponApi = createApi({
@@ -6,17 +7,17 @@ export const weaponApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api` }),
   tagTypes: ["Weapon"],
   endpoints: (builder) => ({
-    getAllWeapons: builder.query({
+    getAllWeapons: builder.query<Weapon[], void>({
       query: () => "/weapons",
       providesTags: [{ type: "Weapon", id: "LIST" }],
     }),
 
-    getWeaponById: builder.query({
+    getWeaponById: builder.query<Weapon, string>({
       query: (id) => `/weapons/${id}`,
       providesTags: (result, error, id) => [{ type: "Weapon", id }],
     }),
 
-    createWeapon: builder.mutation({
+    createWeapon: builder.mutation<Weapon, Weapon>({
       query: (formData) => ({
         url: "/weapons",
         method: "POST",
@@ -25,7 +26,7 @@ export const weaponApi = createApi({
       invalidatesTags: [{ type: "Weapon", id: "LIST" }],
     }),
 
-    updateWeapon: builder.mutation({
+    updateWeapon: builder.mutation<Weapon, { id: string; formData: Weapon }>({
       query: ({ id, formData }) => ({
         url: `/weapons/${id}`,
         method: "PATCH",
@@ -37,7 +38,7 @@ export const weaponApi = createApi({
       ],
     }),
 
-    deleteWeapon: builder.mutation({
+    deleteWeapon: builder.mutation<Weapon, string>({
       query: (id) => ({
         url: `/weapons/${id}`,
         method: "DELETE",

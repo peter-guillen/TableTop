@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Mock the model before importing the controller
-vi.mock("./weapon.model");
+vi.mock("./weapon.model.js");
 
-const Weapon = (await import("./weapon.model")).default;
-const { createWeapon } = await import("./weapon.controller");
+const Weapon = (await import("./weapon.model.js")).default;
+const { createWeapon } = await import("./weapon.controller.js");
 
 // Helper to make fake req/res objects
 const mockRes = () => {
@@ -33,8 +33,9 @@ describe("createWeapon", () => {
       body: { name: "Longsword", damage: "1d8", category: "martial" },
     };
     const res = mockRes();
+    const next = vi.fn();
 
-    await createWeapon(req, res);
+    await createWeapon(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(fakeWeapon);

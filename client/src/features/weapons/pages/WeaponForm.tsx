@@ -2,52 +2,27 @@ import { useEffect, useState } from "react";
 import { LuSparkles } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 
-// Apis and factory functions
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 
 import {
+  useGetWeaponByIdQuery,
   useCreateWeaponMutation,
-  useGetAllWeaponsQuery,
   useUpdateWeaponMutation,
 } from "../api/weaponApi.tsx";
 
-// Children components
+import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
+import { useGetAllSpellsQuery } from "../../spells/api/spellApi.tsx";
+
 import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection.tsx";
 import { WeaponCombatSection } from "../components/WeaponCombatSection.tsx";
 import { WeaponDescriptionSection } from "../components/WeaponDescriptionSection.tsx";
 import { WeaponSpecialSection } from "../components/WeaponSpecialSection.tsx";
 
-import { DiceRoll } from "../../../shared/constants/constantTypes.ts";
-import { Category, DamageType, Weapon } from "../weaponTypes.ts";
+import { Weapon } from "../weaponTypes.ts";
+import { defaultWeaponFormData } from "../weaponDefaults.ts";
 
 export function WeaponForm() {
-  const [formData, setFormData] = useState<Weapon>({
-    // Basic Info Section
-    name: "",
-    category: "" as Category,
-    rarity: "common",
-    weight: 0,
-    value: 0,
-
-    // Combat Section
-    damage: [] as DiceRoll[],
-    damageType: "" as DamageType,
-    range: "",
-    properties: [],
-
-    // Special Section
-    requirements: {
-      strength: 0,
-      proficiency: [],
-      level: 1,
-    },
-    skills: [],
-    special: "",
-
-    // Description Section
-    description: "",
-    tags: [],
-  });
+  const [formData, setFormData] = useState<Weapon>(defaultWeaponFormData);
 
   const { id } = useParams();
   const isEditing = Boolean(id);
@@ -58,16 +33,14 @@ export function WeaponForm() {
     data: weapon,
     isLoading,
     isError,
-  } = useGetAllWeaponsQuery(id, { skip: !isEditing });
+  } = useGetWeaponByIdQuery(id ?? "", { skip: !isEditing });
+  const { data: constants } = useGetConstantsQuery();
+  const { data: spells } = useGetAllSpellsQuery();
   const [createWeapon] = useCreateWeaponMutation();
   const [updateWeapon] = useUpdateWeaponMutation();
 
-  const {
-    handleCheckedChange,
-    handleArrayFieldChange,
-    handleObjectFieldChange,
-    handleNestedFieldChange,
-  } = useFormHandlers(setFormData);
+  const { handleInputChange, handleCheckedChange, handleArrayFieldChange } =
+    useFormHandlers(setFormData);
 
   useEffect(() => {
     if (isEditing && weapon) {
@@ -82,26 +55,10 @@ export function WeaponForm() {
 
   const handleCancel = () => navigate(-1);
 
-  // Handle input changes
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handlePropertiesChange = handleCheckedChange("properties");
-  const handleSkillsChange = handleArrayFieldChange("skills");
-  const handleRequirementChange = handleObjectFieldChange("requirements");
-  const handleProficiencyChange = handleNestedFieldChange(
-    "requirements",
-    "proficiency",
-  );
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isEditing) {
-      await updateWeapon({ id, formData });
+      await updateWeapon({ id: id ?? "", formData });
     } else {
       await createWeapon(formData);
     }
@@ -136,32 +93,35 @@ export function WeaponForm() {
                 name={formData.name}
                 category={formData.category}
                 rarity={formData.rarity}
-                weight={formData.weight}
                 value={formData.value}
-                tags={formData.tags}
+                quality={formData.quality}
+                qualityOptions={constants?.QUALITY ?? []}
+                materials={formData.materials}
+                materialOptions={constants?.MATERIALS ?? []}
                 onInputChange={handleInputChange}
                 onCheckedChange={handleCheckedChange}
+                onArrayFieldChange={handleArrayFieldChange}
               />
 
               {/* Combat Stats */}
               <WeaponCombatSection
-                damage={formData.damage}
                 damageType={formData.damageType}
-                range={formData.range}
+                damageTypeOptions={constants?.DAMAGE_TYPES ?? []}
                 properties={formData.properties}
-                onInputChange={handleInputChange}
-                onPropertyChange={handlePropertiesChange}
+                propertyOptions={constants?.PROPERTIES ?? []}
+                statModifiers={formData.statModifiers}
+                statModifierOptions={Object.values(constants?.STATS ?? {})}
+                onCheckedChange={handleCheckedChange}
+                onArrayFieldChange={handleArrayFieldChange}
               />
 
               {/* Special & Requirements */}
               <WeaponSpecialSection
-                requirements={formData.requirements}
                 skills={formData.skills}
-                special={formData.special}
-                onInputChange={handleInputChange}
-                onRequirementChange={handleRequirementChange}
-                onSkillsChange={handleSkillsChange}
-                onProficiencyChange={handleProficiencyChange}
+                uniqueSkills={formData.uniqueSkills}
+                spellOptions={spells ?? []}
+                onCheckedChange={handleCheckedChange}
+                onArrayFieldChange={handleArrayFieldChange}
               />
 
               {/* Description */}

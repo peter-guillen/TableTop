@@ -1,9 +1,3 @@
-export interface DiceRoll {
-  diceCount: number;
-  diceSize: number;
-  modifier: number;
-}
-
 export type EffectType =
   | "damage"
   | "healing"
@@ -13,7 +7,22 @@ export type EffectType =
   | "utility"
   | "summon";
 
-export type DamageType = "fire" | "water" | "air" | "earth" | "light" | "dark";
+export type DamageType =
+  | "slashing"
+  | "piercing"
+  | "bludgeoning"
+  | "fire"
+  | "water"
+  | "air"
+  | "earth"
+  | "light"
+  | "dark"
+  | "force"
+  | "psychic"
+  | "poison"
+  | "acid"
+  | "radiant"
+  | "necrotic";
 
 export type OffensiveStat = "Might" | "Accuracy" | "Dominance";
 
@@ -35,3 +44,43 @@ export interface HealthEffect {
   durationType?: "turns" | "until_broken" | "permanent";
   duration?: number;
 }
+
+export type Rarity =
+  | "common"
+  | "rare"
+  | "heroic"
+  | "epic"
+  | "legendary"
+  | "mythic";
+
+export type Materials =
+  | "silvered"
+  | "adamantine"
+  | "steel"
+  | "iron"
+  | "mithril"
+  | "orichalcum";
+
+export type Quality =
+  | "Enchanted"
+  | "Blessed"
+  | "Cursed"
+  | "Divine"
+  | "Masterwork"
+  | "Runed"
+  | "Corrupted"
+  | "Sentient"
+  | "Unstable"
+  | "Ancestral"
+  | "Forbidden"
+  | "Relic";
+
+export type Properties =
+  | "finesse"
+  | "heavy"
+  | "light"
+  | "reach"
+  | "thrown"
+  | "one-handed"
+  | "two-handed"
+  | "versatile";

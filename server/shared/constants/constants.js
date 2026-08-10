@@ -51,7 +51,23 @@ export const EFFECT_TYPES = [
   "summon",
 ];
 
-export const DAMAGE_TYPES = ["fire", "water", "air", "earth", "light", "dark"];
+export const DAMAGE_TYPES = [
+  "slashing",
+  "piercing",
+  "bludgeoning",
+  "fire",
+  "water",
+  "air",
+  "earth",
+  "light",
+  "dark",
+  "force",
+  "psychic",
+  "poison",
+  "acid",
+  "radiant",
+  "necrotic",
+];
 
 export const STATS = {
   MIGHT: "Might",
@@ -96,3 +112,47 @@ export const SKILLS = {
   TAMING: "Taming",
   WARFARE: "Warfare",
 };
+
+export const MATERIALS = [
+  "silvered",
+  "adamantine",
+  "steel",
+  "iron",
+  "mithril",
+  "orichalcum",
+];
+
+export const QUALITY = [
+  "Enchanted",
+  "Blessed",
+  "Cursed",
+  "Divine",
+  "Masterwork",
+  "Runed", // inscribed with runic magic — distinct flavor from Enchanted
+  "Corrupted", // darker/further-gone than Cursed, room for escalation
+  "Sentient", // the weapon has awareness/agency — big design hook (Excalibur-tier)
+  "Unstable", // volatile magic, risk/reward flavor
+  "Ancestral", // bound to a bloodline/lineage rather than generically magic
+  "Forbidden", // outlawed/taboo, independent of raw power
+  "Relic", // historically/narratively significant, not necessarily powerful
+];
+
+export const RARITY = [
+  "common",
+  "rare",
+  "heroic",
+  "epic",
+  "legendary",
+  "mythic",
+];
+
+export const PROPERTIES = [
+  "finesse",
+  "heavy",
+  "light",
+  "reach",
+  "thrown",
+  "one-handed",
+  "two-handed",
+  "versatile",
+];
