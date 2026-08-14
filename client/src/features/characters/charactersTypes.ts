@@ -1,25 +1,23 @@
-import { Spell } from "../spells/spellTypes";
-
-export type CharacterMode = "classed" | "classless";
-
-export interface ModSource {
-  label: string;
-  key: string;
-  val: number;
-}
+import { LibraryFormData } from "../library/LibraryTypes";
+import {
+  Affinities,
+  Background,
+  Profession,
+  Species,
+} from "../../shared/constants/constantTypes";
 
 export interface CharacterFormData {
   name: string;
-  mode: CharacterMode;
+  mode: "classed" | "classless";
   subPronoun: string;
   objPronoun: string;
   portrait: string | null;
-  age: string;
-  species: string;
-  background: string;
-  profession: string;
+  age: number;
+  species: Species;
+  background: Background;
+  profession: Profession;
   subProfession: string;
-  affinity: string;
+  affinity: Affinities[];
   selectedFeats: string[];
   selectedWeapons: string[];
   selectedArmor: string;
@@ -37,24 +35,12 @@ export interface CharacterFormData {
   resilience: number;
   movement: number;
   initiative: number;
-  modSources: ModSource[];
 }
 
 export interface CharacterSectionProps {
-  library: LibraryData;
+  library: LibraryFormData;
   formData: CharacterFormData;
   patchForm: PatchForm;
 }
 
 export type PatchForm = (updated: Partial<CharacterFormData>) => void;
-
-export interface LibraryData {
-  affinities: T[];
-  armors: T[];
-  backgrounds: T[];
-  professions: T[];
-  species: T[];
-  spells: Spell[];
-  traits: T[];
-  weapons: T[];
-}

@@ -21,7 +21,7 @@ function typeVariant(type = "") {
 }
 
 export const PowersTab = ({ formData, patchForm, library, onToggleFeat }) => {
-  const powers = library?.powers || [];
+  const powers = library?.spells || [];
 
   const pool =
     formData.mode === "classed"

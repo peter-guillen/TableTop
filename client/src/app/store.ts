@@ -10,7 +10,7 @@ import { articleApi } from "../features/articles/api/articleApi.tsx";
 import { backgroundApi } from "../features/backgrounds/api/backgroundApi.js";
 import { characterApi } from "../features/characters/api/characterApi.js";
 import { conditionApi } from "../features/conditions/api/conditionApi.ts";
-import { libraryApi } from "../features/library/api/libraryApi.jsx";
+import { libraryApi } from "../features/library/api/libraryApi.tsx";
 import { professionApi } from "../features/professions/api/professionApi.js";
 import { speciesApi } from "../features/species/api/speciesApi.js";
 import { spellApi } from "../features/spells/api/spellApi.js";

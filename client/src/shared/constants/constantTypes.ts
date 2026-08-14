@@ -84,3 +84,57 @@ export type Properties =
   | "one-handed"
   | "two-handed"
   | "versatile";
+
+export type Profession =
+  | "Warrior"
+  | "Knight"
+  | "Rogue"
+  | "Ranger"
+  | "Paladin"
+  | "Warlock"
+  | "Witch"
+  | "Wizard"
+  | "Sorcerer"
+  | "Magician"
+  | "Summoner"
+  | "Psychic";
+
+export type Affinities =
+  | "Arcane"
+  | "Primal"
+  | "Divine"
+  | "Eldritch"
+  | "Blood"
+  | "Martial"
+  | "Chi";
+
+export type Background =
+  | "Soldier"
+  | "Sage"
+  | "Scholar"
+  | "Thief"
+  | "Acolyte"
+  | "Mercenary"
+  | "Adeventurer";
+
+export type Traits =
+  | "Steady"
+  | "Fast & Furious"
+  | "Unshakeable"
+  | "Super Strong"
+  | "Patient";
+
+export type Species =
+  | "Human"
+  | "Dwarf"
+  | "Elf"
+  | "Orc"
+  | "Naga"
+  | "Werewolf"
+  | "Vampire";
+
+export type Armor =
+  | "Light Armor"
+  | "Medium Armor"
+  | "Heavy Armor"
+  | "Unarmored";

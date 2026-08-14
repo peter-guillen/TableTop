@@ -9,49 +9,20 @@ import {
   useCreateCharacterMutation,
   useUpdateCharacterMutation,
 } from "../api/characterApi";
+import { CharacterFormData } from "../charactersTypes";
+import { defaultCharacterFormData } from "../characterDefaults";
 
 export const CharacterForm = () => {
   const { data: library, isLoading, isError } = useGetAllLibraryItemsQuery();
-
   // Patch form helper to avoid having to spread form data everywhere when updating fields in nested components
   // Example usage: patchForm({ species: "Human", background: "Noble" })
   const patchForm = useCallback(
     (updated) => setFormData((prev) => ({ ...prev, ...updated })),
     [],
   );
-  const [formData, setFormData] = useState({
-    name: "",
-    mode: "classed",
-    subPronoun: "",
-    objPronoun: "",
-    portrait: null,
-    age: "",
-    species: "",
-    background: "",
-    profession: "",
-    subProfession: "",
-    conditions: [],
-
-    affinity: "",
-    selectedFeats: [],
-    selectedWeapons: [],
-    selectedArmor: "",
-    hpMax: 50,
-    hpCurrent: 0,
-    mpMax: 30,
-    mpCurrent: 0,
-    momMax: 5,
-    momCurrent: 0,
-    attack: 0,
-    accuracy: 0,
-    dominance: 0,
-    defense: 0,
-    resolve: 0,
-    resilience: 0,
-    movement: 0,
-    initiative: 0,
-    modSources: [],
-  });
+  const [formData, setFormData] = useState<CharacterFormData>(
+    defaultCharacterFormData,
+  );
 
   const [createCharacter] = useCreateCharacterMutation();
   const [updateCharacter] = useUpdateCharacterMutation();
