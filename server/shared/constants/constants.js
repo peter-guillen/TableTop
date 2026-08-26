@@ -156,3 +156,38 @@ export const PROPERTIES = [
   "two-handed",
   "versatile",
 ];
+
+export const BACKGROUNDS = [
+  "Soldier",
+  "Sage",
+  "Scholar",
+  "Thief",
+  "Acolyte",
+  "Mercenary",
+  "Adeventurer",
+];
+
+export const TRAITS = [
+  "Steady",
+  "Fast & Furious",
+  "Unshakeable",
+  "Super Strong",
+  "Patient",
+];
+
+export const SPECIES = [
+  "Human",
+  "Dwarf",
+  "Elf",
+  "Orc",
+  "Naga",
+  "Werewolf",
+  "Vampire",
+];
+
+export const ARMOR = [
+  "Light Armor",
+  "Medium Armor",
+  "Heavy Armor",
+  "Unarmored",
+];

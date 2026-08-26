@@ -1,10 +1,25 @@
-const SectionLabel = ({ children }) => (
-  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-white-400 mb-2">
+//
+
+import type { Character, PatchForm } from "../charactersTypes";
+import type { Constants } from "../../../shared/api/constantsApi";
+
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">
     {children}
   </p>
 );
 
-export const CharacterArchetype = ({ formData, patchForm, library }) => {
+interface CharacterArchetypeProps {
+  constants: Constants;
+  formData: Character;
+  patchForm: PatchForm;
+}
+
+export const CharacterArchetype = ({
+  formData,
+  patchForm,
+  constants,
+}: CharacterArchetypeProps) => {
   const selectClasses =
     "bg-transparent border-none text-slate-900 dark:text-white text-xs font-semibold outline-none cursor-pointer w-full mt-0.5 leading-tight";
 
@@ -15,7 +30,7 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
     <div className="flex items-stretch gap-2 mb-3 flex-wrap">
       {/* Mode pill toggle */}
       <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
-        {["classed", "classless"].map((m) => (
+        {(["classed", "classless"] as const).map((m) => (
           <button
             type="button"
             key={m}
@@ -37,12 +52,13 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
         <select
           className={selectClasses}
           value={formData.species}
-          onChange={(e) => patchForm({ species: e.target.value })}
+          onChange={(e) =>
+            patchForm({ species: e.target.value as Character["species"] })
+          }
         >
-          <option value="">—</option>
-          {library?.species?.map((s) => (
-            <option key={s._id || s.name} value={s.name}>
-              {s.name}
+          {constants?.SPECIES?.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
         </select>
@@ -54,12 +70,15 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
         <select
           className={selectClasses}
           value={formData.background}
-          onChange={(e) => patchForm({ background: e.target.value })}
+          onChange={(e) =>
+            patchForm({
+              background: e.target.value as Character["background"],
+            })
+          }
         >
-          <option value="">—</option>
-          {library?.backgrounds?.map((b) => (
-            <option key={b._id || b.name} value={b.name}>
-              {b.name}
+          {constants?.BACKGROUNDS?.map((b) => (
+            <option key={b} value={b}>
+              {b}
             </option>
           ))}
         </select>
@@ -74,16 +93,15 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
             value={formData.profession}
             onChange={(e) =>
               patchForm({
-                profession: e.target.value,
-                subProfession: "",
-                selectedFeats: [],
+                profession: e.target.value as Character["profession"],
+                selectedSpells: [],
+                selectedTraits: [],
               })
             }
           >
-            <option value="">—</option>
-            {library?.professions?.map((p) => (
-              <option key={p._id || p.title} value={p.title}>
-                {p.title}
+            {constants?.PROFESSIONS?.map((p) => (
+              <option key={p} value={p}>
+                {p}
               </option>
             ))}
           </select>
@@ -97,16 +115,19 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
           <select
             className={selectClasses}
             value={formData.subProfession}
-            onChange={(e) => patchForm({ subProfession: e.target.value })}
+            onChange={(e) =>
+              patchForm({
+                subProfession: e.target.value as Character["subProfession"],
+              })
+            }
           >
-            <option value="">None</option>
-            {library?.professions
-              .filter((p) => p.title !== formData.profession)
-              ?.map((p) => (
-                <option key={p._id || p.title} value={p.title}>
-                  {p.title}
-                </option>
-              ))}
+            {constants?.PROFESSIONS?.filter(
+              (p) => p !== formData.profession,
+            )?.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
           </select>
         </div>
       )}
@@ -119,13 +140,16 @@ export const CharacterArchetype = ({ formData, patchForm, library }) => {
             className={selectClasses}
             value={formData.affinity}
             onChange={(e) => {
-              patchForm({ affinity: e.target.value, selectedFeats: [] });
+              patchForm({
+                affinity: e.target.value as Character["affinity"],
+                selectedSpells: [],
+                selectedTraits: [],
+              });
             }}
           >
-            <option value="">—</option>
-            {library?.affinities?.map((s) => (
-              <option key={s._id || s.name} value={s.name}>
-                {s.name}
+            {constants?.AFFINITIES?.map((a) => (
+              <option key={a} value={a}>
+                {a}
               </option>
             ))}
           </select>

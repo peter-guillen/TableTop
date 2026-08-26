@@ -1,109 +1,72 @@
-import mongoose from "mongoose";
-import {
-  AFFINITIES,
-  PROFESSIONS,
-  STATS,
-  SKILLS,
-} from "../../shared/constants/constants.js";
+import mongoose, { Schema } from "mongoose";
 
-const CharacterSchema = new mongoose.Schema(
+const characterSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    species: {
-      type: String,
-      required: true,
-    },
-    background: {
-      type: String,
-      required: true,
-    },
-    mode: {
-      type: String,
-      enum: ["standard", "custom"],
-      default: "standard",
-      required: true,
-    },
-    stats: Object.fromEntries(
-      Object.values(STATS).map((stat) => [stat, { type: Number, default: 0 }]),
-    ),
-    skills: Object.fromEntries(
-      Object.values(SKILLS).map((skill) => [
-        skill,
-        { type: Number, default: 0 },
-      ]),
-    ),
-    profession: {
-      type: String,
-      enum: PROFESSIONS,
-    },
-    professionLevel: {
-      type: Number,
-      min: 1,
-      max: 10,
-    },
-    subProfession: {
-      type: String,
-      enum: PROFESSIONS,
-    },
-    subProfessionLevel: {
-      type: Number,
-      min: 1,
-      max: 5,
-    },
-    experiencePoints: {
-      type: Number,
-      default: 0,
-    },
-    affinity: {
-      type: String,
-      enum: AFFINITIES,
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+
+    identity: {
+      name: { type: String, required: true },
+      age: Number,
+      pronouns: String,
     },
 
-    traits: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Trait",
+    origin: {
+      species: { type: Schema.Types.ObjectId, ref: "Species" },
+      background: { type: Schema.Types.ObjectId, ref: "Background" },
+    },
+
+    archetype: {
+      profession: { type: Schema.Types.ObjectId, ref: "Profession" },
+      professionSub: { type: Schema.Types.ObjectId, ref: "Profession" },
+      affinity: { type: Schema.Types.ObjectId, ref: "Affinity" },
+      affinitySub: { type: Schema.Types.ObjectId, ref: "Affinity" },
+    },
+
+    progression: {
+      level: { type: Number, default: 1, min: 1 },
+    },
+
+    stats: {
+      passive: {
+        might: { type: Number, default: 0 },
+        resilience: { type: Number, default: 0 },
+        accuracy: { type: Number, default: 0 },
+        evasion: { type: Number, default: 0 },
+        dominance: { type: Number, default: 0 },
+        resolve: { type: Number, default: 0 },
       },
-    ],
-    spells: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Spell",
+      resources: {
+        hp: Number,
+        mp: Number,
+        momentum: { type: Number, default: 3, min: 0 },
       },
-    ],
-    weapons: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Weapon",
-      },
-    ],
-    armors: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Armor",
-      },
-    ],
+    },
+
     inventory: [
       {
-        type: String,
+        item: { type: Schema.Types.ObjectId, ref: "Item", required: true },
+        quantity: { type: Number, default: 1, min: 1 },
       },
     ],
-    notes: [
-      {
-        type: String,
+
+    equipment: {
+      weapons: {
+        mainHand: { type: Schema.Types.ObjectId, ref: "Item", default: null },
+        offHand: { type: Schema.Types.ObjectId, ref: "Item", default: null },
       },
-    ],
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-      index: true,
+      armor: { type: Schema.Types.ObjectId, ref: "Item", default: null },
+      accessories: { type: [Schema.Types.ObjectId], ref: "Item", default: [] },
     },
+
+    powers: {
+      spells: { type: [Schema.Types.ObjectId], ref: "Power", default: [] },
+      traits: { type: [Schema.Types.ObjectId], ref: "Power", default: [] },
+      abilities: { type: [Schema.Types.ObjectId], ref: "Power", default: [] },
+    },
+
+    skills: { type: [String], default: [] },
   },
   { timestamps: true },
 );
 
-export default mongoose.model("Character", CharacterSchema);
+export default mongoose.model("Character", characterSchema);

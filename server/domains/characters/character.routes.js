@@ -10,8 +10,18 @@ import {
   updateCharacter,
 } from "./character.controller.js";
 
-router.get("/", getAllCharacters);
-router.get("/:id", getCharacterById);
+router.get(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  getAllCharacters,
+);
+router.get(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  getCharacterById,
+);
 
 router.post(
   "/",

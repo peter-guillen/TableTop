@@ -132,13 +132,13 @@ export const Navbar = () => {
                       </div>
                       <div className="space-y-1 ml-6">
                         <NavLink
-                          to="/articles/newForm"
+                          to="/characters"
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Characters
                         </NavLink>
                         <NavLink
-                          to="/form"
+                          to="/characters/create"
                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                         >
                           Character Builder

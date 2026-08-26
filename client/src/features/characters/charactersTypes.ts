@@ -1,4 +1,3 @@
-import { LibraryFormData } from "../library/LibraryTypes";
 import {
   Affinities,
   Background,
@@ -6,7 +5,7 @@ import {
   Species,
 } from "../../shared/constants/constantTypes";
 
-export interface CharacterFormData {
+export interface Character {
   name: string;
   mode: "classed" | "classless";
   subPronoun: string;
@@ -16,10 +15,13 @@ export interface CharacterFormData {
   species: Species;
   background: Background;
   profession: Profession;
-  subProfession: string;
-  affinity: Affinities[];
+  subProfession: Profession;
+  affinity: Affinities;
   selectedFeats: string[];
   selectedWeapons: string[];
+  selectedSpells: string[];
+  selectedSkills: string[];
+  selectedTraits: string[];
   selectedArmor: string;
   hpMax: number;
   hpCurrent: number;
@@ -38,9 +40,8 @@ export interface CharacterFormData {
 }
 
 export interface CharacterSectionProps {
-  library: LibraryFormData;
-  formData: CharacterFormData;
+  formData: Character;
   patchForm: PatchForm;
 }
 
-export type PatchForm = (updated: Partial<CharacterFormData>) => void;
+export type PatchForm = (updated: Partial<Character>) => void;

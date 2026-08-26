@@ -7,6 +7,10 @@ import {
   Quality,
   Materials,
   Properties,
+  Background,
+  Traits,
+  Species,
+  Armor,
 } from "../constants/constantTypes";
 
 interface Constants {
@@ -25,6 +29,10 @@ interface Constants {
   MATERIALS: Materials[];
 
   PROPERTIES: Properties[];
+  BACKGROUNDS: string[];
+  TRAITS: string[];
+  SPECIES: string;
+  ARMOR: string;
 }
 
 export const constantsApi = createApi({
