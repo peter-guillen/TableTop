@@ -4,7 +4,7 @@ import { constantsApi } from "../shared/api/constantsApi.js";
 import { authApi } from "../features/auth/api/authApi.js";
 import { userApi } from "../features/users/api/userApi.tsx";
 
-import { affinityApi } from "../features/affinities/api/affinityApi.js";
+import { archetypeApi } from "../features/archetypes/api/archetypeApi.js";
 import { armorApi } from "../features/armors/api/armorApi.jsx";
 import { articleApi } from "../features/articles/api/articleApi.tsx";
 import { backgroundApi } from "../features/backgrounds/api/backgroundApi.js";
@@ -23,7 +23,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
 
-    [affinityApi.reducerPath]: affinityApi.reducer,
+    [archetypeApi.reducerPath]: archetypeApi.reducer,
     [armorApi.reducerPath]: armorApi.reducer,
     [articleApi.reducerPath]: articleApi.reducer,
     [backgroundApi.reducerPath]: backgroundApi.reducer,
@@ -42,7 +42,7 @@ export const store = configureStore({
       authApi.middleware,
       userApi.middleware,
 
-      affinityApi.middleware,
+      archetypeApi.middleware,
       armorApi.middleware,
       articleApi.middleware,
       backgroundApi.middleware,

@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-import Affinity from "../affinities/affinity.model.js";
+import Archetype from "../archetypes/archetype.model.js";
 import Armor from "../armors/armor.model.js";
 import Background from "../backgrounds/background.model.js";
 import Condition from "../conditions/condition.model.js";
@@ -12,7 +11,7 @@ import Weapon from "../weapons/weapon.model.js";
 const getLibrary = async (req, res) => {
   try {
     const [
-      affinities,
+      archetypes,
       armors,
       backgrounds,
       conditions,
@@ -22,7 +21,7 @@ const getLibrary = async (req, res) => {
       traits,
       weapons,
     ] = await Promise.all([
-      Affinity.find({}),
+      Archetype.find({}),
       Armor.find({}),
       Background.find({}),
       Condition.find({}),
@@ -33,7 +32,7 @@ const getLibrary = async (req, res) => {
       Weapon.find({}),
     ]);
     res.status(200).json({
-      affinities,
+      archetypes,
       armors,
       backgrounds,
       conditions,
