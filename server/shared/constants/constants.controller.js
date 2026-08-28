@@ -11,6 +11,10 @@ import {
   QUALITY,
   MATERIALS,
   PROPERTIES,
+  BACKGROUNDS,
+  TRAITS,
+  SPECIES,
+  ARMOR,
 } from "./constants.js";
 
 export const getConstants = (req, res) => {
@@ -27,5 +31,9 @@ export const getConstants = (req, res) => {
     QUALITY,
     MATERIALS,
     PROPERTIES,
+    BACKGROUNDS,
+    TRAITS,
+    SPECIES,
+    ARMOR,
   });
 };

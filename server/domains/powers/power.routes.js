@@ -2,44 +2,38 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
-import {
-  getAllCharacters,
-  getCharacterById,
-  createCharacter,
-  deleteCharacter,
-  updateCharacter,
-} from "./character.controller.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
-router.get(
-  "/",
-  checkAuthenticated,
-  checkAuthorization(["admin"]),
-  getAllCharacters,
-);
-router.get(
-  "/:id",
-  checkAuthenticated,
-  checkAuthorization(["admin"]),
-  getCharacterById,
-);
+import {
+  getAllPowers,
+  getPowerById,
+  createPower,
+  deletePower,
+  updatePower,
+} from "./power.controller.js";
+
+router.get("/", getAllPowers);
+router.get("/:id", validateObjectId, getPowerById);
 
 router.post(
   "/",
   checkAuthenticated,
   checkAuthorization(["admin"]),
-  createCharacter,
-);
-router.delete(
-  "/:id",
-  checkAuthenticated,
-  checkAuthorization(["admin"]),
-  deleteCharacter,
+  createPower,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
-  updateCharacter,
+  validateObjectId,
+  updatePower,
+);
+router.delete(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin"]),
+  validateObjectId,
+  deletePower,
 );
 
 export default router;

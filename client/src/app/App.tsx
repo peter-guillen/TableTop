@@ -13,7 +13,7 @@ import { Login } from "./pages/Login.tsx";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
 import { Rules } from "../features/playerTools/components/Rules";
-import { CharacterForm } from "../features/characters/pages/CharacterForm.tsx";
+import { CharacterPage } from "../features/characters/pages/CharacterPage.tsx";
 
 import { Home } from "./pages/Home.tsx";
 import { NotFound } from "./pages/NotFound.tsx";
@@ -36,7 +36,7 @@ const router = createBrowserRouter(
         <Route path="/login" element={<Login />} />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/rules" element={<Rules />} />
-        <Route path="/form" element={<CharacterForm />} />
+        <Route path="/characters/*" element={<CharacterPage />} />
         <Route path="/articles/*" element={<ArticlePage />} />
         <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/spells/*" element={<SpellPage />} />

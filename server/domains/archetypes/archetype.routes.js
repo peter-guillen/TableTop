@@ -3,33 +3,33 @@ const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
 import {
-  getAllAffinities,
-  getAffinityById,
-  createAffinity,
-  deleteAffinity,
-  updateAffinity,
-} from "./affinity.controller.js";
+  getAllArchetypes,
+  getArchetypeById,
+  createArchetype,
+  deleteArchetype,
+  updateArchetype,
+} from "./archetype.controller.js";
 
-router.get("/", getAllAffinities);
-router.get("/:id", getAffinityById);
+router.get("/", getAllArchetypes);
+router.get("/:id", getArchetypeById);
 
 router.post(
   "/",
   checkAuthenticated,
   checkAuthorization(["admin"]),
-  createAffinity,
+  createArchetype,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
-  deleteAffinity,
+  deleteArchetype,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
-  updateAffinity,
+  updateArchetype,
 );
 
 export default router;

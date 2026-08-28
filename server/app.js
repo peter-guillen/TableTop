@@ -18,7 +18,7 @@ import constantsRoutes from "./shared/constants/constants.routes.js";
 import authRoutes from "./domains/auth/auth.routes.js";
 
 import activityRoutes from "./domains/activity/activity.routes.js";
-import affinityRoutes from "./domains/affinities/affinity.routes.js";
+import archetypeRoutes from "./domains/archetypes/archetype.routes.js";
 import armorRoutes from "./domains/armors/armor.routes.js";
 import articleRoutes from "./domains/articles/article.routes.js";
 import backgroundRoutes from "./domains/backgrounds/background.routes.js";
@@ -36,7 +36,7 @@ app.use("/api/constants", constantsRoutes);
 app.use("/api/auth", authRoutes);
 
 app.use("/api/activity", activityRoutes);
-app.use("/api/affinities", affinityRoutes);
+app.use("/api/archetype", archetypeRoutes);
 app.use("/api/armors", armorRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/backgrounds", backgroundRoutes);

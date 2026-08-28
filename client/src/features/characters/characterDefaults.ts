@@ -1,6 +1,6 @@
-import { CharacterFormData } from "./charactersTypes";
+import { Character } from "./charactersTypes";
 
-export const defaultCharacterFormData: CharacterFormData = {
+export const defaultCharacterFormData: Character = {
   name: "",
   mode: "classed",
   subPronoun: "",
@@ -10,10 +10,13 @@ export const defaultCharacterFormData: CharacterFormData = {
   species: "Human",
   background: "Soldier",
   profession: "Warrior",
-  subProfession: "",
+  subProfession: "Knight",
   affinity: [],
   selectedFeats: [],
   selectedWeapons: [],
+  selectedSpells: [],
+  selectedSkills: [],
+  selectedTraits: [],
   selectedArmor: "",
   hpMax: 10,
   hpCurrent: 0,

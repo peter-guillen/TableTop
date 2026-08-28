@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const AffinitySchema = new mongoose.Schema({
+const ArchetypeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
 });
 
-export default mongoose.model("Affinity", AffinitySchema);
+export default mongoose.model("Archetype", ArchetypeSchema);
