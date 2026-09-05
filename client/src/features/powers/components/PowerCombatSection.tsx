@@ -1,13 +1,29 @@
-import { HealthEffect } from "../../../shared/constants/constantTypes";
+// import { HealthEffect } from "../../../shared/constants/constantTypes";
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
+import {
+  Targeting,
+  TargetCategory,
+  TargetShape,
+  DamageType,
+  HealthEffect,
+} from "../powerTypes";
 
 interface PowerCombatSectionProps {
+  targeting: Targeting;
   healthEffects: HealthEffect[];
+  damageTypeOptions: DamageType[];
+  onTargetingChange: <K extends keyof Targeting>(
+    field: K,
+    value: Targeting[K],
+  ) => void;
   onHealthChange: (newData: HealthEffect[]) => void;
 }
 
 export const PowerCombatSection = ({
+  targeting,
   healthEffects = [],
+  damageTypeOptions,
+  onTargetingChange,
   onHealthChange,
 }: PowerCombatSectionProps) => {
   const damage = healthEffects.filter((e) => e.direction === "damage");
@@ -18,6 +34,7 @@ export const PowerCombatSection = ({
       ...healthEffects,
       {
         direction,
+        damageType: "",
         diceCount: 0,
         diceSize: 0,
         flat: 0,
@@ -48,6 +65,116 @@ export const PowerCombatSection = ({
         Combat Properties
       </h2>
 
+      {/* Targeting */}
+      <div className="space-y-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Target Category *
+            </label>
+            <select
+              name="targetCategory"
+              onChange={(e) =>
+                onTargetingChange(
+                  "targetCategory",
+                  e.target.value as TargetCategory,
+                )
+              }
+              value={targeting.targetCategory}
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            >
+              <option value="creature">Creature</option>
+              <option value="object">Object</option>
+              <option value="point">Point</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Target Count *
+            </label>
+            <input
+              type="number"
+              placeholder="1"
+              name="targetCount"
+              onChange={(e) =>
+                onTargetingChange("targetCount", Number(e.target.value))
+              }
+              value={targeting.targetCount}
+              min="0"
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Range (ft) *
+            </label>
+            <input
+              type="number"
+              placeholder="0"
+              name="range"
+              onChange={(e) =>
+                onTargetingChange("range", Number(e.target.value))
+              }
+              value={targeting.range}
+              min="0"
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Area Shape
+            </label>
+            <select
+              name="shape"
+              onChange={(e) =>
+                onTargetingChange(
+                  "shape",
+                  (e.target.value || undefined) as TargetShape | undefined,
+                )
+              }
+              value={targeting.shape ?? ""}
+              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            >
+              <option value="">None</option>
+              <option value="sphere">Sphere</option>
+              <option value="cone">Cone</option>
+              <option value="line">Line</option>
+              <option value="cube">Cube</option>
+              <option value="wall">Wall</option>
+              <option value="cylinder">Cylinder</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Area Size (ft)
+            </label>
+            <input
+              type="number"
+              placeholder="0"
+              name="size"
+              onChange={(e) =>
+                onTargetingChange("size", Number(e.target.value))
+              }
+              value={targeting.size ?? 0}
+              min="0"
+              disabled={!targeting.shape}
+              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all disabled:opacity-40"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Damage Section */}
       <div>
         <div className="flex items-center justify-between mb-4">
@@ -68,8 +195,27 @@ export const PowerCombatSection = ({
           {damage.map((dmg, index) => (
             <div
               key={index}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 items-end"
+              className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end"
             >
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Damage Type
+                </label>
+                <select
+                  value={dmg.damageType || ""}
+                  onChange={(e) =>
+                    updateEffect(dmg, "damageType", e.target.value)
+                  }
+                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                >
+                  <option value="">Select</option>
+                  {damageTypeOptions.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Dice Count
@@ -153,8 +299,27 @@ export const PowerCombatSection = ({
           {healing.map((heal, index) => (
             <div
               key={index}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 items-end"
+              className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end"
             >
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Damage Type
+                </label>
+                <select
+                  value={heal.damageType || ""}
+                  onChange={(e) =>
+                    updateEffect(heal, "damageType", e.target.value)
+                  }
+                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                >
+                  <option value="">Select</option>
+                  {damageTypeOptions.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Dice Count

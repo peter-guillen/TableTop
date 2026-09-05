@@ -1,4 +1,3 @@
-// components/SearchBar.jsx
 import React from "react";
 import { LuSearch } from "react-icons/lu";
 

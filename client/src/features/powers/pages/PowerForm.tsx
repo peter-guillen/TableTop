@@ -9,12 +9,14 @@ import {
   useGetPowerByIdQuery,
   useCreatePowerMutation,
   useUpdatePowerMutation,
+  useGetAllPowersQuery,
 } from "../api/powerApi";
 
 import { PowerBasicInfoSection } from "../components/PowerBasicInfoSection";
-import { PowerCastingSection } from "../components/PowerCastingSection";
+import { PowerActivationSection } from "../components/PowerActivationSection.tsx";
 import { PowerCombatSection } from "../components/PowerCombatSection";
 import { PowerConditionsSection } from "../components/PowerConditionsSection";
+import { PowerRequirementsSection } from "../components/PowerRequirementsSection";
 import { PowerDescriptionSection } from "../components/PowerDescriptionSection";
 
 import { Power } from "../powerTypes";
@@ -32,6 +34,7 @@ export function PowerForm() {
     isLoading,
     isError,
   } = useGetPowerByIdQuery(id ?? "", { skip: !isEditing });
+  const { data: powers = [] } = useGetAllPowersQuery();
   const [createPower] = useCreatePowerMutation();
   const [updatePower] = useUpdatePowerMutation();
 
@@ -46,10 +49,18 @@ export function PowerForm() {
   const handleHealthChange = handleArrayFieldChange("healthEffects");
   const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
   const handleConditionsChange = handleArrayFieldChange("conditions");
-  const handleCastingChange = handleObjectFieldChange("casting");
   const handleTargetingChange = handleObjectFieldChange("targeting");
+  const handleActivationChange = handleObjectFieldChange("activation");
+  const handleRequirementsChange = handleObjectFieldChange("requirements");
   const handleRechargeChange = handleFieldChange("recharge");
-  const handleTierChange = handleFieldChange("tier");
+  const handleGrantedPowersChange = handleFieldChange("grantedPowers");
+
+  // Exclude this power itself from pickers that reference other powers —
+  // a trait can't require or grant itself
+  const otherPowers = powers.filter(
+    (p): p is Power & { _id: string } =>
+      p._id !== undefined && p._id !== formData._id,
+  );
 
   const handleCancel = () => navigate(-1);
 
@@ -63,14 +74,14 @@ export function PowerForm() {
     navigate("/powers");
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
-
   useEffect(() => {
     if (isEditing && power) {
       setFormData({ ...power });
     }
   }, [isEditing, power]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-350 via-cyan-350 to-slate-300 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
@@ -98,32 +109,27 @@ export function PowerForm() {
               {/* Basic Information */}
               <PowerBasicInfoSection
                 name={formData.name}
-                school={formData.school}
-                tier={formData.tier}
+                kind={formData.kind}
+                school={formData.school ?? ""}
                 offensiveStat={formData.offensiveStat}
                 offensiveStatOptions={constants?.OFFENSIVE_STATS ?? []}
-                damageType={formData.damageType}
-                damageTypeOptions={constants?.DAMAGE_TYPES ?? []}
-                effectType={formData.effectType}
-                effectTypeOptions={constants?.EFFECT_TYPES ?? []}
                 onInputChange={handleInputChange}
-                onTierChange={handleTierChange}
-                onCheckedChange={handleCheckedChange}
               />
 
-              {/* Casting Details */}
-              <PowerCastingSection
-                casting={formData.casting}
-                targeting={formData.targeting}
+              {/* Activation Details */}
+              <PowerActivationSection
+                activation={formData.activation}
                 recharge={formData.recharge}
-                onCastingChange={handleCastingChange}
+                onActivationChange={handleActivationChange}
                 onRechargeChange={handleRechargeChange}
-                onTargetingChange={handleTargetingChange}
               />
 
-              {/* Combat Stats */}
+              {/* Combat Stats (includes Targeting) */}
               <PowerCombatSection
+                targeting={formData.targeting}
                 healthEffects={formData.healthEffects}
+                damageTypeOptions={constants?.DAMAGE_TYPES ?? []}
+                onTargetingChange={handleTargetingChange}
                 onHealthChange={handleHealthChange}
               />
 
@@ -132,6 +138,19 @@ export function PowerForm() {
                 conditions={formData.conditions}
                 onStatModifiersChange={handleStatModifiersChange}
                 onConditionsChange={handleConditionsChange}
+              />
+
+              {/* Requirements */}
+              <PowerRequirementsSection
+                kind={formData.kind}
+                minLevel={formData.requirements.minLevel}
+                requiredTraits={formData.requirements.requiredTraits}
+                weaponTags={formData.requirements.weaponTags} // Come back and change PROPERTIES WEAPON_TAGS
+                weaponTagOptions={constants?.PROPERTIES ?? []}
+                grantedPowers={formData.grantedPowers}
+                allPowers={otherPowers}
+                onRequirementsChange={handleRequirementsChange}
+                onGrantedPowersChange={handleGrantedPowersChange}
               />
 
               {/* Description */}

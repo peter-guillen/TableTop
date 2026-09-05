@@ -1,18 +1,6 @@
-import {
-  EffectType,
-  DamageType,
-  HealthEffect,
-  StatModifier,
-  OffensiveStat,
-} from "../../shared/constants/constantTypes";
+export type PowerKind = "spell" | "ability" | "technique" | "trait";
 
-export interface PowerCondition {
-  condition: string;
-  durationType: "turns" | "until_broken" | "permanent";
-  duration?: number;
-}
-
-export type PowerSchool =
+export type SpellSchool =
   | "evocation"
   | "abjuration"
   | "conjuration"
@@ -22,10 +10,20 @@ export type PowerSchool =
   | "necromancy"
   | "transmutation";
 
-export type CastingAction = "major_action" | "minor_action" | "reaction";
+export type EffectType =
+  | "damage"
+  | "healing"
+  | "buff"
+  | "debuff"
+  | "control"
+  | "utility"
+  | "summon";
 
 export type Recharge = "unlimited" | "short_rest" | "long_rest" | "daily";
 
+export type OffensiveStat = "Might" | "Accuracy" | "Dominance";
+
+/* ------------------------------ Targeting ------------------------------ */
 export type TargetCategory = "creature" | "object" | "point";
 
 export type TargetShape =
@@ -35,17 +33,6 @@ export type TargetShape =
   | "cube"
   | "wall"
   | "cylinder";
-
-export interface Casting {
-  action: CastingAction;
-  ritual: boolean;
-  concentration: boolean;
-  channel: boolean;
-  castTime: number;
-  duration: number;
-  stamina?: number;
-}
-
 export interface Targeting {
   targetCategory: TargetCategory;
   targetCount: number;
@@ -54,24 +41,97 @@ export interface Targeting {
   size?: number;
 }
 
+/* ------------------------------ HealthEffect ------------------------------ */
+export type DamageType =
+  | "slashing"
+  | "piercing"
+  | "bludgeoning"
+  | "fire"
+  | "water"
+  | "air"
+  | "earth"
+  | "light"
+  | "dark"
+  | "force"
+  | "psychic"
+  | "poison"
+  | "acid"
+  | "radiant"
+  | "necrotic";
+
+export interface HealthEffect {
+  direction: "damage" | "healing";
+  damageType?: string;
+  diceSize?: number;
+  diceCount?: number;
+  flat?: number;
+  persistent: boolean;
+  durationType?: "turns" | "until_broken" | "permanent";
+  duration?: number;
+
+  /* ------------------------------ StatModifier ------------------------------ */
+}
+export interface StatModifier {
+  stat: string;
+  value: number;
+  durationType: "turns" | "until_broken" | "permanent";
+  duration?: number;
+  target: string;
+  description: string;
+}
+
+/* ------------------------------ Condition ------------------------------ */
+
+export interface Condition {
+  condition: string;
+  durationType: "turns" | "until_broken" | "permanent";
+  duration?: number;
+}
+
+/* ------------------------------ Activation ------------------------------ */
+
+export type Action = "major_action" | "minor_action" | "reaction";
+
+export type Resource = "hp" | "mp" | "momentum";
+
+export interface Activation {
+  action: Action;
+  ritual: boolean;
+  concentration: boolean;
+  channel: boolean;
+  castTime: number;
+  duration: number;
+  resource: Resource;
+  cost: number;
+}
+
+/* ------------------------------ Requirements ------------------------------ */
+export interface Requirements {
+  minLevel: number;
+  requiredTraits: string[];
+  weaponTags: [];
+}
+
 export interface Power {
   _id?: string;
   name: string;
-  school: PowerSchool;
-  tier: number;
+  kind: PowerKind;
+  description: string;
+  school?: SpellSchool;
+  // tier: number;
 
   effectType: EffectType[];
-  damageType: DamageType[];
+  damageType?: DamageType[];
 
   healthEffects: HealthEffect[];
   statModifiers: StatModifier[];
-  conditions: PowerCondition[];
+  conditions: Condition[];
 
-  casting: Casting;
+  activation: Activation;
   recharge: Recharge;
   targeting: Targeting;
-
   offensiveStat: OffensiveStat;
 
-  description: string;
+  requirements: Requirements;
+  grantedPowers: string[];
 }
