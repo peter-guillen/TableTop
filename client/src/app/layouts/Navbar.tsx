@@ -1,501 +1,3 @@
-// import { useContext, useEffect, useRef, useState } from "react";
-// import { NavLink, Outlet, useNavigate } from "react-router-dom";
-// import {
-//   useGetCurrentUserQuery,
-//   useLogoutMutation,
-// } from "../../features/auth/api/authApi.tsx";
-
-// import { ThemeContext } from "../contexts/ThemeContext.tsx";
-
-// import {
-//   FaMoon,
-//   FaRegUser,
-//   FaSun,
-//   FaUser,
-//   FaHouse,
-//   FaDiceD20,
-//   FaUsers,
-// } from "react-icons/fa6";
-// import {
-//   LuScroll,
-//   LuChevronDown,
-//   LuLogOut,
-//   LuLogIn,
-//   LuMenu,
-//   LuX,
-//   LuDrama,
-//   LuSparkles,
-//   LuBook,
-//   LuFlag,
-//   LuAnvil,
-// } from "react-icons/lu";
-
-// export const Navbar = () => {
-//   const { data: currentUser } = useGetCurrentUserQuery();
-
-//   const [logout] = useLogoutMutation();
-
-//   const themeContext = useContext(ThemeContext);
-//   if (!themeContext)
-//     throw new Error("Navbar must be inside ThemeContextProvider");
-//   const { darkMode, toggleTheme } = themeContext;
-//   const dropdownRef = useRef<HTMLDivElement | null>(null);
-//   const navigate = useNavigate();
-//   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-//   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (
-//         dropdownRef.current &&
-//         !dropdownRef.current.contains(event.target as Node)
-//       ) {
-//         setIsUserDropdownOpen(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handleClickOutside);
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, []);
-
-//   const handleLogout = () => {
-//     logout();
-//     navigate("/login");
-//   };
-
-//   return (
-//     <>
-//       <nav
-//         className={`
-//       px-4 sm:px-6 py-4 shadow-lg border-b transition-colors duration-200
-//       bg-white dark:bg-gray-900
-//       border-gray-200 dark:border-gray-700
-//     `}
-//       >
-//         <div className="flex items-center justify-between max-w-7xl mx-auto">
-//           {/* Left Section - Logo and Main Navigation */}
-//           <div className="flex items-center space-x-4 sm:space-x-8">
-//             <NavLink to="/">
-//               <div className="flex items-center space-x-2">
-//                 <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-600 dark:bg-cyan-500 to-orange-600 dark:to-orange-500">
-//                   <FaDiceD20 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-//                 </div>
-//                 <span className="hidden sm:block text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
-//                   RPG Hub
-//                 </span>
-//               </div>
-//             </NavLink>
-
-//             {/* Desktop Navigation Links */}
-//             <div className="hidden lg:flex items-center space-x-6">
-//               <NavLink
-//                 to="/"
-//                 className={
-//                   "flex items-center space-x-1 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-//                 }
-//               >
-//                 <FaHouse className="w-4 h-4" />
-//                 <span>Home</span>
-//               </NavLink>
-
-//               {/* Player Tools Dropdown */}
-//               <div className="relative group">
-//                 <button className="flex items-center space-x-1 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800">
-//                   <span>Player Tools</span>
-//                   <LuChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
-//                 </button>
-
-//                 <div className="absolute left-0 mt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
-//                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2">
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
-//                         <LuBook className="w-4 h-4" />
-//                         <span>Rules & Mechanics</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6">
-//                         <NavLink
-//                           to="/rules"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Basic Rules
-//                         </NavLink>
-//                       </div>
-//                     </div>
-
-//                     <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
-//                         <LuScroll className="w-4 h-4" />
-//                         <span>Collections</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6">
-//                         <NavLink
-//                           to="/characters"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Characters
-//                         </NavLink>
-//                         <NavLink
-//                           to="/characters/create"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Character Builder
-//                         </NavLink>
-//                       </div>
-//                     </div>
-//                     <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">
-//                         <LuFlag className="w-4 h-4" />
-//                         <span>Campaigns</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6 text-sm">
-//                         Coming Soon...
-//                       </div>
-//                     </div>
-
-//                     <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-red-600 dark:text-red-400 mb-2">
-//                         <FaUsers className="w-4 h-4" />
-//                         <span>Community</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6">
-//                         <NavLink
-//                           to="/articles"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Articles
-//                         </NavLink>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Game Resources Dropdown */}
-//               <div className="relative group">
-//                 <button className="flex items-center space-x-1 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800">
-//                   <span>Game Resources</span>
-//                   <LuChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
-//                 </button>
-
-//                 <div className="absolute left-0 mt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
-//                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2">
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
-//                         <LuDrama className="w-4 h-4" />
-//                         <span>Classes</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6">
-//                         <NavLink
-//                           to="/professions"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Classes
-//                         </NavLink>
-//                       </div>
-//                     </div>
-
-//                     <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
-//                         <LuAnvil className="w-4 h-4" />
-//                         <span>Equipment & Items</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6">
-//                         <NavLink
-//                           to="/weapons"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Weapons
-//                         </NavLink>
-//                         <NavLink
-//                           to="/armors"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Armors
-//                         </NavLink>
-//                       </div>
-//                     </div>
-
-//                     <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-//                     <div className="px-4 py-2">
-//                       <div className="flex items-center space-x-2 text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">
-//                         <LuSparkles className="w-4 h-4" />
-//                         <span>Spells & Abilities</span>
-//                       </div>
-//                       <div className="space-y-1 ml-6">
-//                         <NavLink
-//                           to="/spells"
-//                           className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-//                         >
-//                           Spells
-//                         </NavLink>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {(currentUser && currentUser.role === "admin") || "moderator" ? (
-//                 <NavLink
-//                   to="admin"
-//                   className="px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-//                 >
-//                   Admin
-//                 </NavLink>
-//               ) : null}
-//             </div>
-//           </div>
-
-//           {/* Right Section - User Controls */}
-//           <div className="flex items-center space-x-2 sm:space-x-4">
-//             {/* Theme Toggle */}
-//             <button
-//               onClick={toggleTheme}
-//               className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-//             >
-//               {darkMode ? (
-//                 <FaMoon className="w-5 h-5" style={{ color: "#1b9c9aff" }} />
-//               ) : (
-//                 <FaSun className="w-5 h-5" style={{ color: "#f49912" }} />
-//               )}
-//             </button>
-
-//             {/* User Profile Dropdown - Desktop */}
-//             {currentUser ? (
-//               <div className="hidden sm:block relative" ref={dropdownRef}>
-//                 <button
-//                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-//                   className="flex items-center space-x-2 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-//                 >
-//                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center">
-//                     <FaUser className="w-5 h-5 text-white" />
-//                   </div>
-//                   <LuChevronDown
-//                     className={`w-4 h-4 transition-transform duration-200 ${
-//                       isUserDropdownOpen ? "rotate-180" : ""
-//                     }`}
-//                   />
-//                 </button>
-
-//                 {isUserDropdownOpen && (
-//                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-1 z-50">
-//                     <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-//                       <p className="text-sm text-gray-900 dark:text-white font-medium">
-//                         {currentUser.username}
-//                       </p>
-//                       <p className="text-xs text-gray-500 dark:text-gray-400">
-//                         {currentUser.email}
-//                       </p>
-//                     </div>
-//                     <NavLink
-//                       to="register"
-//                       className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-//                     >
-//                       <FaUser className="w-4 h-4" />
-//                       <span>Profile</span>
-//                     </NavLink>
-//                     <button
-//                       className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
-//                       onClick={handleLogout}
-//                     >
-//                       <LuLogOut className="w-4 h-4" />
-//                       <span>Logout</span>
-//                     </button>
-//                   </div>
-//                 )}
-//               </div>
-//             ) : (
-//               <>
-//                 <NavLink to="register" className="hidden sm:block">
-//                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center">
-//                     <FaRegUser className="w-5 h-5 text-white" />
-//                   </div>
-//                 </NavLink>
-//                 <NavLink to="login" className="hidden sm:block">
-//                   <button className="flex items-center space-x-2 px-4 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
-//                     <LuLogIn className="w-4 h-4" />
-//                     <span className="hidden md:block">LogIn</span>
-//                   </button>
-//                 </NavLink>
-//               </>
-//             )}
-
-//             {/* Mobile Menu Button */}
-//             <button
-//               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-//               className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-//             >
-//               {isMobileMenuOpen ? (
-//                 <LuX className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-//               ) : (
-//                 <LuMenu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-//               )}
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Mobile Menu */}
-//         {isMobileMenuOpen && (
-//           <div className="lg:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700 pt-4">
-//             <div className="space-y-2">
-//               <NavLink
-//                 to="/"
-//                 className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-//                 onClick={() => setIsMobileMenuOpen(false)}
-//               >
-//                 <FaHouse className="w-4 h-4" />
-//                 <span>Home</span>
-//               </NavLink>
-
-//               {/* Mobile Player Tools */}
-//               <div className="px-3 py-2">
-//                 <div className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
-//                   Player Tools
-//                 </div>
-//                 <div className="space-y-1 ml-4">
-//                   <NavLink
-//                     to="rules"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Basic Rules
-//                   </NavLink>
-//                   <NavLink
-//                     to="/articles/newForm"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Characters
-//                   </NavLink>
-//                   <NavLink
-//                     to="/builder"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Character Builder
-//                   </NavLink>
-//                   <NavLink
-//                     to="/articles"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Articles
-//                   </NavLink>
-//                 </div>
-//               </div>
-
-//               {/* Mobile Game Resources */}
-//               <div className="px-3 py-2">
-//                 <div className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
-//                   Game Resources
-//                 </div>
-//                 <div className="space-y-1 ml-4">
-//                   <NavLink
-//                     to="professions"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Classes
-//                   </NavLink>
-//                   <NavLink
-//                     to="/weapons"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Weapons
-//                   </NavLink>
-//                   <NavLink
-//                     to="/armors"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Armors
-//                   </NavLink>
-//                   <NavLink
-//                     to="/spells"
-//                     className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     Spells
-//                   </NavLink>
-//                 </div>
-//               </div>
-
-//               {currentUser && currentUser.role === "admin" && (
-//                 <NavLink
-//                   to="admin"
-//                   className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-//                   onClick={() => setIsMobileMenuOpen(false)}
-//                 >
-//                   <span>Admin</span>
-//                 </NavLink>
-//               )}
-
-//               {/* Mobile User Actions */}
-//               {currentUser ? (
-//                 <div className="sm:hidden border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
-//                   <div className="px-3 py-2 text-sm text-gray-900 dark:text-white font-medium">
-//                     {currentUser.username}
-//                   </div>
-//                   <NavLink
-//                     to="register"
-//                     className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     <FaUser className="w-4 h-4" />
-//                     <span>Profile</span>
-//                   </NavLink>
-
-//                   <button
-//                     className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md w-full text-left"
-//                     onClick={() => {
-//                       handleLogout();
-//                       setIsMobileMenuOpen(false);
-//                     }}
-//                   >
-//                     <LuLogOut className="w-4 h-4" />
-//                     <span>Logout</span>
-//                   </button>
-//                 </div>
-//               ) : (
-//                 <div className="sm:hidden border-t border-gray-200 dark:border-gray-700 pt-2 mt-2 space-y-2">
-//                   <NavLink
-//                     to="register"
-//                     className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     <FaRegUser className="w-4 h-4" />
-//                     <span>Register</span>
-//                   </NavLink>
-//                   <NavLink
-//                     to="login"
-//                     className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-//                     onClick={() => setIsMobileMenuOpen(false)}
-//                   >
-//                     <LuLogIn className="w-4 h-4" />
-//                     <span>Login</span>
-//                   </NavLink>
-//                 </div>
-//               )}
-//             </div>
-//           </div>
-//         )}
-//       </nav>
-//       <main>
-//         <Outlet />
-//       </main>
-//     </>
-//   );
-// };
 import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
@@ -526,6 +28,10 @@ import {
   LuBook,
   LuFlag,
   LuAnvil,
+  LuScrollText,
+  LuPencil,
+  LuSchool,
+  LuPersonStanding,
 } from "react-icons/lu";
 
 const isAdminOrMod = (role?: string) =>
@@ -620,31 +126,25 @@ export const Navbar = () => {
                       </NavLink>
                     </div>
 
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-                    {/* Collections - keeps its divider, 2 links */}
-                    <div className="px-4 py-2">
-                      <div className="flex items-center space-x-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
-                        <LuScroll className="w-4 h-4" />
-                        <span>Collections</span>
-                      </div>
-                      <div className="space-y-1 ml-6">
-                        <NavLink
-                          to="/characters"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Characters
-                        </NavLink>
-                        <NavLink
-                          to="/characters/create"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Character Builder
-                        </NavLink>
-                      </div>
+                    <div className="px-4 py-1">
+                      <NavLink
+                        to="/characters"
+                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >
+                        <LuScrollText className="w-4 h-4" />
+                        <span>Characters</span>
+                      </NavLink>
                     </div>
 
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+                    <div className="px-4 py-1">
+                      <NavLink
+                        to="/characters/create"
+                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >
+                        <LuPencil className="w-4 h-4" />
+                        <span>Character Builder</span>
+                      </NavLink>
+                    </div>
 
                     {/* Campaigns - not built yet, disabled entry instead of an empty section */}
                     <div className="px-4 py-1">
@@ -656,8 +156,6 @@ export const Navbar = () => {
                         <span className="text-xs italic">Soon</span>
                       </div>
                     </div>
-
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
                     {/* Articles - single link, no divider needed */}
                     <div className="px-4 py-1">
@@ -693,7 +191,45 @@ export const Navbar = () => {
                       </NavLink>
                     </div>
 
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+                    <div className="px-4 py-1">
+                      <NavLink
+                        to="/species"
+                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >
+                        <LuPersonStanding className="w-4 h-4" />
+                        <span>Species</span>
+                      </NavLink>
+                    </div>
+
+                    <div className="px-4 py-1">
+                      <NavLink
+                        to="/backgrounds"
+                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >
+                        <LuSchool className="w-4 h-4" />
+                        <span>Backgrounds</span>
+                      </NavLink>
+                    </div>
+
+                    <div className="px-4 py-1">
+                      <NavLink
+                        to="/items"
+                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >
+                        <LuAnvil className="w-4 h-4" />
+                        <span>Items</span>
+                      </NavLink>
+                    </div>
+
+                    <div className="px-4 py-1">
+                      <NavLink
+                        to="/powers"
+                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >
+                        <LuSparkles className="w-4 h-4" />
+                        <span>Power</span>
+                      </NavLink>
+                    </div>
 
                     {/* Equipment & Items - keeps its divider, 2 links until Weapon/Armor merge into Item */}
                     <div className="px-4 py-2">
@@ -718,8 +254,6 @@ export const Navbar = () => {
                       {/* TODO: once Item absorbs Weapon/Armor, collapse to a single "Items" link
                           with a category filter, same as the Spells -> Powers change below. */}
                     </div>
-
-                    <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
                     {/* Spells - single link, no divider needed.
                         TODO: rename to "Powers" (/powers) once Power wiring is confirmed

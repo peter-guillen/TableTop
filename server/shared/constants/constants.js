@@ -68,6 +68,23 @@ export const DAMAGE_TYPES = [
   "radiant",
   "necrotic",
 ];
+export const DAMAGE_TYPES_OBJ = {
+  SLASHING: "slashing",
+  PIERCING: "piercing",
+  BLUDGEONING: "bludgeoning",
+  FIRE: "fire",
+  WATER: "water",
+  AIR: "air",
+  EARTH: "earth",
+  LIGHT: "light",
+  DARK: "dark",
+  FORCE: "force",
+  PSYCHIC: "psychic",
+  POISON: "poison",
+  ACID: "acid",
+  RADIANT: "radiant",
+  NECROTIC: "necrotic",
+};
 
 export const STATS = {
   MIGHT: "might",
@@ -121,6 +138,14 @@ export const MATERIALS = [
   "mithril",
   "orichalcum",
 ];
+export const MATERIALS_OBJ = {
+  SILVERED: "silvered",
+  ADAMANDTINE: "adamantine",
+  STEEL: "steel",
+  IRON: "iron",
+  MITHRIL: "mithril",
+  ORICHALCUM: "orichalcum",
+};
 
 export const QUALITY = [
   "enchanted",
@@ -136,6 +161,20 @@ export const QUALITY = [
   "forbidden", // outlawed/taboo, independent of raw power
   "relic", // historically/narratively significant, not necessarily powerful
 ];
+export const QUALITY_OBJ = {
+  ENCHANTED: "enchanted",
+  BLESSED: "blessed",
+  CURSED: "cursed",
+  DIVINE: "divine",
+  MASTERWORK: "masterwork",
+  RUNED: "runed", // inscribed with runic magic — distinct flavor from Enchanted
+  CORRUPTED: "corrupted", // darker/further-gone than Cursed, room for escalation
+  SENTIENT: "sentient", // the weapon has awareness/agency — big design hook (Excalibur-tier)
+  UNSTABLE: "unstable", // volatile magic, risk/reward flavor
+  ANCESTRAL: "ancestral", // bound to a bloodline/lineage rather than generically magic
+  FORBIDDEN: "forbidden", // outlawed/taboo, independent of raw power
+  RELIC: "relic", // historically/narratively significant, not necessarily powerful
+};
 
 export const RARITY = [
   "common",
@@ -145,6 +184,14 @@ export const RARITY = [
   "legendary",
   "mythic",
 ];
+export const RARITY_OBJ = {
+  COMMON: "common",
+  RARE: "rare",
+  HEROIC: "heroic",
+  EPIC: "epic",
+  LEGENDARY: "legendary",
+  MYTHIC: "mythic",
+};
 
 export const PROPERTIES = [
   "finesse",
@@ -156,6 +203,16 @@ export const PROPERTIES = [
   "two-handed",
   "versatile",
 ];
+export const PROPERTIES_OBJ = {
+  FINESSE: "finesse",
+  HEAVY: "heavy",
+  LIGHT: "light",
+  REACH: "reach",
+  THROWN: "thrown",
+  ONE_HANDED: "one-handed",
+  TWO_HANDED: "two-handed",
+  VERSATILE: "versatile",
+};
 
 export const BACKGROUNDS = [
   "soldier",

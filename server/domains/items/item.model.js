@@ -15,7 +15,9 @@ const ItemSchema = new mongoose.Schema(
     description: { type: String, required: true },
     category: {
       type: String,
-      enum: ["weapon", "armor", "accessory", "consumable", "trinket"],
+      enum: ["weapon", "armor", "accessory", "trinket", "consumable"],
+      // accessory is any item that a player can equip but not of the main two
+      // trinket is an item that is a like a consumable but is rechargeable
       required: true,
     },
 
@@ -70,9 +72,9 @@ const ItemSchema = new mongoose.Schema(
       },
     ],
 
-    grantedItems: [
+    grantedPowers: [
       {
-        item: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
+        item: { type: mongoose.Schema.Types.ObjectId, ref: "Power" },
         recharge: {
           type: String,
           enum: ["unlimited", "none", "short_rest", "long_rest", "daily"],
