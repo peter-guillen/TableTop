@@ -1,8 +1,11 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
-const { STATS, OFFENSIVE_STATS } = require("../constants/constants");
+import mongoose from "mongoose";
+import {
+  STATS,
+  OFFENSIVE_STATS,
+  DAMAGE_TYPES,
+} from "../../shared/constants/constants.js";
 
-const PowerSchema = new Schema(
+const PowerSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
     kind: {
@@ -28,7 +31,7 @@ const PowerSchema = new Schema(
     },
 
     // Trait-only
-    grantedPowers: [{ type: Schema.Types.ObjectId, ref: "Power" }],
+    grantedPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Power" }],
 
     targeting: {
       targetCategory: { type: String, enum: ["creature", "object", "point"] },
@@ -44,6 +47,7 @@ const PowerSchema = new Schema(
     healthEffects: [
       {
         direction: { type: String, enum: ["damage", "healing"] },
+        damageType: { type: String, enum: DAMAGE_TYPES },
         diceSize: Number,
         diceCount: Number,
         flat: Number,
@@ -72,7 +76,7 @@ const PowerSchema = new Schema(
 
     conditions: [
       {
-        condition: { type: Schema.Types.ObjectId, ref: "Condition" },
+        condition: { type: mongoose.Schema.Types.ObjectId, ref: "Condition" },
         durationType: {
           type: String,
           enum: ["turns", "until_broken", "permanent"],
@@ -80,10 +84,6 @@ const PowerSchema = new Schema(
         duration: Number,
       },
     ],
-
-    usage: {
-      cost: Number,
-    },
 
     activation: {
       action: {
@@ -95,6 +95,8 @@ const PowerSchema = new Schema(
       channel: { type: Boolean, default: false },
       castTime: { type: Number, default: 0 },
       duration: Number,
+      resource: { type: String, enum: ["hp", "mp", "momentum"] },
+      cost: Number,
     },
 
     recharge: {
@@ -107,42 +109,64 @@ const PowerSchema = new Schema(
 
     requirements: {
       minLevel: Number,
-      requiredTraits: [{ type: Schema.Types.ObjectId, ref: "Power" }],
+      requiredTraits: [{ type: mongoose.Schema.Types.ObjectId, ref: "Power" }],
       weaponTags: [String],
     },
   },
   { timestamps: true },
 );
 
-PowerSchema.pre("validate", function (next) {
+// PowerSchema.pre("validate", async function (next) {
+//   if (this.kind !== "spell" && this.school) {
+//     return next(new Error(`${this.kind} documents cannot declare a school`));
+//   }
+//   if (this.kind === "spell" && !this.school) {
+//     return next(new Error("Spell documents require a school"));
+//   }
+
+//   if (
+//     this.kind === "technique" &&
+//     (!this.requirements?.weaponTags ||
+//       this.requirements.weaponTags.length === 0)
+//   ) {
+//     return next(
+//       new Error("Technique documents require at least one weapon tag"),
+//     );
+//   }
+
+//   if (this.kind !== "technique" && this.requirements?.weaponTags?.length > 0) {
+//     return next(new Error(`${this.kind} documents cannot declare weaponTags`));
+//   }
+
+//   if (this.kind !== "trait" && this.grantedPowers?.length > 0) {
+//     return next(
+//       new Error(`${this.kind} documents cannot declare grantedPowers`),
+//     );
+//   }
+
+//   // next(new Error());
+// });
+
+PowerSchema.pre("validate", function () {
   if (this.kind !== "spell" && this.school) {
-    return next(new Error(`${this.kind} documents cannot declare a school`));
+    throw new Error(`${this.kind} documents cannot declare a school`);
   }
   if (this.kind === "spell" && !this.school) {
-    return next(new Error("Spell documents require a school"));
+    throw new Error("Spell documents require a school");
   }
-
   if (
     this.kind === "technique" &&
     (!this.requirements?.weaponTags ||
       this.requirements.weaponTags.length === 0)
   ) {
-    return next(
-      new Error("Technique documents require at least one weapon tag"),
-    );
+    throw new Error("Technique documents require at least one weapon tag");
   }
-
   if (this.kind !== "technique" && this.requirements?.weaponTags?.length > 0) {
-    return next(new Error(`${this.kind} documents cannot declare weaponTags`));
+    throw new Error(`${this.kind} documents cannot declare weaponTags`);
   }
-
   if (this.kind !== "trait" && this.grantedPowers?.length > 0) {
-    return next(
-      new Error(`${this.kind} documents cannot declare grantedPowers`),
-    );
+    throw new Error(`${this.kind} documents cannot declare grantedPowers`);
   }
-
-  next();
 });
 
-module.exports = mongoose.model("Power", PowerSchema);
+export default mongoose.model("Power", PowerSchema);

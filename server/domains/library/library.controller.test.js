@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getLibrary } from "./library.controller.js";
 
-import Affinity from "../affinities/affinity.model.js";
+import Archetype from "../archetypes/archetype.model.js";
 import Armor from "../armors/armor.model.js";
 import Background from "../backgrounds/background.model.js";
 import Condition from "../conditions/condition.model.js";
@@ -11,58 +11,40 @@ import Spell from "../spells/spell.model.js";
 import Trait from "../traits/trait.model.js";
 import Weapon from "../weapons/weapon.model.js";
 
-vi.mock("../affinities/affinity.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+vi.mock("../archetypes/archetype.model.js", () => ({
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../armors/armor.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../backgrounds/background.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../conditions/condition.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../professions/profession.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../species/species.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../spells/spell.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../traits/trait.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 vi.mock("../weapons/weapon.model.js", () => ({
-  default: {
-    find: vi.fn(),
-  },
+  default: { find: vi.fn() },
 }));
 
 describe("getLibrary", () => {
@@ -81,17 +63,17 @@ describe("getLibrary", () => {
   });
 
   it("should fetch and return the entire library", async () => {
-    const mockAffinities = [{ name: "Fire" }];
-    const mockArmors = [{ name: "Plate Armor" }];
-    const mockBackgrounds = [{ name: "Noble" }];
-    const mockConditions = [{ name: "Poisoned" }];
-    const mockProfessions = [{ name: "Blacksmith" }];
-    const mockSpecies = [{ name: "Human" }];
-    const mockSpells = [{ name: "Fireball" }];
-    const mockTraits = [{ name: "Strong" }];
-    const mockWeapons = [{ name: "Longsword" }];
+    const mockArchetypes = [{ name: "warrior" }];
+    const mockArmors = [{ name: "heavy_armor" }];
+    const mockBackgrounds = [{ name: "soldier" }];
+    const mockConditions = [{ name: "poisoned" }];
+    const mockProfessions = [{ name: "warrior" }];
+    const mockSpecies = [{ name: "human" }];
+    const mockSpells = [{ name: "fireball" }];
+    const mockTraits = [{ name: "strong" }];
+    const mockWeapons = [{ name: "longsword" }];
 
-    Affinity.find.mockResolvedValue(mockAffinities);
+    Archetype.find.mockResolvedValue(mockArchetypes);
     Armor.find.mockResolvedValue(mockArmors);
     Background.find.mockResolvedValue(mockBackgrounds);
     Condition.find.mockResolvedValue(mockConditions);
@@ -103,7 +85,7 @@ describe("getLibrary", () => {
 
     await getLibrary(req, res);
 
-    expect(Affinity.find).toHaveBeenCalledWith({});
+    expect(Archetype.find).toHaveBeenCalledWith({});
     expect(Armor.find).toHaveBeenCalledWith({});
     expect(Background.find).toHaveBeenCalledWith({});
     expect(Condition.find).toHaveBeenCalledWith({});
@@ -116,7 +98,7 @@ describe("getLibrary", () => {
     expect(res.status).toHaveBeenCalledWith(200);
 
     expect(res.json).toHaveBeenCalledWith({
-      affinities: mockAffinities,
+      archetypes: mockArchetypes,
       armors: mockArmors,
       backgrounds: mockBackgrounds,
       conditions: mockConditions,
@@ -131,13 +113,13 @@ describe("getLibrary", () => {
   it("should return a 500 error if fetching the library fails", async () => {
     const error = new Error("Database connection failed");
 
-    Affinity.find.mockRejectedValue(error);
+    Archetype.find.mockRejectedValue(error);
     Armor.find.mockResolvedValue([]);
     Background.find.mockResolvedValue([]);
     Condition.find.mockResolvedValue([]);
     Profession.find.mockResolvedValue([]);
     Species.find.mockResolvedValue([]);
-    Spell.find.mockResolvedValue([]);
+    Spell.find.mockRejectedValue(error);
     Trait.find.mockResolvedValue([]);
     Weapon.find.mockResolvedValue([]);
 

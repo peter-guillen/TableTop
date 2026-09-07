@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { STATS, OFFENSIVE_STATS } from "../../shared/constants/constants.js";
 
 vi.mock("./power.service.js");
 

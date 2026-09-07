@@ -1,15 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// Mock the model before importing the controller
-vi.mock("./weapon.model.js");
+vi.mock("./weapon.service.js");
 
-const Weapon = (await import("./weapon.model.js")).default;
-const { createWeapon } = await import("./weapon.controller.js");
+import * as weaponService from "./weapon.service.js";
+import { createWeapon } from "./weapon.controller.js";
 
-// Helper to make fake req/res objects
 const mockRes = () => {
   const res = {};
-  res.status = vi.fn().mockReturnValue(res); // allows res.status(200).json()
+  res.status = vi.fn().mockReturnValue(res);
   res.json = vi.fn().mockReturnValue(res);
   return res;
 };
@@ -19,7 +17,7 @@ describe("createWeapon", () => {
     vi.clearAllMocks();
   });
 
-  it("returns 200 and the weapon when given valid data", async () => {
+  it("returns 201 and the weapon when given valid data", async () => {
     const fakeWeapon = {
       _id: "abc123",
       name: "Longsword",
@@ -27,66 +25,74 @@ describe("createWeapon", () => {
       category: "martial",
     };
 
-    Weapon.create.mockResolvedValue(fakeWeapon);
+    weaponService.createWeapon.mockResolvedValue(fakeWeapon);
 
     const req = {
       body: { name: "Longsword", damage: "1d8", category: "martial" },
+      user: { _id: "507f1f77bcf86cd799439011" },
     };
     const res = mockRes();
     const next = vi.fn();
 
     await createWeapon(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith(fakeWeapon);
+    expect(next).not.toHaveBeenCalled();
   });
 
-  it("returns 400 when name is missing", async () => {
-    Weapon.create.mockRejectedValue(
-      new Error("Weapon validation failed: name: Path `name` is required."),
+  it("calls next with the error when name is missing", async () => {
+    const error = new Error(
+      "Weapon validation failed: name: Path `name` is required.",
     );
+    weaponService.createWeapon.mockRejectedValue(error);
 
-    const req = { body: { damage: "1d8", category: "martial" } };
+    const req = {
+      body: { damage: "1d8", category: "martial" },
+      user: { _id: "507f1f77bcf86cd799439011" },
+    };
     const res = mockRes();
+    const next = vi.fn();
 
-    await createWeapon(req, res);
+    await createWeapon(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith(
-      expect.objectContaining({ error: expect.any(String) }),
-    );
+    expect(next).toHaveBeenCalledWith(error);
+    expect(res.status).not.toHaveBeenCalled();
   });
 
-  it("returns 400 when category is an invalid enum value", async () => {
-    Weapon.create.mockRejectedValue(
-      new Error(
-        "Weapon validation failed: category: `invalid` is not a valid enum value for path `category`.",
-      ),
+  it("calls next with the error when category is an invalid enum value", async () => {
+    const error = new Error(
+      "Weapon validation failed: category: `invalid` is not a valid enum value for path `category`.",
     );
+    weaponService.createWeapon.mockRejectedValue(error);
 
     const req = {
       body: { name: "Longsword", damage: "1d8", category: "invalid" },
+      user: { _id: "507f1f77bcf86cd799439011" },
     };
     const res = mockRes();
+    const next = vi.fn();
 
-    await createWeapon(req, res);
+    await createWeapon(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith(
-      expect.objectContaining({ error: expect.any(String) }),
-    );
+    expect(next).toHaveBeenCalledWith(error);
   });
 
-  it("returns 400 when damage is missing", async () => {
-    Weapon.create.mockRejectedValue(
-      new Error("Weapon validation failed: damage: Path `damage` is required."),
+  it("calls next with the error when damage is missing", async () => {
+    const error = new Error(
+      "Weapon validation failed: damage: Path `damage` is required.",
     );
+    weaponService.createWeapon.mockRejectedValue(error);
 
-    const req = { body: { name: "Longsword", category: "martial" } };
+    const req = {
+      body: { name: "Longsword", category: "martial" },
+      user: { _id: "507f1f77bcf86cd799439011" },
+    };
     const res = mockRes();
+    const next = vi.fn();
 
-    await createWeapon(req, res);
+    await createWeapon(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(next).toHaveBeenCalledWith(error);
   });
 });

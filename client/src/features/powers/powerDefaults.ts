@@ -1,19 +1,26 @@
-import { Power, Casting, Targeting, PowerCondition } from "./powerTypes";
+import {
+  Power,
+  Activation,
+  Targeting,
+  Condition,
+  Requirements,
+} from "./powerTypes";
 
-export const defaultPowerCondition: PowerCondition = {
+export const defaultCondition: Condition = {
   condition: "",
   durationType: "turns",
   duration: 0,
 };
 
-export const defaultCasting: Casting = {
+export const defaultActivation: Activation = {
   action: "major_action",
   ritual: false,
   concentration: false,
   channel: false,
   castTime: 0,
   duration: 0,
-  stamina: 0,
+  resource: "mp",
+  cost: 0,
 };
 
 export const defaultTargeting: Targeting = {
@@ -24,26 +31,32 @@ export const defaultTargeting: Targeting = {
   size: 0,
 };
 
+export const defaultRequirements: Requirements = {
+  minLevel: 1,
+  requiredTraits: [],
+  weaponTags: [],
+};
+
 export const defaultPowerFormData: Power = {
-  // Basic Info
   name: "",
+  kind: "spell",
+  description: "",
   school: "evocation",
-  tier: 1,
+
+  // tier: 1,
   // domain: "",
   effectType: [],
   damageType: [],
 
-  // Casting
   healthEffects: [],
   statModifiers: [],
   conditions: [],
 
-  casting: defaultCasting,
+  activation: defaultActivation,
   recharge: "unlimited",
   targeting: defaultTargeting,
-
   offensiveStat: "Might",
 
-  // Description
-  description: "",
+  requirements: defaultRequirements,
+  grantedPowers: [],
 };

@@ -6,79 +6,73 @@ import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
 
 import {
-  useGetPowerByIdQuery,
-  useCreatePowerMutation,
-  useUpdatePowerMutation,
-  useGetAllPowersQuery,
-} from "../api/powerApi";
+  useGetItemByIdQuery,
+  useCreateItemMutation,
+  useUpdateItemMutation,
+} from "../api/itemApi";
 
-import { PowerBasicInfoSection } from "../components/PowerBasicInfoSection";
-import { PowerActivationSection } from "../components/PowerActivationSection.tsx";
-import { PowerCombatSection } from "../components/PowerCombatSection";
-import { PowerConditionsSection } from "../components/PowerConditionsSection";
-import { PowerRequirementsSection } from "../components/PowerRequirementsSection";
-import { PowerDescriptionSection } from "../components/PowerDescriptionSection";
+// TODO: confirm actual path/hook name for the Power domain's RTK Query slice
+import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 
-import { Power } from "../powerTypes";
-import { defaultPowerFormData } from "../powerDefaults.ts";
+import { ItemBasicInfoSection } from "../components/ItemBasicInfoSection";
+import { ItemCombatSection } from "../components/ItemCombatSection";
+import { ItemSpecialSection } from "../components/ItemSpecialSection";
+import { ItemDescriptionSection } from "../components/ItemDescriptionSection";
 
-export function PowerForm() {
-  const [formData, setFormData] = useState<Power>(defaultPowerFormData);
+import { Item } from "../itemTypes";
+import { defaultItemFormData } from "../itemDefaults.ts";
+
+export function ItemForm() {
+  const [formData, setFormData] = useState<Item>(defaultItemFormData);
   const { id } = useParams();
   const isEditing = Boolean(id);
   const navigate = useNavigate();
 
   const { data: constants } = useGetConstantsQuery();
   const {
-    data: power,
+    data: item,
     isLoading,
     isError,
-  } = useGetPowerByIdQuery(id ?? "", { skip: !isEditing });
+  } = useGetItemByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
-  const [createPower] = useCreatePowerMutation();
-  const [updatePower] = useUpdatePowerMutation();
+  const [createItem] = useCreateItemMutation();
+  const [updateItem] = useUpdateItemMutation();
 
   const {
     handleInputChange,
     handleFieldChange,
-    handleCheckedChange,
     handleArrayFieldChange,
     handleObjectFieldChange,
   } = useFormHandlers(setFormData);
 
   const handleHealthChange = handleArrayFieldChange("healthEffects");
   const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
-  const handleConditionsChange = handleArrayFieldChange("conditions");
-  const handleTargetingChange = handleObjectFieldChange("targeting");
-  const handleActivationChange = handleObjectFieldChange("activation");
-  const handleRequirementsChange = handleObjectFieldChange("requirements");
-  const handleRechargeChange = handleFieldChange("recharge");
-  const handleGrantedPowersChange = handleFieldChange("grantedPowers");
-
-  // Exclude this power itself from pickers that reference other powers —
-  // a trait can't require or grant itself
-  const otherPowers = powers.filter(
-    (p): p is Power & { _id: string } =>
-      p._id !== undefined && p._id !== formData._id,
-  );
+  const handleResistancesChange = handleArrayFieldChange("resistances");
+  const handlePropertiesChange = handleArrayFieldChange("properties");
+  const handleQualityChange = handleArrayFieldChange("quality");
+  const handleMaterialsChange = handleArrayFieldChange("materials");
+  const handleGrantedPowersChange = handleArrayFieldChange("grantedPowers");
+  const handleUniqueSkillsChange = handleArrayFieldChange("uniqueSkills");
+  const handleSelfChargesChange = handleObjectFieldChange("selfCharges");
+  const handleValueChange = handleFieldChange("value");
 
   const handleCancel = () => navigate(-1);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isEditing) {
-      await updatePower({ id: id ?? "", data: formData });
+      await updateItem({ id: id ?? "", data: formData });
     } else {
-      await createPower(formData);
+      await createItem(formData);
     }
-    navigate("/powers");
+    navigate("/items");
   };
 
   useEffect(() => {
-    if (isEditing && power) {
-      setFormData({ ...power });
+    if (isEditing && item) {
+      setFormData({ ...item });
     }
-  }, [isEditing, power]);
+  }, [isEditing, item]);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong.</p>;
@@ -94,7 +88,7 @@ export function PowerForm() {
               size={32}
             />
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-orange-400 to-cyan-500 dark:from-cyan-300 dark:via-orange-300 dark:to-cyan-400">
-              {isEditing ? "Edit Power" : "Create Power"}
+              {isEditing ? "Edit Item" : "Create Item"}
             </h1>
           </div>
           <p className="text-slate-400 dark:text-slate-500">
@@ -107,54 +101,51 @@ export function PowerForm() {
           <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
             <div className="space-y-8">
               {/* Basic Information */}
-              <PowerBasicInfoSection
+              <ItemBasicInfoSection
                 name={formData.name}
-                kind={formData.kind}
-                school={formData.school ?? ""}
-                offensiveStat={formData.offensiveStat}
-                offensiveStatOptions={constants?.OFFENSIVE_STATS ?? []}
+                category={formData.category}
+                rarity={formData.rarity}
+                quality={formData.quality}
+                materials={formData.materials}
+                value={formData.value}
+                rarityOptions={constants?.RARITY ?? []}
+                qualityOptions={constants?.QUALITY ?? []}
+                materialOptions={constants?.MATERIALS ?? []}
                 onInputChange={handleInputChange}
+                onValueChange={handleValueChange}
+                onQualityChange={handleQualityChange}
+                onMaterialsChange={handleMaterialsChange}
               />
 
-              {/* Activation Details */}
-              <PowerActivationSection
-                activation={formData.activation}
-                recharge={formData.recharge}
-                onActivationChange={handleActivationChange}
-                onRechargeChange={handleRechargeChange}
-              />
-
-              {/* Combat Stats (includes Targeting) */}
-              <PowerCombatSection
-                targeting={formData.targeting}
+              {/* Combat Properties */}
+              <ItemCombatSection
                 healthEffects={formData.healthEffects}
-                damageTypeOptions={constants?.DAMAGE_TYPES ?? []}
-                onTargetingChange={handleTargetingChange}
-                onHealthChange={handleHealthChange}
-              />
-
-              <PowerConditionsSection
                 statModifiers={formData.statModifiers}
-                conditions={formData.conditions}
+                resistances={formData.resistances}
+                properties={formData.properties}
+                damageTypeOptions={constants?.DAMAGE_TYPES ?? []}
+                propertyOptions={constants?.PROPERTIES ?? []}
+                statOptions={Object.values(constants?.STATS ?? {})}
+                skillOptions={Object.values(constants?.SKILLS ?? {})}
+                onHealthChange={handleHealthChange}
                 onStatModifiersChange={handleStatModifiersChange}
-                onConditionsChange={handleConditionsChange}
+                onResistancesChange={handleResistancesChange}
+                onPropertiesChange={handlePropertiesChange}
               />
 
-              {/* Requirements */}
-              <PowerRequirementsSection
-                kind={formData.kind}
-                minLevel={formData.requirements.minLevel}
-                requiredTraits={formData.requirements.requiredTraits}
-                weaponTags={formData.requirements.weaponTags} // Come back and change PROPERTIES WEAPON_TAGS
-                weaponTagOptions={constants?.PROPERTIES ?? []}
+              {/* Granted Powers, Self Charges, Unique Skills */}
+              <ItemSpecialSection
                 grantedPowers={formData.grantedPowers}
-                allPowers={otherPowers}
-                onRequirementsChange={handleRequirementsChange}
+                selfCharges={formData.selfCharges}
+                uniqueSkills={formData.uniqueSkills}
+                allPowers={powers}
                 onGrantedPowersChange={handleGrantedPowersChange}
+                onSelfChargesChange={handleSelfChargesChange}
+                onUniqueSkillsChange={handleUniqueSkillsChange}
               />
 
               {/* Description */}
-              <PowerDescriptionSection
+              <ItemDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
               />
@@ -170,7 +161,7 @@ export function PowerForm() {
               Cancel
             </button>
             <button className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300">
-              {isEditing ? "Update Power" : "Create Power"}
+              {isEditing ? "Update Item" : "Create Item"}
             </button>
           </div>
         </form>

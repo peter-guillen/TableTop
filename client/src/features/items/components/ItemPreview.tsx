@@ -1,44 +1,26 @@
 import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import {
-  GiIceBolt,
-  GiFireball,
-  GiLightningHelix,
-  GiSunbeams,
-  GiSparkSpirit,
-  GiBlood,
-  GiWarlockEye,
   GiBroadsword,
-  GiStarSwirl,
-  GiFamilyTree,
+  GiShield,
+  GiRing,
+  GiHealthPotion,
+  GiGemPendant,
 } from "react-icons/gi";
 
-import { Condition } from "../../conditions/conditionTypes.ts";
-import { Power, PowerSchool, PowerKind } from "../powerTypes.ts";
+import { Item, ItemCategory } from "../itemTypes.ts";
 
-interface PowerPreviewProps {
-  powers: Power[];
-  conditionsById?: Record<string, Condition>;
+interface ItemPreviewProps {
+  items: Item[];
 }
 
-// Icon fallback by kind — used when there's no school (technique/ability/trait)
-const kindIconMap: Record<PowerKind, typeof GiIceBolt> = {
-  spell: GiSparkSpirit,
-  technique: GiBroadsword,
-  ability: GiStarSwirl,
-  trait: GiFamilyTree,
-};
-
-// Icon override by school — spells only
-const schoolIconMap: Record<PowerSchool, typeof GiIceBolt> = {
-  abjuration: GiFireball,
-  evocation: GiLightningHelix,
-  transmutation: GiSunbeams,
-  divination: GiBlood,
-  necromancy: GiWarlockEye,
-  conjuration: GiSparkSpirit,
-  enchantment: GiSparkSpirit,
-  illusion: GiSparkSpirit,
+// Icon by category — no more school override, Item has no school concept
+const categoryIconMap: Record<ItemCategory, typeof GiBroadsword> = {
+  weapon: GiBroadsword,
+  armor: GiShield,
+  accessory: GiRing,
+  consumable: GiHealthPotion,
+  trinket: GiGemPendant,
 };
 
 // Static class map instead of interpolated `text-${color}-600` (JIT-safe)
@@ -61,12 +43,6 @@ const colorSchemes: Record<string, ColorScheme> = {
     border: "border-blue-200 dark:border-blue-600",
     badgeBg: "bg-blue-500 bg-opacity-10 dark:bg-opacity-20",
     badgeText: "text-blue-700 dark:text-blue-300",
-  },
-  yellow: {
-    text: "text-yellow-600 dark:text-yellow-400",
-    border: "border-yellow-200 dark:border-yellow-600",
-    badgeBg: "bg-yellow-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-yellow-700 dark:text-yellow-300",
   },
   orange: {
     text: "text-orange-600 dark:text-orange-400",
@@ -92,12 +68,6 @@ const colorSchemes: Record<string, ColorScheme> = {
     badgeBg: "bg-pink-500 bg-opacity-10 dark:bg-opacity-20",
     badgeText: "text-pink-700 dark:text-pink-300",
   },
-  cyan: {
-    text: "text-cyan-600 dark:text-cyan-400",
-    border: "border-cyan-200 dark:border-cyan-600",
-    badgeBg: "bg-cyan-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-cyan-700 dark:text-cyan-300",
-  },
   gray: {
     text: "text-gray-600 dark:text-gray-400",
     border: "border-gray-200 dark:border-gray-600",
@@ -106,76 +76,62 @@ const colorSchemes: Record<string, ColorScheme> = {
   },
 };
 
-const schoolColors: Record<PowerSchool, string> = {
-  abjuration: "red",
-  evocation: "blue",
-  transmutation: "yellow",
-  divination: "orange",
-  necromancy: "purple",
-  conjuration: "green",
-  enchantment: "magenta",
-  illusion: "cyan",
+const categoryColors: Record<ItemCategory, string> = {
+  weapon: "orange",
+  armor: "blue",
+  accessory: "purple",
+  consumable: "green",
+  trinket: "magenta",
 };
 
-const kindColors: Record<PowerKind, string> = {
-  spell: "blue",
-  technique: "orange",
-  ability: "green",
-  trait: "purple",
-};
-
-export const PowerPreview = ({
-  powers,
-  conditionsById = {},
-}: PowerPreviewProps) => {
+export const ItemPreview = ({ items }: ItemPreviewProps) => {
   return (
     <div className="space-y-2">
-      {powers.map((power) => {
-        const isSpell = power.kind === "spell" && power.school;
-
-        const IconComponent = isSpell
-          ? (schoolIconMap[power.school as PowerSchool] ??
-            kindIconMap[power.kind])
-          : kindIconMap[power.kind];
-
-        const colorKey = isSpell
-          ? schoolColors[power.school as PowerSchool]
-          : kindColors[power.kind];
+      {items.map((item) => {
+        const IconComponent =
+          categoryIconMap[item.category as ItemCategory] ?? GiGemPendant;
+        const colorKey = categoryColors[item.category as ItemCategory];
         const scheme = colorSchemes[colorKey] ?? colorSchemes.gray;
 
-        const damageEffect = power.healthEffects.find(
+        const damageEffect = item.healthEffects.find(
           (e) => e.direction === "damage",
         );
-        const healingEffect = power.healthEffects.find(
+        const healingEffect = item.healthEffects.find(
           (e) => e.direction === "healing",
         );
 
         // Damage display: flat value takes priority, then dice notation
         let damageDisplay: string | null = null;
-        if (damageEffect?.flat != null) {
+        if (damageEffect?.flat != null && damageEffect.flat !== 0) {
           damageDisplay = `${damageEffect.flat}`;
         } else if (
           damageEffect?.diceCount != null &&
-          damageEffect?.diceSize != null
+          damageEffect?.diceSize != null &&
+          damageEffect.diceCount > 0
         ) {
           damageDisplay = `${damageEffect.diceCount}d${damageEffect.diceSize}`;
         }
 
         // Healing display: same priority as damage
         let healingDisplay: string | null = null;
-        if (healingEffect?.flat != null) {
+        if (healingEffect?.flat != null && healingEffect.flat !== 0) {
           healingDisplay = `${healingEffect.flat}`;
         } else if (
           healingEffect?.diceCount != null &&
-          healingEffect?.diceSize != null
+          healingEffect?.diceSize != null &&
+          healingEffect.diceCount > 0
         ) {
           healingDisplay = `${healingEffect.diceCount}d${healingEffect.diceSize}`;
         }
 
+        const resistedTypes = Array.from(
+          new Set(item.resistances.map((r) => r.damageType).filter(Boolean)),
+        );
+
         return (
           <NavLink
-            key={power._id ?? power.name}
-            to={`/powers/${power._id}`}
+            key={item._id ?? item.name}
+            to={`/items/${item._id}`}
             className="block"
           >
             <div
@@ -196,13 +152,13 @@ export const PowerPreview = ({
                     {/* Name */}
                     <div className="flex items-center space-x-2 mb-1">
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
-                        {power.name}
+                        {item.name}
                       </h3>
                     </div>
 
                     {/* Description */}
                     <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">
-                      {power.description}
+                      {item.description}
                     </p>
 
                     {/* Primary Stats Row */}
@@ -229,121 +185,99 @@ export const PowerPreview = ({
 
                     {/* Secondary Stats Row */}
                     <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-500">
-                      {power.targeting?.range != null && (
+                      {item.rarity && (
                         <div className="flex items-center space-x-1">
-                          <span className="font-medium">Range:</span>
-                          <span>
-                            {power.targeting.range === 0
-                              ? "Self"
-                              : `${power.targeting.range} ft`}
-                          </span>
+                          <span className="font-medium">Rarity:</span>
+                          <span className="capitalize">{item.rarity}</span>
                         </div>
                       )}
-                      {power.activation?.action && (
+                      {!!item.value && (
                         <div className="flex items-center space-x-1">
-                          <span className="font-medium">Casting:</span>
-                          <span>
-                            {power.activation.action
-                              .split("_")
-                              .map(
-                                (word) => word[0].toUpperCase() + word.slice(1),
-                              )
-                              .join(" ")}
-                          </span>
+                          <span className="font-medium">Value:</span>
+                          <span>{item.value}</span>
                         </div>
                       )}
-                      {!!power.activation?.duration && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Duration:</span>
-                          <span>
-                            {power.activation.duration} turn
-                            {power.activation.duration === 1 ? "" : "s"}
-                          </span>
-                        </div>
-                      )}
-                      {power.recharge && power.recharge !== "unlimited" && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Recharge:</span>
-                          <span>
-                            {power.recharge
-                              .split("_")
-                              .map(
-                                (word) => word[0].toUpperCase() + word.slice(1),
-                              )
-                              .join(" ")}
-                          </span>
-                        </div>
-                      )}
+                      {item.category === "trinket" &&
+                        item.selfCharges?.recharge && (
+                          <div className="flex items-center space-x-1">
+                            <span className="font-medium">Recharge:</span>
+                            <span className="capitalize">
+                              {item.selfCharges.recharge.replace("_", " ")}
+                            </span>
+                          </div>
+                        )}
                     </div>
 
-                    {/* Technique weapon requirements */}
-                    {power.kind === "technique" &&
-                      power.requirements?.weaponTags &&
-                      power.requirements.weaponTags.length > 0 && (
+                    {/* Weapon Properties */}
+                    {item.category === "weapon" &&
+                      item.properties.length > 0 && (
                         <div className="flex items-center flex-wrap mt-2">
                           <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
-                            Weapon Tags:
+                            Properties:
                           </span>
-                          {power.requirements.weaponTags.map((tag) => (
+                          {item.properties.map((property) => (
                             <span
-                              key={tag}
+                              key={property}
                               className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
                             >
-                              {tag}
+                              {property}
                             </span>
                           ))}
                         </div>
                       )}
 
-                    {/* Trait grants */}
-                    {power.kind === "trait" &&
-                      power.grantedPowers &&
-                      power.grantedPowers.length > 0 && (
-                        <div className="flex items-center mt-2">
+                    {/* Armor Resistances */}
+                    {item.category === "armor" && resistedTypes.length > 0 && (
+                      <div className="flex items-center flex-wrap mt-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          Resists:
+                        </span>
+                        {resistedTypes.map((type) => (
+                          <span
+                            key={type}
+                            className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                          >
+                            {type}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Accessory Stat Modifiers */}
+                    {item.category === "accessory" &&
+                      item.statModifiers.length > 0 && (
+                        <div className="flex items-center flex-wrap mt-2">
                           <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
-                            Grants:
+                            Boosts:
                           </span>
-                          <span className="text-xs text-gray-600 dark:text-gray-400">
-                            {power.grantedPowers.length} power
-                            {power.grantedPowers.length === 1 ? "" : "s"}
-                          </span>
+                          {item.statModifiers.map((modifier, idx) => (
+                            <span
+                              key={`${modifier.stat}-${idx}`}
+                              className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                            >
+                              {modifier.stat} {modifier.value > 0 ? "+" : ""}
+                              {modifier.value}
+                            </span>
+                          ))}
                         </div>
                       )}
 
-                    {/* Condition Tags */}
-                    {power.conditions.length > 0 && (
-                      <div className="flex items-center flex-wrap mt-2">
+                    {/* Granted Powers — any category can grant (weapon → technique, enchanted item → spell) */}
+                    {item.grantedPowers.length > 0 && (
+                      <div className="flex items-center mt-2">
                         <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
-                          Conditions:
+                          Grants:
                         </span>
-                        {power.conditions.map((powerCondition, idx) => {
-                          const condition =
-                            conditionsById[
-                              powerCondition.condition as unknown as string
-                            ];
-                          if (!condition) return null;
-
-                          return (
-                            <span
-                              key={`${powerCondition.condition}-${idx}`}
-                              className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
-                            >
-                              {condition.name} (
-                              {powerCondition.durationType === "permanent"
-                                ? "Permanent"
-                                : powerCondition.durationType === "until_broken"
-                                  ? "Until Broken"
-                                  : `${powerCondition.duration ?? 0} turn${powerCondition.duration === 1 ? "" : "s"}`}
-                              )
-                            </span>
-                          );
-                        })}
+                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                          {item.grantedPowers.length} power
+                          {item.grantedPowers.length === 1 ? "" : "s"}
+                        </span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Right Section - Kind / School Badges */}
+                {/* Right Section - Category Badge */}
                 <div className="flex flex-col items-end space-y-2">
                   <div
                     className={twMerge(
@@ -352,13 +286,8 @@ export const PowerPreview = ({
                       "px-3 py-1 rounded-full text-xs font-medium capitalize",
                     )}
                   >
-                    {power.kind}
+                    {item.category}
                   </div>
-                  {isSpell && (
-                    <div className="px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
-                      {power.school}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

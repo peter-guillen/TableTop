@@ -7,3 +7,13 @@ const ConditionSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Condition", ConditionSchema);
+
+// {
+//   id,
+//   name,
+//   description,
+//   duration,
+//   stacking,
+//   effects,
+//   removalRules
+// }
