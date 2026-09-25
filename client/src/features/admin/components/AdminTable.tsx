@@ -53,15 +53,14 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
   const findMatchingProperty = (row: T, columnName: string) => {
     // Try different naming variations
     const namingVariations = generateNamingVariations(columnName);
-
+    const rowRecord = row as Record<string, unknown>;
     for (const propertyName of namingVariations) {
-      if (propertyName in row) {
-        return row[propertyName];
+      if (propertyName in rowRecord) {
+        return rowRecord[propertyName];
       }
     }
-
     // Fallback to common property names
-    return row.name || row.title || row.username || "";
+    return rowRecord.name ?? rowRecord.title ?? rowRecord.username ?? "";
   };
 
   /**
@@ -93,11 +92,11 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
   };
 
   // ==================== RENDER HELPERS ====================
-  const getRowKey = (row: string[]) => {
+  const getRowKey = (row: T) => {
     return row._id || row.id || JSON.stringify(row).slice(0, 32);
   };
 
-  const renderTableRow = (row) => {
+  const renderTableRow = (row: T) => {
     const cells = renderRow ? renderRow(row) : defaultRenderRow(row);
 
     return (
@@ -111,7 +110,7 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
             key={index}
             className="px-6 py-4 text-sm text-gray-900 dark:text-white"
           >
-            {cell ?? ""}
+            {(cell as React.ReactNode) ?? ""}
           </td>
         ))}
 
@@ -123,7 +122,7 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
     );
   };
 
-  const renderActionButtons = (row) => {
+  const renderActionButtons = (row: T) => {
     const rowId = row._id || row.id;
 
     return (
@@ -144,7 +143,7 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
 
         {/* Delete Button */}
         <button
-          onClick={() => onDelete(rowId)}
+          onClick={() => rowId && onDelete(rowId)}
           className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
         >
           <LuTrash2 className="w-4 h-4" />
@@ -183,7 +182,7 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
             type="text"
             placeholder={`Search ${title.toLowerCase()}...`}
             value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={onSearchChange}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400"
           />
         </div>

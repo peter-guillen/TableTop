@@ -133,6 +133,46 @@ export type Species =
   | "Werewolf"
   | "Vampire";
 
+export type Skills =
+  | "acrobatics"
+  | "arcana"
+  | "athletics"
+  | "crafting"
+  | "deception"
+  | "endurance"
+  | "history"
+  | "insight"
+  | "intimidation"
+  | "investigation"
+  | "medicine"
+  | "nature"
+  | "perception"
+  | "performance"
+  | "persuasion"
+  | "religion"
+  | "larceny"
+  | "stealth"
+  | "survival"
+  | "tactics"
+  | "taming"
+  | "warfare";
+
+export type Stats =
+  | "might"
+  | "accuracy"
+  | "dominance"
+  | "evasion"
+  | "resolve"
+  | "resilience"
+  | "movement"
+  | "initiative"
+  | "hp"
+  | "hpMax"
+  | "mp"
+  | "mpMax"
+  | "mom"
+  | "momMax";
+
 export type Armor =
   | "Light Armor"
   | "Medium Armor"

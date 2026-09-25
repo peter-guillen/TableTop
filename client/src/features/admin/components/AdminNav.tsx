@@ -5,40 +5,32 @@ import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
 } from "../../users/api/userApi.tsx";
-
 import {
   useGetAllArticlesQuery,
   useDeleteArticleMutation,
 } from "../../articles/api/articleApi.tsx";
-
-import {
-  useGetAllArmorsQuery,
-  useDeleteArmorMutation,
-} from "../../armors/api/armorApi";
 import {
   useGetProfessionsQuery,
   useDeleteProfessionMutation,
 } from "../../professions/api/professionApi";
 import {
-  useGetAllSpellsQuery,
-  useDeleteSpellMutation,
-} from "../../spells/api/spellApi";
+  useGetAllPowersQuery,
+  useDeletePowerMutation,
+} from "../../powers/api/powerApi.tsx";
 import {
-  useGetAllWeaponsQuery,
-  useDeleteWeaponMutation,
-} from "../../weapons/api/weaponApi.tsx";
+  useGetAllItemsQuery,
+  useDeleteItemMutation,
+} from "../../items/api/itemApi.tsx";
 
 import {
   LuUsers,
-  LuSword,
   LuSparkles,
-  LuShield,
   LuFileText,
   LuChartColumn,
-  LuEye,
   LuHouse,
   LuChevronRight,
   LuDrama,
+  LuAnvil,
 } from "react-icons/lu";
 
 export const AdminNav = () => {
@@ -53,13 +45,6 @@ export const AdminNav = () => {
     isError: articleError,
   } = useGetAllArticlesQuery();
   const [deleteArticle] = useDeleteArticleMutation();
-
-  const {
-    data: armorList = [],
-    isLoading: armorLoading,
-    isError: armorError,
-  } = useGetAllArmorsQuery();
-  const [deleteArmor] = useDeleteArmorMutation();
   const {
     data: professionList = [],
     isLoading: professionLoading,
@@ -67,17 +52,17 @@ export const AdminNav = () => {
   } = useGetProfessionsQuery();
   const [deleteProfession] = useDeleteProfessionMutation();
   const {
-    data: spellList = [],
-    isLoading: spellLoading,
-    isError: spellError,
-  } = useGetAllSpellsQuery();
-  const [deleteSpell] = useDeleteSpellMutation();
+    data: powerList = [],
+    isLoading: powerLoading,
+    isError: powerError,
+  } = useGetAllPowersQuery();
+  const [deletePower] = useDeletePowerMutation();
   const {
-    data: weaponList = [],
-    isLoading: weaponLoading,
-    isError: weaponError,
-  } = useGetAllWeaponsQuery();
-  const [deleteWeapon] = useDeleteWeaponMutation();
+    data: itemList = [],
+    isLoading: itemLoading,
+    isError: itemError,
+  } = useGetAllItemsQuery();
+  const [deleteItem] = useDeleteItemMutation();
 
   // Provide a data and actions map that AdminRoutes consumes
   const sectionConfig = {
@@ -89,41 +74,25 @@ export const AdminNav = () => {
       data: professionList,
       deleteFn: deleteProfession,
     },
-    spells: {
-      data: spellList,
-      deleteFn: deleteSpell,
+    powers: {
+      data: powerList,
+      deleteFn: deletePower,
     },
-    weapons: {
-      data: weaponList,
-      deleteFn: deleteWeapon,
-    },
-    armors: {
-      data: armorList,
-      deleteFn: deleteArmor,
+    items: {
+      data: itemList,
+      deleteFn: deleteItem,
     },
     users: {
-      data: userList,
+      data: userList ?? [],
       deleteFn: deleteUser,
     },
   };
 
-  if (
-    armorLoading ||
-    articleLoading ||
-    professionLoading ||
-    spellLoading ||
-    weaponLoading
-  ) {
+  if (articleLoading || professionLoading || powerLoading || itemLoading) {
     return <p>Loading...</p>;
   }
 
-  if (
-    armorError ||
-    articleError ||
-    professionError ||
-    spellError ||
-    weaponError
-  ) {
+  if (articleError || professionError || powerError || itemError) {
     return <p>Something went wrong while fetching data.</p>;
   }
 
@@ -133,9 +102,8 @@ export const AdminNav = () => {
     { id: "users", label: "Users", icon: LuUsers },
     { id: "articles", label: "Articles", icon: LuFileText },
     { id: "professions", label: "Professions", icon: LuDrama },
-    { id: "spells", label: "Spells", icon: LuSparkles },
-    { id: "weapons", label: "Weapons", icon: LuSword },
-    { id: "armors", label: "Armors", icon: LuShield },
+    { id: "powers", label: "Powers", icon: LuSparkles },
+    { id: "items", label: "Items", icon: LuAnvil },
     { id: "analytics", label: "Analytics", icon: LuChartColumn },
   ];
 
@@ -186,7 +154,7 @@ export const AdminNav = () => {
           <AdminRoutes
             activeSection={activeSection}
             searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
+            onSearchChange={(e) => setSearchTerm(e.target.value)}
             sectionConfig={sectionConfig}
           />
         </div>

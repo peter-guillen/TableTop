@@ -230,43 +230,6 @@ export const Navbar = () => {
                         <span>Power</span>
                       </NavLink>
                     </div>
-
-                    {/* Equipment & Items - keeps its divider, 2 links until Weapon/Armor merge into Item */}
-                    <div className="px-4 py-2">
-                      <div className="flex items-center space-x-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
-                        <LuAnvil className="w-4 h-4" />
-                        <span>Equipment & Items</span>
-                      </div>
-                      <div className="space-y-1 ml-6">
-                        <NavLink
-                          to="/weapons"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Weapons
-                        </NavLink>
-                        <NavLink
-                          to="/armors"
-                          className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        >
-                          Armors
-                        </NavLink>
-                      </div>
-                      {/* TODO: once Item absorbs Weapon/Armor, collapse to a single "Items" link
-                          with a category filter, same as the Spells -> Powers change below. */}
-                    </div>
-
-                    {/* Spells - single link, no divider needed.
-                        TODO: rename to "Powers" (/powers) once Power wiring is confirmed
-                        bug-free and the Spell domain is removed. */}
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/spells"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuSparkles className="w-4 h-4" />
-                        <span>Spells</span>
-                      </NavLink>
-                    </div>
                   </div>
                 </div>
               </div>

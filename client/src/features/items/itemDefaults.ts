@@ -4,6 +4,7 @@ export const defaultItemFormData: Item = {
   name: "",
   description: "",
   category: "",
+  handedness: "one_handed",
   rarity: "",
   quality: [],
   materials: [],
@@ -18,4 +19,8 @@ export const defaultItemFormData: Item = {
     recharge: "none",
   },
   uniqueSkills: [],
+  requirements: {
+    minLevel: 1,
+    requiredTraits: [],
+  },
 };
