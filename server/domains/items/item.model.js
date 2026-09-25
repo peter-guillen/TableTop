@@ -21,16 +21,27 @@ const ItemSchema = new mongoose.Schema(
       required: true,
     },
 
-    rarity: { type: String, enum: RARITY },
-    quality: [{ type: String, enum: QUALITY }],
-    materials: [{ type: String, enum: MATERIALS }],
-    properties: [{ type: String, enum: PROPERTIES }],
-    value: Number,
+    handedness: {
+      type: String,
+      enum: [
+        "one_handed",
+        "two_handed",
+        "main_hand_only",
+        "off_hand_only",
+        "versatile",
+      ],
+    },
+
+    rarity: { type: String, enum: Object.values(RARITY) },
+    quality: [{ type: String, enum: Object.values(QUALITY) }],
+    materials: [{ type: String, enum: Object.values(MATERIALS) }],
+    properties: [{ type: String, enum: Object.values(PROPERTIES) }],
+    value: { type: Number, default: 0 },
 
     healthEffects: [
       {
         direction: { type: String, enum: ["damage", "healing"] },
-        damageType: { type: String, enum: DAMAGE_TYPES },
+        damageType: { type: String, enum: Object.values(DAMAGE_TYPES) },
         diceSize: Number,
         diceCount: Number,
         flat: Number,
@@ -63,7 +74,11 @@ const ItemSchema = new mongoose.Schema(
 
     resistances: [
       {
-        damageType: { type: String, enum: DAMAGE_TYPES, required: true },
+        damageType: {
+          type: String,
+          enum: Object.values(DAMAGE_TYPES),
+          required: true,
+        },
         rule: {
           type: String,
           enum: ["resistance", "vulnerability", "immunity", "absorption"],
@@ -74,7 +89,7 @@ const ItemSchema = new mongoose.Schema(
 
     grantedPowers: [
       {
-        item: { type: mongoose.Schema.Types.ObjectId, ref: "Power" },
+        power: { type: mongoose.Schema.Types.ObjectId, ref: "Power" },
         recharge: {
           type: String,
           enum: ["unlimited", "none", "short_rest", "long_rest", "daily"],
@@ -91,9 +106,24 @@ const ItemSchema = new mongoose.Schema(
       },
     },
 
-    uniqueSkills: [String],
+    uniqueSkills: { type: [String], default: [] },
+    requirements: {
+      minLevel: Number,
+      requiredTraits: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Power",
+        default: [],
+      },
+    },
   },
   { timestamps: true },
 );
+
+ItemSchema.pre("validate", function (next) {
+  if (this.category === "weapon" && !this.handedness) {
+    return next(new Error("handedness is required for category 'weapon'"));
+  }
+  next();
+});
 
 export default mongoose.model("Item", ItemSchema);

@@ -7,13 +7,17 @@ const characterSchema = new Schema(
     identity: {
       name: { type: String, required: true },
       age: Number,
-      pronouns: String,
+      subjectPronoun: String,
+      objectPronoun: String,
+      portrait: String,
     },
 
     origin: {
       species: { type: Schema.Types.ObjectId, ref: "Species" },
       background: { type: Schema.Types.ObjectId, ref: "Background" },
     },
+
+    mode: { type: String, enum: ["classed", "classless"], required: true },
 
     archetype: {
       profession: { type: Schema.Types.ObjectId, ref: "Profession" },

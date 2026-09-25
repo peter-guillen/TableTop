@@ -143,11 +143,11 @@ describe("Item schema", () => {
       name: "Wand of Sparks",
       description: "desc",
       category: "weapon",
-      grantedItems: [{ recharge: "hourly" }],
+      grantedPowers: [{ recharge: "hourly" }],
     });
     const err = item.validateSync();
 
-    expect(err.errors["grantedItems.0.recharge"]).toBeDefined();
+    expect(err.errors["grantedPowers.0.recharge"]).toBeDefined();
   });
 
   it("rejects 'unlimited' on selfCharges.recharge (only valid on grantedItems)", () => {

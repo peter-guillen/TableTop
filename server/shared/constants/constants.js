@@ -1,3 +1,5 @@
+// Domains - DELETE when domain is setup
+
 export const PROFESSIONS = [
   "warrior",
   "knight",
@@ -41,34 +43,49 @@ export const CONDITIONS = [
   "unconscious",
 ];
 
-export const EFFECT_TYPES = [
-  "damage",
-  "healing",
-  "buff",
-  "debuff",
-  "control",
-  "utility",
-  "summon",
+export const BACKGROUNDS = [
+  "soldier",
+  "sage",
+  "scholar",
+  "thief",
+  "acolyte",
+  "mercenary",
+  "adventurer",
 ];
 
-export const DAMAGE_TYPES = [
-  "slashing",
-  "piercing",
-  "bludgeoning",
-  "fire",
-  "water",
-  "air",
-  "earth",
-  "light",
-  "dark",
-  "force",
-  "psychic",
-  "poison",
-  "acid",
-  "radiant",
-  "necrotic",
+export const TRAITS = [
+  "steady",
+  "fast_and_furious",
+  "unshakeable",
+  "super_strong",
+  "patient",
 ];
-export const DAMAGE_TYPES_OBJ = {
+
+export const SPECIES = [
+  "human",
+  "dwarf",
+  "elf",
+  "orc",
+  "naga",
+  "werewolf",
+  "vampire",
+];
+
+// ------------------------- Global Constants -------------------------
+// ------------------------- Global Constants -------------------------
+// ------------------------- Global Constants -------------------------
+
+export const EFFECT_TYPES = {
+  DAMAGE: "damage",
+  HEALING: "healing",
+  BUFF: "buff",
+  DEBUFF: "debuff",
+  CONTROL: "control",
+  UTILITY: "utility",
+  SUMMON: "summon",
+};
+
+export const DAMAGE_TYPES = {
   SLASHING: "slashing",
   PIERCING: "piercing",
   BLUDGEONING: "bludgeoning",
@@ -104,6 +121,16 @@ export const STATS = {
 };
 
 export const OFFENSIVE_STATS = [STATS.MIGHT, STATS.ACCURACY, STATS.DOMINANCE];
+export const DEFENSIVE_STATS = [STATS.RESILIENCE, STATS.EVASION, STATS.RESOLVE];
+export const MOBILITY_STATS = [STATS.MOVEMENT, STATS.INITIATIVE];
+export const RESOURCE_STATS = [STATS.HP, STATS.MP, STATS.MOM];
+
+export const STAT_CATEGORIES = {
+  OFFENSIVE: { label: "Offense", stats: OFFENSIVE_STATS },
+  DEFENSIVE: { label: "Defense", stats: DEFENSIVE_STATS },
+  MOBILITY: { label: "Mobility", stats: MOBILITY_STATS },
+  RESOURCES: { label: "Resources", stats: RESOURCE_STATS },
+};
 
 export const SKILLS = {
   ACROBATICS: "acrobatics",
@@ -130,15 +157,11 @@ export const SKILLS = {
   WARFARE: "warfare",
 };
 
-export const MATERIALS = [
-  "silvered",
-  "adamantine",
-  "steel",
-  "iron",
-  "mithril",
-  "orichalcum",
-];
-export const MATERIALS_OBJ = {
+// ------------------------- Item Constants -------------------------
+// ------------------------- Item Constants -------------------------
+// ------------------------- Item Constants -------------------------
+
+export const MATERIALS = {
   SILVERED: "silvered",
   ADAMANDTINE: "adamantine",
   STEEL: "steel",
@@ -147,44 +170,22 @@ export const MATERIALS_OBJ = {
   ORICHALCUM: "orichalcum",
 };
 
-export const QUALITY = [
-  "enchanted",
-  "blessed",
-  "cursed",
-  "divine",
-  "masterwork",
-  "runed", // inscribed with runic magic — distinct flavor from Enchanted
-  "corrupted", // darker/further-gone than Cursed, room for escalation
-  "sentient", // the weapon has awareness/agency — big design hook (Excalibur-tier)
-  "unstable", // volatile magic, risk/reward flavor
-  "ancestral", // bound to a bloodline/lineage rather than generically magic
-  "forbidden", // outlawed/taboo, independent of raw power
-  "relic", // historically/narratively significant, not necessarily powerful
-];
-export const QUALITY_OBJ = {
+export const QUALITY = {
   ENCHANTED: "enchanted",
   BLESSED: "blessed",
   CURSED: "cursed",
   DIVINE: "divine",
   MASTERWORK: "masterwork",
-  RUNED: "runed", // inscribed with runic magic — distinct flavor from Enchanted
-  CORRUPTED: "corrupted", // darker/further-gone than Cursed, room for escalation
-  SENTIENT: "sentient", // the weapon has awareness/agency — big design hook (Excalibur-tier)
-  UNSTABLE: "unstable", // volatile magic, risk/reward flavor
-  ANCESTRAL: "ancestral", // bound to a bloodline/lineage rather than generically magic
-  FORBIDDEN: "forbidden", // outlawed/taboo, independent of raw power
-  RELIC: "relic", // historically/narratively significant, not necessarily powerful
+  RUNED: "runed",
+  CORRUPTED: "corrupted",
+  SENTIENT: "sentient",
+  UNSTABLE: "unstable",
+  ANCESTRAL: "ancestral",
+  FORBIDDEN: "forbidden",
+  RELIC: "relic",
 };
 
-export const RARITY = [
-  "common",
-  "rare",
-  "heroic",
-  "epic",
-  "legendary",
-  "mythic",
-];
-export const RARITY_OBJ = {
+export const RARITY = {
   COMMON: "common",
   RARE: "rare",
   HEROIC: "heroic",
@@ -193,17 +194,8 @@ export const RARITY_OBJ = {
   MYTHIC: "mythic",
 };
 
-export const PROPERTIES = [
-  "finesse",
-  "heavy",
-  "light",
-  "reach",
-  "thrown",
-  "one-handed",
-  "two-handed",
-  "versatile",
-];
-export const PROPERTIES_OBJ = {
+export const PROPERTIES = {
+  // Change to Weapon_Properties since not all items use this
   FINESSE: "finesse",
   HEAVY: "heavy",
   LIGHT: "light",
@@ -214,39 +206,9 @@ export const PROPERTIES_OBJ = {
   VERSATILE: "versatile",
 };
 
-export const BACKGROUNDS = [
-  "soldier",
-  "sage",
-  "scholar",
-  "thief",
-  "acolyte",
-  "mercenary",
-  "adventurer",
-];
-
-export const TRAITS = [
-  "steady",
-  "fast_and_furious",
-  "unshakeable",
-  "super_strong",
-  "patient",
-];
-
-export const SPECIES = [
-  "human",
-  "dwarf",
-  "elf",
-  "orc",
-  "naga",
-  "werewolf",
-  "vampire",
-];
-
 export const ARMOR = [
   "light_armor",
   "medium_armor",
   "heavy_armor",
   "unarmored",
 ];
-
-export const WEAPON_TAGS = [];

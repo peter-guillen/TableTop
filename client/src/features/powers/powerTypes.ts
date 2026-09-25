@@ -61,7 +61,7 @@ export type DamageType =
 
 export interface HealthEffect {
   direction: "damage" | "healing";
-  damageType?: string;
+  damageType?: DamageType;
   diceSize?: number;
   diceCount?: number;
   flat?: number;
@@ -107,9 +107,9 @@ export interface Activation {
 
 /* ------------------------------ Requirements ------------------------------ */
 export interface Requirements {
-  minLevel: number;
-  requiredTraits: string[];
-  weaponTags: [];
+  minLevel?: number;
+  requiredTraits?: string[];
+  properties?: string[];
 }
 
 export interface Power {
@@ -118,10 +118,6 @@ export interface Power {
   kind: PowerKind;
   description: string;
   school?: SpellSchool;
-  // tier: number;
-
-  effectType: EffectType[];
-  damageType?: DamageType[];
 
   healthEffects: HealthEffect[];
   statModifiers: StatModifier[];
@@ -134,4 +130,7 @@ export interface Power {
 
   requirements: Requirements;
   grantedPowers: string[];
+
+  createdAt?: string;
+  updatedAt?: string;
 }

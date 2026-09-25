@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import {
   STATS,
-  OFFENSIVE_STATS,
+  OFFENSIVE_STATS, // enum array
   DAMAGE_TYPES,
+  EFFECT_TYPES,
 } from "../../shared/constants/constants.js";
 
 const PowerSchema = new mongoose.Schema(
@@ -31,7 +32,9 @@ const PowerSchema = new mongoose.Schema(
     },
 
     // Trait-only
-    grantedPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Power" }],
+    grantedPowers: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Power", default: [] },
+    ],
 
     targeting: {
       targetCategory: { type: String, enum: ["creature", "object", "point"] },
@@ -44,10 +47,15 @@ const PowerSchema = new mongoose.Schema(
       size: Number,
     },
 
+    effectType: {
+      type: String,
+      enum: Object.values(EFFECT_TYPES),
+    },
+
     healthEffects: [
       {
         direction: { type: String, enum: ["damage", "healing"] },
-        damageType: { type: String, enum: DAMAGE_TYPES },
+        damageType: { type: String, enum: Object.values(DAMAGE_TYPES) },
         diceSize: Number,
         diceCount: Number,
         flat: Number,
@@ -109,43 +117,14 @@ const PowerSchema = new mongoose.Schema(
 
     requirements: {
       minLevel: Number,
-      requiredTraits: [{ type: mongoose.Schema.Types.ObjectId, ref: "Power" }],
-      weaponTags: [String],
+      requiredTraits: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "Power", default: [] },
+      ],
+      properties: { type: [String], default: [] },
     },
   },
   { timestamps: true },
 );
-
-// PowerSchema.pre("validate", async function (next) {
-//   if (this.kind !== "spell" && this.school) {
-//     return next(new Error(`${this.kind} documents cannot declare a school`));
-//   }
-//   if (this.kind === "spell" && !this.school) {
-//     return next(new Error("Spell documents require a school"));
-//   }
-
-//   if (
-//     this.kind === "technique" &&
-//     (!this.requirements?.weaponTags ||
-//       this.requirements.weaponTags.length === 0)
-//   ) {
-//     return next(
-//       new Error("Technique documents require at least one weapon tag"),
-//     );
-//   }
-
-//   if (this.kind !== "technique" && this.requirements?.weaponTags?.length > 0) {
-//     return next(new Error(`${this.kind} documents cannot declare weaponTags`));
-//   }
-
-//   if (this.kind !== "trait" && this.grantedPowers?.length > 0) {
-//     return next(
-//       new Error(`${this.kind} documents cannot declare grantedPowers`),
-//     );
-//   }
-
-//   // next(new Error());
-// });
 
 PowerSchema.pre("validate", function () {
   if (this.kind !== "spell" && this.school) {
@@ -156,13 +135,13 @@ PowerSchema.pre("validate", function () {
   }
   if (
     this.kind === "technique" &&
-    (!this.requirements?.weaponTags ||
-      this.requirements.weaponTags.length === 0)
+    (!this.requirements?.properties ||
+      this.requirements.properties.length === 0)
   ) {
     throw new Error("Technique documents require at least one weapon tag");
   }
-  if (this.kind !== "technique" && this.requirements?.weaponTags?.length > 0) {
-    throw new Error(`${this.kind} documents cannot declare weaponTags`);
+  if (this.kind !== "technique" && this.requirements?.properties?.length > 0) {
+    throw new Error(`${this.kind} documents cannot declare properties`);
   }
   if (this.kind !== "trait" && this.grantedPowers?.length > 0) {
     throw new Error(`${this.kind} documents cannot declare grantedPowers`);

@@ -205,7 +205,6 @@ import type { CharacterSectionProps } from "../charactersTypes";
 
 // Same cap as the other selection tabs — see SpellsTab.
 const WEAPON_CAP = 5;
-
 export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
   const {
     data: weapons = [],
@@ -236,6 +235,7 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
       .filter((name): name is string => Boolean(name));
   }
 
+  console.log(weapons);
   return (
     <div className="flex flex-col gap-2">
       {weapons.length === 0 && (

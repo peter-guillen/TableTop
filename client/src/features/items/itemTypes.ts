@@ -1,3 +1,5 @@
+import { Skill, Stats } from "../../shared/constants/constantTypes.ts";
+
 export type Category =
   | "weapon"
   | "armor"
@@ -62,21 +64,23 @@ export type DamageType =
   | "radiant"
   | "necrotic";
 
-export type ItemCategory =
-  | "weapon"
-  | "armor"
-  | "accessory"
-  | "consumable"
-  | "trinket";
-
-export type Stat = "";
-
-export type Skill = "";
-
 export type DurationType = "turns" | "until_broken" | "permanent";
 
-export type Recharge = "none" | "short_rest" | "long_rest" | "daily";
+export type Recharge =
+  | "unlimited"
+  | "none"
+  | "short_rest"
+  | "long_rest"
+  | "daily";
+
 export type GrantedPowerRecharge = "unlimited" | Recharge;
+
+export type Handedness =
+  | "one_handed"
+  | "two_handed"
+  | "main_hand_only"
+  | "off_hand_only"
+  | "versatile";
 
 export interface HealthEffect {
   direction: "damage" | "healing" | "";
@@ -104,30 +108,45 @@ export interface Resistance {
 }
 
 export interface GrantedPower {
-  power: string; // Power _id ref
+  power: string;
   recharge: GrantedPowerRecharge;
   usesPerRecharge?: number;
 }
 
 export interface SelfCharges {
   usesRemaining?: number;
-  recharge: Recharge;
+  recharge: Exclude<Recharge, "unlimited">;
+}
+
+export interface Requirements {
+  minLevel?: number;
+  requiredTraits: string[];
 }
 
 export interface Item {
   _id?: string;
   name: string;
   description: string;
-  category: ItemCategory | "";
+
+  category: Category | "";
+  handedness?: Handedness;
+
   rarity: Rarity | "";
   quality: Quality[];
   materials: Material[];
   properties: Property[];
   value: number;
+
   healthEffects: HealthEffect[];
   statModifiers: StatModifier[];
   resistances: Resistance[];
   grantedPowers: GrantedPower[];
+
   selfCharges: SelfCharges;
   uniqueSkills: string[];
+
+  requirements?: Requirements;
+
+  createdAt?: string;
+  updatedAt?: string;
 }

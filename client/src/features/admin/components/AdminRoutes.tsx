@@ -52,7 +52,47 @@ export function AdminRoutes({
         />
       );
 
-    // SPELLS
+    // POWERS
+    case "powers":
+      return (
+        <AdminTable
+          title="Spells"
+          columns={["Name", "Tier", "School", "Range", "Duration"]}
+          data={sectionConfig.powers.data}
+          activeSection="powers"
+          onDelete={sectionConfig.powers.deleteFn}
+          searchTerm={searchTerm}
+          onSearchChange={onSearchChange}
+          renderRow={(power) => [
+            power.name,
+            power.tier,
+            power.school,
+            power.range,
+            power.duration,
+          ]}
+        />
+      );
+
+    // ITEMS
+    case "items":
+      return (
+        <AdminTable
+          title="Spells"
+          columns={["Name", "Tier", "School", "Range", "Duration"]}
+          data={sectionConfig.items.data}
+          activeSection="items"
+          onDelete={sectionConfig.items.deleteFn}
+          searchTerm={searchTerm}
+          onSearchChange={onSearchChange}
+          renderRow={(item) => [
+            item.name,
+            item.tier,
+            item.school,
+            item.range,
+            item.duration,
+          ]}
+        />
+      );
     case "spells":
       return (
         <AdminTable

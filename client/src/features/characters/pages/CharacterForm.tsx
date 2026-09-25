@@ -48,7 +48,6 @@ export const CharacterForm = () => {
   };
 
   console.log(formData);
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50/30 to-slate-50 dark:from-slate-900 dark:via-cyan-950/20 dark:to-slate-900 text-slate-900 dark:text-white transition-colors duration-300 p-5 md:p-6">

@@ -1,3 +1,5 @@
+import { CharacterSectionProps } from "../charactersTypes";
+
 const ARMOR = [
   { key: "Light", label: "Light Armor", def: 1 },
   { key: "Medium", label: "Medium Armor", def: 2 },
@@ -23,9 +25,9 @@ const Tag = ({ label, variant = "neutral" }) => {
   return <span className={styles[variant] || styles.neutral}>{label}</span>;
 };
 
-function getPool({ mode, cls, library }) {
+function getPool({ mode, colors, library }) {
   if (mode === "classed") {
-    return (library?.features || []).filter((f) => f.profession === cls);
+    return (library?.features || []).filter((f) => f.profession === colors);
   }
   return (library?.features || []).filter((f) =>
     library?.sources?.includes(f.src),
@@ -49,10 +51,13 @@ const Row = ({ label, value }) => (
   </div>
 );
 
-export const CharacterOverview = ({ formData, library }) => {
+export const CharacterOverview = ({
+  formData,
+  library,
+}: CharacterSectionProps) => {
   const pool = getPool({
     mode: formData.mode,
-    cls: formData.cls,
+    colors: formData.colors,
     library,
   });
 
