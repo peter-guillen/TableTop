@@ -65,7 +65,6 @@ export const defaultCharacterFormData: Character = {
   powers: {
     spells: [],
     abilities: [],
-    techniques: [],
     traits: [],
   },
   skills: [],

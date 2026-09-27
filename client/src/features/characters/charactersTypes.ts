@@ -66,7 +66,6 @@ export interface Equipment {
 export interface Powers {
   spells: string[];
   abilities: string[];
-  techniques: string[];
   traits: string[];
 }
 

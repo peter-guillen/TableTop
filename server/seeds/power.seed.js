@@ -28,17 +28,10 @@ const CONDITION_IDS = {
   unconscious: "6a6acc229f583a3359d9e987",
 };
 
-// These two placeholder ids stand in for Powers seeded earlier in this same
-// array (Weaken/Guard below) so grantedPowers has something real to point at.
-// Swap for real ObjectIds once seeding is chained off insertMany's return value.
-const GRANTED_POWER_IDS = {
-  weaken: "6a6acc229f583a3359d9e990",
-  guard: "6a6acc229f583a3359d9e991",
-};
-
 const powerSeeds = [
   // 1. SPELL — requires `school`, everything else is the familiar Spell shape.
   //    Exercises: healthEffects (damage), offensiveStat, no requirements.
+  //    Cost now lives on activation.resource/activation.cost, not a separate `usage` block.
   {
     name: "Fireball",
     kind: "spell",
@@ -63,7 +56,6 @@ const powerSeeds = [
     ],
     statModifiers: [],
     conditions: [],
-    usage: { cost: 15 },
     activation: {
       action: "major_action",
       ritual: false,
@@ -71,15 +63,15 @@ const powerSeeds = [
       channel: false,
       castTime: 0,
       duration: 0, // instantaneous
+      resource: "mp",
+      cost: 15,
     },
     recharge: "unlimited",
     offensiveStat: OFFENSIVE_STATS.DOMINANCE,
     requirements: {},
   },
 
-  // 2. SPELL — persistent damage over time, no offensiveStat (a DoT the target
-  //    already failed a save against, not a fresh attack roll — adjust if your
-  //    ruleset actually rolls to apply burning each turn).
+  // 2. SPELL — persistent damage over time, no offensiveStat.
   {
     name: "Ignite",
     kind: "spell",
@@ -102,7 +94,6 @@ const powerSeeds = [
     ],
     statModifiers: [],
     conditions: [],
-    usage: { cost: 6 },
     activation: {
       action: "major_action",
       ritual: false,
@@ -110,16 +101,18 @@ const powerSeeds = [
       channel: false,
       castTime: 0,
       duration: 3,
+      resource: "mp",
+      cost: 6,
     },
     recharge: "unlimited",
     offensiveStat: OFFENSIVE_STATS.ACCURACY,
     requirements: {},
   },
 
-  // 3. TECHNIQUE — requires requirements.weaponTags, must NOT declare school.
-  //    Weapon-derived damage: damageType omitted on the healthEffect entry so
-  //    the combat resolver fills it in from the equipped weapon at time-of-use
-  //    (per the null = weapon-derived convention).
+  // 3. TECHNIQUE — requires requirements.properties (renamed from weaponTags), must NOT declare school.
+  //    Techniques spend Momentum, which isn't a schema resource (activation.resource is hp|mp only),
+  //    so techniques get NO resource/cost on activation at all.
+  //    Weapon-derived damage: damageType omitted so the combat resolver fills it in from the equipped weapon.
   {
     name: "Blitz",
     kind: "technique",
@@ -141,7 +134,6 @@ const powerSeeds = [
     ],
     statModifiers: [],
     conditions: [],
-    usage: { cost: 0 }, // Momentum-spent techniques have no staminaCost; adjust if this one does
     activation: {
       action: "major_action",
       ritual: false,
@@ -153,13 +145,12 @@ const powerSeeds = [
     recharge: "unlimited",
     offensiveStat: OFFENSIVE_STATS.ACCURACY,
     requirements: {
-      weaponTags: ["light", "finesse"],
+      properties: ["light", "finesse"],
     },
   },
 
   // 4. TECHNIQUE — stacks a fixed-type instance (bludgeoning) alongside the
-  //    weapon-derived one, plus a condition. Exercises multiple healthEffects
-  //    entries and conditions co-occurring on a non-spell kind.
+  //    weapon-derived one, plus a condition.
   {
     name: "Charge",
     kind: "technique",
@@ -194,7 +185,6 @@ const powerSeeds = [
         duration: 1,
       },
     ],
-    usage: { cost: 0 },
     activation: {
       action: "major_action",
       ritual: false,
@@ -206,12 +196,11 @@ const powerSeeds = [
     recharge: "unlimited",
     offensiveStat: OFFENSIVE_STATS.MIGHT,
     requirements: {
-      weaponTags: ["heavy", "two-handed"],
+      properties: ["heavy", "two-handed"],
     },
   },
 
-  // 5. TECHNIQUE — fully independent fixed damage type, ignores the weapon
-  //    entirely (Mach Strike pattern from design notes).
+  // 5. TECHNIQUE — fully independent fixed damage type, ignores the weapon entirely.
   {
     name: "Mach Strike",
     kind: "technique",
@@ -233,7 +222,6 @@ const powerSeeds = [
     ],
     statModifiers: [],
     conditions: [],
-    usage: { cost: 0 },
     activation: {
       action: "major_action",
       ritual: false,
@@ -245,34 +233,240 @@ const powerSeeds = [
     recharge: "short_rest",
     offensiveStat: OFFENSIVE_STATS.ACCURACY,
     requirements: {
-      weaponTags: ["reach"],
+      properties: ["reach"],
     },
   },
 
-  // 6. ABILITY — no school, no weaponTags, no grantedPowers; a self-buff with
-  //    stat modifiers only. Shows the "none of the kind-gated fields" path.
+  // ============================================================
+  // SPELLS
+  // ============================================================
+
+  // 6. SPELL — low-power defensive reaction
   {
-    name: "Guard",
-    kind: "ability",
+    name: "Aegis",
+    kind: "spell",
+    school: "abjuration",
     description:
-      "A shimmering barrier of raw element briefly hardens the caster's resolve.",
+      "A thin veil of arcane force flashes into existence, turning aside an incoming blow.",
     targeting: {
       targetCategory: "creature",
       targetCount: 1,
-      range: 0, // self
+      range: 30,
     },
     healthEffects: [],
     statModifiers: [
       {
-        stat: STATS.RESOLVE,
-        value: 5,
+        stat: STATS.RESILIENCE,
+        value: 4,
         durationType: "turns",
         duration: 1,
-        description: "Bolsters resolve to shrug off an incoming spell.",
+        description: "Briefly hardens the target against incoming harm.",
       },
     ],
     conditions: [],
-    usage: { cost: 10 },
+    activation: {
+      action: "reaction",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 1,
+      resource: "mp",
+      cost: 5,
+    },
+    recharge: "unlimited",
+    requirements: {},
+  },
+
+  // 7. SPELL — area control
+  {
+    name: "Frostbind",
+    kind: "spell",
+    school: "conjuration",
+    description:
+      "A burst of supernatural frost spreads across the ground, slowing creatures caught within it.",
+    targeting: {
+      targetCategory: "point",
+      targetCount: 1,
+      range: 60,
+      shape: "sphere",
+      size: 15,
+    },
+    healthEffects: [
+      {
+        direction: "damage",
+        damageType: DAMAGE_TYPES.COLD,
+        diceCount: 2,
+        diceSize: 6,
+        persistent: false,
+      },
+    ],
+    statModifiers: [],
+    conditions: [
+      {
+        condition: CONDITION_IDS.restrained,
+        durationType: "turns",
+        duration: 1,
+      },
+    ],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: true,
+      channel: false,
+      castTime: 0,
+      duration: 1,
+      resource: "mp",
+      cost: 10,
+    },
+    recharge: "unlimited",
+    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    requirements: {},
+  },
+
+  // 8. SPELL — stronger single-target spell
+  {
+    name: "Thunder Lance",
+    kind: "spell",
+    school: "evocation",
+    description:
+      "A concentrated spear of lightning tears through the air and strikes a single target with explosive force.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 90,
+    },
+    healthEffects: [
+      {
+        direction: "damage",
+        damageType: DAMAGE_TYPES.LIGHTNING,
+        diceCount: 6,
+        diceSize: 8,
+        persistent: false,
+      },
+    ],
+    statModifiers: [],
+    conditions: [],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 0,
+      resource: "mp",
+      cost: 14,
+    },
+    recharge: "unlimited",
+    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    requirements: {
+      minLevel: 5,
+    },
+  },
+
+  // 9. SPELL — healing
+  {
+    name: "Mending Light",
+    kind: "spell",
+    school: "evocation",
+    description:
+      "Warm radiance closes wounds and restores a portion of the target's vitality.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 30,
+    },
+    healthEffects: [
+      {
+        direction: "healing",
+        flat: 12,
+        persistent: false,
+      },
+    ],
+    statModifiers: [],
+    conditions: [],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 0,
+      resource: "mp",
+      cost: 8,
+    },
+    recharge: "unlimited",
+    requirements: {},
+  },
+
+  // 10. SPELL — powerful but requires channeling
+  {
+    name: "Void Collapse",
+    kind: "spell",
+    school: "evocation",
+    description:
+      "The caster tears open a momentary distortion in space, crushing everything caught within its center.",
+    targeting: {
+      targetCategory: "point",
+      targetCount: 1,
+      range: 60,
+      shape: "sphere",
+      size: 25,
+    },
+    healthEffects: [
+      {
+        direction: "damage",
+        damageType: DAMAGE_TYPES.FORCE,
+        diceCount: 10,
+        diceSize: 8,
+        persistent: false,
+      },
+    ],
+    statModifiers: [],
+    conditions: [],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: false,
+      channel: true,
+      castTime: 1,
+      duration: 0,
+      resource: "mp",
+      cost: 30,
+    },
+    recharge: "long_rest",
+    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    requirements: {
+      minLevel: 10,
+    },
+  },
+
+  // ============================================================
+  // TECHNIQUES
+  // ============================================================
+
+  // 11. TECHNIQUE — cheap defensive maneuver
+  {
+    name: "Deflect",
+    kind: "technique",
+    description:
+      "The warrior turns an incoming attack aside with precise timing and controlled movement.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 5,
+    },
+    healthEffects: [],
+    statModifiers: [
+      {
+        stat: STATS.EVASION,
+        value: 5,
+        durationType: "turns",
+        duration: 1,
+        description: "Improves the user's ability to avoid the next attack.",
+      },
+    ],
+    conditions: [],
     activation: {
       action: "reaction",
       ritual: false,
@@ -281,92 +475,237 @@ const powerSeeds = [
       castTime: 0,
       duration: 1,
     },
-    recharge: "short_rest",
-    requirements: {},
+    recharge: "unlimited",
+    requirements: {
+      properties: ["light", "finesse"],
+    },
   },
 
-  // 7. ABILITY — debuff + condition together, requiredTraits as a prerequisite
-  //    (allowed on any kind — separate mechanic from grantedPowers).
+  // 12. TECHNIQUE — heavy weapon burst
   {
-    name: "Weaken",
-    kind: "ability",
-    description: "A draining curse leaves the target frail and slow to act.",
+    name: "Overhead Breaker",
+    kind: "technique",
+    description:
+      "A devastating overhead swing crashes down with enough force to stagger even a heavily armored opponent.",
     targeting: {
       targetCategory: "creature",
       targetCount: 1,
-      range: 60,
+      range: 5,
     },
-    healthEffects: [],
-    statModifiers: [
+    healthEffects: [
       {
-        stat: STATS.MIGHT,
-        value: -4,
-        durationType: "turns",
-        duration: 2,
-        description: "Saps the target's physical power.",
+        direction: "damage",
+        diceCount: 4,
+        diceSize: 8,
+        persistent: false,
       },
     ],
+    statModifiers: [],
     conditions: [
       {
-        condition: CONDITION_IDS.frightened,
+        condition: CONDITION_IDS.stunned,
         durationType: "turns",
-        duration: 2,
+        duration: 1,
       },
     ],
-    usage: { cost: 9 },
     activation: {
       action: "major_action",
       ritual: false,
-      concentration: true,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 0,
+    },
+    recharge: "short_rest",
+    offensiveStat: OFFENSIVE_STATS.MIGHT,
+    requirements: {
+      properties: ["heavy", "two-handed"],
+      minLevel: 5,
+    },
+  },
+
+  // 13. TECHNIQUE — mobility
+  {
+    name: "Reaping Step",
+    kind: "technique",
+    description:
+      "The wielder sweeps past the enemy in a sudden step, striking as they move through the opening.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 10,
+    },
+    healthEffects: [
+      {
+        direction: "damage",
+        diceCount: 2,
+        diceSize: 6,
+        persistent: false,
+      },
+    ],
+    statModifiers: [],
+    conditions: [],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 0,
+    },
+    recharge: "unlimited",
+    offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    requirements: {
+      properties: ["light", "finesse"],
+    },
+  },
+
+  // 14. TECHNIQUE — armor-breaking attack
+  {
+    name: "Armor Rend",
+    kind: "technique",
+    description:
+      "A viciously placed strike exploits a weakness in the target's defenses.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 5,
+    },
+    healthEffects: [
+      {
+        direction: "damage",
+        diceCount: 3,
+        diceSize: 6,
+        persistent: false,
+      },
+    ],
+    statModifiers: [
+      {
+        stat: STATS.RESILIENCE,
+        value: -5,
+        durationType: "turns",
+        duration: 2,
+        description:
+          "Reduces the target's ability to withstand further attacks.",
+      },
+    ],
+    conditions: [],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: false,
       channel: false,
       castTime: 0,
       duration: 2,
     },
-    recharge: "unlimited",
+    recharge: "short_rest",
     offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    requirements: {
+      properties: ["heavy", "two-handed"],
+      minLevel: 3,
+    },
+  },
+
+  // 15. TECHNIQUE — high-level signature attack
+  {
+    name: "Executioner",
+    kind: "technique",
+    description:
+      "The warrior commits completely to a single killing stroke, sacrificing defense for overwhelming force.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 5,
+    },
+    healthEffects: [
+      {
+        direction: "damage",
+        diceCount: 8,
+        diceSize: 10,
+        persistent: false,
+      },
+    ],
+    statModifiers: [
+      {
+        stat: STATS.EVASION,
+        value: -5,
+        durationType: "turns",
+        duration: 1,
+        description:
+          "Leaves the attacker exposed after committing to the strike.",
+      },
+    ],
+    conditions: [],
+    activation: {
+      action: "major_action",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 1,
+    },
+    recharge: "long_rest",
+    offensiveStat: OFFENSIVE_STATS.MIGHT,
+    requirements: {
+      properties: ["heavy", "two-handed"],
+      minLevel: 10,
+    },
+  },
+
+  // ============================================================
+  // TRAITS
+  // ============================================================
+
+  // 16. TRAIT — defensive specialization
+  {
+    name: "Iron Will",
+    kind: "trait",
+    description:
+      "Years of hardship have hardened the warrior's resolve against fear, pressure, and magical influence.",
+    grantedPowers: [],
+    targeting: {},
+    healthEffects: [],
+    statModifiers: [
+      {
+        stat: STATS.RESOLVE,
+        value: 3,
+        durationType: "permanent",
+        duration: 0,
+        description: "Permanently increases resolve.",
+      },
+    ],
+    conditions: [],
+    activation: {},
+    recharge: "unlimited",
     requirements: {
       minLevel: 3,
     },
   },
 
-  // 8. TRAIT — the only kind allowed to populate grantedPowers. No school, no
-  //    weaponTags. Grants tiered access to an existing Power by ref.
+  // 17. TRAIT — offensive progression
   {
-    name: "Arms Master I",
+    name: "Brutal Technique",
     kind: "trait",
     description:
-      "Rigorous weapon drilling grants proficiency with heavier arms than most can wield cleanly.",
-    grantedPowers: [GRANTED_POWER_IDS.guard],
+      "The warrior learns to turn openings into devastating attacks, increasing the effectiveness of advanced combat techniques.",
+    grantedPowers: [],
     targeting: {},
     healthEffects: [],
-    statModifiers: [],
+    statModifiers: [
+      {
+        stat: STATS.MIGHT,
+        value: 2,
+        durationType: "permanent",
+        duration: 0,
+        description: "Permanently increases might.",
+      },
+    ],
     conditions: [],
-    usage: {},
-    activation: {},
-    recharge: "unlimited",
-    requirements: {
-      minLevel: 1,
-    },
-  },
-
-  // 9. TRAIT — grants a second Power, chaining tiers (Arms Master I -> II),
-  //    demonstrating a trait granting another trait.
-  {
-    name: "Arms Master II",
-    kind: "trait",
-    description:
-      "Further mastery lets the wielder ignore the penalties heavy weapons usually impose.",
-    grantedPowers: [GRANTED_POWER_IDS.weaken],
-    targeting: {},
-    healthEffects: [],
-    statModifiers: [],
-    conditions: [],
-    usage: {},
     activation: {},
     recharge: "unlimited",
     requirements: {
       minLevel: 5,
-      requiredTraits: [], // would ref Arms Master I's real _id once chained off insertMany
+      requiredTraits: [],
     },
   },
 ];

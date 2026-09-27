@@ -234,6 +234,14 @@ export const Navbar = () => {
                 </div>
               </div>
 
+              <NavLink
+                to="about"
+                className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span>About</span>
+              </NavLink>
+
               {canSeeAdmin && (
                 <NavLink
                   to="admin"
@@ -423,6 +431,14 @@ export const Navbar = () => {
                   </NavLink>
                 </div>
               </div>
+
+              <NavLink
+                to="about"
+                className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span>About</span>
+              </NavLink>
 
               {canSeeAdmin && (
                 <NavLink

@@ -12,6 +12,7 @@ import { Register } from "./pages/Register.tsx";
 import { Login } from "./pages/Login.tsx";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
+import { About } from "../app/pages/About.tsx";
 import { Rules } from "../features/playerTools/components/Rules";
 import { CharacterPage } from "../features/characters/pages/CharacterPage.tsx";
 
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
         <Route path="/admin/*" element={<AdminPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/characters/*" element={<CharacterPage />} />

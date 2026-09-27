@@ -1,7 +1,4 @@
-//
-
 import type { Character, PatchForm } from "../charactersTypes";
-import type { Constants } from "../../../shared/api/constantsApi";
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">
