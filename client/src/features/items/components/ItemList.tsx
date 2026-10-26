@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { LuSearch, LuFilter, LuX } from "react-icons/lu";
 
 import { useGetAllItemsQuery } from "../api/itemApi";
-import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
+import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import { ItemPreview } from "./ItemPreview";
 import { ItemCategory, Item } from "../itemTypes.ts";

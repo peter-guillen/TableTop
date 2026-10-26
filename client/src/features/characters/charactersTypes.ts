@@ -1,9 +1,6 @@
-import {
-  Affinities,
-  Background,
-  Profession,
-  Species,
-} from "../../shared/constants/constantTypes";
+import { Skills, Constants } from "../../shared/constants/constantTypes";
+
+export type Id = string;
 
 export interface Identity {
   name: string;
@@ -14,15 +11,13 @@ export interface Identity {
 }
 
 export interface Origin {
-  species?: Species;
-  background?: Background;
+  species?: Id;
+  background?: Id;
 }
 
 export interface Archetype {
-  profession?: Profession;
-  professionSub?: Profession;
-  affinity?: Affinities;
-  affinitySub?: Affinities;
+  profession?: Id;
+  affinity?: Id;
 }
 
 export interface Progression {
@@ -50,52 +45,63 @@ export interface Stats {
 }
 
 export interface InventoryItem {
-  item: string;
+  item: Id;
   quantity: number;
 }
 
 export interface Equipment {
   weapons: {
-    mainHand: string | null;
-    offHand: string | null;
+    mainHand: Id | null;
+    offHand: Id | null;
   };
-  armor: string | null;
-  accessories: string[];
+  armor: Id | null;
+  accessories: Id[];
 }
 
 export interface Powers {
-  spells: string[];
-  abilities: string[];
-  traits: string[];
+  spells: Id[];
+  abilities: Id[];
+  traits: Id[];
 }
 
-export interface Character {
-  _id?: string;
-  userId: string;
-
+export interface CharacterInput {
   identity: Identity;
   origin: Origin;
-
   mode: "classed" | "classless";
-
   archetype: Archetype;
-
   progression: Progression;
   stats: Stats;
-
   inventory: InventoryItem[];
   equipment: Equipment;
   powers: Powers;
-
-  skills: string[];
-
-  createdAt?: string;
-  updatedAt?: string;
+  skills: Skills[];
 }
 
-export type PatchForm = (updated: Partial<Character>) => void;
+export interface Character extends CharacterInput {
+  _id: Id;
+  userId: Id;
+  createdAt: string;
+  updatedAt: string;
+}
 
-export interface CharacterSectionProps {
-  formData: Character;
+export type PatchForm = (updated: Partial<CharacterInput>) => void;
+
+export interface CharacterBaseProps {
+  formData: CharacterInput;
   patchForm: PatchForm;
+}
+
+export interface CharacterSectionProps extends CharacterBaseProps {
+  constants: Constants;
+}
+
+export interface RefOption {
+  _id: Id;
+  name: string;
+}
+
+export interface CharacterArchetypeProps extends CharacterBaseProps {
+  species: RefOption[];
+  backgrounds: RefOption[];
+  professions: RefOption[];
 }

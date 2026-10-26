@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetProfessionQuery } from "../api/professionApi";
+import { useGetAllProfessionsQuery } from "../api/professionApi";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 import {
@@ -73,7 +73,7 @@ export function ProfessionDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: profession, error, isLoading } = useGetProfessionQuery(id);
+  const { data: profession, error, isLoading } = useGetAllProfessionsQuery(id);
   const { data: items = [] } = useGetAllItemsQuery();
   const { data: powers = [] } = useGetAllPowersQuery();
 

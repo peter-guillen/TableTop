@@ -178,3 +178,25 @@ export type Armor =
   | "Medium Armor"
   | "Heavy Armor"
   | "Unarmored";
+
+export interface Constants {
+  PROFESSIONS: string[];
+  // AFFINITIES: string[];
+
+  CONDITIONS: string[];
+  STATS: Record<string, string>;
+  OFFENSIVE_STATS: OffensiveStat[];
+  EFFECT_TYPES: EffectType[];
+  DAMAGE_TYPES: DamageType[];
+  SKILLS: Skills[];
+
+  RARITY: Rarity;
+  QUALITY: Quality[];
+  MATERIALS: Materials[];
+
+  PROPERTIES: Properties[];
+  BACKGROUNDS: string[];
+  TRAITS: string[];
+  SPECIES: string;
+  ARMOR: string;
+}

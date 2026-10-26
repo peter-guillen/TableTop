@@ -1,4 +1,4 @@
-import { HealthEffect, StatModifier } from "./constantTypes";
+import { HealthEffect, StatModifier, Stats } from "./constantTypes";
 
 export const defaultHealthEffect: HealthEffect = {
   direction: "damage",

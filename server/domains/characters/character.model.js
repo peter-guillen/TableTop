@@ -5,7 +5,7 @@ const characterSchema = new Schema(
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
 
     identity: {
-      name: { type: String, required: true },
+      name: { type: String, required: true, trim: true },
       age: Number,
       subjectPronoun: String,
       objectPronoun: String,
@@ -21,9 +21,7 @@ const characterSchema = new Schema(
 
     archetype: {
       profession: { type: Schema.Types.ObjectId, ref: "Profession" },
-      professionSub: { type: Schema.Types.ObjectId, ref: "Profession" },
       affinity: { type: Schema.Types.ObjectId, ref: "Affinity" },
-      affinitySub: { type: Schema.Types.ObjectId, ref: "Affinity" },
     },
 
     progression: {
@@ -42,7 +40,7 @@ const characterSchema = new Schema(
       resources: {
         hp: Number,
         mp: Number,
-        momentum: { type: Number, default: 3, min: 0 },
+        momentum: { type: Number, default: 5, min: 0 },
       },
     },
 
@@ -59,13 +57,13 @@ const characterSchema = new Schema(
         offHand: { type: Schema.Types.ObjectId, ref: "Item", default: null },
       },
       armor: { type: Schema.Types.ObjectId, ref: "Item", default: null },
-      accessories: { type: [Schema.Types.ObjectId], ref: "Item", default: [] },
+      accessories: [{ type: Schema.Types.ObjectId, ref: "Item" }],
     },
 
     powers: {
-      spells: { type: [Schema.Types.ObjectId], ref: "Power", default: [] },
-      traits: { type: [Schema.Types.ObjectId], ref: "Power", default: [] },
-      abilities: { type: [Schema.Types.ObjectId], ref: "Power", default: [] },
+      spells: [{ type: Schema.Types.ObjectId, ref: "Power" }],
+      traits: [{ type: Schema.Types.ObjectId, ref: "Power" }],
+      abilities: [{ type: Schema.Types.ObjectId, ref: "Power" }],
     },
 
     skills: { type: [String], default: [] },

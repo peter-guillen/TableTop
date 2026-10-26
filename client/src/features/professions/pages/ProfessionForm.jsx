@@ -10,7 +10,7 @@ import { ProfessionSpellSlotsSection } from "../components/ProfessionSpellSlotsS
 import { ProfessionSubclassSection } from "../components/ProfessionSubclassSection";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import {
-  useGetProfessionsQuery,
+  useGetAllProfessionsQuery,
   useCreateProfessionMutation,
   useUpdateProfessionMutation,
 } from "../api/professionApi";
@@ -65,7 +65,7 @@ export function ProfessionForm() {
     data: profession,
     isLoading,
     isError,
-  } = useGetProfessionsQuery(id, { skip: !isEditing });
+  } = useGetAllProfessionsQuery(id, { skip: !isEditing });
   const [createProfession] = useCreateProfessionMutation();
   const [updateProfession] = useUpdateProfessionMutation();
 

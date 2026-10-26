@@ -1,11 +1,10 @@
-import {
+import type {
   Archetype,
-  Character,
+  CharacterInput,
   Identity,
   Origin,
   Stats,
 } from "./charactersTypes";
-import { Species } from "../../shared/constants/constantTypes";
 
 export const defaultIdentity: Identity = {
   name: "",
@@ -15,17 +14,9 @@ export const defaultIdentity: Identity = {
   portrait: "",
 };
 
-export const defaultOrigin: Origin = {
-  species: "Human",
-  background: "Soldier",
-};
+export const defaultOrigin: Origin = {};
 
-export const defaultArchetype: Archetype = {
-  profession: "Knight",
-  professionSub: "Warrior",
-  affinity: "Martial",
-  affinitySub: "Chi",
-};
+export const defaultArchetype: Archetype = {};
 
 export const defaultStats: Stats = {
   passive: {
@@ -43,19 +34,13 @@ export const defaultStats: Stats = {
   },
 };
 
-export const defaultCharacterFormData: Character = {
-  userId: "",
+export const defaultCharacterFormData: CharacterInput = {
   identity: defaultIdentity,
-
   mode: "classed",
-
   origin: defaultOrigin,
   archetype: defaultArchetype,
-
   progression: { level: 1 },
-
   stats: defaultStats,
-
   inventory: [],
   equipment: {
     weapons: { mainHand: null, offHand: null },

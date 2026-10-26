@@ -1,9 +1,9 @@
 import { ProfessionPreview } from "./ProfessionPreview";
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
-import { useGetProfessionsQuery } from "../api/professionApi";
+import { useGetAllProfessionsQuery } from "../api/professionApi";
 
 export const ProfessionList = () => {
-  const { data: professions, isLoading, isError } = useGetProfessionsQuery();
+  const { data: professions, isLoading, isError } = useGetAllProfessionsQuery();
 
   if (isLoading) {
     return <LoadingSpinner />;

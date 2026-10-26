@@ -5,11 +5,8 @@ import { SpellsTab } from "./SpellsTab";
 import { SkillsTab } from "./SkillsTab";
 import { TraitsTab } from "./TraitsTab";
 import { ArmorsTab } from "./ArmorsTab";
-import { Constants } from "../../../shared/api/constantsApi";
 
 import type { CharacterSectionProps } from "../charactersTypes";
-
-type CharacterPanelProps = CharacterSectionProps & { constants: Constants };
 
 const TABS = ["Weapons", "Spells", "Skills", "Traits", "Armor"] as const;
 type Tab = (typeof TABS)[number];
@@ -18,15 +15,27 @@ export const CharacterPanel = ({
   formData,
   patchForm,
   constants,
-}: CharacterPanelProps) => {
+}: CharacterSectionProps) => {
   const [currentTab, setCurrentTab] = useState<Tab>("Weapons");
 
   function renderTab() {
     switch (currentTab) {
-      // case "Weapons":
-      //   return <WeaponsTab formData={formData} patchForm={patchForm} />;
+      case "Weapons":
+        return (
+          <WeaponsTab
+            formData={formData}
+            patchForm={patchForm}
+            constants={constants}
+          />
+        );
       case "Spells":
-        return <SpellsTab formData={formData} patchForm={patchForm} />;
+        return (
+          <SpellsTab
+            formData={formData}
+            patchForm={patchForm}
+            constants={constants}
+          />
+        );
       case "Skills":
         return (
           <SkillsTab

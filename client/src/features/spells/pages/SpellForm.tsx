@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
-import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
+import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
   useGetSpellByIdQuery,

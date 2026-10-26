@@ -19,12 +19,12 @@ export const professionApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes: ["Profession"],
   endpoints: (builder) => ({
-    getProfessions: builder.query<Profession[], void>({
+    getAllProfessions: builder.query<Profession[], void>({
       query: () => "/api/professions",
       providesTags: [{ type: "Profession", id: "LIST" }],
     }),
 
-    getProfession: builder.query<Profession, string>({
+    getProfessionById: builder.query<Profession, string>({
       query: (id) => `/api/professions/${id}`,
       providesTags: (result, error, id) => [{ type: "Profession", id }],
     }),
@@ -67,8 +67,8 @@ export const professionApi = createApi({
 });
 
 export const {
-  useGetProfessionsQuery,
-  useGetProfessionQuery,
+  useGetAllProfessionsQuery,
+  useGetProfessionByIdQuery,
   useCreateProfessionMutation,
   useUpdateProfessionMutation,
   useDeleteProfessionMutation,

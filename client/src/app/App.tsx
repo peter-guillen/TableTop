@@ -27,7 +27,7 @@ import { WeaponPage } from "../features/weapons/pages/WeaponPage.tsx";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage.tsx";
 import { AdminPage } from "../features/admin/pages/AdminPage.tsx";
-import { useGetConstantsQuery } from "../shared/api/constantsApi.ts";
+import { useGetConstantsQuery } from "../shared/constants/api/constantsApi.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

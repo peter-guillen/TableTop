@@ -1,8 +1,8 @@
-import Speciesfrom from "./species.model.js";
+import Species from "./species.model.js";
 
 const getAllSpecies = async (req, res) => {
-  const professions = await Species.find({});
-  res.status(200).json(professions);
+  const species = await Species.find({});
+  res.status(200).json(species);
 };
 
 const getSpeciesById = async (req, res) => {

@@ -10,7 +10,7 @@ import {
   useDeleteArticleMutation,
 } from "../../articles/api/articleApi.tsx";
 import {
-  useGetProfessionsQuery,
+  useGetAllProfessionsQuery,
   useDeleteProfessionMutation,
 } from "../../professions/api/professionApi";
 import {
@@ -49,7 +49,7 @@ export const AdminNav = () => {
     data: professionList = [],
     isLoading: professionLoading,
     isError: professionError,
-  } = useGetProfessionsQuery();
+  } = useGetAllProfessionsQuery();
   const [deleteProfession] = useDeleteProfessionMutation();
   const {
     data: powerList = [],

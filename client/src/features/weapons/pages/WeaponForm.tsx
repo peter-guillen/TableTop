@@ -10,7 +10,7 @@ import {
   useUpdateWeaponMutation,
 } from "../api/weaponApi.tsx";
 
-import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
+import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 import { useGetAllSpellsQuery } from "../../spells/api/spellApi.tsx";
 
 import { WeaponBasicInfoSection } from "../components/WeaponBasicInfoSection.tsx";
