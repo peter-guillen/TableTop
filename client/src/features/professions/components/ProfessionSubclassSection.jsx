@@ -1,5 +1,10 @@
 import { LuCrown, LuPlus, LuX } from "react-icons/lu";
 import { useState } from "react";
+import {
+  formHeading,
+  formHint,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 export const ProfessionSubclassSection = ({
   subclassName = "",
@@ -24,7 +29,7 @@ export const ProfessionSubclassSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuCrown size={20} />
         Subclass & Equipment
       </h2>
@@ -33,7 +38,7 @@ export const ProfessionSubclassSection = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Subclass Label */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Subclass Label
             </label>
             <input
@@ -42,16 +47,16 @@ export const ProfessionSubclassSection = ({
               name="subclassName"
               onChange={onInputChange}
               value={subclassName}
-              className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-stone-800/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
-            <p className="text-xs text-slate-500 mt-1">
+            <p className={formHint}>
               What this class calls its subclass path
             </p>
           </div>
 
           {/* Subclass Level */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Subclass Chosen At Level
             </label>
             <input
@@ -62,9 +67,9 @@ export const ProfessionSubclassSection = ({
               name="subclassLevel"
               onChange={onInputChange}
               value={subclassLevel}
-              className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-stone-800/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
-            <p className="text-xs text-slate-500 mt-1">
+            <p className={formHint}>
               Fighter = 3, Cleric = 1, Wizard = 2
             </p>
           </div>
@@ -72,7 +77,7 @@ export const ProfessionSubclassSection = ({
 
         {/* Starting Equipment */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className={`${formLabel} mb-3`}>
             Starting Equipment
           </label>
           <div className="flex gap-2 mb-3">
@@ -84,12 +89,12 @@ export const ProfessionSubclassSection = ({
                 e.key === "Enter" && (e.preventDefault(), addEquipment())
               }
               placeholder="e.g. Leather armor, two daggers, explorer's pack..."
-              className="flex-1 px-4 py-2 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm transition-all"
+              className="flex-1 px-4 py-2 bg-white dark:bg-stone-800/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all"
             />
             <button
               type="button"
               onClick={addEquipment}
-              className="px-4 py-2 rounded-lg bg-cyan-600/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-600/40 transition-all"
+              className="px-4 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-600/20 border border-emerald-400 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-600/40 transition-all"
             >
               <LuPlus size={16} />
             </button>
@@ -100,13 +105,13 @@ export const ProfessionSubclassSection = ({
               {startingEquipment.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-center justify-between px-4 py-2 bg-slate-800/30 border border-slate-700/40 rounded-lg text-slate-300 text-sm group"
+                  className="flex items-center justify-between px-4 py-2 bg-stone-100 dark:bg-stone-800/30 border border-stone-300 dark:border-stone-700/40 rounded-lg text-stone-700 dark:text-stone-300 text-sm group"
                 >
                   <span>{item}</span>
                   <button
                     type="button"
                     onClick={() => removeEquipment(item)}
-                    className="text-slate-600 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                    className="text-stone-600 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <LuX size={14} />
                   </button>
@@ -114,7 +119,7 @@ export const ProfessionSubclassSection = ({
               ))}
             </ul>
           ) : (
-            <p className="text-xs text-slate-600 italic">
+            <p className="text-xs text-stone-600 italic">
               No starting equipment added yet.
             </p>
           )}

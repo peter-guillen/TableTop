@@ -6,6 +6,13 @@ import {
   GrantedPowerRecharge,
   Recharge,
 } from "../itemTypes";
+import {
+  formChipButton,
+  formHeading,
+  formInput,
+  formLabel,
+  formRemoveButton,
+} from "../../../shared/styles/theme.ts";
 
 // TODO: swap for the real Power type once its import path is confirmed —
 // this is just the subset ItemSpecialSection actually needs to render a picker.
@@ -90,7 +97,7 @@ export const ItemSpecialSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuZap size={20} />
         Special
       </h2>
@@ -98,13 +105,13 @@ export const ItemSpecialSection = ({
       {/* Granted Powers */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className={formLabel}>
             Granted Powers
           </label>
           <button
             type="button"
             onClick={addGrantedPower}
-            className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+            className={formChipButton}
           >
             <LuPlus size={16} />
             Add Granted Power
@@ -117,7 +124,7 @@ export const ItemSpecialSection = ({
               className="grid grid-cols-2 md:grid-cols-4 gap-4 items-end"
             >
               <div className="col-span-2 md:col-span-1">
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={`${formLabel} mb-2`}>
                   Power
                 </label>
                 <select
@@ -125,7 +132,7 @@ export const ItemSpecialSection = ({
                   onChange={(e) =>
                     updateGrantedPower(grant, "power", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                  className={formInput}
                 >
                   <option value="">Select power</option>
                   {allPowers.map((power) => (
@@ -136,7 +143,7 @@ export const ItemSpecialSection = ({
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={`${formLabel} mb-2`}>
                   Recharge
                 </label>
                 <select
@@ -144,7 +151,7 @@ export const ItemSpecialSection = ({
                   onChange={(e) =>
                     updateGrantedPower(grant, "recharge", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                  className={`${formInput} capitalize`}
                 >
                   {GRANTED_POWER_RECHARGE_OPTIONS.map((option) => (
                     <option key={option} value={option}>
@@ -154,7 +161,7 @@ export const ItemSpecialSection = ({
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={`${formLabel} mb-2`}>
                   Uses / Recharge
                 </label>
                 <input
@@ -170,13 +177,13 @@ export const ItemSpecialSection = ({
                   }
                   min="0"
                   disabled={grant.recharge === "unlimited"}
-                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all disabled:opacity-40"
+                  className={formInput}
                 />
               </div>
               <button
                 type="button"
                 onClick={() => removeGrantedPower(grant)}
-                className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
+                className={formRemoveButton}
               >
                 <LuTrash2 size={16} />
               </button>
@@ -187,12 +194,12 @@ export const ItemSpecialSection = ({
 
       {/* Self Charges */}
       <div className="mb-8">
-        <label className="block text-sm font-medium text-slate-300 mb-3">
+        <label className={`${formLabel} mb-3`}>
           Self Charges
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Uses Remaining
             </label>
             <input
@@ -203,11 +210,11 @@ export const ItemSpecialSection = ({
                 onSelfChargesChange("usesRemaining", Number(e.target.value))
               }
               min="0"
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Recharge
             </label>
             <select
@@ -215,7 +222,7 @@ export const ItemSpecialSection = ({
               onChange={(e) =>
                 onSelfChargesChange("recharge", e.target.value as Recharge)
               }
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+              className={`${formInput} capitalize`}
             >
               {SELF_CHARGES_RECHARGE_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -229,7 +236,7 @@ export const ItemSpecialSection = ({
 
       {/* Unique Skills */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-3">
+        <label className={`${formLabel} mb-3`}>
           Unique Skills
         </label>
         <div className="flex gap-3">
@@ -244,12 +251,12 @@ export const ItemSpecialSection = ({
                 addSkill();
               }
             }}
-            className="flex-1 px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className="flex-1 px-4 py-3 bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500 focus:border-transparent transition-all"
           />
           <button
             type="button"
             onClick={addSkill}
-            className="flex items-center gap-1 px-4 py-3 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+            className="flex items-center gap-1 px-4 py-3 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-lg border border-stone-300 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-600/30 transition-all"
           >
             <LuPlus size={16} />
             Add
@@ -260,13 +267,13 @@ export const ItemSpecialSection = ({
             {uniqueSkills.map((skill) => (
               <span
                 key={skill}
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-full border border-cyan-500/30 dark:border-orange-500/30"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-full border border-stone-300 dark:border-emerald-500/30"
               >
                 {skill}
                 <button
                   type="button"
                   onClick={() => removeSkill(skill)}
-                  className="hover:text-white transition-all"
+                  className="hover:text-stone-900 dark:hover:text-white transition-colors"
                 >
                   <LuX size={14} />
                 </button>

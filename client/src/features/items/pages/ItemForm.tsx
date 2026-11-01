@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
-import { useGetConstantsQuery } from "../../../shared/api/constantsApi.ts";
+import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
   useGetItemByIdQuery,
@@ -21,6 +21,12 @@ import { ItemDescriptionSection } from "../components/ItemDescriptionSection";
 
 import { Item } from "../itemTypes";
 import { defaultItemFormData } from "../itemDefaults.ts";
+import {
+  formCard,
+  formTitle,
+  ghostButton,
+  primaryButton,
+} from "../../../shared/styles/theme.ts";
 
 export function ItemForm() {
   const [formData, setFormData] = useState<Item>(defaultItemFormData);
@@ -78,27 +84,27 @@ export function ItemForm() {
   if (isError) return <p>Something went wrong.</p>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-350 via-cyan-350 to-slate-300 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6">
+    <div className="min-h-screen bg-stone-100 dark:bg-stone-950 p-6">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <LuSparkles
-              className="text-cyan-400 dark:text-orange-400"
+              className="text-emerald-700 dark:text-emerald-400"
               size={32}
             />
-            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-orange-400 to-cyan-500 dark:from-cyan-300 dark:via-orange-300 dark:to-cyan-400">
+            <h1 className={formTitle}>
               {isEditing ? "Edit Item" : "Create Item"}
             </h1>
           </div>
-          <p className="text-slate-400 dark:text-slate-500">
+          <p className="text-stone-500 dark:text-stone-400">
             Weave your magical creation
           </p>
         </div>
 
         {/* Main Form Card */}
         <form onSubmit={handleSubmit}>
-          <div className="bg-slate-900/70 dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-cyan-500/30 dark:border-orange-500/30 shadow-2xl p-8 mb-6">
+          <div className={formCard}>
             <div className="space-y-8">
               {/* Basic Information */}
               <ItemBasicInfoSection
@@ -156,11 +162,11 @@ export function ItemForm() {
           <div className="flex justify-between">
             <button
               onClick={handleCancel}
-              className="px-6 py-3 rounded-lg font-medium text-slate-400 hover:text-white hover:bg-orange-800/50 dark:hover:bg-slate-900/50 transition-all duration-300 border border-orange-700 dark:border-orange-800"
+              className={`${ghostButton} px-6 py-3`}
             >
               Cancel
             </button>
-            <button className="px-8 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-600 to-orange-600 dark:from-cyan-500 dark:to-orange-500 text-white shadow-lg shadow-cyan-500/50 dark:shadow-orange-500/50 hover:shadow-xl hover:shadow-cyan-500/60 dark:hover:shadow-orange-500/60 transition-all duration-300">
+            <button className={`${primaryButton} px-8 py-3`}>
               {isEditing ? "Update Item" : "Create Item"}
             </button>
           </div>

@@ -26,10 +26,18 @@ export function useColorScheme<T extends string>(
 export const rarityColorSchemes: Record<Rarity, ColorScheme> = {
   common: {
     border:
-      "border-slate-300 dark:border-slate-600 group-hover:border-slate-400 dark:group-hover:border-slate-500",
-    bg: "bg-slate-50 dark:bg-slate-900/20",
-    text: "text-slate-700 dark:text-slate-400",
-    badge: "bg-slate-500 text-white dark:text-slate-100",
+      "border-stone-300 dark:border-stone-600 group-hover:border-stone-400 dark:group-hover:border-stone-500",
+    bg: "bg-stone-50 dark:bg-stone-900/20",
+    text: "text-stone-700 dark:text-stone-400",
+    badge: "bg-stone-500 text-white dark:text-stone-100",
+    glow: "",
+  },
+  uncommon: {
+    border:
+      "border-teal-300 dark:border-teal-600 group-hover:border-teal-400 dark:group-hover:border-teal-500",
+    bg: "bg-teal-50 dark:bg-teal-900/20",
+    text: "text-teal-700 dark:text-teal-400",
+    badge: "bg-teal-500 text-white dark:text-teal-100",
     glow: "",
   },
   rare: {

@@ -1,10 +1,10 @@
 import API_URL from "../../../shared/api/api";
-import type { Character } from "../charactersTypes";
+import type { Character, CharacterInput } from "../charactersTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const characterApi = createApi({
   reducerPath: "characterApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL, credentials: "include" }),
   tagTypes: ["Character"],
   endpoints: (builder) => ({
     getAllCharacters: builder.query<Character[], void>({
@@ -17,7 +17,7 @@ export const characterApi = createApi({
       providesTags: (result, error, id) => [{ type: "Character", id }],
     }),
 
-    createCharacter: builder.mutation<Character, Character>({
+    createCharacter: builder.mutation<Character, CharacterInput>({
       query: (newCharacter) => ({
         url: "/api/characters",
         method: "POST",
@@ -28,7 +28,7 @@ export const characterApi = createApi({
 
     updateCharacter: builder.mutation<
       Character,
-      { id: string; data: Character }
+      { id: string; data: Partial<CharacterInput> }
     >({
       query: ({ id, data }) => ({
         url: `/api/characters/${id}`,

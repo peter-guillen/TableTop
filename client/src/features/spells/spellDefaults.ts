@@ -42,7 +42,7 @@ export const defaultSpellFormData: Spell = {
   recharge: "unlimited",
   targeting: defaultTargeting,
 
-  offensiveStat: "Might",
+  offensiveStat: "might",
 
   // Description
   description: "",

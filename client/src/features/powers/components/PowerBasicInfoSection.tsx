@@ -1,6 +1,11 @@
 import { Power, SpellSchool, PowerKind } from "../powerTypes";
 import { LuBookOpen } from "react-icons/lu";
 import { OffensiveStat } from "../../../shared/constants/constantTypes";
+import {
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 interface PowerBasicInfoProps {
   name: string;
@@ -24,13 +29,13 @@ export const PowerBasicInfoSection = ({
 }: PowerBasicInfoProps) => {
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuBookOpen size={20} />
         Basic Information
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Power Name
           </label>
           <input
@@ -40,12 +45,12 @@ export const PowerBasicInfoSection = ({
             onChange={onInputChange}
             value={name}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Kind
           </label>
           <select
@@ -53,7 +58,7 @@ export const PowerBasicInfoSection = ({
             onChange={onInputChange}
             value={kind}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="" disabled>
               Select Kind
@@ -68,7 +73,7 @@ export const PowerBasicInfoSection = ({
         {/* School only applies to spells — hook throws if a non-spell declares one */}
         {kind === "spell" && (
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               School of Magic
             </label>
             <select
@@ -76,7 +81,7 @@ export const PowerBasicInfoSection = ({
               onChange={onInputChange}
               value={school}
               required
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             >
               <option value="" disabled>
                 Select School
@@ -94,7 +99,7 @@ export const PowerBasicInfoSection = ({
         )}
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Offensive Stat
           </label>
           <select
@@ -102,7 +107,7 @@ export const PowerBasicInfoSection = ({
             onChange={onInputChange}
             value={offensiveStat}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             {offensiveStatOptions.map((stat) => (
               <option key={stat} value={stat}>

@@ -45,11 +45,11 @@ const getClassIcon = (title = "") => {
 
 function StatChip({ label, value }) {
   return (
-    <div className="bg-slate-50 dark:bg-slate-700/40 rounded-lg px-3 py-2">
-      <p className="text-[10px] uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-0.5">
+    <div className="bg-stone-50 dark:bg-stone-700/40 rounded-lg px-3 py-2">
+      <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-0.5">
         {label}
       </p>
-      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">
+      <p className="text-sm font-semibold text-stone-800 dark:text-stone-200 truncate">
         {value || "—"}
       </p>
     </div>
@@ -78,25 +78,25 @@ export const ProfessionPreview = ({ professions }) => {
             to={`/professions/${profession._id}`}
             className="block"
           >
-            <div className="group cursor-pointer relative h-full bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-cyan-950/80 rounded-2xl border border-slate-200 dark:border-cyan-500/20 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:border-cyan-400 dark:hover:border-cyan-500/40 shadow-md hover:shadow-xl backdrop-blur-sm">
+            <div className="group cursor-pointer relative h-full bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-900/80 rounded-2xl border border-stone-200 dark:border-emerald-500/20 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:border-emerald-400 dark:hover:border-emerald-500/40 shadow-md hover:shadow-xl backdrop-blur-sm">
               {/* Top accent bar */}
-              <div className="h-1 w-full bg-gradient-to-r from-cyan-500 via-orange-400 to-orange-500" />
+              <div className="h-1 w-full bg-amber-500" />
 
               {/* Background orb */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-orange-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
 
               <div className="relative p-6">
                 {/* Icon + Role badge row */}
                 <div className="flex items-start justify-between mb-4">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-xl p-3 group-hover:scale-110 transition-transform shadow-md">
+                  <div className="bg-emerald-700 rounded-xl p-3 group-hover:scale-110 transition-transform shadow-md">
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   {/* Derived role tag — replaces the lone hit die badge */}
                   <span
                     className={`text-xs font-bold px-3 py-1 rounded-full border ${
                       roleCyan
-                        ? "bg-cyan-100 dark:bg-cyan-800/40 text-cyan-700 dark:text-cyan-300 border-cyan-200 dark:border-cyan-600/30"
-                        : "bg-orange-100 dark:bg-orange-800/30 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-600/30"
+                        ? "bg-emerald-100 dark:bg-emerald-800/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-600/30"
+                        : "bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-600/30"
                     }`}
                   >
                     {role.label}
@@ -104,19 +104,19 @@ export const ProfessionPreview = ({ professions }) => {
                 </div>
 
                 {/* Title — bumped up to text-2xl for stronger hierarchy */}
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-200">
+                <h3 className="text-2xl font-bold text-stone-900 dark:text-white mb-1 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-200">
                   {profession.title}
                 </h3>
 
                 {/* Subclass count as subtle subtitle */}
                 {profession.subclasses?.length > 0 && (
-                  <p className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">
+                  <p className="text-xs text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-3">
                     {profession.subclasses.length} subclasses
                   </p>
                 )}
 
                 {/* Description */}
-                <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-sm line-clamp-2 mb-5">
+                <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm line-clamp-2 mb-5">
                   {profession.description ||
                     "A master of their craft, forged through battle and perseverance."}
                 </p>
@@ -150,7 +150,7 @@ export const ProfessionPreview = ({ professions }) => {
                 </div>
 
                 {/* CTA */}
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-700/50 text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-medium flex items-center space-x-2 group-hover:translate-x-1 transition-transform">
+                <div className="pt-4 border-t border-stone-100 dark:border-stone-700/50 text-emerald-700 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium flex items-center space-x-2 group-hover:translate-x-1 transition-transform">
                   <span>Explore</span>
                   <LuArrowRight className="w-4 h-4" />
                 </div>

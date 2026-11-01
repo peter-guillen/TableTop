@@ -1,44 +1,54 @@
-//
-
-import type { Character, PatchForm } from "../charactersTypes";
-import type { Constants } from "../../../shared/api/constantsApi";
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">
-    {children}
-  </p>
-);
-
-interface CharacterArchetypeProps {
-  constants: Constants;
-  formData: Character;
-  patchForm: PatchForm;
-}
+import type { CharacterArchetypeProps } from "../charactersTypes";
+import { defaultProgression, defaultStats } from "../characterDefaults";
 
 export const CharacterArchetype = ({
   formData,
   patchForm,
-  constants,
+  species,
+  backgrounds,
+  professions,
 }: CharacterArchetypeProps) => {
+  const { origin, archetype, mode, progression, powers } = formData;
+
+  // Changing track wipes claimed rewards, so ask first once there is progress to lose
+  const hasProgress =
+    progression.claimedLevel > 0 ||
+    progression.level > 1 ||
+    powers.spells.length + powers.abilities.length + powers.traits.length > 0;
+  const confirmReset = () =>
+    !hasProgress ||
+    window.confirm(
+      "Changing this resets level, powers and stats back to the start. Continue?",
+    );
+
   const selectClasses =
-    "bg-transparent border-none text-slate-900 dark:text-white text-xs font-semibold outline-none cursor-pointer w-full mt-0.5 leading-tight";
+    "bg-transparent border-none text-stone-900 dark:text-white text-xs font-semibold outline-none cursor-pointer w-full mt-0.5 leading-tight";
 
   const fieldClasses =
-    "bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg px-3 py-2 flex flex-col justify-center min-w-0";
+    "bg-white dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50 rounded-lg px-3 py-2 flex flex-col justify-center min-w-0";
 
   return (
-    <div className="flex items-stretch gap-2 mb-3 flex-wrap">
-      {/* Mode pill toggle */}
-      <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
+    <div className="flex items-stretch gap-2 flex-wrap">
+      <div className="bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700/50 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
         {(["classed", "classless"] as const).map((m) => (
           <button
             type="button"
             key={m}
-            onClick={() => patchForm({ mode: m })}
+            onClick={() => {
+              if (m === mode || !confirmReset()) return;
+              // Switching tracks restarts progression, since claimed rewards came from the old track
+              patchForm({
+                mode: m,
+                archetype: { ...archetype, profession: undefined },
+                progression: defaultProgression,
+                stats: defaultStats,
+                powers: { spells: [], abilities: [], traits: [] },
+              });
+            }}
             className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wide transition-all duration-150 ${
-              formData.mode === m
-                ? "bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+              mode === m
+                ? "bg-white dark:bg-stone-600 text-stone-900 dark:text-white shadow-sm"
+                : "text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
             }`}
           >
             {m === "classed" ? "Classed" : "Classless"}
@@ -46,110 +56,78 @@ export const CharacterArchetype = ({
         ))}
       </div>
 
-      {/* Species */}
       <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
-        <SectionLabel>Species</SectionLabel>
+        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+          Species
+        </p>
         <select
+          required
           className={selectClasses}
-          value={formData.species}
-          onChange={(e) =>
-            patchForm({ species: e.target.value as Character["species"] })
-          }
-        >
-          {constants?.SPECIES?.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Background */}
-      <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
-        <SectionLabel>Background</SectionLabel>
-        <select
-          className={selectClasses}
-          value={formData.background}
+          value={origin.species ?? ""}
           onChange={(e) =>
             patchForm({
-              background: e.target.value as Character["background"],
+              origin: { ...origin, species: e.target.value || undefined },
             })
           }
         >
-          {constants?.BACKGROUNDS?.map((b) => (
-            <option key={b} value={b}>
-              {b}
+          <option value="">Select species</option>
+          {species.map((s) => (
+            <option key={s._id} value={s._id}>
+              {s.name}
             </option>
           ))}
         </select>
       </div>
 
-      {/* Classed: Primary Class */}
-      {formData.mode === "classed" && (
-        <div className={`${fieldClasses} flex-1 min-w-[100px]`}>
-          <SectionLabel>Class</SectionLabel>
-          <select
-            className={selectClasses}
-            value={formData.profession}
-            onChange={(e) =>
-              patchForm({
-                profession: e.target.value as Character["profession"],
-                selectedSpells: [],
-                selectedTraits: [],
-              })
-            }
-          >
-            {constants?.PROFESSIONS?.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
+        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+          Background
+        </p>
+        <select
+          required
+          className={selectClasses}
+          value={origin.background ?? ""}
+          onChange={(e) =>
+            patchForm({
+              origin: { ...origin, background: e.target.value || undefined },
+            })
+          }
+        >
+          <option value="">Select background</option>
+          {backgrounds.map((b) => (
+            <option key={b._id} value={b._id}>
+              {b.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      {/* Classed: Dip */}
-      {formData.mode === "classed" && (
+      {mode === "classed" && (
         <div className={`${fieldClasses} flex-1 min-w-[100px]`}>
-          <SectionLabel>Dip</SectionLabel>
+          <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+            Class
+          </p>
           <select
+            required
             className={selectClasses}
-            value={formData.subProfession}
-            onChange={(e) =>
-              patchForm({
-                subProfession: e.target.value as Character["subProfession"],
-              })
-            }
-          >
-            {constants?.PROFESSIONS?.filter(
-              (p) => p !== formData.profession,
-            )?.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {/* Classless: Power Source */}
-      {formData.mode === "classless" && (
-        <div className={`${fieldClasses} flex-1 min-w-[110px]`}>
-          <SectionLabel>Power Source</SectionLabel>
-          <select
-            className={selectClasses}
-            value={formData.affinity}
+            value={archetype.profession ?? ""}
             onChange={(e) => {
+              if (!confirmReset()) return;
               patchForm({
-                affinity: e.target.value as Character["affinity"],
-                selectedSpells: [],
-                selectedTraits: [],
+                archetype: {
+                  ...archetype,
+                  profession: e.target.value || undefined,
+                },
+                progression: defaultProgression,
+                stats: defaultStats,
+                powers: { spells: [], abilities: [], traits: [] },
               });
             }}
           >
-            {constants?.AFFINITIES?.map((a) => (
-              <option key={a} value={a}>
-                {a}
+            <option value="">Select class</option>
+            {professions.map((p) => (
+              <option key={p._id} value={p._id}>
+                {p.name}
               </option>
             ))}
           </select>

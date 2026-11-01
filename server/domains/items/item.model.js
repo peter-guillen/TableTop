@@ -119,11 +119,10 @@ const ItemSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-ItemSchema.pre("validate", function (next) {
+ItemSchema.pre("validate", function () {
   if (this.category === "weapon" && !this.handedness) {
-    return next(new Error("handedness is required for category 'weapon'"));
+    throw new Error("handedness is required for category 'weapon'");
   }
-  next();
 });
 
 export default mongoose.model("Item", ItemSchema);

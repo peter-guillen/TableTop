@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { constantsApi } from "../shared/api/constantsApi.js";
+import { constantsApi } from "../shared/constants/api/constantsApi.js";
 import { authApi } from "../features/auth/api/authApi.js";
 import { userApi } from "../features/users/api/userApi.tsx";
 

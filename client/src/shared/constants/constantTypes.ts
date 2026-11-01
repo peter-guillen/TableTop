@@ -24,7 +24,7 @@ export type DamageType =
   | "radiant"
   | "necrotic";
 
-export type OffensiveStat = "Might" | "Accuracy" | "Dominance";
+export type OffensiveStat = "might" | "accuracy" | "dominance";
 
 export interface StatModifier {
   stat: string;
@@ -47,6 +47,7 @@ export interface HealthEffect {
 
 export type Rarity =
   | "common"
+  | "uncommon"
   | "rare"
   | "heroic"
   | "epic"
@@ -59,7 +60,10 @@ export type Materials =
   | "steel"
   | "iron"
   | "mithril"
-  | "orichalcum";
+  | "orichalcum"
+  | "dragonscale"
+  | "bone"
+  | "silver";
 
 export type Quality =
   | "Enchanted"
@@ -173,8 +177,62 @@ export type Stats =
   | "mom"
   | "momMax";
 
+export interface StatCategory {
+  label: string;
+  stats: Stats[];
+}
+
 export type Armor =
   | "Light Armor"
   | "Medium Armor"
   | "Heavy Armor"
   | "Unarmored";
+
+export type PowerGroup = "spells" | "abilities" | "traits";
+
+export interface LevelGrant {
+  type: "auto" | "professionChoice" | "playerChoice";
+  trait?: string;
+  options?: string[];
+}
+
+export interface LevelReward {
+  level: number;
+  grants: LevelGrant[];
+  statIncreases?: { stat: Stats; value: number }[];
+  slotIncreases?: { group: PowerGroup; value: number }[];
+}
+
+export interface Constants {
+  PROFESSIONS: string[];
+  // AFFINITIES: string[];
+
+  CONDITIONS: string[];
+  STATS: Record<string, string>;
+  OFFENSIVE_STATS: OffensiveStat[];
+  DEFENSIVE_STATS: Stats[];
+  MOBILITY_STATS: Stats[];
+  RESOURCE_STATS: Stats[];
+  STAT_CATEGORIES: Record<
+    "OFFENSIVE" | "DEFENSIVE" | "MOBILITY" | "RESOURCES",
+    StatCategory
+  >;
+
+  EFFECT_TYPES: EffectType[];
+  DAMAGE_TYPES: DamageType[];
+  SKILLS: Record<string, Skills>;
+
+  RARITY: Rarity;
+  QUALITY: Quality[];
+  MATERIALS: Materials[];
+
+  PROPERTIES: Properties[];
+  BACKGROUNDS: string[];
+  TRAITS: string[];
+  SPECIES: string;
+  ARMOR: string;
+
+  MAX_LEVEL: number;
+  BASE_POWER_SLOTS: number;
+  CLASSLESS_LEVEL_REWARDS: LevelReward[];
+}

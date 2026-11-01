@@ -12,6 +12,7 @@ import { Register } from "./pages/Register.tsx";
 import { Login } from "./pages/Login.tsx";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { Forbidden } from "../app/pages/Forbidden";
+import { About } from "../app/pages/About.tsx";
 import { Rules } from "../features/playerTools/components/Rules";
 import { CharacterPage } from "../features/characters/pages/CharacterPage.tsx";
 
@@ -26,7 +27,7 @@ import { WeaponPage } from "../features/weapons/pages/WeaponPage.tsx";
 import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage.tsx";
 import { AdminPage } from "../features/admin/pages/AdminPage.tsx";
-import { useGetConstantsQuery } from "../shared/api/constantsApi.ts";
+import { useGetConstantsQuery } from "../shared/constants/api/constantsApi.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
         <Route path="/admin/*" element={<AdminPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/characters/*" element={<CharacterPage />} />

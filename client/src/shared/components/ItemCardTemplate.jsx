@@ -5,9 +5,9 @@ export function ItemCard({ item }) {
 
   const rarityConfig = {
     common: {
-      border: "border-slate-300 dark:border-slate-600",
-      bg: "bg-slate-50 dark:bg-slate-800/30",
-      text: "text-slate-600 dark:text-slate-400",
+      border: "border-stone-300 dark:border-stone-600",
+      bg: "bg-stone-50 dark:bg-stone-800/30",
+      text: "text-stone-600 dark:text-stone-400",
       glow: "",
     },
     uncommon: {
@@ -42,7 +42,7 @@ export function ItemCard({ item }) {
 
   return (
     <div
-      className={`group bg-white dark:bg-slate-800/50 rounded-xl overflow-hidden border-2 ${styles.border} hover:border-cyan-400 dark:hover:border-cyan-500/60 transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-md hover:shadow-xl ${styles.glow} backdrop-blur-sm`}
+      className={`group bg-white dark:bg-stone-800/50 rounded-xl overflow-hidden border-2 ${styles.border} hover:border-emerald-400 dark:hover:border-emerald-500/60 transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-md hover:shadow-xl ${styles.glow} backdrop-blur-sm`}
     >
       {/* Image Section */}
       <div className={`relative h-48 ${styles.bg} overflow-hidden`}>
@@ -55,9 +55,9 @@ export function ItemCard({ item }) {
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             {isWeapon ? (
-              <LuSword className="w-20 h-20 text-slate-300 dark:text-slate-600" />
+              <LuSword className="w-20 h-20 text-stone-300 dark:text-stone-600" />
             ) : (
-              <LuShield className="w-20 h-20 text-slate-300 dark:text-slate-600" />
+              <LuShield className="w-20 h-20 text-stone-300 dark:text-stone-600" />
             )}
           </div>
         )}
@@ -71,7 +71,7 @@ export function ItemCard({ item }) {
         </div>
 
         {/* Category Badge */}
-        <div className="absolute top-3 left-3 bg-slate-900/80 dark:bg-slate-800/80 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase backdrop-blur-sm">
+        <div className="absolute top-3 left-3 bg-stone-900/80 dark:bg-stone-800/80 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase backdrop-blur-sm">
           {item.category || (isWeapon ? "Weapon" : "Armor")}
         </div>
       </div>
@@ -79,12 +79,12 @@ export function ItemCard({ item }) {
       {/* Content Section */}
       <div className="p-5">
         {/* Title */}
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+        <h3 className="text-xl font-bold text-stone-900 dark:text-white mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
           {item.name}
         </h3>
 
         {/* Description */}
-        <p className="text-slate-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+        <p className="text-stone-600 dark:text-stone-400 text-sm mb-4 line-clamp-2 leading-relaxed">
           {item.description || "A mysterious item awaiting discovery..."}
         </p>
 
@@ -94,10 +94,10 @@ export function ItemCard({ item }) {
             <div className="flex items-center space-x-2 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 rounded-lg p-2 border border-red-200 dark:border-red-500/20">
               <LuSword className="w-4 h-4 text-red-600 dark:text-red-400" />
               <div>
-                <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                <div className="text-xs text-stone-500 dark:text-stone-500 font-medium">
                   Damage
                 </div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white">
+                <div className="text-sm font-bold text-stone-900 dark:text-white">
                   {item.damage}
                 </div>
               </div>
@@ -105,13 +105,13 @@ export function ItemCard({ item }) {
           )}
 
           {!isWeapon && item.armorClass !== undefined && (
-            <div className="flex items-center space-x-2 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg p-2 border border-blue-200 dark:border-blue-500/20">
+            <div className="flex items-center space-x-2 bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-lg p-2 border border-blue-200 dark:border-blue-500/20">
               <LuShield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <div>
-                <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                <div className="text-xs text-stone-500 dark:text-stone-500 font-medium">
                   AC
                 </div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white">
+                <div className="text-sm font-bold text-stone-900 dark:text-white">
                   {item.armorClass}
                 </div>
               </div>
@@ -119,13 +119,13 @@ export function ItemCard({ item }) {
           )}
 
           {item.weight !== undefined && (
-            <div className="flex items-center space-x-2 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-700/20 dark:to-slate-800/20 rounded-lg p-2 border border-slate-200 dark:border-slate-600/20">
-              <LuWeight className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+            <div className="flex items-center space-x-2 bg-gradient-to-r from-stone-50 to-stone-100 dark:from-stone-700/20 dark:to-stone-800/20 rounded-lg p-2 border border-stone-200 dark:border-stone-600/20">
+              <LuWeight className="w-4 h-4 text-stone-600 dark:text-stone-400" />
               <div>
-                <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                <div className="text-xs text-stone-500 dark:text-stone-500 font-medium">
                   Weight
                 </div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white">
+                <div className="text-sm font-bold text-stone-900 dark:text-white">
                   {item.weight} lbs
                 </div>
               </div>
@@ -136,10 +136,10 @@ export function ItemCard({ item }) {
             <div className="flex items-center space-x-2 bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-lg p-2 border border-yellow-200 dark:border-yellow-500/20">
               <LuCoins className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
               <div>
-                <div className="text-xs text-slate-500 dark:text-gray-500 font-medium">
+                <div className="text-xs text-stone-500 dark:text-stone-500 font-medium">
                   Value
                 </div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white">
+                <div className="text-sm font-bold text-stone-900 dark:text-white">
                   {item.price} gp
                 </div>
               </div>
@@ -148,7 +148,7 @@ export function ItemCard({ item }) {
         </div>
 
         {/* View Details Button */}
-        <button className="w-full bg-gradient-to-r from-cyan-600 to-orange-600 hover:from-cyan-500 hover:to-orange-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform group-hover:scale-[1.02] shadow-md hover:shadow-lg">
+        <button className="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform group-hover:scale-[1.02] shadow-md hover:shadow-lg">
           View Details
         </button>
       </div>
@@ -210,13 +210,13 @@ export function ItemCardDemo() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-8 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50 to-stone-50 dark:from-stone-900 dark:via-emerald-900 dark:to-stone-900 p-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-600 to-orange-500 dark:from-cyan-400 dark:to-orange-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
             Item Cards
           </h1>
-          <p className="text-xl text-slate-600 dark:text-gray-300">
+          <p className="text-xl text-stone-600 dark:text-stone-300">
             Weapons and armor for your epic adventures
           </p>
         </div>

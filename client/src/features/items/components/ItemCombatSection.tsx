@@ -11,6 +11,14 @@ import {
   Stat,
   Skill,
 } from "../../../shared/constants/constantTypes";
+import {
+  formCheckbox,
+  formChipButton,
+  formHeading,
+  formInput,
+  formLabel,
+  formRemoveButton,
+} from "../../../shared/styles/theme.ts";
 
 interface ItemCombatSectionProps {
   healthEffects: HealthEffect[];
@@ -152,17 +160,17 @@ export const ItemCombatSection = ({
   const renderEffectRow = (effect: HealthEffect, index: number) => (
     <div
       key={index}
-      className="space-y-3 p-4 bg-slate-800/30 dark:bg-slate-900/30 rounded-lg border border-cyan-500/20 dark:border-orange-500/20"
+      className="space-y-3 p-4 bg-stone-100 dark:bg-stone-900/30 rounded-lg border border-stone-300 dark:border-emerald-500/20"
     >
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Damage Type
           </label>
           <select
             value={effect.damageType || ""}
             onChange={(e) => updateEffect(effect, "damageType", e.target.value)}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="">Select</option>
             {damageTypeOptions.map((type) => (
@@ -173,7 +181,7 @@ export const ItemCombatSection = ({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Dice Count
           </label>
           <input
@@ -183,11 +191,11 @@ export const ItemCombatSection = ({
             onChange={(e) =>
               updateEffect(effect, "diceCount", Number(e.target.value))
             }
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Die
           </label>
           <select
@@ -195,7 +203,7 @@ export const ItemCombatSection = ({
             onChange={(e) =>
               updateEffect(effect, "diceSize", Number(e.target.value))
             }
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             <option value="0">Select</option>
             <option value="4">d4</option>
@@ -208,7 +216,7 @@ export const ItemCombatSection = ({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Modifier
           </label>
           <input
@@ -218,13 +226,13 @@ export const ItemCombatSection = ({
             onChange={(e) =>
               updateEffect(effect, "flat", Number(e.target.value))
             }
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
         <button
           type="button"
           onClick={() => removeEffect(effect)}
-          className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
+          className={formRemoveButton}
         >
           <LuTrash2 size={16} />
         </button>
@@ -232,7 +240,7 @@ export const ItemCombatSection = ({
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Duration Type
           </label>
           <select
@@ -240,7 +248,7 @@ export const ItemCombatSection = ({
             onChange={(e) =>
               updateEffect(effect, "durationType", e.target.value)
             }
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="">None (instant)</option>
             {DURATION_TYPE_OPTIONS.map((option) => (
@@ -251,7 +259,7 @@ export const ItemCombatSection = ({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Duration (turns)
           </label>
           <input
@@ -263,17 +271,17 @@ export const ItemCombatSection = ({
             }
             min="0"
             disabled={effect.durationType !== "turns"}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all disabled:opacity-40"
+            className={formInput}
           />
         </div>
-        <label className="flex items-center gap-2 text-slate-300 cursor-pointer pb-3">
+        <label className="flex items-center gap-2 text-stone-700 dark:text-stone-300 cursor-pointer pb-3">
           <input
             type="checkbox"
             checked={effect.persistent}
             onChange={(e) =>
               updateEffect(effect, "persistent", e.target.checked)
             }
-            className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+            className={formCheckbox}
           />
           <span>Persistent</span>
         </label>
@@ -283,7 +291,7 @@ export const ItemCombatSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuFlame size={20} />
         Combat Properties
       </h2>
@@ -291,13 +299,13 @@ export const ItemCombatSection = ({
       {/* Damage */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className={formLabel}>
             Damage
           </label>
           <button
             type="button"
             onClick={() => addEffect("damage")}
-            className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+            className={formChipButton}
           >
             <LuPlus size={16} />
             Add Damage
@@ -309,13 +317,13 @@ export const ItemCombatSection = ({
       {/* Healing */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className={formLabel}>
             Healing
           </label>
           <button
             type="button"
             onClick={() => addEffect("healing")}
-            className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+            className={formChipButton}
           >
             <LuPlus size={16} />
             Add Healing
@@ -327,13 +335,13 @@ export const ItemCombatSection = ({
       {/* Resistances */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className={formLabel}>
             Resistances
           </label>
           <button
             type="button"
             onClick={addResistance}
-            className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+            className={formChipButton}
           >
             <LuPlus size={16} />
             Add Resistance
@@ -346,7 +354,7 @@ export const ItemCombatSection = ({
               className="grid grid-cols-2 md:grid-cols-3 gap-4 items-end"
             >
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={`${formLabel} mb-2`}>
                   Damage Type
                 </label>
                 <select
@@ -354,7 +362,7 @@ export const ItemCombatSection = ({
                   onChange={(e) =>
                     updateResistance(resistance, "damageType", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                  className={`${formInput} capitalize`}
                 >
                   <option value="">Select</option>
                   {damageTypeOptions.map((type) => (
@@ -365,7 +373,7 @@ export const ItemCombatSection = ({
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className={`${formLabel} mb-2`}>
                   Rule
                 </label>
                 <select
@@ -373,7 +381,7 @@ export const ItemCombatSection = ({
                   onChange={(e) =>
                     updateResistance(resistance, "rule", e.target.value)
                   }
-                  className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                  className={`${formInput} capitalize`}
                 >
                   <option value="">Select</option>
                   {RESISTANCE_RULE_OPTIONS.map((rule) => (
@@ -386,7 +394,7 @@ export const ItemCombatSection = ({
               <button
                 type="button"
                 onClick={() => removeResistance(resistance)}
-                className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
+                className={formRemoveButton}
               >
                 <LuTrash2 size={16} />
               </button>
@@ -397,20 +405,20 @@ export const ItemCombatSection = ({
 
       {/* Properties */}
       <div className="mb-8">
-        <label className="block text-sm font-medium text-slate-300 mb-3">
+        <label className={`${formLabel} mb-3`}>
           Properties
         </label>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {propertyOptions.map((property) => (
             <label
               key={property}
-              className="flex items-center gap-2 text-slate-300 cursor-pointer capitalize"
+              className="flex items-center gap-2 text-stone-700 dark:text-stone-300 cursor-pointer capitalize"
             >
               <input
                 type="checkbox"
                 checked={properties.includes(property)}
                 onChange={() => toggleProperty(property)}
-                className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                className={formCheckbox}
               />
               <span>{property}</span>
             </label>
@@ -421,13 +429,13 @@ export const ItemCombatSection = ({
       {/* Stat Modifiers */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className={formLabel}>
             Stat Modifiers
           </label>
           <button
             type="button"
             onClick={addStatModifier}
-            className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+            className={formChipButton}
           >
             <LuPlus size={16} />
             Add Modifier
@@ -437,11 +445,11 @@ export const ItemCombatSection = ({
           {statModifiers.map((modifier, index) => (
             <div
               key={index}
-              className="space-y-3 p-4 bg-slate-800/30 dark:bg-slate-900/30 rounded-lg border border-cyan-500/20 dark:border-orange-500/20"
+              className="space-y-3 p-4 bg-stone-100 dark:bg-stone-900/30 rounded-lg border border-stone-300 dark:border-emerald-500/20"
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className={`${formLabel} mb-2`}>
                     Stat / Skill
                   </label>
                   <select
@@ -449,7 +457,7 @@ export const ItemCombatSection = ({
                     onChange={(e) =>
                       updateStatModifier(modifier, "stat", e.target.value)
                     }
-                    className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                    className={`${formInput} capitalize`}
                   >
                     <option value="">Select</option>
                     {statOrSkillOptions.map((stat) => (
@@ -460,7 +468,7 @@ export const ItemCombatSection = ({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className={`${formLabel} mb-2`}>
                     Value
                   </label>
                   <input
@@ -474,11 +482,11 @@ export const ItemCombatSection = ({
                         Number(e.target.value),
                       )
                     }
-                    className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                    className={formInput}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className={`${formLabel} mb-2`}>
                     Duration Type
                   </label>
                   <select
@@ -490,7 +498,7 @@ export const ItemCombatSection = ({
                         e.target.value,
                       )
                     }
-                    className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+                    className={`${formInput} capitalize`}
                   >
                     <option value="">None (permanent while equipped)</option>
                     {DURATION_TYPE_OPTIONS.map((option) => (
@@ -501,7 +509,7 @@ export const ItemCombatSection = ({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className={`${formLabel} mb-2`}>
                     Duration (turns)
                   </label>
                   <input
@@ -517,13 +525,13 @@ export const ItemCombatSection = ({
                     }
                     min="0"
                     disabled={modifier.durationType !== "turns"}
-                    className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all disabled:opacity-40"
+                    className={formInput}
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className={`${formLabel} mb-2`}>
                     Target
                   </label>
                   <input
@@ -533,12 +541,12 @@ export const ItemCombatSection = ({
                     onChange={(e) =>
                       updateStatModifier(modifier, "target", e.target.value)
                     }
-                    className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                    className={formInput}
                   />
                 </div>
                 <div className="flex gap-3 items-end">
                   <div className="flex-1">
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={`${formLabel} mb-2`}>
                       Description
                     </label>
                     <input
@@ -552,13 +560,13 @@ export const ItemCombatSection = ({
                           e.target.value,
                         )
                       }
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                      className={formInput}
                     />
                   </div>
                   <button
                     type="button"
                     onClick={() => removeStatModifier(modifier)}
-                    className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
+                    className={formRemoveButton}
                   >
                     <LuTrash2 size={16} />
                   </button>

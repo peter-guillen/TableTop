@@ -168,6 +168,9 @@ export const MATERIALS = {
   IRON: "iron",
   MITHRIL: "mithril",
   ORICHALCUM: "orichalcum",
+  DRAGONSCALE: "dragonscale",
+  BONE: "bone",
+  SILVER: "silver",
 };
 
 export const QUALITY = {
@@ -187,6 +190,7 @@ export const QUALITY = {
 
 export const RARITY = {
   COMMON: "common",
+  UNCOMMON: "uncommon",
   RARE: "rare",
   HEROIC: "heroic",
   EPIC: "epic",
@@ -211,4 +215,80 @@ export const ARMOR = [
   "medium_armor",
   "heavy_armor",
   "unarmored",
+];
+
+export const MAX_LEVEL = 10;
+
+// Each character group starts with this many power slots; levelRewards[].slotIncreases add to it
+export const BASE_POWER_SLOTS = 3;
+
+export const POWER_GROUPS = ["spells", "abilities", "traits"];
+
+// Classless characters have no profession, so they follow this track instead.
+// Same shape as Profession.levelRewards.
+export const CLASSLESS_LEVEL_REWARDS = [
+  { level: 1, grants: [{ type: "playerChoice" }], statIncreases: [], slotIncreases: [] },
+  {
+    level: 2,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [
+      { stat: STATS.HP_MAX, value: 3 },
+      { stat: STATS.MP_MAX, value: 3 },
+    ],
+    slotIncreases: [],
+  },
+  {
+    level: 3,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [],
+    slotIncreases: [{ group: "abilities", value: 1 }],
+  },
+  {
+    level: 4,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [{ stat: STATS.EVASION, value: 1 }],
+    slotIncreases: [],
+  },
+  {
+    level: 5,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [
+      { stat: STATS.HP_MAX, value: 3 },
+      { stat: STATS.MP_MAX, value: 3 },
+    ],
+    slotIncreases: [],
+  },
+  {
+    level: 6,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [],
+    slotIncreases: [{ group: "spells", value: 1 }],
+  },
+  {
+    level: 7,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [{ stat: STATS.INITIATIVE, value: 1 }],
+    slotIncreases: [],
+  },
+  {
+    level: 8,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [
+      { stat: STATS.HP_MAX, value: 3 },
+      { stat: STATS.MP_MAX, value: 3 },
+    ],
+    slotIncreases: [],
+  },
+  {
+    level: 9,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [],
+    slotIncreases: [{ group: "traits", value: 1 }],
+  },
+  {
+    level: 10,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [{ stat: STATS.MOM_MAX, value: 1 }],
+    slotIncreases: [],
+  },
 ];

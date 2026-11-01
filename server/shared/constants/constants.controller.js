@@ -6,6 +6,10 @@ import {
   DAMAGE_TYPES,
   STATS,
   OFFENSIVE_STATS,
+  DEFENSIVE_STATS,
+  MOBILITY_STATS,
+  RESOURCE_STATS,
+  STAT_CATEGORIES,
   SKILLS,
   RARITY,
   QUALITY,
@@ -15,6 +19,9 @@ import {
   TRAITS,
   SPECIES,
   ARMOR,
+  MAX_LEVEL,
+  BASE_POWER_SLOTS,
+  CLASSLESS_LEVEL_REWARDS,
 } from "./constants.js";
 
 export const getConstants = (req, res) => {
@@ -26,6 +33,10 @@ export const getConstants = (req, res) => {
     DAMAGE_TYPES,
     STATS,
     OFFENSIVE_STATS,
+    DEFENSIVE_STATS,
+    MOBILITY_STATS,
+    RESOURCE_STATS,
+    STAT_CATEGORIES,
     SKILLS,
     RARITY,
     QUALITY,
@@ -35,5 +46,8 @@ export const getConstants = (req, res) => {
     TRAITS,
     SPECIES,
     ARMOR,
+    MAX_LEVEL,
+    BASE_POWER_SLOTS,
+    CLASSLESS_LEVEL_REWARDS,
   });
 };

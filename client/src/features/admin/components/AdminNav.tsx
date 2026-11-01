@@ -10,7 +10,7 @@ import {
   useDeleteArticleMutation,
 } from "../../articles/api/articleApi.tsx";
 import {
-  useGetProfessionsQuery,
+  useGetAllProfessionsQuery,
   useDeleteProfessionMutation,
 } from "../../professions/api/professionApi";
 import {
@@ -49,7 +49,7 @@ export const AdminNav = () => {
     data: professionList = [],
     isLoading: professionLoading,
     isError: professionError,
-  } = useGetProfessionsQuery();
+  } = useGetAllProfessionsQuery();
   const [deleteProfession] = useDeleteProfessionMutation();
   const {
     data: powerList = [],
@@ -108,16 +108,16 @@ export const AdminNav = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-slate-900">
+    <div className="flex h-screen bg-stone-100 dark:bg-stone-900">
       {/* Sidebar */}
-      <div className="w-64 bg-white dark:bg-slate-800 shadow-sm border-r border-gray-200 dark:border-slate-700">
+      <div className="w-64 bg-white dark:bg-stone-800 shadow-sm border-r border-stone-200 dark:border-stone-700">
         {/* Logo */}
         <div className="p-6">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-emerald-700 rounded-lg flex items-center justify-center">
               <LuSparkles className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-xl font-bold text-stone-900 dark:text-white">
               D&D Admin
             </h1>
           </div>
@@ -133,8 +133,8 @@ export const AdminNav = () => {
                 onClick={() => setActiveSection(item.id)}
                 className={`w-full flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
                   activeSection === item.id
-                    ? "bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-400 border-r-2 border-cyan-700 dark:border-cyan-400"
-                    : "text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-700"
+                    ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-r-2 border-emerald-700 dark:border-emerald-400"
+                    : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700"
                 }`}
               >
                 <Icon className="w-5 h-5 mr-3" />

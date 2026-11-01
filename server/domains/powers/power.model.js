@@ -103,7 +103,7 @@ const PowerSchema = new mongoose.Schema(
       channel: { type: Boolean, default: false },
       castTime: { type: Number, default: 0 },
       duration: Number,
-      resource: { type: String, enum: ["hp", "mp", "momentum"] },
+      resource: { type: String, enum: ["hp", "mp"] },
       cost: Number,
     },
 

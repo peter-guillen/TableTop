@@ -1,51 +1,42 @@
 import { useState } from "react";
 
-import { WeaponsTab } from "./WeaponsTab";
-import { SpellsTab } from "./SpellsTab";
+import { EquipmentTab } from "./EquipmentTab";
+import { PowersTab } from "./PowersTab";
 import { SkillsTab } from "./SkillsTab";
-import { TraitsTab } from "./TraitsTab";
-import { ArmorsTab } from "./ArmorsTab";
-import { Constants } from "../../../shared/api/constantsApi";
 
 import type { CharacterSectionProps } from "../charactersTypes";
 
-type CharacterPanelProps = CharacterSectionProps & { constants: Constants };
-
-const TABS = ["Weapons", "Spells", "Skills", "Traits", "Armor"] as const;
+const TABS = ["Equipment", "Powers", "Skills"] as const;
 type Tab = (typeof TABS)[number];
 
 export const CharacterPanel = ({
   formData,
   patchForm,
   constants,
-}: CharacterPanelProps) => {
-  const [currentTab, setCurrentTab] = useState<Tab>("Weapons");
+}: CharacterSectionProps) => {
+  const [currentTab, setCurrentTab] = useState<Tab>("Equipment");
 
   function renderTab() {
     switch (currentTab) {
-      // case "Weapons":
-      //   return <WeaponsTab formData={formData} patchForm={patchForm} />;
-      case "Spells":
-        return <SpellsTab formData={formData} patchForm={patchForm} />;
+      case "Equipment":
+        return (
+          <EquipmentTab
+            formData={formData}
+            patchForm={patchForm}
+            constants={constants}
+          />
+        );
+      case "Powers":
+        return (
+          <PowersTab
+            formData={formData}
+            patchForm={patchForm}
+            constants={constants}
+          />
+        );
       case "Skills":
         return (
           <SkillsTab
-            formData={formData}
-            patchForm={patchForm}
-            constants={constants}
-          />
-        );
-      case "Traits":
-        return (
-          <TraitsTab
-            formData={formData}
-            patchForm={patchForm}
-            constants={constants}
-          />
-        );
-      case "Armor":
-        return (
-          <ArmorsTab
             formData={formData}
             patchForm={patchForm}
             constants={constants}
@@ -57,8 +48,8 @@ export const CharacterPanel = ({
   }
 
   return (
-    <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-sm">
-      <div className="flex border-b border-slate-200 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/30 overflow-x-auto">
+    <div className="bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-900/80 rounded-2xl border border-stone-200 dark:border-stone-700/50 overflow-hidden shadow-sm">
+      <div className="flex border-b border-stone-200 dark:border-stone-700/50 bg-stone-50 dark:bg-stone-800/30 overflow-x-auto">
         {TABS.map((tab) => (
           <button
             type="button"
@@ -66,8 +57,8 @@ export const CharacterPanel = ({
             onClick={() => setCurrentTab(tab)}
             className={`px-4 py-3 text-sm whitespace-nowrap border-b-2 font-semibold transition-all duration-150 ${
               currentTab === tab
-                ? "border-cyan-500 dark:border-cyan-400 text-cyan-600 dark:text-cyan-400 bg-white dark:bg-transparent"
-                : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
+                ? "border-emerald-500 dark:border-emerald-400 text-emerald-700 dark:text-emerald-400 bg-white dark:bg-transparent"
+                : "border-transparent text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:border-stone-300 dark:hover:border-stone-600"
             }`}
           >
             {tab}

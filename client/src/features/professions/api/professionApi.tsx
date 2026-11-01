@@ -1,17 +1,21 @@
 import API_URL from "../../../shared/api/api";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-interface Level {
-  name: string;
-  description: string;
-}
+import type {
+  LevelReward,
+  Skills,
+  StatModifier,
+} from "../../../shared/constants/constantTypes";
 
-interface Profession {
+export interface Profession {
   _id: string;
-  title: string;
-  spell: string;
-  weapon: string;
-  armor: string;
-  levels: Level[];
+  name: string;
+  description?: string;
+  statModifiers: StatModifier[];
+  armorProficiencies: string[];
+  weaponProficiencies: string[];
+  skillProficiencies: Skills[];
+  startingItems: { item: string; quantity: number }[];
+  levelRewards: LevelReward[];
 }
 
 export const professionApi = createApi({
@@ -19,12 +23,12 @@ export const professionApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes: ["Profession"],
   endpoints: (builder) => ({
-    getProfessions: builder.query<Profession[], void>({
+    getAllProfessions: builder.query<Profession[], void>({
       query: () => "/api/professions",
       providesTags: [{ type: "Profession", id: "LIST" }],
     }),
 
-    getProfession: builder.query<Profession, string>({
+    getProfessionById: builder.query<Profession, string>({
       query: (id) => `/api/professions/${id}`,
       providesTags: (result, error, id) => [{ type: "Profession", id }],
     }),
@@ -67,8 +71,8 @@ export const professionApi = createApi({
 });
 
 export const {
-  useGetProfessionsQuery,
-  useGetProfessionQuery,
+  useGetAllProfessionsQuery,
+  useGetProfessionByIdQuery,
   useCreateProfessionMutation,
   useUpdateProfessionMutation,
   useDeleteProfessionMutation,

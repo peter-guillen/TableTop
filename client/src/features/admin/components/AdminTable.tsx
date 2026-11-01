@@ -102,20 +102,20 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
     return (
       <tr
         key={getRowKey(row)}
-        className="hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+        className="hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors"
       >
         {/* Data Cells */}
         {cells.map((cell, index) => (
           <td
             key={index}
-            className="px-6 py-4 text-sm text-gray-900 dark:text-white"
+            className="px-6 py-4 text-sm text-stone-900 dark:text-white"
           >
             {(cell as React.ReactNode) ?? ""}
           </td>
         ))}
 
         {/* Action Buttons */}
-        <td className="px-6 py-4 text-sm text-gray-500 dark:text-slate-400">
+        <td className="px-6 py-4 text-sm text-stone-500 dark:text-stone-400">
           <div className="flex space-x-2">{renderActionButtons(row)}</div>
         </td>
       </tr>
@@ -129,7 +129,7 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
       <>
         {/* View Button */}
         <NavLink to={`/${activeSection}/${rowId}`}>
-          <button className="text-cyan-600 dark:text-cyan-400 hover:text-blue-800 dark:hover:text-blue-300">
+          <button className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300">
             <LuEye className="w-4 h-4" />
           </button>
         </NavLink>
@@ -158,16 +158,16 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
       {/* Header Section */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-stone-900 dark:text-white">
             {title}
           </h2>
-          <p className="text-sm text-gray-600 dark:text-slate-400">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
             Manage your {title.toLowerCase()}
           </p>
         </div>
 
         <NavLink to={`/${activeSection}/create`}>
-          <button className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+          <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
             <LuPlus className="w-4 h-4" />
             <span>Add {title.slice(0, -1)}</span>
           </button>
@@ -177,47 +177,47 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
       {/* Search Bar */}
       <div className="flex items-center space-x-4">
         <div className="relative flex-1 max-w-md">
-          <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-slate-500 w-4 h-4" />
+          <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 dark:text-stone-500 w-4 h-4" />
           <input
             type="text"
             placeholder={`Search ${title.toLowerCase()}...`}
             value={searchTerm}
             onChange={onSearchChange}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400"
+            className="w-full pl-10 pr-4 py-2 border border-stone-300 dark:border-stone-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white dark:bg-stone-700 text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
           />
         </div>
       </div>
 
       {/* Data Table */}
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
+      <div className="bg-white dark:bg-stone-800 rounded-lg shadow-sm border border-stone-200 dark:border-stone-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             {/* Table Header */}
-            <thead className="bg-gray-50 dark:bg-slate-900">
+            <thead className="bg-stone-50 dark:bg-stone-900">
               <tr>
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider"
                   >
                     {column}
                   </th>
                 ))}
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
 
             {/* Table Body */}
-            <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+            <tbody className="bg-white dark:bg-stone-800 divide-y divide-stone-200 dark:divide-stone-700">
               {filteredData?.length ? (
                 filteredData.map(renderTableRow)
               ) : (
                 <tr>
                   <td
                     colSpan={columns.length + 1}
-                    className="px-6 py-8 text-center text-sm text-gray-500 dark:text-slate-400"
+                    className="px-6 py-8 text-center text-sm text-stone-500 dark:text-stone-400"
                   >
                     No {title.toLowerCase()} found.
                   </td>
