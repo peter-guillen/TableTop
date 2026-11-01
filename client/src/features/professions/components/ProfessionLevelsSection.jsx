@@ -29,14 +29,14 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
   return (
     <section>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
           <LuStar size={20} />
           Level Features
         </h2>
         <button
           type="button"
           onClick={addFeature}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-600/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-600/30 transition-all text-sm font-medium"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-600/20 border border-emerald-400 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-600/30 transition-all text-sm font-medium"
         >
           <LuPlus size={14} />
           Add Feature
@@ -44,7 +44,7 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
       </div>
 
       {levels.length === 0 ? (
-        <div className="text-center py-10 text-slate-500 border border-dashed border-slate-700 rounded-xl">
+        <div className="text-center py-10 text-stone-500 border border-dashed border-stone-300 dark:border-stone-700 rounded-xl">
           <LuStar size={28} className="mx-auto mb-2 opacity-30" />
           <p className="text-sm">No level features yet. Add your first one.</p>
         </div>
@@ -55,11 +55,11 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
             return (
               <div
                 key={index}
-                className="grid grid-cols-[64px_1fr_1fr_36px] gap-3 items-start bg-slate-800/30 border border-cyan-500/15 rounded-xl p-4 hover:border-cyan-500/30 transition-all"
+                className="grid grid-cols-[64px_1fr_1fr_36px] gap-3 items-start bg-stone-100 dark:bg-stone-800/30 border border-stone-300 dark:border-emerald-500/15 rounded-xl p-4 hover:border-stone-300 dark:hover:border-emerald-500/30 transition-all"
               >
                 {/* Level badge */}
                 <div className="flex flex-col items-center justify-center">
-                  <span className="text-[10px] uppercase tracking-widest text-slate-500 mb-1">
+                  <span className="text-[10px] uppercase tracking-widest text-stone-500 mb-1">
                     Lvl
                   </span>
                   <input
@@ -74,13 +74,13 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
                         Number(e.target.value),
                       )
                     }
-                    className="w-full text-center px-2 py-2 bg-slate-900/60 border border-cyan-500/20 rounded-lg text-cyan-300 font-bold text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    className="w-full text-center px-2 py-2 bg-white dark:bg-stone-900/60 border border-stone-300 dark:border-emerald-500/20 rounded-lg text-emerald-700 dark:text-emerald-300 font-bold text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
                 {/* Feature name */}
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-slate-500 mb-1">
+                  <label className="block text-[10px] uppercase tracking-widest text-stone-500 mb-1">
                     Feature Name
                   </label>
                   <input
@@ -90,13 +90,13 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
                     onChange={(e) =>
                       updateFeature(originalIndex, "name", e.target.value)
                     }
-                    className="w-full px-3 py-2 bg-slate-900/60 border border-cyan-500/20 rounded-lg text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all"
+                    className="w-full px-3 py-2 bg-white dark:bg-stone-900/60 border border-stone-300 dark:border-emerald-500/20 rounded-lg text-stone-900 dark:text-white placeholder-stone-600 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
                   />
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-slate-500 mb-1">
+                  <label className="block text-[10px] uppercase tracking-widest text-stone-500 mb-1">
                     Description
                   </label>
                   <input
@@ -110,7 +110,7 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
                         e.target.value,
                       )
                     }
-                    className="w-full px-3 py-2 bg-slate-900/60 border border-cyan-500/20 rounded-lg text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all"
+                    className="w-full px-3 py-2 bg-white dark:bg-stone-900/60 border border-stone-300 dark:border-emerald-500/20 rounded-lg text-stone-900 dark:text-white placeholder-stone-600 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
                   />
                 </div>
 
@@ -118,7 +118,7 @@ export const ProfessionLevelsSection = ({ levels = [], onLevelsChange }) => {
                 <button
                   type="button"
                   onClick={() => removeFeature(originalIndex)}
-                  className="mt-5 p-2 text-slate-600 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"
+                  className="mt-5 p-2 text-stone-600 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"
                 >
                   <LuTrash2 size={15} />
                 </button>

@@ -102,7 +102,7 @@ export const PowerList = () => {
     }
 
     if (selectedKind === "technique" && selectedWeaponTags.length > 0) {
-      const weaponTags = power.requirements?.weaponTags ?? [];
+      const weaponTags = power.requirements?.properties ?? [];
       const hasMatch = weaponTags.some((tag) =>
         selectedWeaponTags.includes(tag),
       );
@@ -129,13 +129,13 @@ export const PowerList = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-8 transition-colors duration-300">
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-8 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-600 to-orange-500 dark:from-cyan-400 dark:to-orange-400 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
               Powers
             </h1>
-            <p className="text-xl text-slate-600 dark:text-gray-300">
+            <p className="text-xl text-stone-600 dark:text-stone-300">
               Weave magic into your life
             </p>
           </div>
@@ -144,15 +144,15 @@ export const PowerList = () => {
         <div className="flex justify-center">
           <div className="w-3/4">
             {/* Kind Tabs */}
-            <div className="flex gap-2 mb-6 border-b border-slate-200 dark:border-slate-700">
+            <div className="flex gap-2 mb-6 border-b border-stone-200 dark:border-stone-700">
               {KIND_TABS.map((kind) => (
                 <button
                   key={kind}
                   onClick={() => setSelectedKind(kind)}
                   className={`px-4 py-2 capitalize text-sm font-medium border-b-2 transition-colors ${
                     selectedKind === kind
-                      ? "border-cyan-600 text-cyan-600 dark:text-cyan-400"
-                      : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                      ? "border-emerald-600 text-emerald-700 dark:text-emerald-400"
+                      : "border-transparent text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
                   }`}
                 >
                   {kind}
@@ -165,14 +165,14 @@ export const PowerList = () => {
               <div className="relative flex-1">
                 <LuSearch
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"
                 />
                 <input
                   type="text"
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="Search powers..."
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-white placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -180,21 +180,21 @@ export const PowerList = () => {
                 <div className="relative" ref={filterRef}>
                   <button
                     onClick={() => setIsFilterOpen((prev) => !prev)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors"
                   >
                     <LuFilter size={18} />
                     <span>Filter</span>
                     {activeFilterCount > 0 && (
-                      <span className="flex items-center justify-center w-5 h-5 text-xs rounded-full bg-cyan-600 text-white">
+                      <span className="flex items-center justify-center w-5 h-5 text-xs rounded-full bg-emerald-600 text-white">
                         {activeFilterCount}
                       </span>
                     )}
                   </button>
 
                   {isFilterOpen && (
-                    <div className="absolute right-0 mt-2 w-64 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-4 z-10">
+                    <div className="absolute right-0 mt-2 w-64 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 shadow-lg p-4 z-10">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                        <p className="text-sm font-semibold text-stone-900 dark:text-white">
                           Filters
                         </p>
                         {activeFilterCount > 0 && (
@@ -205,7 +205,7 @@ export const PowerList = () => {
                               setSelectedAbilityOptions([]);
                               setSelectedTraitOptions([]);
                             }}
-                            className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                            className="flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
                           >
                             <LuX size={12} />
                             Clear
@@ -215,14 +215,14 @@ export const PowerList = () => {
 
                       {selectedKind === "spell" && (
                         <>
-                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+                          <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
                             School
                           </p>
                           <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
                             {SCHOOL_OPTIONS.map((school) => (
                               <label
                                 key={school}
-                                className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 capitalize cursor-pointer"
+                                className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
                               >
                                 <input
                                   type="checkbox"
@@ -249,14 +249,14 @@ export const PowerList = () => {
 
                       {selectedKind === "technique" && (
                         <>
-                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+                          <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
                             Weapon Tags
                           </p>
                           <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
                             {WEAPON_TAG_OPTIONS.map((tag) => (
                               <label
                                 key={tag}
-                                className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 capitalize cursor-pointer"
+                                className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
                               >
                                 <input
                                   type="checkbox"
@@ -283,11 +283,11 @@ export const PowerList = () => {
 
                       {selectedKind === "ability" && (
                         <>
-                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+                          <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
                             Ability Filters
                           </p>
                           {ABILITY_OPTIONS.length === 0 ? (
-                            <p className="text-sm text-slate-400 dark:text-slate-500">
+                            <p className="text-sm text-stone-400 dark:text-stone-500">
                               No filters yet.
                             </p>
                           ) : (
@@ -295,7 +295,7 @@ export const PowerList = () => {
                               {ABILITY_OPTIONS.map((option) => (
                                 <label
                                   key={option}
-                                  className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 capitalize cursor-pointer"
+                                  className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
                                 >
                                   <input
                                     type="checkbox"
@@ -325,11 +325,11 @@ export const PowerList = () => {
 
                       {selectedKind === "trait" && (
                         <>
-                          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+                          <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
                             Trait Filters
                           </p>
                           {TRAIT_OPTIONS.length === 0 ? (
-                            <p className="text-sm text-slate-400 dark:text-slate-500">
+                            <p className="text-sm text-stone-400 dark:text-stone-500">
                               No filters yet.
                             </p>
                           ) : (
@@ -337,7 +337,7 @@ export const PowerList = () => {
                               {TRAIT_OPTIONS.map((option) => (
                                 <label
                                   key={option}
-                                  className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 capitalize cursor-pointer"
+                                  className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
                                 >
                                   <input
                                     type="checkbox"
@@ -376,7 +376,7 @@ export const PowerList = () => {
                 conditionsById={conditionsById}
               />
             ) : (
-              <p className="text-center text-slate-500 dark:text-slate-400 mt-8">
+              <p className="text-center text-stone-500 dark:text-stone-400 mt-8">
                 No powers match your search.
               </p>
             )}

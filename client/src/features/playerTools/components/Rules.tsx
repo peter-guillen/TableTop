@@ -72,14 +72,14 @@ export function Rules() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-100 via-slate-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-white">
+    <div className="min-h-screen bg-gradient-to-b from-stone-100 via-stone-50 to-stone-100 dark:from-stone-900 dark:via-stone-800 dark:to-stone-900 text-stone-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-600 to-orange-500 dark:from-cyan-400 dark:to-orange-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
             Basic Rules
           </h1>
-          <p className="text-xl text-slate-600 dark:text-gray-300">
+          <p className="text-xl text-stone-600 dark:text-stone-300">
             Essential mechanics and rules for gameplay
           </p>
         </div>
@@ -87,8 +87,8 @@ export function Rules() {
         <div className="flex gap-8">
           {/* Sidebar Navigation */}
           <aside className="w-64 flex-shrink-0 sticky top-24 self-start hidden lg:block">
-            <nav className="bg-white/70 dark:bg-transparent rounded-xl p-4 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
-              <h3 className="text-sm font-semibold text-cyan-700 dark:text-cyan-400 mb-4 uppercase tracking-wider">
+            <nav className="bg-white/70 dark:bg-transparent rounded-xl p-4 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <h3 className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 mb-4 uppercase tracking-wider">
                 Quick Navigation
               </h3>
               <ul className="space-y-2">
@@ -100,8 +100,8 @@ export function Rules() {
                         onClick={() => scrollToSection(section.id)}
                         className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-3 ${
                           activeSection === section.id
-                            ? "bg-cyan-100 dark:bg-cyan-600/20 text-cyan-700 dark:text-cyan-300 border-l-2 border-cyan-500 dark:border-cyan-400"
-                            : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700/50"
+                            ? "bg-emerald-100 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 border-l-2 border-emerald-500 dark:border-emerald-400"
+                            : "text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-700/50"
                         }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -118,17 +118,17 @@ export function Rules() {
           <main className="flex-1 space-y-12">
             {/* Dice Rolling */}
             <section id="dice-rolling" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuDice6 className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Dice Rolling
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-200 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-200 leading-relaxed">
                   <p>
                     The d20 is the foundation of all checks and actions in the
                     game. When the outcome of an action is uncertain, roll a
@@ -136,8 +136,8 @@ export function Rules() {
                     against a target number.
                   </p>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-emerald-500">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                       The d20 — Checks, Attacks & Saves
                     </h4>
                     <p>
@@ -149,8 +149,8 @@ export function Rules() {
                     </p>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
-                    <h4 className="font-semibold text-orange-600 dark:text-orange-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-amber-500">
+                    <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-2">
                       Damage Dice — Techniques, Spells & Skills
                     </h4>
                     <p>
@@ -167,17 +167,17 @@ export function Rules() {
 
             {/* Combat Basics */}
             <section id="combat-basics" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuSword className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Combat Basics
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Combat flows in rounds and turns. Each round represents a
                     brief moment of intense action. On your turn you have access
@@ -185,15 +185,15 @@ export function Rules() {
                     and a Reaction.
                   </p>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-3">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-3">
                       Action Types
                     </h4>
                     <ul className="space-y-3 ml-2">
                       <li className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-block w-2.5 h-2.5 rounded-full bg-cyan-500 flex-shrink-0" />
+                        <span className="mt-0.5 inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0" />
                         <span>
-                          <strong className="text-slate-900 dark:text-white">
+                          <strong className="text-stone-900 dark:text-white">
                             Major Action:
                           </strong>{" "}
                           Your primary action each turn. Used for attacks,
@@ -202,9 +202,9 @@ export function Rules() {
                         </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-block w-2.5 h-2.5 rounded-full bg-orange-500 flex-shrink-0" />
+                        <span className="mt-0.5 inline-block w-2.5 h-2.5 rounded-full bg-amber-500 flex-shrink-0" />
                         <span>
-                          <strong className="text-slate-900 dark:text-white">
+                          <strong className="text-stone-900 dark:text-white">
                             Minor Action:
                           </strong>{" "}
                           A secondary action used for quicker activities —
@@ -213,9 +213,9 @@ export function Rules() {
                         </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-block w-2.5 h-2.5 rounded-full bg-slate-400 flex-shrink-0" />
+                        <span className="mt-0.5 inline-block w-2.5 h-2.5 rounded-full bg-stone-400 flex-shrink-0" />
                         <span>
-                          <strong className="text-slate-900 dark:text-white">
+                          <strong className="text-stone-900 dark:text-white">
                             Reaction:
                           </strong>{" "}
                           A special action triggered by a specific condition,
@@ -227,8 +227,8 @@ export function Rules() {
                     </ul>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                       Initiative
                     </h4>
                     <p>
@@ -243,17 +243,17 @@ export function Rules() {
 
             {/* Momentum */}
             <section id="momentum" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuZap className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Momentum
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Momentum represents the flow and intensity of combat — the
                     pressure you build as a fight continues. It is a shared
@@ -262,34 +262,34 @@ export function Rules() {
                   </p>
 
                   <div className="grid md:grid-cols-3 gap-4">
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 text-center border border-cyan-500/20">
-                      <div className="text-3xl font-bold text-cyan-600 dark:text-cyan-400 mb-1">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 text-center border border-emerald-500/20">
+                      <div className="text-3xl font-bold text-emerald-700 dark:text-emerald-400 mb-1">
                         3
                       </div>
-                      <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                      <div className="text-sm font-semibold text-stone-700 dark:text-stone-300">
                         Starting Momentum
                       </div>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 text-center border border-orange-500/20">
-                      <div className="text-3xl font-bold text-orange-500 dark:text-orange-400 mb-1">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 text-center border border-amber-500/20">
+                      <div className="text-3xl font-bold text-amber-700 dark:text-amber-400 mb-1">
                         5
                       </div>
-                      <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                      <div className="text-sm font-semibold text-stone-700 dark:text-stone-300">
                         Maximum Momentum
                       </div>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 text-center border border-cyan-500/20">
-                      <div className="text-3xl font-bold text-cyan-600 dark:text-cyan-400 mb-1">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 text-center border border-emerald-500/20">
+                      <div className="text-3xl font-bold text-emerald-700 dark:text-emerald-400 mb-1">
                         +1
                       </div>
-                      <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                      <div className="text-sm font-semibold text-stone-700 dark:text-stone-300">
                         Gained Per Turn
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-emerald-500">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                       Spending Momentum
                     </h4>
                     <p>
@@ -301,8 +301,8 @@ export function Rules() {
                     </p>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
-                    <h4 className="font-semibold text-orange-600 dark:text-orange-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-amber-500">
+                    <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-2">
                       Gaining Momentum
                     </h4>
                     <p>
@@ -318,17 +318,17 @@ export function Rules() {
 
             {/* Attacks & Saving Throws */}
             <section id="attacks-saves" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuTarget className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Attacks & Saves
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Offensive actions resolve through one of two tracks: attack
                     rolls for targeted strikes, and saving throws for area
@@ -336,8 +336,8 @@ export function Rules() {
                     stats on both sides of the exchange.
                   </p>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-3">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-emerald-500">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-3">
                       Attack Rolls — Accuracy vs. Defense
                     </h4>
                     <p className="mb-2">
@@ -345,17 +345,17 @@ export function Rules() {
                       attacker rolls using their <strong>Accuracy</strong>{" "}
                       modifier against the target's <strong>Defense</strong>.
                     </p>
-                    <div className="bg-slate-200/70 dark:bg-slate-800/70 rounded p-3 font-mono text-sm text-cyan-700 dark:text-cyan-200 mt-2">
+                    <div className="bg-stone-200/70 dark:bg-stone-800/70 rounded p-3 font-mono text-sm text-emerald-700 dark:text-emerald-200 mt-2">
                       d20 + Accuracy vs. Target's Defense
                     </div>
-                    <p className="mt-3 text-sm text-slate-500 dark:text-gray-400">
+                    <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
                       If the total meets or exceeds the target's Defense, the
                       attack lands and damage is resolved.
                     </p>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
-                    <h4 className="font-semibold text-orange-600 dark:text-orange-300 mb-3">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-amber-500">
+                    <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-3">
                       Saving Throws — Presence DC vs. Resolve
                     </h4>
                     <p className="mb-2">
@@ -365,19 +365,19 @@ export function Rules() {
                       + 10). All affected creatures roll their{" "}
                       <strong>Resolve</strong> to resist.
                     </p>
-                    <div className="bg-slate-200/70 dark:bg-slate-800/70 rounded p-3 font-mono text-sm text-orange-600 dark:text-orange-200 mt-2">
+                    <div className="bg-stone-200/70 dark:bg-stone-800/70 rounded p-3 font-mono text-sm text-amber-700 dark:text-amber-200 mt-2">
                       DC = Presence + 10 &nbsp;|&nbsp; Target rolls d20 +
                       Resolve
                     </div>
-                    <p className="mt-3 text-sm text-slate-500 dark:text-gray-400">
+                    <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
                       Creatures that meet or exceed the DC resist the effect,
                       typically taking reduced damage or avoiding the status
                       entirely. Those who fail suffer the full effect.
                     </p>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-slate-400 dark:border-slate-500">
-                    <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-stone-400 dark:border-stone-500">
+                    <h4 className="font-semibold text-stone-700 dark:text-stone-300 mb-3">
                       Damage Mitigation — Resilience
                     </h4>
                     <p>
@@ -387,13 +387,13 @@ export function Rules() {
                       incoming damage. Resilience is subtracted after all damage
                       dice and modifiers from the attacker have been resolved.
                     </p>
-                    <div className="bg-slate-200/70 dark:bg-slate-800/70 rounded p-3 font-mono text-sm text-slate-600 dark:text-slate-300 mt-3">
+                    <div className="bg-stone-200/70 dark:bg-stone-800/70 rounded p-3 font-mono text-sm text-stone-600 dark:text-stone-300 mt-3">
                       Final Damage = Attack Damage − Resilience
                     </div>
                   </div>
 
-                  <div className="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-4 border border-cyan-400/40 dark:border-cyan-500/30 mt-4">
-                    <p className="text-cyan-800 dark:text-cyan-200 font-semibold">
+                  <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-4 border border-emerald-400/40 dark:border-emerald-500/30 mt-4">
+                    <p className="text-emerald-800 dark:text-emerald-200 font-semibold">
                       ⚔️ Rule of Thumb: Single target = Accuracy vs. Defense.
                       Multiple targets = Presence DC vs. Resolve.
                     </p>
@@ -404,34 +404,34 @@ export function Rules() {
 
             {/* Movement & Positioning */}
             <section id="movement" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuMove className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Movement & Positioning
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Tactical positioning matters. Where you stand relative to
                     enemies and terrain can meaningfully affect what you and
                     your allies are capable of each turn.
                   </p>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                       Standard Movement
                     </h4>
                     <p className="mb-2">
                       Most creatures have a base movement speed of{" "}
-                      <strong className="text-slate-900 dark:text-white">
+                      <strong className="text-stone-900 dark:text-white">
                         30 feet per turn
                       </strong>
                       , equal to approximately{" "}
-                      <strong className="text-slate-900 dark:text-white">
+                      <strong className="text-stone-900 dark:text-white">
                         6 tiles
                       </strong>{" "}
                       on a standard 5-foot grid. Movement is typically taken as
@@ -451,8 +451,8 @@ export function Rules() {
                     </ul>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                       Positioning & Reach
                     </h4>
                     <p>
@@ -463,8 +463,8 @@ export function Rules() {
                     </p>
                   </div>
 
-                  <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4 border border-orange-400/40 dark:border-orange-500/30">
-                    <p className="text-orange-800 dark:text-orange-200 text-sm">
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-400/40 dark:border-amber-500/30">
+                    <p className="text-amber-800 dark:text-amber-200 text-sm">
                       <strong>Note:</strong> Opportunity attacks are not a
                       baseline rule. Some traits and class features may grant
                       the ability to make attacks of opportunity — check your
@@ -477,17 +477,17 @@ export function Rules() {
 
             {/* Cover */}
             <section id="cover" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuShield className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Cover
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Environmental obstacles between you and an attacker provide
                     cover, making you harder to hit. Cover is a property of the
@@ -502,11 +502,11 @@ export function Rules() {
                   </p>
 
                   <div className="grid md:grid-cols-2 gap-4 mt-4">
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
-                      <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-emerald-500">
+                      <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                         Half Cover
                       </h4>
-                      <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                      <div className="text-2xl font-bold text-stone-900 dark:text-white mb-2">
                         +2 Defense
                       </div>
                       <p className="text-sm">
@@ -516,11 +516,11 @@ export function Rules() {
                       </p>
                     </div>
 
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
-                      <h4 className="font-semibold text-orange-600 dark:text-orange-300 mb-2">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-amber-500">
+                      <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-2">
                         Three-Quarters Cover
                       </h4>
-                      <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                      <div className="text-2xl font-bold text-stone-900 dark:text-white mb-2">
                         +5 Defense
                       </div>
                       <p className="text-sm">
@@ -531,8 +531,8 @@ export function Rules() {
                     </div>
                   </div>
 
-                  <div className="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-4 border border-cyan-400/40 dark:border-cyan-500/30 mt-4">
-                    <p className="text-cyan-800 dark:text-cyan-200">
+                  <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-4 border border-emerald-400/40 dark:border-emerald-500/30 mt-4">
+                    <p className="text-emerald-800 dark:text-emerald-200">
                       <strong>Note:</strong> Cover bonuses also apply to Resolve
                       saves against attacks and effects that originate from
                       beyond the covering obstacle.
@@ -544,25 +544,25 @@ export function Rules() {
 
             {/* Critical Hits */}
             <section id="critical-hits" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuFlame className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Critical Hits
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Critical hits represent moments of exceptional precision in
                     combat, dealing dramatically increased damage when your
                     attack lands far beyond what was needed to hit.
                   </p>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-3">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-emerald-500">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-3">
                       Critical Threat Range
                     </h4>
                     <p className="mb-3">
@@ -571,8 +571,8 @@ export function Rules() {
                       triggered not by rolling a specific number, but by how
                       much your attack exceeds your target's Defense.
                     </p>
-                    <div className="bg-slate-200/70 dark:bg-slate-800/70 rounded p-4 mt-3">
-                      <p className="font-semibold text-slate-900 dark:text-white mb-2">
+                    <div className="bg-stone-200/70 dark:bg-stone-800/70 rounded p-4 mt-3">
+                      <p className="font-semibold text-stone-900 dark:text-white mb-2">
                         How It Works:
                       </p>
                       <ol className="list-decimal list-inside space-y-2 ml-4">
@@ -593,54 +593,54 @@ export function Rules() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-r from-cyan-50 to-orange-50 dark:from-cyan-900/30 dark:to-orange-900/30 rounded-lg p-6 border border-cyan-400/30 dark:border-cyan-500/30">
-                    <h4 className="font-semibold text-slate-900 dark:text-white mb-3 text-xl">
+                  <div className="bg-amber-50 dark:bg-amber-500/10 rounded-lg p-6 border border-emerald-400/30 dark:border-emerald-500/30">
+                    <h4 className="font-semibold text-stone-900 dark:text-white mb-3 text-xl">
                       Critical Damage
                     </h4>
-                    <p className="text-cyan-800 dark:text-cyan-200 mb-2">
+                    <p className="text-emerald-800 dark:text-emerald-200 mb-2">
                       On a confirmed critical hit, roll all damage dice{" "}
                       <strong>twice</strong> and add your normal modifiers only
                       once.
                     </p>
-                    <div className="bg-slate-200/50 dark:bg-slate-800/50 rounded p-3 mt-3 font-mono text-sm">
-                      <p className="text-slate-600 dark:text-gray-300">
+                    <div className="bg-stone-200/50 dark:bg-stone-800/50 rounded p-3 mt-3 font-mono text-sm">
+                      <p className="text-stone-600 dark:text-stone-300">
                         Normal Hit: 1d8 + 3 = 7 damage
                       </p>
-                      <p className="text-orange-600 dark:text-orange-300">
+                      <p className="text-amber-700 dark:text-amber-300">
                         Critical Hit: 2d8 + 3 = 15 damage
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4">
-                    <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-3">
+                  <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-3">
                       Critical Hit Examples
                     </h4>
                     <div className="space-y-3 text-sm">
-                      <div className="bg-slate-100 dark:bg-slate-800/50 rounded p-3">
-                        <p className="text-slate-500 dark:text-gray-400 mb-1">
+                      <div className="bg-stone-100 dark:bg-stone-800/50 rounded p-3">
+                        <p className="text-stone-500 dark:text-stone-400 mb-1">
                           Target Defense: 15 | Attack Roll: 26 total
                         </p>
-                        <p className="text-slate-900 dark:text-white">
+                        <p className="text-stone-900 dark:text-white">
                           26 − 15 = 11 (exceeds by 10+) →{" "}
-                          <span className="text-cyan-600 dark:text-cyan-300">
+                          <span className="text-emerald-700 dark:text-emerald-300">
                             Critical Threat!
                           </span>
                         </p>
-                        <p className="text-slate-500 dark:text-gray-400 mt-1">
+                        <p className="text-stone-500 dark:text-stone-400 mt-1">
                           Confirmation Roll: 18 (meets Defense 15) →{" "}
-                          <span className="text-orange-500 dark:text-orange-300 font-semibold">
+                          <span className="text-amber-700 dark:text-amber-300 font-semibold">
                             Confirmed Critical!
                           </span>
                         </p>
                       </div>
-                      <div className="bg-slate-100 dark:bg-slate-800/50 rounded p-3">
-                        <p className="text-slate-500 dark:text-gray-400 mb-1">
+                      <div className="bg-stone-100 dark:bg-stone-800/50 rounded p-3">
+                        <p className="text-stone-500 dark:text-stone-400 mb-1">
                           Target Defense: 18 | Attack Roll: 27 total
                         </p>
-                        <p className="text-slate-900 dark:text-white">
+                        <p className="text-stone-900 dark:text-white">
                           27 − 18 = 9 (doesn't exceed by 10) →{" "}
-                          <span className="text-slate-500 dark:text-gray-300">
+                          <span className="text-stone-500 dark:text-stone-300">
                             Normal Hit
                           </span>
                         </p>
@@ -648,8 +648,8 @@ export function Rules() {
                     </div>
                   </div>
 
-                  <div className="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-4 border border-cyan-400/40 dark:border-cyan-500/30 mt-4">
-                    <p className="text-cyan-800 dark:text-cyan-200 text-sm">
+                  <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-4 border border-emerald-400/40 dark:border-emerald-500/30 mt-4">
+                    <p className="text-emerald-800 dark:text-emerald-200 text-sm">
                       <strong>Improved Critical:</strong> Some weapons, traits,
                       or abilities may lower the threshold for triggering a
                       critical threat — for example, threatening on an excess of
@@ -663,25 +663,25 @@ export function Rules() {
 
             {/* HP & MP */}
             <section id="hp-mp" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuHeart className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     HP & MP
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Two core pools track your character's vitality and magical
                     capacity throughout play.
                   </p>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-5 border-l-4 border-cyan-500">
-                      <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2 text-lg">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-5 border-l-4 border-emerald-500">
+                      <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2 text-lg">
                         HP — Hit Points
                       </h4>
                       <p className="text-sm">
@@ -693,8 +693,8 @@ export function Rules() {
                       </p>
                     </div>
 
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-5 border-l-4 border-orange-500">
-                      <h4 className="font-semibold text-orange-600 dark:text-orange-300 mb-2 text-lg">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-5 border-l-4 border-amber-500">
+                      <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-2 text-lg">
                         MP — Mana Points
                       </h4>
                       <p className="text-sm">
@@ -706,8 +706,8 @@ export function Rules() {
                     </div>
                   </div>
 
-                  <div className="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-4 border border-cyan-400/40 dark:border-cyan-500/30 mt-2">
-                    <p className="text-cyan-800 dark:text-cyan-200 text-sm">
+                  <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-4 border border-emerald-400/40 dark:border-emerald-500/30 mt-2">
+                    <p className="text-emerald-800 dark:text-emerald-200 text-sm">
                       Both pools are visible on your character sheet. Your
                       maximum values are determined by your class and relevant
                       stats, and may increase as you level up.
@@ -719,17 +719,17 @@ export function Rules() {
 
             {/* Affinities */}
             <section id="affinities" className="scroll-mt-24">
-              <div className="bg-white/80 dark:bg-slate-800/50 rounded-xl p-8 border border-cyan-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
+              <div className="bg-white/80 dark:bg-stone-800/50 rounded-xl p-8 border border-emerald-500/20 backdrop-blur-sm shadow-sm dark:shadow-none">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="bg-gradient-to-br from-cyan-600 to-orange-600 rounded-lg p-2">
+                  <div className="bg-emerald-700 rounded-lg p-2">
                     <LuSparkles className="w-6 h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-stone-900 dark:text-white">
                     Affinities
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-stone-700 dark:text-stone-300 leading-relaxed">
                   <p>
                     Affinities describe a creature's relationship to specific
                     damage types. They are rare — most creatures have none — but
@@ -739,8 +739,8 @@ export function Rules() {
                   </p>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
-                      <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-emerald-500">
+                      <h4 className="font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                         Resistance
                       </h4>
                       <p className="text-sm">
@@ -751,8 +751,8 @@ export function Rules() {
                       </p>
                     </div>
 
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-orange-500">
-                      <h4 className="font-semibold text-orange-600 dark:text-orange-300 mb-2">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-amber-500">
+                      <h4 className="font-semibold text-amber-700 dark:text-amber-300 mb-2">
                         Vulnerability
                       </h4>
                       <p className="text-sm">
@@ -762,8 +762,8 @@ export function Rules() {
                       </p>
                     </div>
 
-                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border-l-4 border-slate-400 dark:border-slate-500">
-                      <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border-l-4 border-stone-400 dark:border-stone-500">
+                      <h4 className="font-semibold text-stone-700 dark:text-stone-300 mb-2">
                         Immunity
                       </h4>
                       <p className="text-sm">
@@ -774,8 +774,8 @@ export function Rules() {
                       </p>
                     </div>
 
-                    <div className="bg-gradient-to-br from-cyan-50 to-orange-50 dark:from-cyan-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-cyan-400/30 dark:border-orange-500/30">
-                      <h4 className="font-semibold text-slate-900 dark:text-white mb-2">
+                    <div className="bg-amber-50 dark:bg-amber-500/10 rounded-lg p-4 border border-emerald-400/30 dark:border-emerald-500/30">
+                      <h4 className="font-semibold text-stone-900 dark:text-white mb-2">
                         Absorption
                       </h4>
                       <p className="text-sm">
@@ -787,8 +787,8 @@ export function Rules() {
                     </div>
                   </div>
 
-                  <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4 border border-orange-400/40 dark:border-orange-500/30 mt-2">
-                    <p className="text-orange-800 dark:text-orange-200 text-sm">
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-400/40 dark:border-amber-500/30 mt-2">
+                    <p className="text-amber-800 dark:text-amber-200 text-sm">
                       <strong>Note:</strong> Affinities are listed on a
                       creature's statblock or in the relevant trait or feature
                       description. Unless a specific source grants an affinity,

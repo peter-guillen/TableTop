@@ -1,4 +1,11 @@
 import { LuBookOpen } from "react-icons/lu";
+import {
+  formCheckTile,
+  formCheckbox,
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 export const ArmorBasicInfoSection = ({
   name,
@@ -24,13 +31,13 @@ export const ArmorBasicInfoSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuBookOpen size={20} />
         Basic Information
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Armor Name *
           </label>
           <input
@@ -40,12 +47,12 @@ export const ArmorBasicInfoSection = ({
             onChange={onInputChange}
             value={name}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Category *
           </label>
           <select
@@ -53,7 +60,7 @@ export const ArmorBasicInfoSection = ({
             onChange={onInputChange}
             value={category}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             <option value="">Select Category</option>
             <option value="light">Light</option>
@@ -65,7 +72,7 @@ export const ArmorBasicInfoSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Rarity *
           </label>
           <select
@@ -73,7 +80,7 @@ export const ArmorBasicInfoSection = ({
             onChange={onInputChange}
             value={rarity}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             <option value="common">Common</option>
             <option value="rare">Rare</option>
@@ -86,7 +93,7 @@ export const ArmorBasicInfoSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Material *
           </label>
           <select
@@ -94,7 +101,7 @@ export const ArmorBasicInfoSection = ({
             onChange={onInputChange}
             value={material}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             <option value="">Select Material</option>
             <option value="cloth">Cloth</option>
@@ -113,7 +120,7 @@ export const ArmorBasicInfoSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Weight
           </label>
           <input
@@ -124,12 +131,12 @@ export const ArmorBasicInfoSection = ({
             value={weight}
             min="0"
             step="0.1"
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Value (Gold)
           </label>
           <input
@@ -139,27 +146,27 @@ export const ArmorBasicInfoSection = ({
             onChange={onInputChange}
             value={value}
             min="0"
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
       </div>
 
       <div className="mt-6">
-        <label className="block text-sm font-medium text-slate-300 mb-3">
+        <label className={`${formLabel} mb-3`}>
           Custom Tags
         </label>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {tagOptions.map((tag) => (
             <label
               key={tag}
-              className="flex items-center gap-2 text-slate-300 cursor-pointer bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-cyan-500/20 dark:border-orange-500/20 hover:border-cyan-500/40 dark:hover:border-orange-500/40 transition-all"
+              className={formCheckTile}
             >
               <input
                 type="checkbox"
                 value={tag}
                 checked={tags.includes(tag)}
                 onChange={onCheckedChange}
-                className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                className={formCheckbox}
               />
               <span className="capitalize text-sm">{tag}</span>
             </label>

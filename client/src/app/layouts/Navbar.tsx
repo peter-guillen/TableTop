@@ -1,11 +1,27 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   useGetCurrentUserQuery,
   useLogoutMutation,
 } from "../../features/auth/api/authApi.tsx";
 
 import { ThemeContext } from "../contexts/ThemeContext.tsx";
+import {
+  dropdownItem,
+  dropdownPanel,
+  focusRing,
+  hoverRow,
+  ink,
+  inkDanger,
+  inkMuted,
+  inkPrimary,
+  inkSubtle,
+  line,
+  navLink,
+  navLinkMobile,
+  primaryButton,
+  surfaceRaised,
+} from "../../shared/styles/theme.ts";
 
 import {
   FaMoon,
@@ -17,7 +33,6 @@ import {
   FaUsers,
 } from "react-icons/fa6";
 import {
-  LuScroll,
   LuChevronDown,
   LuLogOut,
   LuLogIn,
@@ -37,6 +52,26 @@ import {
 const isAdminOrMod = (role?: string) =>
   role === "admin" || role === "moderator";
 
+// Routes inside each dropdown, used to highlight the dropdown's trigger
+const PLAYER_TOOLS_ROUTES = ["/rules", "/characters", "/articles"];
+const GAME_RESOURCE_ROUTES = [
+  "/professions",
+  "/species",
+  "/backgrounds",
+  "/items",
+  "/powers",
+];
+
+const isWithin = (pathname: string, routes: string[]) =>
+  routes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+
+// Dropdown opens on hover AND when anything inside it has keyboard focus
+const dropdownMenu =
+  "absolute left-0 z-50 mt-2 w-64 translate-y-1 opacity-0 invisible transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100";
+
+const menuLink = ({ isActive }: { isActive: boolean }) =>
+  dropdownItem(isActive);
+
 export const Navbar = () => {
   const { data: currentUser } = useGetCurrentUserQuery();
 
@@ -48,6 +83,7 @@ export const Navbar = () => {
   const { darkMode, toggleTheme } = themeContext;
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -72,172 +108,120 @@ export const Navbar = () => {
   };
 
   const canSeeAdmin = isAdminOrMod(currentUser?.role);
+  const closeMobile = () => setIsMobileMenuOpen(false);
 
   return (
     <>
       <nav
-        className={`
-      px-4 sm:px-6 py-4 shadow-lg border-b transition-colors duration-200
-      bg-white dark:bg-gray-900 
-      border-gray-200 dark:border-gray-700
-    `}
+        className={`sticky top-0 z-40 border-b px-4 py-3 sm:px-6 ${line} ${surfaceRaised}`}
       >
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
           {/* Left Section - Logo and Main Navigation */}
-          <div className="flex items-center space-x-4 sm:space-x-8">
-            <NavLink to="/">
-              <div className="flex items-center space-x-2">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-600 dark:bg-cyan-500 to-orange-600 dark:to-orange-500">
-                  <FaDiceD20 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <div className="flex items-center gap-4 sm:gap-8">
+            <NavLink to="/" className={`rounded-lg ${focusRing}`}>
+              <div className="flex items-center gap-2">
+                <div className="rounded-lg bg-amber-500 p-2 text-stone-950">
+                  <FaDiceD20 className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <span className="hidden sm:block text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                <span
+                  className={`hidden text-lg font-extrabold tracking-tight sm:block sm:text-xl ${ink}`}
+                >
                   RPG Hub
                 </span>
               </div>
             </NavLink>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center space-x-6">
-              <NavLink
-                to="/"
-                className="flex items-center space-x-1 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <FaHouse className="w-4 h-4" />
+            <div className="hidden items-center gap-1 lg:flex">
+              <NavLink to="/" end className={({ isActive }) => navLink(isActive)}>
+                <FaHouse className="h-4 w-4" />
                 <span>Home</span>
               </NavLink>
 
               {/* Player Tools Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center space-x-1 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800">
+              <div className="group relative">
+                <button className={navLink(isWithin(pathname, PLAYER_TOOLS_ROUTES))}>
                   <span>Player Tools</span>
-                  <LuChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
+                  <LuChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
                 </button>
 
-                <div className="absolute left-0 mt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2">
-                    {/* Basic Rules - single link, no divider needed */}
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/rules"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuBook className="w-4 h-4" />
-                        <span>Basic Rules</span>
-                      </NavLink>
-                    </div>
+                <div className={dropdownMenu}>
+                  <div className={`${dropdownPanel} space-y-0.5 px-2`}>
+                    <NavLink to="/rules" className={menuLink}>
+                      <LuBook className="h-4 w-4" />
+                      <span>Basic Rules</span>
+                    </NavLink>
 
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/characters"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuScrollText className="w-4 h-4" />
-                        <span>Characters</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/characters" end className={menuLink}>
+                      <LuScrollText className="h-4 w-4" />
+                      <span>Characters</span>
+                    </NavLink>
 
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/characters/create"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuPencil className="w-4 h-4" />
-                        <span>Character Builder</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/characters/create" className={menuLink}>
+                      <LuPencil className="h-4 w-4" />
+                      <span>Character Builder</span>
+                    </NavLink>
 
                     {/* Campaigns - not built yet, disabled entry instead of an empty section */}
-                    <div className="px-4 py-1">
-                      <div className="flex items-center justify-between px-2 py-1 text-sm text-gray-400 dark:text-gray-500 cursor-not-allowed">
-                        <span className="flex items-center space-x-2">
-                          <LuFlag className="w-4 h-4" />
-                          <span>Campaigns</span>
-                        </span>
-                        <span className="text-xs italic">Soon</span>
-                      </div>
+                    <div
+                      className={`flex cursor-not-allowed items-center justify-between px-2 py-1.5 text-sm ${inkSubtle}`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <LuFlag className="h-4 w-4" />
+                        <span>Campaigns</span>
+                      </span>
+                      <span className="text-xs italic">Soon</span>
                     </div>
 
-                    {/* Articles - single link, no divider needed */}
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/articles"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <FaUsers className="w-4 h-4" />
-                        <span>Articles</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/articles" className={menuLink}>
+                      <FaUsers className="h-4 w-4" />
+                      <span>Articles</span>
+                    </NavLink>
                   </div>
                 </div>
               </div>
 
               {/* Game Resources Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center space-x-1 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800">
+              <div className="group relative">
+                <button className={navLink(isWithin(pathname, GAME_RESOURCE_ROUTES))}>
                   <span>Game Resources</span>
-                  <LuChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
+                  <LuChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
                 </button>
 
-                <div className="absolute left-0 mt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2">
-                    {/* Classes - single link, no divider needed */}
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/professions"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuDrama className="w-4 h-4" />
-                        <span>Classes</span>
-                      </NavLink>
-                    </div>
+                <div className={dropdownMenu}>
+                  <div className={`${dropdownPanel} space-y-0.5 px-2`}>
+                    <NavLink to="/professions" className={menuLink}>
+                      <LuDrama className="h-4 w-4" />
+                      <span>Classes</span>
+                    </NavLink>
 
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/species"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuPersonStanding className="w-4 h-4" />
-                        <span>Species</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/species" className={menuLink}>
+                      <LuPersonStanding className="h-4 w-4" />
+                      <span>Species</span>
+                    </NavLink>
 
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/backgrounds"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuSchool className="w-4 h-4" />
-                        <span>Backgrounds</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/backgrounds" className={menuLink}>
+                      <LuSchool className="h-4 w-4" />
+                      <span>Backgrounds</span>
+                    </NavLink>
 
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/items"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuAnvil className="w-4 h-4" />
-                        <span>Items</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/items" className={menuLink}>
+                      <LuAnvil className="h-4 w-4" />
+                      <span>Items</span>
+                    </NavLink>
 
-                    <div className="px-4 py-1">
-                      <NavLink
-                        to="/powers"
-                        className="flex items-center space-x-2 px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                      >
-                        <LuSparkles className="w-4 h-4" />
-                        <span>Power</span>
-                      </NavLink>
-                    </div>
+                    <NavLink to="/powers" className={menuLink}>
+                      <LuSparkles className="h-4 w-4" />
+                      <span>Powers</span>
+                    </NavLink>
                   </div>
                 </div>
               </div>
 
               <NavLink
                 to="about"
-                className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                onClick={() => setIsMobileMenuOpen(false)}
+                className={({ isActive }) => navLink(isActive)}
+                onClick={closeMobile}
               >
                 <span>About</span>
               </NavLink>
@@ -245,7 +229,7 @@ export const Navbar = () => {
               {canSeeAdmin && (
                 <NavLink
                   to="admin"
-                  className="px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className={({ isActive }) => navLink(isActive)}
                 >
                   Admin
                 </NavLink>
@@ -254,75 +238,79 @@ export const Navbar = () => {
           </div>
 
           {/* Right Section - User Controls */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              className={`rounded-md p-2 transition-colors ${hoverRow} ${focusRing}`}
             >
               {darkMode ? (
-                <FaMoon className="w-5 h-5" style={{ color: "#1b9c9aff" }} />
+                <FaMoon className={`h-5 w-5 ${inkPrimary}`} />
               ) : (
-                <FaSun className="w-5 h-5" style={{ color: "#f49912" }} />
+                <FaSun className={`h-5 w-5 ${inkPrimary}`} />
               )}
             </button>
 
             {/* User Profile Dropdown - Desktop */}
             {currentUser ? (
-              <div className="hidden sm:block relative" ref={dropdownRef}>
+              <div className="relative hidden sm:block" ref={dropdownRef}>
                 <button
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors ${inkMuted} ${hoverRow} ${focusRing}`}
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center">
-                    <FaUser className="w-5 h-5 text-white" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-700 text-white dark:bg-emerald-500 dark:text-stone-950">
+                    <FaUser className="h-4 w-4" />
                   </div>
                   <LuChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                    className={`h-4 w-4 transition-transform duration-200 ${
                       isUserDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isUserDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-1 z-50">
-                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                      <p className="text-sm text-gray-900 dark:text-white font-medium">
+                  <div
+                    className={`absolute right-0 z-50 mt-2 w-56 ${dropdownPanel} py-1`}
+                  >
+                    <div className={`border-b px-4 py-3 ${line}`}>
+                      <p className={`text-sm font-medium ${ink}`}>
                         {currentUser.username}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className={`text-xs ${inkSubtle}`}>
                         {currentUser.email}
                       </p>
                     </div>
-                    <NavLink
-                      to="register"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <FaUser className="w-4 h-4" />
-                      <span>Profile</span>
-                    </NavLink>
-                    <button
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
-                      onClick={handleLogout}
-                    >
-                      <LuLogOut className="w-4 h-4" />
-                      <span>Logout</span>
-                    </button>
+                    <div className="space-y-0.5 p-1">
+                      <NavLink to="register" className={menuLink}>
+                        <FaUser className="h-4 w-4" />
+                        <span>Profile</span>
+                      </NavLink>
+                      <button
+                        className={`flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-red-50 dark:hover:bg-red-500/10 ${inkDanger} ${focusRing}`}
+                        onClick={handleLogout}
+                      >
+                        <LuLogOut className="h-4 w-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
             ) : (
               <>
-                <NavLink to="register" className="hidden sm:block">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center">
-                    <FaRegUser className="w-5 h-5 text-white" />
-                  </div>
+                <NavLink
+                  to="register"
+                  className={`hidden rounded-md px-3 py-2 text-sm font-medium sm:block ${inkMuted} ${hoverRow} ${focusRing}`}
+                >
+                  Register
                 </NavLink>
-                <NavLink to="login" className="hidden sm:block">
-                  <button className="flex items-center space-x-2 px-4 py-2 rounded-md transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
-                    <LuLogIn className="w-4 h-4" />
-                    <span className="hidden md:block">LogIn</span>
-                  </button>
+                <NavLink
+                  to="login"
+                  className={`hidden px-4 py-2 text-sm sm:inline-flex ${primaryButton}`}
+                >
+                  <LuLogIn className="h-4 w-4" />
+                  <span>Log In</span>
                 </NavLink>
               </>
             )}
@@ -330,12 +318,14 @@ export const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+              className={`rounded-md p-2 transition-colors lg:hidden ${inkMuted} ${hoverRow} ${focusRing}`}
             >
               {isMobileMenuOpen ? (
-                <LuX className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                <LuX className="h-6 w-6" />
               ) : (
-                <LuMenu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                <LuMenu className="h-6 w-6" />
               )}
             </button>
           </div>
@@ -343,52 +333,54 @@ export const Navbar = () => {
 
         {/* Mobile Menu - mirrors the desktop structure/routes exactly */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700 pt-4">
-            <div className="space-y-2">
+          <div className={`mt-3 border-t pb-2 pt-3 lg:hidden ${line}`}>
+            <div className="space-y-1">
               <NavLink
                 to="/"
-                className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                onClick={() => setIsMobileMenuOpen(false)}
+                end
+                className={({ isActive }) => navLinkMobile(isActive)}
+                onClick={closeMobile}
               >
-                <FaHouse className="w-4 h-4" />
+                <FaHouse className="h-4 w-4" />
                 <span>Home</span>
               </NavLink>
 
               {/* Mobile Player Tools */}
               <div className="px-3 py-2">
-                <div className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
+                <div
+                  className={`mb-2 text-xs font-bold uppercase tracking-wider ${inkPrimary}`}
+                >
                   Player Tools
                 </div>
-                <div className="space-y-1 ml-4">
-                  <NavLink
-                    to="/rules"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
+                <div className="ml-2 space-y-0.5">
+                  <NavLink to="/rules" className={menuLink} onClick={closeMobile}>
                     Basic Rules
                   </NavLink>
                   <NavLink
                     to="/characters"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    end
+                    className={menuLink}
+                    onClick={closeMobile}
                   >
                     Characters
                   </NavLink>
                   <NavLink
                     to="/characters/create"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={menuLink}
+                    onClick={closeMobile}
                   >
                     Character Builder
                   </NavLink>
-                  <div className="flex items-center justify-between px-2 py-1 text-sm text-gray-400 dark:text-gray-500">
+                  <div
+                    className={`flex items-center justify-between px-2 py-1.5 text-sm ${inkSubtle}`}
+                  >
                     <span>Campaigns</span>
                     <span className="text-xs italic">Soon</span>
                   </div>
                   <NavLink
                     to="/articles"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={menuLink}
+                    onClick={closeMobile}
                   >
                     Articles
                   </NavLink>
@@ -397,45 +389,42 @@ export const Navbar = () => {
 
               {/* Mobile Game Resources */}
               <div className="px-3 py-2">
-                <div className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-2">
+                <div
+                  className={`mb-2 text-xs font-bold uppercase tracking-wider ${inkPrimary}`}
+                >
                   Game Resources
                 </div>
-                <div className="space-y-1 ml-4">
+                <div className="ml-2 space-y-0.5">
                   <NavLink
                     to="/professions"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={menuLink}
+                    onClick={closeMobile}
                   >
                     Classes
                   </NavLink>
-                  <NavLink
-                    to="/weapons"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Weapons
+                  <NavLink to="/species" className={menuLink} onClick={closeMobile}>
+                    Species
                   </NavLink>
                   <NavLink
-                    to="/armors"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    to="/backgrounds"
+                    className={menuLink}
+                    onClick={closeMobile}
                   >
-                    Armors
+                    Backgrounds
                   </NavLink>
-                  <NavLink
-                    to="/spells"
-                    className="block px-2 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Spells
+                  <NavLink to="/items" className={menuLink} onClick={closeMobile}>
+                    Items
+                  </NavLink>
+                  <NavLink to="/powers" className={menuLink} onClick={closeMobile}>
+                    Powers
                   </NavLink>
                 </div>
               </div>
 
               <NavLink
                 to="about"
-                className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                onClick={() => setIsMobileMenuOpen(false)}
+                className={({ isActive }) => navLinkMobile(isActive)}
+                onClick={closeMobile}
               >
                 <span>About</span>
               </NavLink>
@@ -443,8 +432,8 @@ export const Navbar = () => {
               {canSeeAdmin && (
                 <NavLink
                   to="admin"
-                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={({ isActive }) => navLinkMobile(isActive)}
+                  onClick={closeMobile}
                 >
                   <span>Admin</span>
                 </NavLink>
@@ -452,46 +441,46 @@ export const Navbar = () => {
 
               {/* Mobile User Actions */}
               {currentUser ? (
-                <div className="sm:hidden border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
-                  <div className="px-3 py-2 text-sm text-gray-900 dark:text-white font-medium">
+                <div className={`mt-2 space-y-1 border-t pt-2 sm:hidden ${line}`}>
+                  <div className={`px-3 py-2 text-sm font-medium ${ink}`}>
                     {currentUser.username}
                   </div>
                   <NavLink
                     to="register"
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) => navLinkMobile(isActive)}
+                    onClick={closeMobile}
                   >
-                    <FaUser className="w-4 h-4" />
+                    <FaUser className="h-4 w-4" />
                     <span>Profile</span>
                   </NavLink>
 
                   <button
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md w-full text-left"
+                    className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors hover:bg-red-50 dark:hover:bg-red-500/10 ${inkDanger} ${focusRing}`}
                     onClick={() => {
                       handleLogout();
-                      setIsMobileMenuOpen(false);
+                      closeMobile();
                     }}
                   >
-                    <LuLogOut className="w-4 h-4" />
+                    <LuLogOut className="h-4 w-4" />
                     <span>Logout</span>
                   </button>
                 </div>
               ) : (
-                <div className="sm:hidden border-t border-gray-200 dark:border-gray-700 pt-2 mt-2 space-y-2">
+                <div className={`mt-2 space-y-1 border-t pt-2 sm:hidden ${line}`}>
                   <NavLink
                     to="register"
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) => navLinkMobile(isActive)}
+                    onClick={closeMobile}
                   >
-                    <FaRegUser className="w-4 h-4" />
+                    <FaRegUser className="h-4 w-4" />
                     <span>Register</span>
                   </NavLink>
                   <NavLink
                     to="login"
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) => navLinkMobile(isActive)}
+                    onClick={closeMobile}
                   >
-                    <LuLogIn className="w-4 h-4" />
+                    <LuLogIn className="h-4 w-4" />
                     <span>Login</span>
                   </NavLink>
                 </div>

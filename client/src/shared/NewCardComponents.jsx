@@ -16,39 +16,39 @@ export const NewCardComponents = ({ items }) => {
   const getRarityStyle = (rarity) => {
     const styles = {
       common: {
-        border: "border-gray-300 dark:border-gray-600",
+        border: "border-stone-300 dark:border-stone-600",
         glow: "",
-        bg: "bg-white dark:bg-gray-800",
-        text: "text-gray-600 dark:text-gray-400",
+        bg: "bg-white dark:bg-stone-800",
+        text: "text-stone-600 dark:text-stone-400",
       },
       uncommon: {
         border: "border-green-400 dark:border-green-500",
         glow: "shadow-lg shadow-green-500/20 hover:shadow-green-500/40",
-        bg: "bg-white dark:bg-gray-800",
+        bg: "bg-white dark:bg-stone-800",
         text: "text-green-600 dark:text-green-400",
       },
       rare: {
         border: "border-blue-400 dark:border-blue-500",
         glow: "shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50",
-        bg: "bg-gradient-to-br from-white to-blue-50/50 dark:from-gray-800 dark:to-blue-900/20",
+        bg: "bg-gradient-to-br from-white to-blue-50/50 dark:from-stone-800 dark:to-blue-900/20",
         text: "text-blue-600 dark:text-blue-400",
       },
       epic: {
         border: "border-purple-400 dark:border-purple-500",
         glow: "shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50",
-        bg: "bg-gradient-to-br from-white to-purple-50/50 dark:from-gray-800 dark:to-purple-900/20",
+        bg: "bg-gradient-to-br from-white to-purple-50/50 dark:from-stone-800 dark:to-purple-900/20",
         text: "text-purple-600 dark:text-purple-400",
       },
       legendary: {
         border: "border-orange-400 dark:border-orange-500",
         glow: "shadow-xl shadow-orange-500/40 hover:shadow-orange-500/60",
-        bg: "bg-gradient-to-br from-white to-orange-50/50 dark:from-gray-800 dark:to-orange-900/20",
+        bg: "bg-gradient-to-br from-white to-orange-50/50 dark:from-stone-800 dark:to-orange-900/20",
         text: "text-orange-600 dark:text-orange-400",
       },
       mythic: {
         border: "border-red-500 dark:border-red-400",
         glow: "shadow-2xl shadow-red-500/50 hover:shadow-red-500/70 animate-pulse",
-        bg: "bg-gradient-to-br from-white to-red-50/50 dark:from-gray-800 dark:to-red-900/20",
+        bg: "bg-gradient-to-br from-white to-red-50/50 dark:from-stone-800 dark:to-red-900/20",
         text: "text-red-600 dark:text-red-400",
       },
     };
@@ -133,7 +133,7 @@ export const NewCardComponents = ({ items }) => {
                 {item.name}
               </h3>
 
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+              <p className="text-sm text-stone-600 dark:text-stone-400 mb-4 line-clamp-3">
                 {item.description}
               </p>
 
@@ -142,7 +142,7 @@ export const NewCardComponents = ({ items }) => {
                 {item.properties?.slice(0, 3).map((property, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <LuStar className={`w-3 h-3 ${rarityStyle.text}`} />
-                    <span className="text-xs text-gray-700 dark:text-gray-300">
+                    <span className="text-xs text-stone-700 dark:text-stone-300">
                       {property}
                     </span>
                   </div>
@@ -215,7 +215,7 @@ export const ClassCards = ({ classes }) => {
           >
             <div
               className="
-              bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6
+              bg-white dark:bg-stone-800 rounded-xl border border-stone-200 dark:border-stone-700 p-6
               hover:shadow-xl hover:border-purple-300 dark:hover:border-purple-600 
               hover:shadow-purple-500/10 transition-all duration-300
               hover:scale-105 hover:-translate-y-1
@@ -227,29 +227,29 @@ export const ClassCards = ({ classes }) => {
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+              <h3 className="text-2xl font-bold text-stone-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
                 {classItem.name}
               </h3>
 
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+              <p className="text-sm text-stone-600 dark:text-stone-400 mb-4 line-clamp-2">
                 {classItem.description}
               </p>
 
               {/* Stats */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500 dark:text-gray-500">
+                  <span className="text-stone-500 dark:text-stone-500">
                     Hit Die:
                   </span>
-                  <span className="font-medium text-gray-900 dark:text-gray-300">
+                  <span className="font-medium text-stone-900 dark:text-stone-300">
                     {classItem.hitDie}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500 dark:text-gray-500">
+                  <span className="text-stone-500 dark:text-stone-500">
                     Primary:
                   </span>
-                  <span className="font-medium text-gray-900 dark:text-gray-300">
+                  <span className="font-medium text-stone-900 dark:text-stone-300">
                     {classItem.primaryAbility}
                   </span>
                 </div>
@@ -304,7 +304,7 @@ export const CharacterCards = ({ characters }) => {
           >
             <div
               className="
-              bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6
+              bg-white dark:bg-stone-800 rounded-xl border border-stone-200 dark:border-stone-700 p-6
               hover:shadow-xl hover:border-emerald-300 dark:hover:border-emerald-600 
               hover:shadow-emerald-500/10 transition-all duration-300
               hover:scale-105 hover:-translate-y-1
@@ -316,7 +316,7 @@ export const CharacterCards = ({ characters }) => {
                   {character.avatar}
                 </div>
                 <div className="text-right">
-                  <div className="text-xs text-gray-500 dark:text-gray-500">
+                  <div className="text-xs text-stone-500 dark:text-stone-500">
                     Level
                   </div>
                   <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
@@ -326,26 +326,26 @@ export const CharacterCards = ({ characters }) => {
               </div>
 
               {/* Character Info */}
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-200">
+              <h3 className="text-xl font-bold text-stone-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-200">
                 {character.name}
               </h3>
 
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-sm text-stone-600 dark:text-stone-400 mb-4">
                 {character.race} {character.className}
               </p>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4 mb-3">
-                <div className="text-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="text-xs text-gray-500 dark:text-gray-500">
+                <div className="text-center p-2 bg-stone-50 dark:bg-stone-700 rounded-lg">
+                  <div className="text-xs text-stone-500 dark:text-stone-500">
                     HP
                   </div>
                   <div className="font-bold text-red-600 dark:text-red-400">
                     {character.hitPoints}
                   </div>
                 </div>
-                <div className="text-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="text-xs text-gray-500 dark:text-gray-500">
+                <div className="text-center p-2 bg-stone-50 dark:bg-stone-700 rounded-lg">
+                  <div className="text-xs text-stone-500 dark:text-stone-500">
                     AC
                   </div>
                   <div className="font-bold text-blue-600 dark:text-blue-400">
@@ -355,9 +355,9 @@ export const CharacterCards = ({ characters }) => {
               </div>
 
               {/* Background */}
-              <div className="text-xs text-gray-500 dark:text-gray-500">
+              <div className="text-xs text-stone-500 dark:text-stone-500">
                 Background:{" "}
-                <span className="font-medium text-gray-700 dark:text-gray-300">
+                <span className="font-medium text-stone-700 dark:text-stone-300">
                   {character.background}
                 </span>
               </div>

@@ -29,7 +29,7 @@ export function PowerDetails() {
 
   if (!power) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-500 dark:text-slate-300">
+      <div className="min-h-screen flex items-center justify-center text-stone-500 dark:text-stone-300">
         <p>Power not found or still loading...</p>
       </div>
     );
@@ -72,12 +72,12 @@ export function PowerDetails() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-950 dark:via-cyan-950 dark:to-slate-950 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
         <button
           onClick={handleReturn}
-          className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white mb-6 transition-all group"
+          className="flex items-center gap-2 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white mb-6 transition-all group"
         >
           <LuArrowLeft
             size={20}
@@ -87,24 +87,24 @@ export function PowerDetails() {
         </button>
 
         {/* Header Card */}
-        <div className="bg-white dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-orange-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
+        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-4 mb-3">
                 <LuSparkles
-                  className="text-cyan-600 dark:text-orange-400"
+                  className="text-emerald-700 dark:text-emerald-400"
                   size={36}
                 />
-                <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-orange-500 to-cyan-600 dark:from-cyan-300 dark:via-orange-300 dark:to-cyan-400">
+                <h1 className="text-5xl font-bold text-amber-700 dark:text-amber-400 ">
                   {power.name}
                 </h1>
               </div>
-              <p className="text-xl text-slate-600 dark:text-slate-300 italic capitalize">
+              <p className="text-xl text-stone-600 dark:text-stone-300 italic capitalize">
                 {power.kind}
                 {isSpell && <> &bull; {power.school}</>}
               </p>
             </div>
-            <div className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-orange-600 shadow-lg">
+            <div className="px-6 py-3 rounded-xl bg-emerald-700 shadow-lg">
               <p className="text-white font-bold text-lg capitalize">
                 {isSpell ? power.school : power.kind}
               </p>
@@ -114,24 +114,24 @@ export function PowerDetails() {
           {/* Quick Stats Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             {power.activation?.action && (
-              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-orange-500/20">
+              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
                 <div className="flex items-center gap-3 mb-2">
                   <LuClock
-                    className="text-cyan-600 dark:text-orange-400"
+                    className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
                     Casting Time
                   </p>
                 </div>
-                <p className="text-xl text-slate-900 dark:text-white font-semibold">
+                <p className="text-xl text-stone-900 dark:text-white font-semibold">
                   {power.activation.action
                     .split("_")
                     .map((word) => word[0].toUpperCase() + word.slice(1))
                     .join(" ")}
                 </p>
                 {!!power.activation.castTime && (
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
                     +{power.activation.castTime} cast time
                   </p>
                 )}
@@ -139,17 +139,17 @@ export function PowerDetails() {
             )}
 
             {power.targeting?.range != null && (
-              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-orange-500/20">
+              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
                 <div className="flex items-center gap-3 mb-2">
                   <LuTarget
-                    className="text-cyan-600 dark:text-orange-400"
+                    className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
                     Range
                   </p>
                 </div>
-                <p className="text-xl text-slate-900 dark:text-white font-semibold">
+                <p className="text-xl text-stone-900 dark:text-white font-semibold">
                   {power.targeting.range === 0
                     ? "Self"
                     : `${power.targeting.range} ft`}
@@ -158,17 +158,17 @@ export function PowerDetails() {
             )}
 
             {!!power.activation?.duration && (
-              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-orange-500/20">
+              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
                 <div className="flex items-center gap-3 mb-2">
                   <LuZap
-                    className="text-cyan-600 dark:text-orange-400"
+                    className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
                     Duration
                   </p>
                 </div>
-                <p className="text-xl text-slate-900 dark:text-white font-semibold">
+                <p className="text-xl text-stone-900 dark:text-white font-semibold">
                   {power.activation.duration} turn
                   {power.activation.duration === 1 ? "" : "s"}
                 </p>
@@ -176,17 +176,17 @@ export function PowerDetails() {
             )}
 
             {power.activation?.cost != null && (
-              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-4 border border-slate-200 dark:border-orange-500/20">
+              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
                 <div className="flex items-center gap-3 mb-2">
                   <LuCoins
-                    className="text-cyan-600 dark:text-orange-400"
+                    className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
                     Cost
                   </p>
                 </div>
-                <p className="text-xl text-slate-900 dark:text-white font-semibold">
+                <p className="text-xl text-stone-900 dark:text-white font-semibold">
                   {power.activation.cost}
                 </p>
               </div>
@@ -195,22 +195,22 @@ export function PowerDetails() {
         </div>
 
         {/* Combat Properties Section */}
-        <div className="bg-white dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-orange-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-cyan-700 dark:text-orange-300 mb-6 flex items-center gap-2">
+        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
+          <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
             <LuFlame size={24} />
             Combat Properties
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {damageDisplay && (
-              <div className="bg-slate-50 dark:bg-slate-900/30 rounded-lg p-6 border border-slate-200 dark:border-orange-500/20">
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
+                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
                   Damage
                 </p>
-                <p className="text-3xl font-bold text-cyan-600 dark:text-orange-400">
+                <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
                   {damageDisplay}
                 </p>
                 {damageEffect?.persistent && (
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
                     Persistent for{" "}
                     {(damageEffect.durationType ?? "turns") === "permanent"
                       ? "Permanent"
@@ -224,39 +224,39 @@ export function PowerDetails() {
             )}
 
             {healingDisplay && (
-              <div className="bg-slate-50 dark:bg-slate-900/30 rounded-lg p-6 border border-slate-200 dark:border-orange-500/20">
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
+                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
                   Healing
                 </p>
-                <p className="text-3xl font-bold text-cyan-600 dark:text-orange-400">
+                <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
                   {healingDisplay}
                 </p>
               </div>
             )}
 
             {power.offensiveStat && (
-              <div className="bg-slate-50 dark:bg-slate-900/30 rounded-lg p-6 border border-slate-200 dark:border-orange-500/20">
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
+                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
                   Offensive Stat
                 </p>
-                <p className="text-xl font-semibold text-slate-900 dark:text-white">
+                <p className="text-xl font-semibold text-stone-900 dark:text-white">
                   {power.offensiveStat}
                 </p>
               </div>
             )}
 
             {power.targeting && (
-              <div className="bg-slate-50 dark:bg-slate-900/30 rounded-lg p-6 border border-slate-200 dark:border-orange-500/20">
+              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
                 <div className="flex items-center gap-2 mb-2">
                   <LuUsers
                     size={16}
-                    className="text-slate-500 dark:text-slate-400"
+                    className="text-stone-500 dark:text-stone-400"
                   />
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <p className="text-sm text-stone-500 dark:text-stone-400">
                     Area of Effect
                   </p>
                 </div>
-                <p className="text-xl font-semibold text-slate-900 dark:text-white">
+                <p className="text-xl font-semibold text-stone-900 dark:text-white">
                   {power.targeting.shape
                     ? `${power.targeting.size ? `${power.targeting.size} ft ` : ""}${power.targeting.shape
                         .split("_")
@@ -276,7 +276,7 @@ export function PowerDetails() {
               {damageTypesUsed.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-3 py-1 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-300 capitalize"
+                  className="text-xs px-3 py-1 rounded-full bg-stone-100 text-stone-600 dark:bg-stone-700/50 dark:text-stone-300 capitalize"
                 >
                   {tag}
                 </span>
@@ -286,13 +286,13 @@ export function PowerDetails() {
 
           {/* Technique weapon requirements */}
           {power.kind === "technique" &&
-            power.requirements?.weaponTags &&
-            power.requirements.weaponTags.length > 0 && (
+            power.requirements?.properties &&
+            power.requirements.properties.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4">
-                {power.requirements.weaponTags.map((tag) => (
+                {power.requirements.properties.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs px-3 py-1 rounded-full bg-cyan-100 text-cyan-700 dark:bg-orange-500/20 dark:text-orange-300 capitalize"
+                    className="text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 capitalize"
                   >
                     {tag}
                   </span>
@@ -301,7 +301,7 @@ export function PowerDetails() {
             )}
 
           {/* Activation Flags */}
-          <div className="flex flex-wrap gap-2 mt-4 text-sm text-slate-500 dark:text-slate-400">
+          <div className="flex flex-wrap gap-2 mt-4 text-sm text-stone-500 dark:text-stone-400">
             {power.recharge && (
               <span>
                 Recharge:{" "}
@@ -321,8 +321,8 @@ export function PowerDetails() {
 
         {/* Stat Modifiers Section */}
         {power.statModifiers.length > 0 && (
-          <div className="bg-white dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-orange-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-cyan-700 dark:text-orange-300 mb-6 flex items-center gap-2">
+          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
+            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
               <LuShield size={24} />
               Stat Modifiers
             </h2>
@@ -330,14 +330,14 @@ export function PowerDetails() {
               {power.statModifiers.map((modifier, index) => (
                 <div
                   key={index}
-                  className="bg-slate-50 dark:bg-slate-900/30 rounded-lg p-4 border border-slate-200 dark:border-orange-500/20"
+                  className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20"
                 >
-                  <p className="text-slate-900 dark:text-white font-semibold">
+                  <p className="text-stone-900 dark:text-white font-semibold">
                     {modifier.stat} {modifier.value > 0 ? "+" : ""}
                     {modifier.value}
                   </p>
                   {modifier.durationType && (
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-stone-500 dark:text-stone-400">
                       {modifier.durationType === "permanent"
                         ? "Permanent"
                         : modifier.durationType === "until_broken"
@@ -346,7 +346,7 @@ export function PowerDetails() {
                     </p>
                   )}
                   {modifier.description && (
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
                       {modifier.description}
                     </p>
                   )}
@@ -358,8 +358,8 @@ export function PowerDetails() {
 
         {/* Conditions Inflicted Section */}
         {power.conditions.length > 0 && (
-          <div className="bg-white dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-orange-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-cyan-700 dark:text-orange-300 mb-6 flex items-center gap-2">
+          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
+            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
               <LuUsers size={24} />
               Conditions Inflicted
             </h2>
@@ -371,12 +371,12 @@ export function PowerDetails() {
                 return (
                   <div
                     key={`${powerCondition.condition}-${idx}`}
-                    className="bg-slate-50 dark:bg-slate-900/30 rounded-lg px-4 py-2 border border-slate-200 dark:border-orange-500/20"
+                    className="bg-stone-50 dark:bg-stone-900/30 rounded-lg px-4 py-2 border border-stone-200 dark:border-amber-500/20"
                   >
-                    <p className="text-slate-900 dark:text-white font-semibold capitalize">
+                    <p className="text-stone-900 dark:text-white font-semibold capitalize">
                       {condition.name}
                     </p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-stone-500 dark:text-stone-400">
                       {powerCondition.durationType === "permanent"
                         ? "Permanent"
                         : powerCondition.durationType === "until_broken"
@@ -394,12 +394,12 @@ export function PowerDetails() {
         {power.kind === "trait" &&
           power.grantedPowers &&
           power.grantedPowers.length > 0 && (
-            <div className="bg-white dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-orange-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-              <h2 className="text-2xl font-bold text-cyan-700 dark:text-orange-300 mb-6 flex items-center gap-2">
+            <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
+              <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
                 <LuSparkles size={24} />
                 Grants
               </h2>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-stone-600 dark:text-stone-300">
                 {power.grantedPowers.length} power
                 {power.grantedPowers.length === 1 ? "" : "s"} granted
               </p>
@@ -407,13 +407,13 @@ export function PowerDetails() {
           )}
 
         {/* Description Section */}
-        <div className="bg-white dark:bg-slate-950/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-orange-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-cyan-700 dark:text-orange-300 mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
+          <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-4 flex items-center gap-2">
             <LuBookOpen size={24} />
             Description
           </h2>
           <div className="prose max-w-none">
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
+            <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-lg">
               {power.description}
             </p>
           </div>

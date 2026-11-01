@@ -1,17 +1,33 @@
-// AboutPage.jsx
-// Assumes Tailwind is configured project-wide (per RPGHub's existing setup).
-// Palette below (amber/moss/charcoal) mirrors the earlier HTML draft — swap
-// the color classes if you want this to match RPGHub's existing theme tokens.
+import {
+  ink,
+  inkAccent,
+  inkPrimary,
+  inkSubtle,
+  line,
+  surface,
+  surfaceSunken,
+} from "../../shared/styles/theme.ts";
 
-function LevelTag({ children }) {
+const prose = `max-w-[62ch] ${ink}`;
+const codeChip = `rounded border px-1.5 py-0.5 font-mono text-[0.92em] ${line} ${surfaceSunken} ${inkAccent}`;
+
+function LevelTag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block font-mono text-[0.72rem] tracking-wide text-amber-500 bg-stone-800/60 border border-stone-700 rounded px-2 py-0.5 mb-3">
+    <span
+      className={`mb-3 inline-block rounded border px-2 py-0.5 font-mono text-[0.72rem] font-semibold tracking-wide ${line} ${surfaceSunken} ${inkPrimary}`}
+    >
       {children}
     </span>
   );
 }
 
-function Section({ tag, children }) {
+function Section({
+  tag,
+  children,
+}: {
+  tag: string;
+  children: React.ReactNode;
+}) {
   return (
     <section className="mb-10">
       <LevelTag>{tag}</LevelTag>
@@ -22,23 +38,24 @@ function Section({ tag, children }) {
 
 export function About() {
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-100 font-serif leading-relaxed">
+    <div className={`min-h-screen font-serif leading-relaxed ${surface} ${ink}`}>
       <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20">
         <header className="mb-14">
           <svg
             viewBox="0 0 34 34"
-            className="w-8 h-8 mb-6"
+            className={`mb-6 h-8 w-8 ${inkPrimary}`}
             fill="none"
             aria-hidden="true"
           >
             <path
               d="M17 1.5 31.5 9v16L17 32.5 2.5 25V9Z"
-              stroke="#c9873f"
+              stroke="currentColor"
               strokeWidth="1.3"
             />
             <path
               d="M17 1.5V17M17 17 31.5 9M17 17 2.5 9M17 17V32.5M17 17 2.5 25M17 17 31.5 25"
-              stroke="#5c7a63"
+              className="text-emerald-700 dark:text-emerald-500"
+              stroke="currentColor"
               strokeWidth="0.8"
               opacity="0.7"
             />
@@ -46,13 +63,13 @@ export function About() {
           <h1 className="text-3xl sm:text-4xl font-medium tracking-tight mb-2">
             Peter — builder of RPGHub
           </h1>
-          <p className="font-mono text-sm text-emerald-700">
+          <p className={`font-mono text-sm ${inkAccent}`}>
             self-taught developer · tabletop designer
           </p>
         </header>
 
         <Section tag="LV 01">
-          <p className="text-stone-100 mb-4 max-w-[62ch]">
+          <p className={`mb-4 ${prose}`}>
             I began this journey to teach myself to code. HTML, CSS, JavaScript.
             It was fun and cool changing colors! I thought, wow, this is easy. I
             can totally do this. Then I got to JavaScript and learned
@@ -66,7 +83,7 @@ export function About() {
         </Section>
 
         <Section tag="LV 02">
-          <p className="text-stone-100 mb-4 max-w-[62ch]">
+          <p className={`mb-4 ${prose}`}>
             I began trying to implement features, but I couldn't create what I
             was imagining. I spent so much time reading docs, watching videos,
             banging my head against the keyboard, or going for a run to question
@@ -75,7 +92,7 @@ export function About() {
             would climb and fall, climb and fall. Some might call this
             recursive.
           </p>
-          <p className="text-stone-100 max-w-[62ch]">
+          <p className={prose}>
             That's actually not a bad thing. Programming is always evolving and
             changing. It's an opportunity to keep learning. Once you accept
             that, it's like seeing the stars.
@@ -83,7 +100,7 @@ export function About() {
         </Section>
 
         <Section tag="LV 03 — BOSS: ASYNC">
-          <p className="text-stone-100 max-w-[62ch]">
+          <p className={prose}>
             Some problems were large. Async/await, I'm looking at you. My data
             would be old or stale, and I couldn't for the life of me figure out
             why. The API was fine, FormData was fine, but maybe I forgot the
@@ -96,7 +113,7 @@ export function About() {
         </Section>
 
         <Section tag="LV 04">
-          <p className="text-stone-100 max-w-[62ch]">
+          <p className={prose}>
             Others were small but no less painful, like hitting your pinky toe
             on a corner in the dark. A bad variable name, and no matter what I
             did, the data wouldn't load. Correct API logic, correct controllers,
@@ -104,7 +121,7 @@ export function About() {
             thinking about it. This is when I learned why TypeScript was
             created. Painful to learn, but worth it, because it will scream at
             you like a teacher with a red marker:{" "}
-            <code className="font-mono bg-stone-800/60 border border-stone-700 rounded px-1.5 py-0.5 text-emerald-600 text-[0.92em]">
+            <code className={codeChip}>
               this type doesn't exist; did you mean this?
             </code>{" "}
             Which is a good thing, trust me.
@@ -112,7 +129,7 @@ export function About() {
         </Section>
 
         <Section tag="LV 05">
-          <p className="text-stone-100 max-w-[62ch]">
+          <p className={prose}>
             After many days of drinking the tears that fell into my black tea,
             and many nights curled into the fetal position listening to
             Dashboard Confessional, I'd climb back into my chair and let the
@@ -127,10 +144,10 @@ export function About() {
         </Section>
 
         <Section tag="LV 06 — CAPSTONE">
-          <p className="text-stone-100 max-w-[62ch]">
+          <p className={prose}>
             This tabletop became my capstone project. Why? Because what nerd
             hasn't arrogantly said, "D&D is so flawed, I could do a better job"?{" "}
-            <span className="italic text-stone-400">
+            <span className={`italic ${inkSubtle}`}>
               [Insert a nasal sound and the pushing up of glasses. I do wear
               glasses, by the way. And yes, I'm dating myself.]
             </span>{" "}
@@ -143,22 +160,22 @@ export function About() {
           </p>
         </Section>
 
-        <div className="mt-12 pt-8 border-t border-stone-800">
-          <p className="text-lg text-stone-100 mb-4 max-w-[62ch]">
+        <div className={`mt-12 border-t pt-8 ${line}`}>
+          <p className={`mb-4 text-lg ${prose}`}>
             I didn't set out to make the next D&D, though that would be nice. I
             set out to learn to code and build something I was passionate about.
             Something I'd see through from start to finish.
           </p>
-          <p className="text-lg text-stone-100 max-w-[62ch]">
+          <p className={`text-lg ${prose}`}>
             From{" "}
-            <code className="font-mono bg-stone-800/60 border border-stone-700 rounded px-1.5 py-0.5 text-emerald-600 text-[0.92em]">
+            <code className={codeChip}>
               &lt;!DOCTYPE html&gt;
             </code>{" "}
             to Production.
           </p>
         </div>
 
-        <footer className="mt-16 font-mono text-xs text-stone-500">
+        <footer className={`mt-16 font-mono text-xs ${inkSubtle}`}>
           rpghub · about
         </footer>
       </div>

@@ -1,4 +1,10 @@
 import { LuBookOpen } from "react-icons/lu";
+import {
+  formHeading,
+  formHint,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 const SPELLCASTING_ABILITIES = [
   "strength",
@@ -19,7 +25,7 @@ export const ProfessionBasicInfoSection = ({
 }) => {
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuBookOpen size={20} />
         Basic Information
       </h2>
@@ -27,7 +33,7 @@ export const ProfessionBasicInfoSection = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Class Name */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Class Name
           </label>
           <input
@@ -36,20 +42,20 @@ export const ProfessionBasicInfoSection = ({
             name="title"
             onChange={onInputChange}
             value={title}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         {/* Hit Die */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Hit Die
           </label>
           <select
             name="hitDie"
             onChange={onInputChange}
             value={hitDie}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             <option value="">Select Hit Die</option>
             <option value={6}>d6</option>
@@ -57,21 +63,21 @@ export const ProfessionBasicInfoSection = ({
             <option value={10}>d10</option>
             <option value={12}>d12</option>
           </select>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className={formHint}>
             Hit points gained per level
           </p>
         </div>
 
         {/* Spellcasting Ability */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Spellcasting Ability
           </label>
           <select
             name="spellcastingAbility"
             onChange={onInputChange}
             value={spellcastingAbility ?? ""}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           >
             <option value="">None (Non-caster)</option>
             {SPELLCASTING_ABILITIES.map((ability) => (
@@ -80,14 +86,14 @@ export const ProfessionBasicInfoSection = ({
               </option>
             ))}
           </select>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className={formHint}>
             Leave empty for martial classes
           </p>
         </div>
 
         {/* Source Book */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Source Book
           </label>
           <input
@@ -96,13 +102,13 @@ export const ProfessionBasicInfoSection = ({
             name="sourceBook"
             onChange={onInputChange}
             value={sourceBook}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         {/* Is Playable */}
         <div className="flex items-center gap-4 mt-2">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className={formLabel}>
             Playable Class
           </label>
           <button
@@ -113,7 +119,7 @@ export const ProfessionBasicInfoSection = ({
               })
             }
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
-              isPlayable ? "bg-cyan-500" : "bg-slate-600"
+              isPlayable ? "bg-emerald-500" : "bg-stone-600"
             }`}
           >
             <span
@@ -122,7 +128,7 @@ export const ProfessionBasicInfoSection = ({
               }`}
             />
           </button>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-stone-500 dark:text-stone-400">
             {isPlayable ? "Available to players" : "Hidden / WIP"}
           </span>
         </div>

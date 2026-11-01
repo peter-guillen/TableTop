@@ -9,6 +9,7 @@ export type Category =
 
 export type Rarity =
   | "common"
+  | "uncommon"
   | "rare"
   | "heroic"
   | "epic"
@@ -35,7 +36,10 @@ export type Material =
   | "steel"
   | "iron"
   | "mithril"
-  | "orichalcum";
+  | "orichalcum"
+  | "dragonscale"
+  | "bone"
+  | "silver";
 
 export type Property =
   | "finesse"

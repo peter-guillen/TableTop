@@ -14,7 +14,7 @@ import {
 } from "react-icons/gi";
 
 import { Condition } from "../../conditions/conditionTypes.ts";
-import { Power, PowerSchool, PowerKind } from "../powerTypes.ts";
+import { Power, SpellSchool, PowerKind } from "../powerTypes.ts";
 
 interface PowerPreviewProps {
   powers: Power[];
@@ -30,7 +30,7 @@ const kindIconMap: Record<PowerKind, typeof GiIceBolt> = {
 };
 
 // Icon override by school — spells only
-const schoolIconMap: Record<PowerSchool, typeof GiIceBolt> = {
+const schoolIconMap: Record<SpellSchool, typeof GiIceBolt> = {
   abjuration: GiFireball,
   evocation: GiLightningHelix,
   transmutation: GiSunbeams,
@@ -99,14 +99,14 @@ const colorSchemes: Record<string, ColorScheme> = {
     badgeText: "text-cyan-700 dark:text-cyan-300",
   },
   gray: {
-    text: "text-gray-600 dark:text-gray-400",
-    border: "border-gray-200 dark:border-gray-600",
-    badgeBg: "bg-gray-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-gray-700 dark:text-gray-300",
+    text: "text-stone-600 dark:text-stone-400",
+    border: "border-stone-200 dark:border-stone-600",
+    badgeBg: "bg-stone-500 bg-opacity-10 dark:bg-opacity-20",
+    badgeText: "text-stone-700 dark:text-stone-300",
   },
 };
 
-const schoolColors: Record<PowerSchool, string> = {
+const schoolColors: Record<SpellSchool, string> = {
   abjuration: "red",
   evocation: "blue",
   transmutation: "yellow",
@@ -134,12 +134,12 @@ export const PowerPreview = ({
         const isSpell = power.kind === "spell" && power.school;
 
         const IconComponent = isSpell
-          ? (schoolIconMap[power.school as PowerSchool] ??
+          ? (schoolIconMap[power.school as SpellSchool] ??
             kindIconMap[power.kind])
           : kindIconMap[power.kind];
 
         const colorKey = isSpell
-          ? schoolColors[power.school as PowerSchool]
+          ? schoolColors[power.school as SpellSchool]
           : kindColors[power.kind];
         const scheme = colorSchemes[colorKey] ?? colorSchemes.gray;
 
@@ -182,35 +182,35 @@ export const PowerPreview = ({
               className={twMerge(
                 scheme.text,
                 scheme.border,
-                "group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-gray-50 dark:hover:bg-gray-750",
+                "group bg-white dark:bg-stone-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-stone-50 dark:hover:bg-stone-750",
               )}
             >
               <div className="flex items-start justify-between">
                 {/* Left Section - Icon and Main Info */}
                 <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg transition-colors duration-200 bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600">
+                  <div className="p-2 rounded-lg transition-colors duration-200 bg-stone-100 dark:bg-stone-700 group-hover:bg-stone-200 dark:group-hover:bg-stone-600">
                     <IconComponent className="w-5 h-5" />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     {/* Name */}
                     <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                      <h3 className="text-lg font-semibold text-stone-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-200">
                         {power.name}
                       </h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">
+                    <p className="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mb-2">
                       {power.description}
                     </p>
 
                     {/* Primary Stats Row */}
                     {(damageDisplay || healingDisplay) && (
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <div className="flex items-center space-x-4 text-sm text-stone-600 dark:text-stone-400 mb-2">
                         {damageDisplay && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Damage:
                             </span>
                             <span>{damageDisplay}</span>
@@ -218,7 +218,7 @@ export const PowerPreview = ({
                         )}
                         {healingDisplay && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Healing:
                             </span>
                             <span>{healingDisplay}</span>
@@ -228,7 +228,7 @@ export const PowerPreview = ({
                     )}
 
                     {/* Secondary Stats Row */}
-                    <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-500">
+                    <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-500">
                       {power.targeting?.range != null && (
                         <div className="flex items-center space-x-1">
                           <span className="font-medium">Range:</span>
@@ -278,16 +278,16 @@ export const PowerPreview = ({
 
                     {/* Technique weapon requirements */}
                     {power.kind === "technique" &&
-                      power.requirements?.weaponTags &&
-                      power.requirements.weaponTags.length > 0 && (
+                      power.requirements?.properties &&
+                      power.requirements.properties.length > 0 && (
                         <div className="flex items-center flex-wrap mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                             Weapon Tags:
                           </span>
-                          {power.requirements.weaponTags.map((tag) => (
+                          {power.requirements.properties.map((tag) => (
                             <span
                               key={tag}
-                              className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
                             >
                               {tag}
                             </span>
@@ -300,10 +300,10 @@ export const PowerPreview = ({
                       power.grantedPowers &&
                       power.grantedPowers.length > 0 && (
                         <div className="flex items-center mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                             Grants:
                           </span>
-                          <span className="text-xs text-gray-600 dark:text-gray-400">
+                          <span className="text-xs text-stone-600 dark:text-stone-400">
                             {power.grantedPowers.length} power
                             {power.grantedPowers.length === 1 ? "" : "s"}
                           </span>
@@ -313,7 +313,7 @@ export const PowerPreview = ({
                     {/* Condition Tags */}
                     {power.conditions.length > 0 && (
                       <div className="flex items-center flex-wrap mt-2">
-                        <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                        <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                           Conditions:
                         </span>
                         {power.conditions.map((powerCondition, idx) => {
@@ -326,7 +326,7 @@ export const PowerPreview = ({
                           return (
                             <span
                               key={`${powerCondition.condition}-${idx}`}
-                              className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
                             >
                               {condition.name} (
                               {powerCondition.durationType === "permanent"
@@ -355,7 +355,7 @@ export const PowerPreview = ({
                     {power.kind}
                   </div>
                   {isSpell && (
-                    <div className="px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                    <div className="px-3 py-1 rounded-full text-xs font-medium capitalize bg-stone-100 dark:bg-stone-700 text-stone-600 dark:text-stone-400">
                       {power.school}
                     </div>
                   )}

@@ -1,4 +1,10 @@
 import { LuSparkles } from "react-icons/lu";
+import {
+  formCheckLabel,
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 export const ArmorSpecialSection = ({
   requirements,
@@ -45,7 +51,7 @@ export const ArmorSpecialSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuSparkles size={20} />
         Requirements & Special
       </h2>
@@ -53,7 +59,7 @@ export const ArmorSpecialSection = ({
         {/* Requirements */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Strength Requirement
             </label>
             <input
@@ -64,12 +70,12 @@ export const ArmorSpecialSection = ({
                 onRequirementChange("strength", Number(e.target.value))
               }
               min="0"
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Level Requirement
             </label>
             <input
@@ -80,33 +86,33 @@ export const ArmorSpecialSection = ({
                 onRequirementChange("level", Number(e.target.value))
               }
               min="1"
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Stealth Disadvantage
             </label>
             <div className="flex gap-6 items-center h-12">
-              <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <label className={formCheckLabel}>
                 <input
                   type="radio"
                   name="stealthDisadvantage"
                   checked={stealthDisadvantage === true}
                   onChange={() => handleStealthChange(true)}
-                  className="w-4 h-4 border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                  className="w-4 h-4 border-stone-300 dark:border-emerald-500/30 bg-white dark:bg-stone-900/50 text-emerald-700 dark:text-emerald-500 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500"
                 />
                 <span>Yes</span>
               </label>
 
-              <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <label className={formCheckLabel}>
                 <input
                   type="radio"
                   name="stealthDisadvantage"
                   checked={stealthDisadvantage === false}
                   onChange={() => handleStealthChange(false)}
-                  className="w-4 h-4 border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                  className="w-4 h-4 border-stone-300 dark:border-emerald-500/30 bg-white dark:bg-stone-900/50 text-emerald-700 dark:text-emerald-500 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500"
                 />
                 <span>No</span>
               </label>
@@ -115,7 +121,7 @@ export const ArmorSpecialSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Proficiency Requirements
           </label>
           <input
@@ -123,15 +129,15 @@ export const ArmorSpecialSection = ({
             placeholder="e.g., Heavy Armor, Shields (comma-separated)"
             value={proficiencyString}
             onChange={handleProficiencyInputChange}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
             Separate multiple proficiencies with commas
           </p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Associated Skills
           </label>
           <input
@@ -139,15 +145,15 @@ export const ArmorSpecialSection = ({
             placeholder="e.g., Athletics, Acrobatics (comma-separated)"
             value={skillsString}
             onChange={handleSkillsInputChange}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
             Separate multiple skills with commas
           </p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Special Abilities
           </label>
           <textarea
@@ -156,7 +162,7 @@ export const ArmorSpecialSection = ({
             value={special}
             onChange={onInputChange}
             rows="4"
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all resize-none"
+            className={`${formInput} resize-none`}
           />
         </div>
       </div>

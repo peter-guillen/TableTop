@@ -34,8 +34,8 @@ export const SkillsTab = ({
             disabled={maxed}
             className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-150 ${
               sel
-                ? "bg-cyan-50 dark:bg-cyan-800/20 border-cyan-300 dark:border-cyan-500/40 text-cyan-700 dark:text-cyan-300"
-                : "bg-white dark:bg-slate-800/30 border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-cyan-300 dark:hover:border-cyan-500/40"
+                ? "bg-emerald-50 dark:bg-emerald-800/20 border-emerald-300 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300"
+                : "bg-white dark:bg-stone-800/30 border-stone-200 dark:border-stone-700/50 text-stone-700 dark:text-stone-300 hover:border-emerald-300 dark:hover:border-emerald-500/40"
             } ${maxed ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
           >
             {name}

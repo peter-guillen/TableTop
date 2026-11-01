@@ -1,4 +1,11 @@
 import { LuClock } from "react-icons/lu";
+import {
+  formCheckLabel,
+  formCheckbox,
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 export const ArmorCombatSection = ({
   onInputChange,
@@ -14,14 +21,14 @@ export const ArmorCombatSection = ({
   return (
     <>
       <section>
-        <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+        <h2 className={formHeading}>
           <LuClock size={20} />
           Combat Stats
         </h2>
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={`${formLabel} mb-2`}>
                 Defense *
               </label>
               <input
@@ -31,12 +38,12 @@ export const ArmorCombatSection = ({
                 onChange={onInputChange}
                 value={defense}
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                className={formInput}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={`${formLabel} mb-2`}>
                 Weight *
               </label>
               <input
@@ -46,14 +53,14 @@ export const ArmorCombatSection = ({
                 onChange={onInputChange}
                 value={weight}
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                className={formInput}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={`${formLabel} mb-2`}>
                 Requirements *
               </label>
               <input
@@ -63,12 +70,12 @@ export const ArmorCombatSection = ({
                 onChange={onInputChange}
                 value={requirement}
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                className={formInput}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={`${formLabel} mb-2`}>
                 Penalty *
               </label>
               <input
@@ -78,14 +85,14 @@ export const ArmorCombatSection = ({
                 onChange={onInputChange}
                 value={penalty}
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                className={formInput}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={`${formLabel} mb-2`}>
                 Value *
               </label>
               <input
@@ -96,12 +103,12 @@ export const ArmorCombatSection = ({
                 value={value}
                 min="0"
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                className={formInput}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className={`${formLabel} mb-2`}>
                 Material
               </label>
               <select
@@ -109,7 +116,7 @@ export const ArmorCombatSection = ({
                 onChange={onInputChange}
                 value={material}
                 required
-                className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                className={formInput}
               >
                 <option value="">Select Material</option>
                 <option value="cloth">Cloth</option>
@@ -130,23 +137,23 @@ export const ArmorCombatSection = ({
           </div>
 
           <div className="flex gap-6">
-            <div className="block text-sm font-medium text-slate-300 mb-2">
+            <div className={`${formLabel} mb-2`}>
               Shield
             </div>
-            <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+            <label className={formCheckLabel}>
               <input
                 type="radio"
                 name="true"
-                className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                className={formCheckbox}
               />
               <span>Yes</span>
             </label>
 
-            <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+            <label className={formCheckLabel}>
               <input
                 type="radio"
                 name="false"
-                className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                className={formCheckbox}
               />
               <span>No</span>
             </label>

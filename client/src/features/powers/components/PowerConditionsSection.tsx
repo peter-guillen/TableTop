@@ -1,13 +1,21 @@
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
-import { PowerCondition } from "../powerTypes";
+import { Condition } from "../powerTypes";
 import { StatModifier } from "../../../shared/constants/constantTypes";
 import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi";
+import {
+  formCheckbox,
+  formChipButton,
+  formHeading,
+  formInput,
+  formLabel,
+  formRemoveButton,
+} from "../../../shared/styles/theme.ts";
 
 interface PowerConditionsProps {
   statModifiers: StatModifier[];
-  conditions: PowerCondition[];
+  conditions: Condition[];
   onStatModifiersChange: (newModifiers: StatModifier[]) => void;
-  onConditionsChange: (newConditions: PowerCondition[]) => void;
+  onConditionsChange: (newConditions: Condition[]) => void;
 }
 
 export const PowerConditionsSection = ({
@@ -44,7 +52,7 @@ export const PowerConditionsSection = ({
 
   const handleConditionFieldChange = (
     conditionId: string,
-    field: keyof PowerCondition,
+    field: keyof Condition,
     value: string | number,
   ) => {
     onConditionsChange(
@@ -84,7 +92,7 @@ export const PowerConditionsSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuFlame size={20} />
         Effects & Conditions
       </h2>
@@ -92,13 +100,13 @@ export const PowerConditionsSection = ({
         {/* Buffs */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <label className="block text-sm font-medium text-slate-300">
+            <label className={formLabel}>
               Buffs & Debuffs
             </label>
             <button
               type="button"
               onClick={handleAddModifier}
-              className="flex items-center gap-1 px-3 py-2 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-lg border border-cyan-500/30 dark:border-orange-500/30 hover:bg-cyan-600/30 dark:hover:bg-orange-600/30 transition-all"
+              className={formChipButton}
             >
               <LuPlus size={16} />
               Add Buff/Debuff
@@ -112,7 +120,7 @@ export const PowerConditionsSection = ({
                   className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"
                 >
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={`${formLabel} mb-2`}>
                       Stat
                     </label>
                     <input
@@ -122,11 +130,11 @@ export const PowerConditionsSection = ({
                       onChange={(e) =>
                         handleModifierChange(index, "stat", e.target.value)
                       }
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                      className={formInput}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={`${formLabel} mb-2`}>
                       Value
                     </label>
                     <input
@@ -136,11 +144,11 @@ export const PowerConditionsSection = ({
                       onChange={(e) =>
                         handleModifierChange(index, "value", e.target.value)
                       }
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                      className={formInput}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={`${formLabel} mb-2`}>
                       Duration
                     </label>
                     <input
@@ -150,11 +158,11 @@ export const PowerConditionsSection = ({
                       onChange={(e) =>
                         handleModifierChange(index, "duration", e.target.value)
                       }
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                      className={formInput}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={`${formLabel} mb-2`}>
                       Target
                     </label>
                     <input
@@ -164,11 +172,11 @@ export const PowerConditionsSection = ({
                       onChange={(e) =>
                         handleModifierChange(index, "target", e.target.value)
                       }
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                      className={formInput}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className={`${formLabel} mb-2`}>
                       Description
                     </label>
                     <input
@@ -182,13 +190,13 @@ export const PowerConditionsSection = ({
                           e.target.value,
                         )
                       }
-                      className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+                      className={formInput}
                     />
                   </div>
                   <button
                     type="button"
                     onClick={() => handleRemoveModifier(index)}
-                    className="px-4 py-3 bg-red-600/20 text-red-300 rounded-lg border border-red-500/30 hover:bg-red-600/30 transition-all flex items-center justify-center"
+                    className={formRemoveButton}
                   >
                     <LuTrash2 size={16} />
                   </button>
@@ -199,21 +207,21 @@ export const PowerConditionsSection = ({
 
         {/* Conditions */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Conditions
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {allConditions.map((condition) => (
               <div
                 key={condition._id}
-                className="bg-slate-800/30 dark:bg-slate-900/30 p-3 rounded-lg border border-cyan-500/20 dark:border-orange-500/20"
+                className="bg-stone-100 dark:bg-stone-900/30 p-3 rounded-lg border border-stone-300 dark:border-emerald-500/20"
               >
-                <label className="flex items-center gap-2 text-slate-300 cursor-pointer mb-2">
+                <label className="flex items-center gap-2 text-stone-700 dark:text-stone-300 cursor-pointer mb-2">
                   <input
                     type="checkbox"
                     checked={isConditionSelected(condition._id)}
                     onChange={() => handleConditionToggle(condition._id)}
-                    className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                    className={formCheckbox}
                   />
                   <span className="capitalize text-sm">{condition.name}</span>
                 </label>
@@ -229,7 +237,7 @@ export const PowerConditionsSection = ({
                           e.target.value,
                         )
                       }
-                      className="px-2 py-2 text-sm bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                      className="px-2 py-2 text-sm bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500"
                     >
                       <option value="turns">Turns</option>
                       <option value="until_broken">Until broken</option>
@@ -252,7 +260,7 @@ export const PowerConditionsSection = ({
                             Number(e.target.value),
                           )
                         }
-                        className="px-2 py-2 text-sm bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+                        className="px-2 py-2 text-sm bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500"
                       />
                     )}
                   </div>

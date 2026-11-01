@@ -25,13 +25,13 @@ export const Button: React.FC<ButtonProps> = ({
   const buttonStyles = twMerge(
     classNames(
       className,
-      "items-center px-3 p-2 border rounded-md text-center",
+      "inline-flex items-center justify-center gap-2 px-3 py-2 border rounded-lg text-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:focus-visible:ring-emerald-400",
       {
-        "bg-blue-600": primary,
-        "bg-purple-600": secondary,
-        "bg-green-500": success,
-        "bg-yellow-400": warning,
-        "bg-red-600": danger,
+        "bg-amber-500 border-amber-500 text-stone-950 hover:bg-amber-400": primary,
+        "bg-emerald-700 border-emerald-700 text-white hover:bg-emerald-600": secondary,
+        "bg-green-600 border-green-600 text-white hover:bg-green-500": success,
+        "bg-yellow-400 border-yellow-400 text-stone-950 hover:bg-yellow-300": warning,
+        "bg-red-600 border-red-600 text-white hover:bg-red-500": danger,
       }
     )
   );

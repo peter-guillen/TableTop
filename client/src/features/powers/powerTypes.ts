@@ -21,7 +21,7 @@ export type EffectType =
 
 export type Recharge = "unlimited" | "short_rest" | "long_rest" | "daily";
 
-export type OffensiveStat = "Might" | "Accuracy" | "Dominance";
+export type OffensiveStat = "might" | "accuracy" | "dominance";
 
 /* ------------------------------ Targeting ------------------------------ */
 export type TargetCategory = "creature" | "object" | "point";
@@ -92,7 +92,7 @@ export interface Condition {
 
 export type Action = "major_action" | "minor_action" | "reaction";
 
-export type Resource = "hp" | "mp" | "momentum";
+export type Resource = "hp" | "mp";
 
 export interface Activation {
   action: Action;
@@ -118,6 +118,7 @@ export interface Power {
   kind: PowerKind;
   description: string;
   school?: SpellSchool;
+  effectType?: EffectType;
 
   healthEffects: HealthEffect[];
   statModifiers: StatModifier[];

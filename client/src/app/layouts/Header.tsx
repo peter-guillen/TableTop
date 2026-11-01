@@ -11,22 +11,22 @@ export function Header() {
   }, []);
 
   const featuredIcons = [
-    { description: "Welcome to your custom tabletop RPG system!" },
-    { description: "New spell added!" },
-    { description: "Sale! 50% off on all content!" },
+    { description: "Welcome to your custom tabletop RPG system" },
+    { description: "New: build a hero with the Character Builder" },
+    { description: "Campaign tools are coming soon" },
   ];
   return (
-    <header className="relative">
-      {/* Announcement Banner */}
-      <div className="bg-gradient-to-r from-cyan-600 to-orange-600 text-white py-2 px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-center space-x-2 text-sm font-medium">
-          <LuSparkles className="w-4 h-4 animate-pulse" />
+    <header>
+      {/* Announcement Banner - secondary color so it doesn't compete with the hero CTA */}
+      <div className="bg-emerald-800 px-4 py-2 text-emerald-50 dark:bg-emerald-950 dark:text-emerald-200">
+        <div
+          className="mx-auto flex max-w-7xl items-center justify-center gap-2 text-sm font-medium"
+          aria-live="polite"
+        >
+          <LuSparkles className="h-4 w-4 text-amber-300" aria-hidden="true" />
           <span>{featuredIcons[currentIcon].description}</span>
         </div>
       </div>
-
-      {/* Gradient overlay for visual depth */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
     </header>
   );
 }

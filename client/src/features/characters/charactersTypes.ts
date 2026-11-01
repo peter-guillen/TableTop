@@ -1,4 +1,8 @@
-import { Skills, Constants } from "../../shared/constants/constantTypes";
+import {
+  Skills,
+  Constants,
+  PowerGroup,
+} from "../../shared/constants/constantTypes";
 
 export type Id = string;
 
@@ -22,6 +26,9 @@ export interface Archetype {
 
 export interface Progression {
   level: number;
+  // Highest level whose rewards have been applied; below `level` means rewards are pending
+  claimedLevel: number;
+  powerSlots: Record<PowerGroup, number>;
 }
 
 export interface PassiveStats {
@@ -31,13 +38,22 @@ export interface PassiveStats {
   evasion: number;
   dominance: number;
   resolve: number;
+  movement: number;
+  initiative: number;
 }
 
 export interface Resources {
   hp?: number;
+  hpMax?: number;
   mp?: number;
-  momentum: number;
+  mpMax?: number;
+  mom: number;
+  momMax: number;
 }
+
+export type PassiveStatKey = keyof PassiveStats;
+export type ResourceKey = "hp" | "mp" | "mom";
+export type ResourceMaxKey = "hpMax" | "mpMax" | "momMax";
 
 export interface Stats {
   passive: PassiveStats;
@@ -96,7 +112,7 @@ export interface CharacterSectionProps extends CharacterBaseProps {
 }
 
 export interface RefOption {
-  _id: Id;
+  _id?: Id;
   name: string;
 }
 

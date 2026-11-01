@@ -1,35 +1,113 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Profession from "../domains/professions/profession.model.js";
-import {
-  STATS,
-  OFFENSIVE_STATS,
-  DAMAGE_TYPES,
-  SKILLS,
-  PROPERTIES,
-  ARMOR,
-} from "../shared/constants/constants.js";
+import Power from "../domains/powers/power.model.js";
+import { STATS, SKILLS, PROPERTIES } from "../shared/constants/constants.js";
 import { fileURLToPath } from "url";
 
 dotenv.config();
 
-// Real Condition _ids seeded separately (conditions collection)
-const CONDITION_IDS = {
-  blinded: "6a6acc229f583a3359d9e97a",
-  charmed: "6a6acc229f583a3359d9e97b",
-  deafened: "6a6acc229f583a3359d9e97c",
-  frightened: "6a6acc229f583a3359d9e97d",
-  grappled: "6a6acc229f583a3359d9e97e",
-  incapacitated: "6a6acc229f583a3359d9e97f",
-  invisible: "6a6acc229f583a3359d9e980",
-  paralyzed: "6a6acc229f583a3359d9e981",
-  petrified: "6a6acc229f583a3359d9e982",
-  poisoned: "6a6acc229f583a3359d9e983",
-  prone: "6a6acc229f583a3359d9e984",
-  restrained: "6a6acc229f583a3359d9e985",
-  stunned: "6a6acc229f583a3359d9e986",
-  unconscious: "6a6acc229f583a3359d9e987",
-};
+// Grants hold Power names here; seedProfessions swaps them for real _ids,
+// so run power.seed.js first. Techniques never appear in levelRewards —
+// they come from weapon properties.
+
+// Fighters: durable, gain traits and HP, pick up a little defensive magic
+const MARTIAL_REWARDS = [
+  { level: 1, grants: [{ type: "auto", trait: "Guard" }] },
+  { level: 2, grants: [], statIncreases: [{ stat: STATS.HP_MAX, value: 5 }] },
+  { level: 3, grants: [{ type: "auto", trait: "Iron Will" }] },
+  {
+    level: 4,
+    grants: [{ type: "professionChoice", options: ["Aegis", "Mending Light"] }],
+    statIncreases: [{ stat: STATS.HP_MAX, value: 5 }],
+  },
+  {
+    level: 5,
+    grants: [{ type: "auto", trait: "Brutal Technique" }],
+    slotIncreases: [{ group: "traits", value: 1 }],
+  },
+  {
+    level: 6,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [{ stat: STATS.MIGHT, value: 1 }],
+  },
+  {
+    level: 7,
+    grants: [],
+    statIncreases: [
+      { stat: STATS.HP_MAX, value: 5 },
+      { stat: STATS.MP_MAX, value: 5 },
+    ],
+    slotIncreases: [{ group: "abilities", value: 1 }],
+  },
+  {
+    level: 8,
+    grants: [{ type: "playerChoice" }],
+    slotIncreases: [{ group: "spells", value: 1 }],
+  },
+  {
+    level: 9,
+    grants: [],
+    statIncreases: [
+      { stat: STATS.RESILIENCE, value: 1 },
+      { stat: STATS.HP_MAX, value: 5 },
+    ],
+  },
+  {
+    level: 10,
+    grants: [
+      { type: "professionChoice", options: ["Thunder Lance", "Void Collapse"] },
+      { type: "playerChoice" },
+    ],
+    statIncreases: [{ stat: STATS.MOM_MAX, value: 1 }],
+  },
+];
+
+// Casters: spell-heavy, gain MP and spell slots
+const CASTER_REWARDS = [
+  { level: 1, grants: [{ type: "auto", trait: "Ignite" }] },
+  { level: 2, grants: [], statIncreases: [{ stat: STATS.MP_MAX, value: 5 }] },
+  {
+    level: 3,
+    grants: [{ type: "professionChoice", options: ["Fireball", "Frostbind"] }],
+  },
+  {
+    level: 4,
+    grants: [],
+    statIncreases: [{ stat: STATS.MP_MAX, value: 5 }],
+    slotIncreases: [{ group: "spells", value: 1 }],
+  },
+  { level: 5, grants: [{ type: "auto", trait: "Thunder Lance" }] },
+  {
+    level: 6,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [{ stat: STATS.DOMINANCE, value: 1 }],
+  },
+  {
+    level: 7,
+    grants: [],
+    statIncreases: [
+      { stat: STATS.MP_MAX, value: 5 },
+      { stat: STATS.HP_MAX, value: 3 },
+    ],
+  },
+  {
+    level: 8,
+    grants: [{ type: "professionChoice", options: ["Aegis", "Mending Light"] }],
+    slotIncreases: [{ group: "spells", value: 1 }],
+  },
+  {
+    level: 9,
+    grants: [{ type: "playerChoice" }],
+    statIncreases: [{ stat: STATS.RESOLVE, value: 1 }],
+  },
+  {
+    level: 10,
+    grants: [{ type: "auto", trait: "Void Collapse" }],
+    statIncreases: [{ stat: STATS.MP_MAX, value: 10 }],
+    slotIncreases: [{ group: "spells", value: 1 }],
+  },
+];
 
 const professionSeeds = [
   {
@@ -46,94 +124,7 @@ const professionSeeds = [
     ],
     skillProficiencies: [SKILLS.ATHLETICS, SKILLS.INTIMIDATION],
     startingItems: [],
-    levelRewards: [
-      {
-        level: 1,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bb5" }, // Charge
-        ],
-      },
-      {
-        level: 2,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bb9", // Mach Strike
-              "6ab98fc1154986dd2e962bc8", // Overhead Breaker
-              "6ab98fc1154986dd2e962bcb", // Reaping Step
-            ],
-          },
-        ],
-      },
-      {
-        level: 3,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 4,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bbb" }, // Aegis
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bcd", // Armor Rend
-              "6ab98fc1154986dd2e962bd0", // Executioner
-            ],
-          },
-        ],
-      },
-      {
-        level: 5,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd3" }, // Iron Will
-        ],
-      },
-      {
-        level: 6,
-        grants: [
-          { type: "playerChoice" },
-          { type: "playerChoice" }, // exercises >1 grant of the SAME type at once
-        ],
-      },
-      {
-        level: 7,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962baf", // Fireball (off-theme on purpose — structure only)
-              "6ab98fc1154986dd2e962bbd", // Frostbind
-            ],
-          },
-        ],
-      },
-      {
-        level: 8,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd5" }, // Brutal Technique
-        ],
-      },
-      {
-        level: 9,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 10,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bc6" }, // Deflect
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bc2", // Mending Light (off-theme on purpose)
-              "6ab98fc1154986dd2e962bc4", // Void Collapse
-              "6ab98fc1154986dd2e962bc0", // Thunder Lance
-            ],
-          },
-          { type: "playerChoice" }, // three grants, three different types, same level
-        ],
-      },
-    ],
+    levelRewards: MARTIAL_REWARDS,
   },
   {
     name: "Knight",
@@ -149,94 +140,7 @@ const professionSeeds = [
     ],
     skillProficiencies: [SKILLS.ATHLETICS, SKILLS.INTIMIDATION],
     startingItems: [],
-    levelRewards: [
-      {
-        level: 1,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bb5" }, // Charge
-        ],
-      },
-      {
-        level: 2,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bb9", // Mach Strike
-              "6ab98fc1154986dd2e962bc8", // Overhead Breaker
-              "6ab98fc1154986dd2e962bcb", // Reaping Step
-            ],
-          },
-        ],
-      },
-      {
-        level: 3,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 4,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bbb" }, // Aegis
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bcd", // Armor Rend
-              "6ab98fc1154986dd2e962bd0", // Executioner
-            ],
-          },
-        ],
-      },
-      {
-        level: 5,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd3" }, // Iron Will
-        ],
-      },
-      {
-        level: 6,
-        grants: [
-          { type: "playerChoice" },
-          { type: "playerChoice" }, // exercises >1 grant of the SAME type at once
-        ],
-      },
-      {
-        level: 7,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962baf", // Fireball (off-theme on purpose — structure only)
-              "6ab98fc1154986dd2e962bbd", // Frostbind
-            ],
-          },
-        ],
-      },
-      {
-        level: 8,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd5" }, // Brutal Technique
-        ],
-      },
-      {
-        level: 9,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 10,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bc6" }, // Deflect
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bc2", // Mending Light (off-theme on purpose)
-              "6ab98fc1154986dd2e962bc4", // Void Collapse
-              "6ab98fc1154986dd2e962bc0", // Thunder Lance
-            ],
-          },
-          { type: "playerChoice" }, // three grants, three different types, same level
-        ],
-      },
-    ],
+    levelRewards: MARTIAL_REWARDS,
   },
   {
     name: "Wizard",
@@ -252,94 +156,7 @@ const professionSeeds = [
     ],
     skillProficiencies: [SKILLS.ATHLETICS, SKILLS.INTIMIDATION],
     startingItems: [],
-    levelRewards: [
-      {
-        level: 1,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bb5" }, // Charge
-        ],
-      },
-      {
-        level: 2,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bb9", // Mach Strike
-              "6ab98fc1154986dd2e962bc8", // Overhead Breaker
-              "6ab98fc1154986dd2e962bcb", // Reaping Step
-            ],
-          },
-        ],
-      },
-      {
-        level: 3,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 4,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bbb" }, // Aegis
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bcd", // Armor Rend
-              "6ab98fc1154986dd2e962bd0", // Executioner
-            ],
-          },
-        ],
-      },
-      {
-        level: 5,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd3" }, // Iron Will
-        ],
-      },
-      {
-        level: 6,
-        grants: [
-          { type: "playerChoice" },
-          { type: "playerChoice" }, // exercises >1 grant of the SAME type at once
-        ],
-      },
-      {
-        level: 7,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962baf", // Fireball (off-theme on purpose — structure only)
-              "6ab98fc1154986dd2e962bbd", // Frostbind
-            ],
-          },
-        ],
-      },
-      {
-        level: 8,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd5" }, // Brutal Technique
-        ],
-      },
-      {
-        level: 9,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 10,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bc6" }, // Deflect
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bc2", // Mending Light (off-theme on purpose)
-              "6ab98fc1154986dd2e962bc4", // Void Collapse
-              "6ab98fc1154986dd2e962bc0", // Thunder Lance
-            ],
-          },
-          { type: "playerChoice" }, // three grants, three different types, same level
-        ],
-      },
-    ],
+    levelRewards: CASTER_REWARDS,
   },
   {
     name: "Witch",
@@ -355,94 +172,7 @@ const professionSeeds = [
     ],
     skillProficiencies: [SKILLS.ATHLETICS, SKILLS.INTIMIDATION],
     startingItems: [],
-    levelRewards: [
-      {
-        level: 1,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bb5" }, // Charge
-        ],
-      },
-      {
-        level: 2,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bb9", // Mach Strike
-              "6ab98fc1154986dd2e962bc8", // Overhead Breaker
-              "6ab98fc1154986dd2e962bcb", // Reaping Step
-            ],
-          },
-        ],
-      },
-      {
-        level: 3,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 4,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bbb" }, // Aegis
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bcd", // Armor Rend
-              "6ab98fc1154986dd2e962bd0", // Executioner
-            ],
-          },
-        ],
-      },
-      {
-        level: 5,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd3" }, // Iron Will
-        ],
-      },
-      {
-        level: 6,
-        grants: [
-          { type: "playerChoice" },
-          { type: "playerChoice" }, // exercises >1 grant of the SAME type at once
-        ],
-      },
-      {
-        level: 7,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962baf", // Fireball (off-theme on purpose — structure only)
-              "6ab98fc1154986dd2e962bbd", // Frostbind
-            ],
-          },
-        ],
-      },
-      {
-        level: 8,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd5" }, // Brutal Technique
-        ],
-      },
-      {
-        level: 9,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 10,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bc6" }, // Deflect
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bc2", // Mending Light (off-theme on purpose)
-              "6ab98fc1154986dd2e962bc4", // Void Collapse
-              "6ab98fc1154986dd2e962bc0", // Thunder Lance
-            ],
-          },
-          { type: "playerChoice" }, // three grants, three different types, same level
-        ],
-      },
-    ],
+    levelRewards: CASTER_REWARDS,
   },
   {
     name: "Paladin",
@@ -458,94 +188,7 @@ const professionSeeds = [
     ],
     skillProficiencies: [SKILLS.ATHLETICS, SKILLS.INTIMIDATION],
     startingItems: [],
-    levelRewards: [
-      {
-        level: 1,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bb5" }, // Charge
-        ],
-      },
-      {
-        level: 2,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bb9", // Mach Strike
-              "6ab98fc1154986dd2e962bc8", // Overhead Breaker
-              "6ab98fc1154986dd2e962bcb", // Reaping Step
-            ],
-          },
-        ],
-      },
-      {
-        level: 3,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 4,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bbb" }, // Aegis
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bcd", // Armor Rend
-              "6ab98fc1154986dd2e962bd0", // Executioner
-            ],
-          },
-        ],
-      },
-      {
-        level: 5,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd3" }, // Iron Will
-        ],
-      },
-      {
-        level: 6,
-        grants: [
-          { type: "playerChoice" },
-          { type: "playerChoice" }, // exercises >1 grant of the SAME type at once
-        ],
-      },
-      {
-        level: 7,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962baf", // Fireball (off-theme on purpose — structure only)
-              "6ab98fc1154986dd2e962bbd", // Frostbind
-            ],
-          },
-        ],
-      },
-      {
-        level: 8,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd5" }, // Brutal Technique
-        ],
-      },
-      {
-        level: 9,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 10,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bc6" }, // Deflect
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bc2", // Mending Light (off-theme on purpose)
-              "6ab98fc1154986dd2e962bc4", // Void Collapse
-              "6ab98fc1154986dd2e962bc0", // Thunder Lance
-            ],
-          },
-          { type: "playerChoice" }, // three grants, three different types, same level
-        ],
-      },
-    ],
+    levelRewards: MARTIAL_REWARDS,
   },
   {
     name: "Rogue",
@@ -561,101 +204,38 @@ const professionSeeds = [
     ],
     skillProficiencies: [SKILLS.ATHLETICS, SKILLS.INTIMIDATION],
     startingItems: [],
-    levelRewards: [
-      {
-        level: 1,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bb5" }, // Charge
-        ],
-      },
-      {
-        level: 2,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bb9", // Mach Strike
-              "6ab98fc1154986dd2e962bc8", // Overhead Breaker
-              "6ab98fc1154986dd2e962bcb", // Reaping Step
-            ],
-          },
-        ],
-      },
-      {
-        level: 3,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 4,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bbb" }, // Aegis
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bcd", // Armor Rend
-              "6ab98fc1154986dd2e962bd0", // Executioner
-            ],
-          },
-        ],
-      },
-      {
-        level: 5,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd3" }, // Iron Will
-        ],
-      },
-      {
-        level: 6,
-        grants: [
-          { type: "playerChoice" },
-          { type: "playerChoice" }, // exercises >1 grant of the SAME type at once
-        ],
-      },
-      {
-        level: 7,
-        grants: [
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962baf", // Fireball (off-theme on purpose — structure only)
-              "6ab98fc1154986dd2e962bbd", // Frostbind
-            ],
-          },
-        ],
-      },
-      {
-        level: 8,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bd5" }, // Brutal Technique
-        ],
-      },
-      {
-        level: 9,
-        grants: [{ type: "playerChoice" }],
-      },
-      {
-        level: 10,
-        grants: [
-          { type: "auto", trait: "6ab98fc1154986dd2e962bc6" }, // Deflect
-          {
-            type: "professionChoice",
-            options: [
-              "6ab98fc1154986dd2e962bc2", // Mending Light (off-theme on purpose)
-              "6ab98fc1154986dd2e962bc4", // Void Collapse
-              "6ab98fc1154986dd2e962bc0", // Thunder Lance
-            ],
-          },
-          { type: "playerChoice" }, // three grants, three different types, same level
-        ],
-      },
-    ],
+    levelRewards: MARTIAL_REWARDS,
   },
 ];
 
 export const seedProfessions = async () => {
+  const powers = await Power.find({}, "name");
+  const missing = professionSeeds
+    .flatMap((profession) => profession.levelRewards)
+    .flatMap((reward) => reward.grants)
+    .flatMap((grant) => [grant.trait, ...(grant.options ?? [])])
+    .filter((name) => name && !powers.some((p) => p.name === name));
+  if (missing.length > 0) {
+    throw new Error(
+      `Powers not found: ${[...new Set(missing)].join(", ")} — run power.seed.js first`,
+    );
+  }
+  const seeds = professionSeeds.map((profession) => ({
+    ...profession,
+    levelRewards: profession.levelRewards.map((reward) => ({
+      ...reward,
+      grants: reward.grants.map((grant) => ({
+        type: grant.type,
+        trait: powers.find((p) => p.name === grant.trait)?._id,
+        options: (grant.options ?? []).map(
+          (name) => powers.find((p) => p.name === name)._id,
+        ),
+      })),
+    })),
+  }));
   await Profession.syncIndexes(); // drops stale indexes (e.g. old title_1), creates current ones
   await Profession.deleteMany({});
-  const created = await Profession.insertMany(professionSeeds);
+  const created = await Profession.insertMany(seeds);
   console.log(`Seeded ${created.length} professions.`);
   return created;
 };

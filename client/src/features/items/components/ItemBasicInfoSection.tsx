@@ -6,6 +6,11 @@ import {
   Quality,
   Material,
 } from "../../../shared/constants/constantTypes";
+import {
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 interface ItemBasicInfoProps {
   name: string;
@@ -73,13 +78,13 @@ export const ItemBasicInfoSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuBookOpen size={20} />
         Basic Information
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Item Name
           </label>
           <input
@@ -89,12 +94,12 @@ export const ItemBasicInfoSection = ({
             onChange={onInputChange}
             value={name}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Category
           </label>
           <select
@@ -102,7 +107,7 @@ export const ItemBasicInfoSection = ({
             onChange={onInputChange}
             value={category}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="" disabled>
               Select Category
@@ -116,7 +121,7 @@ export const ItemBasicInfoSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Rarity
           </label>
           <select
@@ -124,7 +129,7 @@ export const ItemBasicInfoSection = ({
             onChange={onInputChange}
             value={rarity}
             required
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="" disabled>
               Select Rarity
@@ -138,7 +143,7 @@ export const ItemBasicInfoSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Value
           </label>
           <input
@@ -148,18 +153,18 @@ export const ItemBasicInfoSection = ({
             onChange={(e) => onValueChange(Number(e.target.value))}
             value={value}
             min="0"
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className={formInput}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Quality
           </label>
           <select
             value={qualityDraft}
             onChange={(e) => addQuality(e.target.value)}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="">Add quality...</option>
             {qualityOptions
@@ -175,13 +180,13 @@ export const ItemBasicInfoSection = ({
               {quality.map((q) => (
                 <span
                   key={q}
-                  className="flex items-center gap-1 px-3 py-1 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-full border border-cyan-500/30 dark:border-orange-500/30 capitalize"
+                  className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-full border border-stone-300 dark:border-emerald-500/30 capitalize"
                 >
                   {q}
                   <button
                     type="button"
                     onClick={() => removeQuality(q)}
-                    className="hover:text-white transition-all"
+                    className="hover:text-stone-900 dark:hover:text-white transition-colors"
                   >
                     <LuX size={14} />
                   </button>
@@ -192,13 +197,13 @@ export const ItemBasicInfoSection = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Materials
           </label>
           <select
             value={materialDraft}
             onChange={(e) => addMaterial(e.target.value)}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all capitalize"
+            className={`${formInput} capitalize`}
           >
             <option value="">Add material...</option>
             {materialOptions
@@ -214,13 +219,13 @@ export const ItemBasicInfoSection = ({
               {materials.map((m) => (
                 <span
                   key={m}
-                  className="flex items-center gap-1 px-3 py-1 text-sm bg-cyan-600/20 dark:bg-orange-600/20 text-cyan-300 dark:text-orange-300 rounded-full border border-cyan-500/30 dark:border-orange-500/30 capitalize"
+                  className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-full border border-stone-300 dark:border-emerald-500/30 capitalize"
                 >
                   {m}
                   <button
                     type="button"
                     onClick={() => removeMaterial(m)}
-                    className="hover:text-white transition-all"
+                    className="hover:text-stone-900 dark:hover:text-white transition-colors"
                   >
                     <LuX size={14} />
                   </button>

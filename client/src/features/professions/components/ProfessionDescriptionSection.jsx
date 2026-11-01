@@ -1,17 +1,22 @@
 import { LuTarget } from "react-icons/lu";
+import {
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 export const ProfessionDescriptionSection = ({
   description,
   onInputChange,
 }) => {
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuTarget size={20} />
         Class Description
       </h2>
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Description
           </label>
           <textarea
@@ -20,7 +25,7 @@ export const ProfessionDescriptionSection = ({
             name="description"
             onChange={onInputChange}
             value={description}
-            className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all resize-none"
+            className={`${formInput} resize-none`}
           />
         </div>
       </div>

@@ -23,9 +23,10 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { email, username, password, role } = req.body;
+  // role is never taken from the request; new accounts get the schema default
+  const { email, username, password } = req.body;
   try {
-    const user = new User({ email, username, password, role });
+    const user = new User({ email, username, password });
     await user.save();
     res.status(201).json({
       _id: user._id,

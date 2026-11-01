@@ -1,20 +1,20 @@
 import type { CharacterBaseProps } from "../charactersTypes";
 
+const INPUT =
+  "bg-white dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50 rounded-md text-xs px-2 py-1 text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:border-emerald-400 dark:focus:border-emerald-500 transition-colors";
+
 export const CharacterIdentity = ({
   formData,
   patchForm,
-}: CharacterBaseProps) => {
+  summary,
+}: CharacterBaseProps & { summary: string }) => {
   const { identity } = formData;
-  const pronounDisplay = [identity.subjectPronoun, identity.objectPronoun]
-    .filter(Boolean)
-    .join("/");
-  const ageDisplay = identity.age ? `${identity.age} years old` : "";
 
   return (
-    <div className="flex flex-col gap-2 mb-4">
+    <div className="flex flex-col gap-1.5">
       <input
         required
-        className="bg-transparent border-0 border-b-2 border-slate-300 dark:border-slate-600 text-2xl font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-cyan-500 dark:focus:border-cyan-400 pb-1 transition-colors w-full"
+        className="bg-transparent border-0 border-b-2 border-stone-200 dark:border-stone-700 text-2xl md:text-3xl font-extrabold text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-600 focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 pb-1 transition-colors w-full"
         placeholder="Character Name"
         value={identity.name}
         onChange={(e) =>
@@ -22,12 +22,18 @@ export const CharacterIdentity = ({
         }
       />
 
+      {summary && (
+        <p className="text-sm font-semibold text-stone-500 dark:text-stone-400">
+          {summary}
+        </p>
+      )}
+
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500">
           Pronouns
         </span>
         <input
-          className="w-12 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-md text-xs px-2 py-1 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-400 dark:focus:border-cyan-500 transition-colors"
+          className={`${INPUT} w-14`}
           placeholder="they"
           value={identity.subjectPronoun ?? ""}
           onChange={(e) =>
@@ -37,7 +43,7 @@ export const CharacterIdentity = ({
           }
         />
         <input
-          className="w-12 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-md text-xs px-2 py-1 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-400 dark:focus:border-cyan-500 transition-colors"
+          className={`${INPUT} w-14`}
           placeholder="them"
           value={identity.objectPronoun ?? ""}
           onChange={(e) =>
@@ -46,17 +52,12 @@ export const CharacterIdentity = ({
             })
           }
         />
-        {pronounDisplay && (
-          <span className="bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">
-            {pronounDisplay}
-          </span>
-        )}
 
-        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-2">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 ml-2">
           Age
         </span>
         <input
-          className="w-16 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-md text-xs px-2 py-1 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-400 dark:focus:border-cyan-500 transition-colors"
+          className={`${INPUT} w-16`}
           placeholder="—"
           type="number"
           min={0}
@@ -70,11 +71,6 @@ export const CharacterIdentity = ({
             })
           }
         />
-        {ageDisplay && (
-          <span className="bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">
-            {ageDisplay}
-          </span>
-        )}
       </div>
     </div>
   );

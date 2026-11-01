@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import Power from "../domains/powers/power.model.js";
 import {
   STATS,
-  OFFENSIVE_STATS,
   DAMAGE_TYPES,
 } from "../shared/constants/constants.js";
 import { fileURLToPath } from "url";
@@ -67,7 +66,7 @@ const powerSeeds = [
       cost: 15,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    offensiveStat: STATS.DOMINANCE,
     requirements: {},
   },
 
@@ -105,7 +104,7 @@ const powerSeeds = [
       cost: 6,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    offensiveStat: STATS.ACCURACY,
     requirements: {},
   },
 
@@ -143,7 +142,7 @@ const powerSeeds = [
       duration: 0,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    offensiveStat: STATS.ACCURACY,
     requirements: {
       properties: ["light", "finesse"],
     },
@@ -194,7 +193,7 @@ const powerSeeds = [
       duration: 0,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.MIGHT,
+    offensiveStat: STATS.MIGHT,
     requirements: {
       properties: ["heavy", "two-handed"],
     },
@@ -231,7 +230,7 @@ const powerSeeds = [
       duration: 0,
     },
     recharge: "short_rest",
-    offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    offensiveStat: STATS.ACCURACY,
     requirements: {
       properties: ["reach"],
     },
@@ -295,7 +294,7 @@ const powerSeeds = [
     healthEffects: [
       {
         direction: "damage",
-        damageType: DAMAGE_TYPES.COLD,
+        damageType: DAMAGE_TYPES.WATER,
         diceCount: 2,
         diceSize: 6,
         persistent: false,
@@ -320,7 +319,7 @@ const powerSeeds = [
       cost: 10,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    offensiveStat: STATS.DOMINANCE,
     requirements: {},
   },
 
@@ -339,7 +338,7 @@ const powerSeeds = [
     healthEffects: [
       {
         direction: "damage",
-        damageType: DAMAGE_TYPES.LIGHTNING,
+        damageType: DAMAGE_TYPES.AIR,
         diceCount: 6,
         diceSize: 8,
         persistent: false,
@@ -358,7 +357,7 @@ const powerSeeds = [
       cost: 14,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    offensiveStat: STATS.DOMINANCE,
     requirements: {
       minLevel: 5,
     },
@@ -435,7 +434,7 @@ const powerSeeds = [
       cost: 30,
     },
     recharge: "long_rest",
-    offensiveStat: OFFENSIVE_STATS.DOMINANCE,
+    offensiveStat: STATS.DOMINANCE,
     requirements: {
       minLevel: 10,
     },
@@ -517,7 +516,7 @@ const powerSeeds = [
       duration: 0,
     },
     recharge: "short_rest",
-    offensiveStat: OFFENSIVE_STATS.MIGHT,
+    offensiveStat: STATS.MIGHT,
     requirements: {
       properties: ["heavy", "two-handed"],
       minLevel: 5,
@@ -554,7 +553,7 @@ const powerSeeds = [
       duration: 0,
     },
     recharge: "unlimited",
-    offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    offensiveStat: STATS.ACCURACY,
     requirements: {
       properties: ["light", "finesse"],
     },
@@ -599,7 +598,7 @@ const powerSeeds = [
       duration: 2,
     },
     recharge: "short_rest",
-    offensiveStat: OFFENSIVE_STATS.ACCURACY,
+    offensiveStat: STATS.ACCURACY,
     requirements: {
       properties: ["heavy", "two-handed"],
       minLevel: 3,
@@ -645,7 +644,7 @@ const powerSeeds = [
       duration: 1,
     },
     recharge: "long_rest",
-    offensiveStat: OFFENSIVE_STATS.MIGHT,
+    offensiveStat: STATS.MIGHT,
     requirements: {
       properties: ["heavy", "two-handed"],
       minLevel: 10,
@@ -707,6 +706,79 @@ const powerSeeds = [
       minLevel: 5,
       requiredTraits: [],
     },
+  },
+
+  // ============================================================
+  // ABILITIES
+  // ============================================================
+
+  // 18. ABILITY — defensive reaction, granted by several items
+  {
+    name: "Guard",
+    kind: "ability",
+    description:
+      "The user braces against an incoming blow, hardening their body for a brief moment.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 0,
+    },
+    healthEffects: [],
+    statModifiers: [
+      {
+        stat: STATS.RESILIENCE,
+        value: 3,
+        durationType: "turns",
+        duration: 1,
+        description: "Briefly increases resilience against the next attack.",
+      },
+    ],
+    conditions: [],
+    activation: {
+      action: "reaction",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 1,
+    },
+    recharge: "short_rest",
+    requirements: {},
+  },
+
+  // 19. ABILITY — debuff curse, granted by several items
+  {
+    name: "Weaken",
+    kind: "ability",
+    description:
+      "A sapping curse drains the strength from the target's limbs.",
+    targeting: {
+      targetCategory: "creature",
+      targetCount: 1,
+      range: 30,
+    },
+    healthEffects: [],
+    statModifiers: [
+      {
+        stat: STATS.MIGHT,
+        value: -2,
+        durationType: "turns",
+        duration: 2,
+        description: "Reduces the target's might.",
+      },
+    ],
+    conditions: [],
+    activation: {
+      action: "minor_action",
+      ritual: false,
+      concentration: false,
+      channel: false,
+      castTime: 0,
+      duration: 2,
+    },
+    recharge: "long_rest",
+    offensiveStat: STATS.DOMINANCE,
+    requirements: {},
   },
 ];
 

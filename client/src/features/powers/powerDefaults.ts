@@ -34,7 +34,7 @@ export const defaultTargeting: Targeting = {
 export const defaultRequirements: Requirements = {
   minLevel: 1,
   requiredTraits: [],
-  weaponTags: [],
+  properties: [],
 };
 
 export const defaultPowerFormData: Power = {
@@ -45,8 +45,6 @@ export const defaultPowerFormData: Power = {
 
   // tier: 1,
   // domain: "",
-  effectType: [],
-  damageType: [],
 
   healthEffects: [],
   statModifiers: [],
@@ -55,7 +53,7 @@ export const defaultPowerFormData: Power = {
   activation: defaultActivation,
   recharge: "unlimited",
   targeting: defaultTargeting,
-  offensiveStat: "Might",
+  offensiveStat: "might",
 
   requirements: defaultRequirements,
   grantedPowers: [],

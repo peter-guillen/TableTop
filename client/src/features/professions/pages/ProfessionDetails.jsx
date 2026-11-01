@@ -20,7 +20,7 @@ const GRANT_LABELS = {
 const GRANT_BADGE_CLASSES = {
   auto: "bg-cyan-100 dark:bg-cyan-500/20 border-cyan-200 dark:border-cyan-500/40 text-cyan-700 dark:text-cyan-300",
   professionChoice:
-    "bg-orange-100 dark:bg-orange-500/20 border-orange-200 dark:border-orange-500/40 text-orange-700 dark:text-orange-300",
+    "bg-amber-100 dark:bg-amber-500/20 border-amber-200 dark:border-amber-500/40 text-amber-700 dark:text-amber-300",
   playerChoice:
     "bg-emerald-100 dark:bg-emerald-500/20 border-emerald-200 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300",
 };
@@ -29,7 +29,7 @@ const GRANT_BADGE_CLASSES = {
 function DetailCard({ children, className = "" }) {
   return (
     <div
-      className={`bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-950/80 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-cyan-500/20 shadow-md p-8 mb-6 ${className}`}
+      className={`bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-950/80 backdrop-blur-sm rounded-2xl border border-stone-200 dark:border-emerald-500/20 shadow-md p-8 mb-6 ${className}`}
     >
       {children}
     </div>
@@ -38,7 +38,7 @@ function DetailCard({ children, className = "" }) {
 
 function SectionTitle({ icon: Icon, children }) {
   return (
-    <h2 className="text-2xl font-bold text-slate-800 dark:text-cyan-300 mb-6 flex items-center gap-2">
+    <h2 className="text-2xl font-bold text-stone-800 dark:text-emerald-300 mb-6 flex items-center gap-2">
       <Icon size={22} />
       {children}
     </h2>
@@ -48,7 +48,7 @@ function SectionTitle({ icon: Icon, children }) {
 function TagGroup({ label, items = [], badgeClass }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">
+      <p className="text-xs uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-3">
         {label}
       </p>
       {items.length > 0 ? (
@@ -63,7 +63,7 @@ function TagGroup({ label, items = [], badgeClass }) {
           ))}
         </div>
       ) : (
-        <p className="text-slate-400 dark:text-slate-500 text-sm">None</p>
+        <p className="text-stone-400 dark:text-stone-500 text-sm">None</p>
       )}
     </div>
   );
@@ -82,7 +82,7 @@ export function ProfessionDetails() {
 
   if (!profession) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-500 dark:text-slate-300">
+      <div className="min-h-screen flex items-center justify-center text-stone-500 dark:text-stone-300">
         <p>Profession not found or still loading...</p>
       </div>
     );
@@ -96,11 +96,11 @@ export function ProfessionDetails() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-orange-50 to-slate-50 dark:from-slate-900 dark:via-cyan-900 dark:to-slate-900 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white mb-6 transition-all group"
+          className="flex items-center gap-2 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white mb-6 transition-all group"
         >
           <LuArrowLeft
             size={20}
@@ -112,13 +112,13 @@ export function ProfessionDetails() {
         {/* ── Header Card ── */}
         <DetailCard>
           <div className="flex items-center gap-4 mb-3">
-            <LuCrown className="text-cyan-600 dark:text-cyan-400" size={36} />
-            <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-orange-500 to-orange-500 dark:from-cyan-400 dark:via-orange-400 dark:to-orange-400">
+            <LuCrown className="text-emerald-700 dark:text-emerald-400" size={36} />
+            <h1 className="text-5xl font-bold text-amber-700 dark:text-amber-400 ">
               {profession.name}
             </h1>
           </div>
           {profession.description && (
-            <p className="text-lg text-slate-600 dark:text-gray-300 italic leading-relaxed">
+            <p className="text-lg text-stone-600 dark:text-stone-300 italic leading-relaxed">
               {profession.description}
             </p>
           )}
@@ -132,16 +132,16 @@ export function ProfessionDetails() {
               {profession.statModifiers.map((mod, i) => (
                 <div
                   key={i}
-                  className="bg-slate-50 dark:bg-slate-700/40 rounded-lg p-4 border border-slate-200 dark:border-cyan-500/20"
+                  className="bg-stone-50 dark:bg-stone-700/40 rounded-lg p-4 border border-stone-200 dark:border-emerald-500/20"
                 >
-                  <p className="text-slate-800 dark:text-white font-semibold">
+                  <p className="text-stone-800 dark:text-white font-semibold">
                     {mod.stat}{" "}
-                    <span className="text-cyan-600 dark:text-cyan-300">
+                    <span className="text-emerald-700 dark:text-emerald-300">
                       {mod.value > 0 ? `+${mod.value}` : mod.value}
                     </span>
                   </p>
                   {mod.description && (
-                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                    <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
                       {mod.description}
                     </p>
                   )}
@@ -158,17 +158,17 @@ export function ProfessionDetails() {
             <TagGroup
               label="Armor"
               items={profession.armorProficiencies}
-              badgeClass="bg-orange-100 dark:bg-orange-500/20 border-orange-200 dark:border-orange-500/40 text-orange-700 dark:text-orange-300"
+              badgeClass="bg-amber-100 dark:bg-amber-500/20 border-amber-200 dark:border-amber-500/40 text-amber-700 dark:text-amber-300"
             />
             <TagGroup
               label="Weapons"
               items={profession.weaponProficiencies}
-              badgeClass="bg-orange-100 dark:bg-orange-500/20 border-orange-200 dark:border-orange-500/40 text-orange-700 dark:text-orange-300"
+              badgeClass="bg-amber-100 dark:bg-amber-500/20 border-amber-200 dark:border-amber-500/40 text-amber-700 dark:text-amber-300"
             />
             <TagGroup
               label="Skills"
               items={profession.skillProficiencies}
-              badgeClass="bg-slate-100 dark:bg-slate-700/50 border-slate-200 dark:border-slate-600/40 text-slate-600 dark:text-slate-300"
+              badgeClass="bg-stone-100 dark:bg-stone-700/50 border-stone-200 dark:border-stone-600/40 text-stone-600 dark:text-stone-300"
             />
           </div>
         </DetailCard>
@@ -181,10 +181,10 @@ export function ProfessionDetails() {
               {sortedLevelRewards.map((reward) => (
                 <div
                   key={reward.level}
-                  className="flex gap-4 items-start bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-cyan-500/10 rounded-xl p-4"
+                  className="flex gap-4 items-start bg-stone-50 dark:bg-stone-800/30 border border-stone-200 dark:border-emerald-500/10 rounded-xl p-4"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-100 to-orange-100 dark:from-cyan-600/40 dark:to-orange-500/30 border border-cyan-200 dark:border-cyan-500/30 flex items-center justify-center">
-                    <span className="text-cyan-700 dark:text-cyan-300 font-bold text-sm">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center">
+                    <span className="text-emerald-700 dark:text-emerald-300 font-bold text-sm">
                       {reward.level}
                     </span>
                   </div>
@@ -200,20 +200,20 @@ export function ProfessionDetails() {
                           {GRANT_LABELS[grant.type] || grant.type}
                         </span>
                         {grant.type === "auto" && grant.trait && (
-                          <span className="text-slate-700 dark:text-slate-200 text-sm">
+                          <span className="text-stone-700 dark:text-stone-200 text-sm">
                             {powerById[grant.trait]?.name || grant.trait}
                           </span>
                         )}
                         {grant.type === "professionChoice" &&
                           grant.options?.length > 0 && (
-                            <span className="text-slate-700 dark:text-slate-200 text-sm">
+                            <span className="text-stone-700 dark:text-stone-200 text-sm">
                               {grant.options
                                 .map((o) => powerById[o]?.name || o)
                                 .join(" / ")}
                             </span>
                           )}
                         {grant.type === "playerChoice" && (
-                          <span className="text-slate-400 dark:text-slate-500 text-sm italic">
+                          <span className="text-stone-400 dark:text-stone-500 text-sm italic">
                             Free pick, any trait
                           </span>
                         )}
@@ -236,11 +236,11 @@ export function ProfessionDetails() {
                 return (
                   <li
                     key={i}
-                    className="flex items-center justify-between text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/30 rounded-lg px-4 py-2 border border-slate-200 dark:border-cyan-500/10"
+                    className="flex items-center justify-between text-stone-600 dark:text-stone-300 bg-stone-50 dark:bg-stone-800/30 rounded-lg px-4 py-2 border border-stone-200 dark:border-emerald-500/10"
                   >
                     <span>{item?.name || entry.item}</span>
                     {entry.quantity > 1 && (
-                      <span className="text-slate-400 dark:text-slate-500 text-sm">
+                      <span className="text-stone-400 dark:text-stone-500 text-sm">
                         x{entry.quantity}
                       </span>
                     )}

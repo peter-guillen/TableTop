@@ -16,7 +16,7 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   if (itemsLoading)
-    return <p className="text-sm text-slate-400">Loading weapons...</p>;
+    return <p className="text-sm text-stone-400">Loading weapons...</p>;
   if (itemsError)
     return <p className="text-sm text-red-500">Failed to load weapons.</p>;
 
@@ -59,7 +59,7 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
   return (
     <div className="flex flex-col gap-2">
       {weapons.length === 0 && (
-        <p className="text-sm italic text-slate-400 dark:text-slate-500">
+        <p className="text-sm italic text-stone-400 dark:text-stone-500">
           No weapons available.
         </p>
       )}
@@ -87,7 +87,21 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
         const damageTypes = [
           ...new Set(weapon.healthEffects.map((e) => e.damageType)),
         ];
-        const techniqueNames = [
+        // A technique is available if the weapon has at least one of its properties
+        const techniqueNames = powers
+          .filter(
+            (p) =>
+              p.kind === "technique" &&
+              (p.requirements?.properties ?? []).some((prop) =>
+                (weapon.properties as string[]).includes(prop),
+              ),
+          )
+          .map((p) =>
+            (p.requirements?.minLevel ?? 1) > formData.progression.level
+              ? `${p.name} (Lv ${p.requirements.minLevel})`
+              : p.name,
+          );
+        const grantedNames = [
           ...weapon.grantedPowers
             .map((g) => powers.find((p) => p._id === g.power)?.name)
             .filter((name): name is string => Boolean(name)),
@@ -95,8 +109,8 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
         ];
         const buttonClass = `text-xs font-bold px-3 py-1.5 rounded-lg border transition-all duration-150 cursor-pointer ${
           sel
-            ? "bg-cyan-50 dark:bg-cyan-800/30 border-cyan-300 dark:border-cyan-500/40 text-cyan-700 dark:text-cyan-300"
-            : "bg-white dark:bg-slate-700/40 border-slate-200 dark:border-slate-600/40 text-slate-600 dark:text-slate-300 hover:border-cyan-300 dark:hover:border-cyan-500/40"
+            ? "bg-emerald-50 dark:bg-emerald-800/30 border-emerald-300 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300"
+            : "bg-white dark:bg-stone-700/40 border-stone-200 dark:border-stone-600/40 text-stone-600 dark:text-stone-300 hover:border-emerald-300 dark:hover:border-emerald-500/40"
         }`;
 
         return (
@@ -104,51 +118,56 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
             key={id}
             className={`rounded-xl border overflow-hidden transition-all duration-200 ${
               sel
-                ? "bg-cyan-50 dark:bg-cyan-800/20 border-cyan-300 dark:border-cyan-500/40"
-                : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/50"
+                ? "bg-emerald-50 dark:bg-emerald-800/20 border-emerald-300 dark:border-emerald-500/40"
+                : "bg-white dark:bg-stone-800/50 border-stone-200 dark:border-stone-700/50"
             }`}
           >
             <div
-              className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors"
+              className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-700/20 transition-colors"
               onClick={() => setExpanded(open ? null : id)}
             >
               <div className="flex items-center gap-2 flex-wrap">
                 <span
                   className={`text-sm font-semibold ${
                     sel
-                      ? "text-cyan-600 dark:text-cyan-400"
-                      : "text-slate-900 dark:text-white"
+                      ? "text-emerald-700 dark:text-emerald-400"
+                      : "text-stone-900 dark:text-white"
                   }`}
                 >
                   {weapon.name}
                 </span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-orange-100 dark:bg-orange-800/30 text-orange-800 dark:text-orange-300 border-orange-300 dark:border-orange-500/40">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-amber-100 dark:bg-amber-800/30 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-500/40">
                   {weapon.rarity}
                 </span>
                 {sel && (
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 border-cyan-300 dark:border-cyan-500/40">
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-500/40">
                     {slotLabel}
                   </span>
                 )}
               </div>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500 ml-2">
+              <span className="text-[10px] text-stone-400 dark:text-stone-500 ml-2">
                 {open ? "▲" : "▼"}
               </span>
             </div>
 
             {open && (
-              <div className="px-4 pb-4 border-t border-slate-100 dark:border-slate-700/50">
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-3">
+              <div className="px-4 pb-4 border-t border-stone-100 dark:border-stone-700/50">
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed mt-3">
                   {weapon.description}
                 </p>
                 {damageTypes.length > 0 && (
-                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
+                  <p className="text-xs text-stone-400 dark:text-stone-500 mt-2">
                     {damageTypes.join(", ")}
                   </p>
                 )}
                 {techniqueNames.length > 0 && (
-                  <p className="text-xs font-bold text-orange-600 dark:text-orange-400 mt-2">
+                  <p className="text-xs font-bold text-amber-700 dark:text-amber-400 mt-2">
                     Techniques: {techniqueNames.join(", ")}
+                  </p>
+                )}
+                {grantedNames.length > 0 && (
+                  <p className="text-xs font-bold text-amber-700 dark:text-amber-400 mt-2">
+                    Grants: {grantedNames.join(", ")}
                   </p>
                 )}
                 <div className="flex gap-2 mt-3">

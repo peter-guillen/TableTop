@@ -33,7 +33,7 @@ export const StyleComponent = () => {
   const getRarityColors = (rarity) => {
     const colorMap = {
       common:
-        "text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-600",
+        "text-stone-600 dark:text-stone-400 border-stone-200 dark:border-stone-600",
       uncommon:
         "text-green-600 dark:text-green-400 border-green-200 dark:border-green-600",
       rare: "text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-600",
@@ -147,9 +147,9 @@ export const StyleComponent = () => {
             >
               <div
                 className={`
-              group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm 
+              group bg-white dark:bg-stone-800 rounded-lg border-l-4 border shadow-sm 
               hover:shadow-md transition-all duration-200 p-4
-              hover:bg-gray-50 dark:hover:bg-gray-750
+              hover:bg-stone-50 dark:hover:bg-stone-750
               ${rarityColors}
             `}
               >
@@ -160,7 +160,7 @@ export const StyleComponent = () => {
                     <div
                       className={`
                     p-2 rounded-lg transition-colors duration-200
-                    bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600
+                    bg-stone-100 dark:bg-stone-700 group-hover:bg-stone-200 dark:group-hover:bg-stone-600
                   `}
                     >
                       <IconComponent
@@ -174,19 +174,19 @@ export const StyleComponent = () => {
                     <div className="flex-1 min-w-0">
                       {/* Name and Type */}
                       <div className="flex items-center space-x-2 mb-1">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
                           {item.name}
                         </h3>
-                        <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 capitalize">
+                        <span className="text-xs px-2 py-1 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-600 dark:text-stone-400 capitalize">
                           {item.type}
                         </span>
                       </div>
 
                       {/* Primary Stats Row */}
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <div className="flex items-center space-x-4 text-sm text-stone-600 dark:text-stone-400 mb-2">
                         {item.damage && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Damage:
                             </span>
                             <span>{item.damage}</span>
@@ -194,7 +194,7 @@ export const StyleComponent = () => {
                         )}
                         {item.armorClass && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               AC:
                             </span>
                             <span>{item.armorClass}</span>
@@ -202,7 +202,7 @@ export const StyleComponent = () => {
                         )}
                         {item.healing && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Healing:
                             </span>
                             <span>{item.healing}</span>
@@ -210,7 +210,7 @@ export const StyleComponent = () => {
                         )}
                         {item.weight && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Weight:
                             </span>
                             <span>{item.weight}</span>
@@ -218,7 +218,7 @@ export const StyleComponent = () => {
                         )}
                         {item.effect && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Effect:
                             </span>
                             <span>{item.effect}</span>
@@ -226,7 +226,7 @@ export const StyleComponent = () => {
                         )}
                         {item.prerequisite && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Req:
                             </span>
                             <span>{item.prerequisite}</span>
@@ -235,7 +235,7 @@ export const StyleComponent = () => {
                       </div>
 
                       {/* Secondary Stats Row */}
-                      <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-500">
+                      <div className="flex items-center space-x-4 text-sm text-stone-500 dark:text-stone-500">
                         {item.range && (
                           <div className="flex items-center space-x-1">
                             <span className="font-medium">Range:</span>
@@ -271,10 +271,10 @@ export const StyleComponent = () => {
                       {/* Properties Tags */}
                       {item.properties && item.properties.length > 0 && (
                         <div className="flex items-center mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                             Properties:
                           </span>
-                          <span className="text-xs text-gray-600 dark:text-gray-400">
+                          <span className="text-xs text-stone-600 dark:text-stone-400">
                             {formatProperties(item.properties)}
                           </span>
                         </div>
@@ -290,7 +290,7 @@ export const StyleComponent = () => {
                     bg-opacity-10 dark:bg-opacity-20
                     ${
                       item.rarity === "common" &&
-                      "bg-gray-500 text-gray-700 dark:text-gray-300"
+                      "bg-stone-500 text-stone-700 dark:text-stone-300"
                     }
                     ${
                       item.rarity === "uncommon" &&

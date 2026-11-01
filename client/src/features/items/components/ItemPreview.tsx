@@ -69,10 +69,10 @@ const colorSchemes: Record<string, ColorScheme> = {
     badgeText: "text-pink-700 dark:text-pink-300",
   },
   gray: {
-    text: "text-gray-600 dark:text-gray-400",
-    border: "border-gray-200 dark:border-gray-600",
-    badgeBg: "bg-gray-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-gray-700 dark:text-gray-300",
+    text: "text-stone-600 dark:text-stone-400",
+    border: "border-stone-200 dark:border-stone-600",
+    badgeBg: "bg-stone-500 bg-opacity-10 dark:bg-opacity-20",
+    badgeText: "text-stone-700 dark:text-stone-300",
   },
 };
 
@@ -138,35 +138,35 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
               className={twMerge(
                 scheme.text,
                 scheme.border,
-                "group bg-white dark:bg-gray-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-gray-50 dark:hover:bg-gray-750",
+                "group bg-white dark:bg-stone-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-stone-50 dark:hover:bg-stone-750",
               )}
             >
               <div className="flex items-start justify-between">
                 {/* Left Section - Icon and Main Info */}
                 <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg transition-colors duration-200 bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600">
+                  <div className="p-2 rounded-lg transition-colors duration-200 bg-stone-100 dark:bg-stone-700 group-hover:bg-stone-200 dark:group-hover:bg-stone-600">
                     <IconComponent className="w-5 h-5" />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     {/* Name */}
                     <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                      <h3 className="text-lg font-semibold text-stone-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
                         {item.name}
                       </h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">
+                    <p className="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mb-2">
                       {item.description}
                     </p>
 
                     {/* Primary Stats Row */}
                     {(damageDisplay || healingDisplay) && (
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <div className="flex items-center space-x-4 text-sm text-stone-600 dark:text-stone-400 mb-2">
                         {damageDisplay && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Damage:
                             </span>
                             <span>{damageDisplay}</span>
@@ -174,7 +174,7 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                         )}
                         {healingDisplay && (
                           <div className="flex items-center space-x-1">
-                            <span className="font-medium text-gray-900 dark:text-gray-300">
+                            <span className="font-medium text-stone-900 dark:text-stone-300">
                               Healing:
                             </span>
                             <span>{healingDisplay}</span>
@@ -184,7 +184,7 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                     )}
 
                     {/* Secondary Stats Row */}
-                    <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-500">
+                    <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-500">
                       {item.rarity && (
                         <div className="flex items-center space-x-1">
                           <span className="font-medium">Rarity:</span>
@@ -212,13 +212,13 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                     {item.category === "weapon" &&
                       item.properties.length > 0 && (
                         <div className="flex items-center flex-wrap mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                             Properties:
                           </span>
                           {item.properties.map((property) => (
                             <span
                               key={property}
-                              className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
                             >
                               {property}
                             </span>
@@ -229,13 +229,13 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                     {/* Armor Resistances */}
                     {item.category === "armor" && resistedTypes.length > 0 && (
                       <div className="flex items-center flex-wrap mt-2">
-                        <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                        <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                           Resists:
                         </span>
                         {resistedTypes.map((type) => (
                           <span
                             key={type}
-                            className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                            className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
                           >
                             {type}
                           </span>
@@ -247,13 +247,13 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                     {item.category === "accessory" &&
                       item.statModifiers.length > 0 && (
                         <div className="flex items-center flex-wrap mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                             Boosts:
                           </span>
                           {item.statModifiers.map((modifier, idx) => (
                             <span
                               key={`${modifier.stat}-${idx}`}
-                              className="text-xs text-gray-600 dark:text-gray-400 mr-2 capitalize"
+                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
                             >
                               {modifier.stat} {modifier.value > 0 ? "+" : ""}
                               {modifier.value}
@@ -265,10 +265,10 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                     {/* Granted Powers — any category can grant (weapon → technique, enchanted item → spell) */}
                     {item.grantedPowers.length > 0 && (
                       <div className="flex items-center mt-2">
-                        <span className="text-xs text-gray-500 dark:text-gray-500 mr-2">
+                        <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
                           Grants:
                         </span>
-                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <span className="text-xs text-stone-600 dark:text-stone-400">
                           {item.grantedPowers.length} power
                           {item.grantedPowers.length === 1 ? "" : "s"}
                         </span>

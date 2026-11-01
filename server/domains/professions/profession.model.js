@@ -4,6 +4,7 @@ import {
   ARMOR,
   SKILLS,
   STATS,
+  POWER_GROUPS,
 } from "../../shared/constants/constants.js";
 
 const GrantSchema = new mongoose.Schema({
@@ -19,6 +20,18 @@ const GrantSchema = new mongoose.Schema({
 const LevelRewardSchema = new mongoose.Schema({
   level: { type: Number, required: true },
   grants: [GrantSchema],
+  statIncreases: [
+    {
+      stat: { type: String, enum: Object.values(STATS), required: true },
+      value: { type: Number, required: true },
+    },
+  ],
+  slotIncreases: [
+    {
+      group: { type: String, enum: POWER_GROUPS, required: true },
+      value: { type: Number, required: true },
+    },
+  ],
 });
 
 const ProfessionSchema = new mongoose.Schema({

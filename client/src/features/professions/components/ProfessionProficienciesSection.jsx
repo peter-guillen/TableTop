@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { LuShield, LuPlus, LuX } from "react-icons/lu";
+import {
+  formHeading,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 const SAVING_THROWS = [
   "strength",
@@ -84,7 +88,7 @@ export const ProfessionProficienciesSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuShield size={20} />
         Proficiencies
       </h2>
@@ -92,7 +96,7 @@ export const ProfessionProficienciesSection = ({
       <div className="space-y-6">
         {/* Saving Throws */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className={`${formLabel} mb-3`}>
             Saving Throw Proficiencies
           </label>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -101,8 +105,8 @@ export const ProfessionProficienciesSection = ({
                 key={stat}
                 className={`flex items-center gap-2 cursor-pointer p-3 rounded-lg border transition-all duration-200 ${
                   savingThrows[stat]
-                    ? "bg-cyan-500/20 border-cyan-500/60 text-cyan-300"
-                    : "bg-slate-800/30 border-cyan-500/20 text-slate-400 hover:border-cyan-500/40"
+                    ? "bg-emerald-50 dark:bg-emerald-500/20 border-emerald-400 dark:border-emerald-500/60 text-emerald-700 dark:text-emerald-300"
+                    : "bg-stone-100 dark:bg-stone-800/30 border-stone-300 dark:border-emerald-500/20 text-stone-500 dark:text-stone-400 hover:border-emerald-400 dark:hover:border-emerald-500/40"
                 }`}
               >
                 <input
@@ -114,7 +118,7 @@ export const ProfessionProficienciesSection = ({
                       [stat]: !savingThrows[stat],
                     })
                   }
-                  className="w-4 h-4 rounded border-cyan-500/30 bg-slate-800/50 text-cyan-500 focus:ring-cyan-500"
+                  className="w-4 h-4 rounded border-stone-300 dark:border-emerald-500/30 bg-white dark:bg-stone-800/50 text-emerald-700 focus:ring-emerald-500"
                 />
                 <span className="capitalize text-sm">{stat}</span>
               </label>
@@ -124,7 +128,7 @@ export const ProfessionProficienciesSection = ({
 
         {/* Armor Proficiencies */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className={`${formLabel} mb-3`}>
             Armor Proficiencies
           </label>
           <div className="flex flex-wrap gap-2">
@@ -137,8 +141,8 @@ export const ProfessionProficienciesSection = ({
                 }
                 className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all duration-200 border ${
                   armorProficiencies.includes(armor)
-                    ? "bg-orange-500/20 border-orange-500/60 text-orange-300"
-                    : "bg-slate-800/30 border-slate-600/30 text-slate-400 hover:border-orange-500/30"
+                    ? "bg-amber-50 dark:bg-amber-500/20 border-amber-400 dark:border-amber-500/60 text-amber-700 dark:text-amber-300"
+                    : "bg-stone-100 dark:bg-stone-800/30 border-stone-300 dark:border-stone-600/30 text-stone-500 dark:text-stone-400 hover:border-amber-400 dark:hover:border-amber-500/30"
                 }`}
               >
                 {armor}
@@ -149,7 +153,7 @@ export const ProfessionProficienciesSection = ({
 
         {/* Weapon Proficiencies */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className={`${formLabel} mb-3`}>
             Weapon Proficiencies
           </label>
           <div className="flex flex-wrap gap-2">
@@ -162,8 +166,8 @@ export const ProfessionProficienciesSection = ({
                 }
                 className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all duration-200 border ${
                   weaponProficiencies.includes(weapon)
-                    ? "bg-orange-500/20 border-orange-500/60 text-orange-300"
-                    : "bg-slate-800/30 border-slate-600/30 text-slate-400 hover:border-orange-500/30"
+                    ? "bg-amber-50 dark:bg-amber-500/20 border-amber-400 dark:border-amber-500/60 text-amber-700 dark:text-amber-300"
+                    : "bg-stone-100 dark:bg-stone-800/30 border-stone-300 dark:border-stone-600/30 text-stone-500 dark:text-stone-400 hover:border-amber-400 dark:hover:border-amber-500/30"
                 }`}
               >
                 {weapon}
@@ -174,7 +178,7 @@ export const ProfessionProficienciesSection = ({
 
         {/* Tool Proficiencies */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className={`${formLabel} mb-3`}>
             Tool Proficiencies
           </label>
           <div className="flex gap-2 mb-3">
@@ -186,12 +190,12 @@ export const ProfessionProficienciesSection = ({
                 e.key === "Enter" && (e.preventDefault(), addTool())
               }
               placeholder="e.g. Thieves' tools, Herbalism kit..."
-              className="flex-1 px-4 py-2 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm transition-all"
+              className="flex-1 px-4 py-2 bg-white dark:bg-stone-800/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all"
             />
             <button
               type="button"
               onClick={addTool}
-              className="px-4 py-2 rounded-lg bg-cyan-600/30 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-600/50 transition-all"
+              className="px-4 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-600/30 border border-emerald-400 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-600/50 transition-all"
             >
               <LuPlus size={16} />
             </button>
@@ -201,7 +205,7 @@ export const ProfessionProficienciesSection = ({
               {toolProficiencies.map((tool) => (
                 <span
                   key={tool}
-                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-700/50 border border-slate-600/40 text-slate-300 text-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white dark:bg-stone-700/50 border border-stone-300 dark:border-stone-600/40 text-stone-700 dark:text-stone-300 text-sm"
                 >
                   {tool}
                   <button
@@ -220,11 +224,11 @@ export const ProfessionProficienciesSection = ({
         {/* Skill Choices */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="block text-sm font-medium text-slate-300">
+            <label className={formLabel}>
               Skill Choices
             </label>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Choose</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">Choose</span>
               <input
                 type="number"
                 min={1}
@@ -236,9 +240,9 @@ export const ProfessionProficienciesSection = ({
                     choose: Number(e.target.value),
                   })
                 }
-                className="w-14 px-2 py-1 bg-slate-800/50 border border-cyan-500/30 rounded text-white text-center text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                className="w-14 px-2 py-1 bg-white dark:bg-stone-800/50 border border-stone-300 dark:border-emerald-500/30 rounded text-stone-900 dark:text-white text-center text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
               />
-              <span className="text-xs text-slate-400">from pool below</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">from pool below</span>
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -247,15 +251,15 @@ export const ProfessionProficienciesSection = ({
                 key={skill}
                 className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg border text-sm transition-all duration-200 ${
                   (skillChoices.from || []).includes(skill)
-                    ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-300"
-                    : "bg-slate-800/20 border-slate-700/30 text-slate-400 hover:border-cyan-500/30"
+                    ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-400 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300"
+                    : "bg-stone-100 dark:bg-stone-800/20 border-stone-300 dark:border-stone-700/30 text-stone-500 dark:text-stone-400 hover:border-stone-300 dark:hover:border-emerald-500/30"
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={(skillChoices.from || []).includes(skill)}
                   onChange={() => toggleSkill(skill)}
-                  className="w-3.5 h-3.5 rounded border-cyan-500/30 bg-slate-800/50 text-cyan-500 focus:ring-cyan-500"
+                  className="w-3.5 h-3.5 rounded border-stone-300 dark:border-emerald-500/30 bg-white dark:bg-stone-800/50 text-emerald-700 focus:ring-emerald-500"
                 />
                 {skill}
               </label>

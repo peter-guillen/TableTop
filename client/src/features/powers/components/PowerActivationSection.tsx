@@ -1,5 +1,12 @@
 import { LuClock } from "react-icons/lu";
 import { Activation, Recharge, Action, Resource } from "../powerTypes";
+import {
+  formCheckLabel,
+  formCheckbox,
+  formHeading,
+  formInput,
+  formLabel,
+} from "../../../shared/styles/theme.ts";
 
 interface PowerActivationSectionProps {
   activation: Activation;
@@ -19,14 +26,14 @@ export const PowerActivationSection = ({
 }: PowerActivationSectionProps) => {
   return (
     <section>
-      <h2 className="text-xl font-bold text-cyan-300 dark:text-orange-300 mb-4 flex items-center gap-2">
+      <h2 className={formHeading}>
         <LuClock size={20} />
         Activation & Duration
       </h2>
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Action Type *
             </label>
             <select
@@ -36,7 +43,7 @@ export const PowerActivationSection = ({
               }
               value={activation.action}
               required
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             >
               <option value="major_action">Major Action</option>
               <option value="minor_action">Minor Action</option>
@@ -45,7 +52,7 @@ export const PowerActivationSection = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Cast Time (rounds) *
             </label>
             <input
@@ -58,13 +65,13 @@ export const PowerActivationSection = ({
               value={activation.castTime}
               min="0"
               required
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className={`${formLabel} mb-2`}>
             Duration (rounds) *
           </label>
           <input
@@ -77,13 +84,13 @@ export const PowerActivationSection = ({
             value={activation.duration}
             min="0"
             required
-            className="w-full md:w-1/2 px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+            className="w-full md:w-1/2 px-4 py-3 bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500 focus:border-transparent transition-all"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Resource *
             </label>
             <select
@@ -93,16 +100,15 @@ export const PowerActivationSection = ({
               }
               value={activation.resource}
               required
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all uppercase"
+              className={`${formInput} uppercase`}
             >
               <option value="hp">HP</option>
               <option value="mp">MP</option>
-              <option value="momentum">Momentum</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Cost *
             </label>
             <input
@@ -115,12 +121,12 @@ export const PowerActivationSection = ({
               value={activation.cost}
               min="0"
               required
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className={`${formLabel} mb-2`}>
               Recharge
             </label>
             <select
@@ -128,7 +134,7 @@ export const PowerActivationSection = ({
               onChange={(e) => onRechargeChange(e.target.value as Recharge)}
               value={recharge}
               required
-              className="w-full px-4 py-3 bg-slate-800/50 dark:bg-slate-900/50 border border-cyan-500/30 dark:border-orange-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500 focus:border-transparent transition-all"
+              className={formInput}
             >
               <option value="unlimited">Unlimited</option>
               <option value="daily">Daily</option>
@@ -139,18 +145,18 @@ export const PowerActivationSection = ({
         </div>
 
         <div className="flex gap-6">
-          <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label className={formCheckLabel}>
             <input
               type="checkbox"
               name="ritual"
               checked={activation.ritual}
               onChange={(e) => onActivationChange("ritual", e.target.checked)}
-              className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+              className={formCheckbox}
             />
             <span>Ritual Power</span>
           </label>
 
-          <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label className={formCheckLabel}>
             <input
               type="checkbox"
               name="concentration"
@@ -158,18 +164,18 @@ export const PowerActivationSection = ({
               onChange={(e) =>
                 onActivationChange("concentration", e.target.checked)
               }
-              className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+              className={formCheckbox}
             />
             <span>Requires Concentration</span>
           </label>
 
-          <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label className={formCheckLabel}>
             <input
               type="checkbox"
               name="channel"
               checked={activation.channel}
               onChange={(e) => onActivationChange("channel", e.target.checked)}
-              className="w-4 h-4 rounded border-cyan-500/30 dark:border-orange-500/30 bg-slate-800/50 dark:bg-slate-900/50 text-cyan-500 dark:text-orange-500 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-orange-500"
+              className={formCheckbox}
             />
             <span>Channeled</span>
           </label>

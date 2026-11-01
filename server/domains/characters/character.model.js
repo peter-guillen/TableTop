@@ -1,4 +1,9 @@
 import mongoose, { Schema } from "mongoose";
+import {
+  SKILLS,
+  MAX_LEVEL,
+  BASE_POWER_SLOTS,
+} from "../../shared/constants/constants.js";
 
 const characterSchema = new Schema(
   {
@@ -25,7 +30,14 @@ const characterSchema = new Schema(
     },
 
     progression: {
-      level: { type: Number, default: 1, min: 1 },
+      level: { type: Number, default: 1, min: 1, max: MAX_LEVEL },
+      // Highest level whose rewards have been applied; below `level` means rewards are pending
+      claimedLevel: { type: Number, default: 0, min: 0, max: MAX_LEVEL },
+      powerSlots: {
+        spells: { type: Number, default: BASE_POWER_SLOTS, min: 0 },
+        abilities: { type: Number, default: BASE_POWER_SLOTS, min: 0 },
+        traits: { type: Number, default: BASE_POWER_SLOTS, min: 0 },
+      },
     },
 
     stats: {
@@ -36,11 +48,16 @@ const characterSchema = new Schema(
         evasion: { type: Number, default: 0 },
         dominance: { type: Number, default: 0 },
         resolve: { type: Number, default: 0 },
+        movement: { type: Number, default: 0 },
+        initiative: { type: Number, default: 0 },
       },
       resources: {
-        hp: Number,
-        mp: Number,
-        momentum: { type: Number, default: 5, min: 0 },
+        hp: { type: Number, min: 0 },
+        hpMax: { type: Number, min: 0 },
+        mp: { type: Number, min: 0 },
+        mpMax: { type: Number, min: 0 },
+        mom: { type: Number, default: 5, min: 0 },
+        momMax: { type: Number, default: 5, min: 0 },
       },
     },
 
@@ -66,7 +83,10 @@ const characterSchema = new Schema(
       abilities: [{ type: Schema.Types.ObjectId, ref: "Power" }],
     },
 
-    skills: { type: [String], default: [] },
+    skills: {
+      type: [{ type: String, enum: Object.values(SKILLS) }],
+      default: [],
+    },
   },
   { timestamps: true },
 );
