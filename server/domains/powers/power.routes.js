@@ -18,20 +18,20 @@ router.get("/:id", validateObjectId, getPowerById);
 router.post(
   "/",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   createPower,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   validateObjectId,
   updatePower,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator"]),
   validateObjectId,
   deletePower,
 );

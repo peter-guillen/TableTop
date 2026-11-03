@@ -1,9 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useGetCurrentUserQuery } from "../../auth/api/authApi.tsx";
+import { ghostButton } from "../../../shared/styles/theme.ts";
 import { useGetAllProfessionsQuery } from "../api/professionApi";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 import {
   LuArrowLeft,
+  LuPen,
   LuCrown,
   LuShield,
   LuSparkles,
@@ -72,6 +75,10 @@ function TagGroup({ label, items = [], badgeClass }) {
 export function ProfessionDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { data: currentUser } = useGetCurrentUserQuery();
+  const canEdit = ["admin", "moderator", "editor"].includes(
+    currentUser?.role ?? "",
+  );
 
   const { data: profession, error, isLoading } = useGetAllProfessionsQuery(id);
   const { data: items = [] } = useGetAllItemsQuery();
@@ -98,16 +105,29 @@ export function ProfessionDetails() {
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white mb-6 transition-all group"
-        >
-          <LuArrowLeft
-            size={20}
-            className="group-hover:-translate-x-1 transition-transform"
-          />
-          <span>Back to Professions</span>
-        </button>
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-all group"
+          >
+            <LuArrowLeft
+              size={20}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span>Back to Professions</span>
+          </button>
+
+          {/* Edit is only offered to roles the server lets edit */}
+          {canEdit && (
+            <Link
+              to={`/professions/${id}/edit`}
+              className={`px-4 py-2 ${ghostButton}`}
+            >
+              <LuPen size={16} aria-hidden="true" />
+              Edit
+            </Link>
+          )}
+        </div>
 
         {/* ── Header Card ── */}
         <DetailCard>

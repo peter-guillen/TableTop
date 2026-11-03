@@ -13,32 +13,32 @@ import {
 router.get(
   "/",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor", "user"]),
   getAllCharacters,
 );
 router.get(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor", "user"]),
   getCharacterById,
 );
 
 router.post(
   "/",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor", "user"]),
   createCharacter,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor", "user"]),
   deleteCharacter,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor", "user"]),
   updateCharacter,
 );
 

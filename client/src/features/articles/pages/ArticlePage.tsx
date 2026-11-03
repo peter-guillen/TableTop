@@ -14,7 +14,7 @@ export const ArticlePage = () => {
         <Route
           path="create"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
               <ArticleForm />
             </ProtectedRoute>
           }
@@ -22,7 +22,7 @@ export const ArticlePage = () => {
         <Route
           path=":id/edit"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
               <ArticleForm />
             </ProtectedRoute>
           }

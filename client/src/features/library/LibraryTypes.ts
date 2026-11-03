@@ -1,8 +1,5 @@
-import { Spell } from "../spells/spellTypes";
-import { Weapon } from "../weapons/weaponTypes";
 import {
   Affinities,
-  Armor,
   Background,
   Profession,
   Species,
@@ -11,11 +8,8 @@ import {
 
 export interface LibraryFormData {
   affinities: Affinities[];
-  armors: Armor[];
   backgrounds: Background;
   professions: Profession;
   species: Species[];
-  spells: Spell[];
   traits: Traits[];
-  weapons: Weapon[];
 }

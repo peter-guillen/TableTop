@@ -13,7 +13,7 @@ export const ItemPage = () => {
         <Route
           path="create"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
               <ItemForm />
             </ProtectedRoute>
           }
@@ -21,7 +21,7 @@ export const ItemPage = () => {
         <Route
           path=":id/edit"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
               <ItemForm />
             </ProtectedRoute>
           }

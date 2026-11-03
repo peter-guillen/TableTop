@@ -14,6 +14,7 @@ import { ArticleFormData } from "../articleTypes.ts";
 import {
   formCard,
   formHeading,
+  formInput,
   formLabel,
   formTitle,
   ghostButton,
@@ -69,9 +70,6 @@ export function ArticleForm() {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong.</p>;
 
-  const inputClasses =
-    "w-full px-4 py-3 bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500 focus:border-transparent transition-all";
-
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-stone-950 p-6">
       <div className="max-w-5xl mx-auto">
@@ -110,7 +108,7 @@ export function ArticleForm() {
                       placeholder="Name your spell..."
                       value={formData.title}
                       onChange={handleInputChange}
-                      className={inputClasses}
+                      className={formInput}
                     />
                   </div>
 
@@ -124,7 +122,7 @@ export function ArticleForm() {
                       placeholder="A short teaser..."
                       value={formData.synopsis}
                       onChange={handleInputChange}
-                      className={`${inputClasses} resize-none`}
+                      className={`${formInput} resize-none`}
                     />
                   </div>
 
@@ -138,7 +136,7 @@ export function ArticleForm() {
                       placeholder="Describe what the spell does..."
                       value={formData.body}
                       onChange={handleInputChange}
-                      className={`${inputClasses} resize-none`}
+                      className={`${formInput} resize-none`}
                     />
                   </div>
                 </div>

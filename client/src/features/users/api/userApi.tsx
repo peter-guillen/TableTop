@@ -1,5 +1,5 @@
 import API_URL from "../../../shared/api/api";
-import type { UserFormData, UserType } from "../userTypes"; // User = Omit<UserFormData, "password">
+import type { UserFormData, UserProfile, UserType } from "../userTypes"; // User = Omit<UserFormData, "password">
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../../app/store.ts";
 import { authApi } from "../../auth/api/authApi.tsx";
@@ -49,6 +49,32 @@ export const userApi = createApi({
       ],
     }),
 
+    updateUserRole: builder.mutation<UserType, { id: string; role: string }>({
+      query: ({ id, role }) => ({
+        url: `/${id}/role`,
+        method: "PATCH",
+        body: { role },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "User", id },
+        { type: "User", id: "LIST" },
+      ],
+    }),
+
+    updateMyProfile: builder.mutation<UserType, UserProfile>({
+      query: (profile) => ({
+        url: "/me/profile",
+        method: "PATCH",
+        body: { profile },
+      }),
+      invalidatesTags: [{ type: "User", id: "LIST" }],
+      // The Navbar reads the current user from authApi, so refresh it too
+      async onQueryStarted(profile, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(authApi.util.invalidateTags(["Auth"]));
+      },
+    }),
+
     deleteUser: builder.mutation<UserType, string>({
       query: (id) => ({
         url: `/${id}`,
@@ -78,5 +104,7 @@ export const {
   useGetUserByIdQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
+  useUpdateUserRoleMutation,
+  useUpdateMyProfileMutation,
   useDeleteUserMutation,
 } = userApi;

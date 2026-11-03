@@ -1,7 +1,6 @@
 // components/AdminRouter.jsx
 import { AdminTable } from "./AdminTable.tsx";
-import { DashboardExample } from "./DashboardExample.tsx";
-import { ActivityLog } from "./ActivityLog.tsx";
+import { AdminDashboard } from "./AdminDashboard.tsx";
 import React from "react";
 
 type SectionEntry = {
@@ -14,6 +13,9 @@ interface AdminRouterTypes {
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   sectionConfig: Record<string, SectionEntry>;
+  canManageUsers: boolean;
+  currentUserId?: string;
+  onRoleChange: (id: string, role: string) => void;
 }
 
 export function AdminRoutes({
@@ -21,33 +23,58 @@ export function AdminRoutes({
   searchTerm,
   onSearchChange,
   sectionConfig,
+  canManageUsers,
+  currentUserId,
+  onRoleChange,
 }: AdminRouterTypes) {
   switch (activeSection) {
     // DASHBOARD
     case "dashboard":
       return (
-        <div className="space-y-6">
-          <DashboardExample />
-        </div>
+        <AdminDashboard
+          sectionConfig={sectionConfig}
+          canManageUsers={canManageUsers}
+        />
       );
 
-    // USERS
+    // USERS (admin only; the tab is hidden for moderators)
     case "users":
+      if (!canManageUsers) {
+        return (
+          <AdminDashboard
+            sectionConfig={sectionConfig}
+            canManageUsers={canManageUsers}
+          />
+        );
+      }
       return (
         <AdminTable
           title="Users"
-          columns={["Name", "Email", "Role", "Last Active", "Status"]}
+          columns={["Username", "Email", "Role"]}
           data={sectionConfig.users.data}
           activeSection="users"
           onDelete={sectionConfig.users.deleteFn}
           searchTerm={searchTerm}
           onSearchChange={onSearchChange}
+          showPageLinks={false}
+          lockedRowId={currentUserId}
           renderRow={(user: any) => [
-            user.username || user.name,
+            user.username,
             user.email,
-            user.role,
-            user.lastActive || "-",
-            user.status || "Active",
+            // The server refuses changes to your own role, so lock that row
+            <select
+              aria-label={`Role for ${user.username}`}
+              value={user.role}
+              disabled={user._id === currentUserId}
+              onChange={(e) => onRoleChange(user._id, e.target.value)}
+              className="rounded-md border border-stone-300 bg-white px-2 py-1 text-sm capitalize text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 disabled:opacity-50 dark:border-stone-700 dark:bg-stone-950 dark:text-stone-100 dark:focus:ring-emerald-400"
+            >
+              {["admin", "moderator", "editor", "user", "guest"].map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>,
           ]}
         />
       );
@@ -56,8 +83,8 @@ export function AdminRoutes({
     case "powers":
       return (
         <AdminTable
-          title="Spells"
-          columns={["Name", "Tier", "School", "Range", "Duration"]}
+          title="Powers"
+          columns={["Name", "Kind", "School", "Action", "Recharge"]}
           data={sectionConfig.powers.data}
           activeSection="powers"
           onDelete={sectionConfig.powers.deleteFn}
@@ -65,10 +92,10 @@ export function AdminRoutes({
           onSearchChange={onSearchChange}
           renderRow={(power) => [
             power.name,
-            power.tier,
-            power.school,
-            power.range,
-            power.duration,
+            power.kind,
+            power.school ?? "-",
+            power.activation?.action?.replace("_", " ") ?? "-",
+            power.recharge?.replace("_", " ") ?? "-",
           ]}
         />
       );
@@ -77,8 +104,8 @@ export function AdminRoutes({
     case "items":
       return (
         <AdminTable
-          title="Spells"
-          columns={["Name", "Tier", "School", "Range", "Duration"]}
+          title="Items"
+          columns={["Name", "Category", "Rarity", "Value"]}
           data={sectionConfig.items.data}
           activeSection="items"
           onDelete={sectionConfig.items.deleteFn}
@@ -86,71 +113,9 @@ export function AdminRoutes({
           onSearchChange={onSearchChange}
           renderRow={(item) => [
             item.name,
-            item.tier,
-            item.school,
-            item.range,
-            item.duration,
-          ]}
-        />
-      );
-    case "spells":
-      return (
-        <AdminTable
-          title="Spells"
-          columns={["Name", "Tier", "School", "Range", "Duration"]}
-          data={sectionConfig.spells.data}
-          activeSection="spells"
-          onDelete={sectionConfig.spells.deleteFn}
-          searchTerm={searchTerm}
-          onSearchChange={onSearchChange}
-          renderRow={(spell) => [
-            spell.name,
-            spell.tier,
-            spell.school,
-            spell.range,
-            spell.duration,
-          ]}
-        />
-      );
-
-    // WEAPONS
-    case "weapons":
-      return (
-        <AdminTable
-          title="Weapons"
-          columns={["Name", "Damage", "Category", "Weight", "Range"]}
-          data={sectionConfig.weapons.data}
-          activeSection="weapons"
-          onDelete={sectionConfig.weapons.deleteFn}
-          searchTerm={searchTerm}
-          onSearchChange={onSearchChange}
-          renderRow={(weapon) => [
-            weapon.name,
-            weapon.damage,
-            weapon.category,
-            weapon.weight,
-            weapon.range,
-          ]}
-        />
-      );
-
-    // ARMORS
-    case "armors":
-      return (
-        <AdminTable
-          title="Armors"
-          columns={["Name", "Defense", "Category", "Type", "Penalty"]}
-          data={sectionConfig.armors.data}
-          activeSection="armors"
-          onDelete={sectionConfig.armors.deleteFn}
-          searchTerm={searchTerm}
-          onSearchChange={onSearchChange}
-          renderRow={(armor) => [
-            armor.name,
-            armor.defense,
-            armor.category,
-            armor.type,
-            armor.penalty,
+            item.category,
+            item.rarity ?? "-",
+            item.value,
           ]}
         />
       );
@@ -160,18 +125,22 @@ export function AdminRoutes({
       return (
         <AdminTable
           title="Professions"
-          columns={["Title", "Weapon", "Armor", "Spell", "Levels"]}
+          columns={[
+            "Name",
+            "Weapon Proficiencies",
+            "Armor Proficiencies",
+            "Levels",
+          ]}
           data={sectionConfig.professions.data}
           activeSection="professions"
           onDelete={sectionConfig.professions.deleteFn}
           searchTerm={searchTerm}
           onSearchChange={onSearchChange}
           renderRow={(profession) => [
-            profession.title,
-            profession.weapon,
-            profession.armor,
-            profession.spell || "-",
-            profession.spell || "Draft",
+            profession.name,
+            profession.weaponProficiencies?.join(", ") || "-",
+            profession.armorProficiencies?.join(", ") || "-",
+            profession.levelRewards?.length ?? 0,
           ]}
         />
       );
@@ -181,28 +150,28 @@ export function AdminRoutes({
       return (
         <AdminTable
           title="Articles"
-          columns={["Title", "Author", "Category", "Published", "Status"]}
+          columns={["Title", "Author", "Created", "Updated"]}
           data={sectionConfig.articles.data}
           activeSection="articles"
           onDelete={sectionConfig.articles.deleteFn}
           searchTerm={searchTerm}
           onSearchChange={onSearchChange}
           renderRow={(article) => [
-            article.title,
-            article.author,
-            article.category,
-            article.published || "-",
-            article.status || "Draft",
+            article.title || "Untitled",
+            article.author || "-",
+            new Date(article.createdAt).toLocaleDateString(),
+            new Date(article.updatedAt).toLocaleDateString(),
           ]}
         />
       );
 
-    // ANALYTICS
-    case "analytics":
-      return <ActivityLog />;
-
     // DEFAULT
     default:
-      return <DashboardExample />;
+      return (
+        <AdminDashboard
+          sectionConfig={sectionConfig}
+          canManageUsers={canManageUsers}
+        />
+      );
   }
 }

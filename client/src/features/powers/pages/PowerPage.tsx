@@ -13,7 +13,7 @@ export const PowerPage = () => {
         <Route
           path="create"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
               <PowerForm />
             </ProtectedRoute>
           }
@@ -21,7 +21,7 @@ export const PowerPage = () => {
         <Route
           path=":id/edit"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
               <PowerForm />
             </ProtectedRoute>
           }

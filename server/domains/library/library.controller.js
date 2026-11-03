@@ -1,46 +1,28 @@
 import Archetype from "../archetypes/archetype.model.js";
-import Armor from "../armors/armor.model.js";
 import Background from "../backgrounds/background.model.js";
 import Condition from "../conditions/condition.model.js";
 import Profession from "../professions/profession.model.js";
 import Species from "../species/species.model.js";
-import Spell from "../spells/spell.model.js";
 import Trait from "../traits/trait.model.js";
-import Weapon from "../weapons/weapon.model.js";
 
 const getLibrary = async (req, res) => {
   try {
-    const [
-      archetypes,
-      armors,
-      backgrounds,
-      conditions,
-      professions,
-      species,
-      spells,
-      traits,
-      weapons,
-    ] = await Promise.all([
-      Archetype.find({}),
-      Armor.find({}),
-      Background.find({}),
-      Condition.find({}),
-      Profession.find({}),
-      Species.find({}),
-      Spell.find({}),
-      Trait.find({}),
-      Weapon.find({}),
-    ]);
+    const [archetypes, backgrounds, conditions, professions, species, traits] =
+      await Promise.all([
+        Archetype.find({}),
+        Background.find({}),
+        Condition.find({}),
+        Profession.find({}),
+        Species.find({}),
+        Trait.find({}),
+      ]);
     res.status(200).json({
       archetypes,
-      armors,
       backgrounds,
       conditions,
       professions,
       species,
-      spells,
       traits,
-      weapons,
     });
   } catch (error) {
     res

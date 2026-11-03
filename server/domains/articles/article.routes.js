@@ -1,5 +1,7 @@
 import express from "express";
 const router = express.Router();
+import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
+import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
 
 import {
   getArticles,
@@ -10,10 +12,25 @@ import {
 } from "./article.controller.js";
 
 router.get("/", getArticles);
-router.post("/", createArticle);
-
 router.get("/:id", getArticle);
-router.delete("/:id", deleteArticle);
-router.patch("/:id", updateArticle);
+
+router.post(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator", "editor"]),
+  createArticle,
+);
+router.patch(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator", "editor"]),
+  updateArticle,
+);
+router.delete(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator"]),
+  deleteArticle,
+);
 
 export default router;

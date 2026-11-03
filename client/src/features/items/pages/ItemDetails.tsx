@@ -1,6 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useGetCurrentUserQuery } from "../../auth/api/authApi.tsx";
+import { ghostButton } from "../../../shared/styles/theme.ts";
 import {
   LuArrowLeft,
+  LuPen,
   LuSparkles,
   LuBookOpen,
   LuFlame,
@@ -21,6 +24,10 @@ export function ItemDetails() {
   const powersById = Object.fromEntries(powers.map((p) => [p._id, p]));
 
   const navigate = useNavigate();
+  const { data: currentUser } = useGetCurrentUserQuery();
+  const canEdit = ["admin", "moderator", "editor"].includes(
+    currentUser?.role ?? "",
+  );
   const handleReturn = () => navigate(-1);
 
   if (isLoading) return <p>Loading...</p>;
@@ -68,16 +75,29 @@ export function ItemDetails() {
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
-        <button
-          onClick={handleReturn}
-          className="flex items-center gap-2 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white mb-6 transition-all group"
-        >
-          <LuArrowLeft
-            size={20}
-            className="group-hover:-translate-x-1 transition-transform"
-          />
-          <span>Back to Item List</span>
-        </button>
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={handleReturn}
+            className="flex items-center gap-2 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white transition-all group"
+          >
+            <LuArrowLeft
+              size={20}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span>Back to Item List</span>
+          </button>
+
+          {/* Edit is only offered to roles the server lets edit */}
+          {canEdit && (
+            <Link
+              to={`/items/${id}/edit`}
+              className={`px-4 py-2 ${ghostButton}`}
+            >
+              <LuPen size={16} aria-hidden="true" />
+              Edit
+            </Link>
+          )}
+        </div>
 
         {/* Header Card */}
         <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">

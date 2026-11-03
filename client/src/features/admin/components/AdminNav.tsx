@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { AdminRoutes } from "./AdminRoutes";
 
+import { useGetCurrentUserQuery } from "../../auth/api/authApi.tsx";
 import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
+  useUpdateUserRoleMutation,
 } from "../../users/api/userApi.tsx";
 import {
   useGetAllArticlesQuery,
@@ -26,7 +28,6 @@ import {
   LuUsers,
   LuSparkles,
   LuFileText,
-  LuChartColumn,
   LuHouse,
   LuChevronRight,
   LuDrama,
@@ -37,8 +38,17 @@ export const AdminNav = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: userList, isLoading, isError } = useGetAllUsersQuery();
+  // Moderators can open the admin page, but only admins manage users
+  const { data: currentUser } = useGetCurrentUserQuery();
+  const canManageUsers = currentUser?.role === "admin";
+
+  const {
+    data: userList = [],
+    isLoading: userLoading,
+    isError: userError,
+  } = useGetAllUsersQuery(undefined, { skip: !canManageUsers });
   const [deleteUser] = useDeleteUserMutation();
+  const [updateUserRole] = useUpdateUserRoleMutation();
   const {
     data: articleList = [],
     isLoading: articleLoading,
@@ -83,28 +93,33 @@ export const AdminNav = () => {
       deleteFn: deleteItem,
     },
     users: {
-      data: userList ?? [],
+      data: userList,
       deleteFn: deleteUser,
     },
   };
 
-  if (articleLoading || professionLoading || powerLoading || itemLoading) {
+  if (
+    userLoading ||
+    articleLoading ||
+    professionLoading ||
+    powerLoading ||
+    itemLoading
+  ) {
     return <p>Loading...</p>;
   }
 
-  if (articleError || professionError || powerError || itemError) {
+  if (userError || articleError || professionError || powerError || itemError) {
     return <p>Something went wrong while fetching data.</p>;
   }
 
   // Sidebar items
   const navigationItems = [
     { id: "dashboard", label: "Dashboard", icon: LuHouse },
-    { id: "users", label: "Users", icon: LuUsers },
+    ...(canManageUsers ? [{ id: "users", label: "Users", icon: LuUsers }] : []),
     { id: "articles", label: "Articles", icon: LuFileText },
     { id: "professions", label: "Professions", icon: LuDrama },
     { id: "powers", label: "Powers", icon: LuSparkles },
     { id: "items", label: "Items", icon: LuAnvil },
-    { id: "analytics", label: "Analytics", icon: LuChartColumn },
   ];
 
   return (
@@ -156,6 +171,9 @@ export const AdminNav = () => {
             searchTerm={searchTerm}
             onSearchChange={(e) => setSearchTerm(e.target.value)}
             sectionConfig={sectionConfig}
+            canManageUsers={canManageUsers}
+            currentUserId={currentUser?._id}
+            onRoleChange={(id, role) => updateUserRole({ id, role })}
           />
         </div>
       </div>

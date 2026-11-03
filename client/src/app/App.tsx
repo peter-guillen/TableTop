@@ -21,12 +21,12 @@ import { NotFound } from "./pages/NotFound.tsx";
 import { ArticlePage } from "../features/articles/pages/ArticlePage";
 import { ItemPage } from "../features/items/pages/ItemPage.tsx";
 import { ProfessionPage } from "../features/professions/pages/ProfessionPage";
+import { SpeciesPage } from "../features/species/pages/SpeciesPage.tsx";
+import { BackgroundPage } from "../features/backgrounds/pages/BackgroundPage.tsx";
 import { PowerPage } from "../features/powers/pages/PowerPage.tsx";
-import { SpellPage } from "../features/spells/pages/SpellPage";
-import { WeaponPage } from "../features/weapons/pages/WeaponPage.tsx";
-import { ArmorPage } from "../features/armors/pages/ArmorPage";
 import { UserPage } from "../features/users/pages/UserPage.tsx";
 import { AdminPage } from "../features/admin/pages/AdminPage.tsx";
+import { QuickActions } from "./pages/QuickActions.tsx";
 import { useGetConstantsQuery } from "../shared/constants/api/constantsApi.ts";
 
 const router = createBrowserRouter(
@@ -34,7 +34,22 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/" element={<Navbar />}>
         <Route index element={<Home />} />
-        <Route path="/admin/*" element={<AdminPage />} />
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute roles={["admin", "moderator"]}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create"
+          element={
+            <ProtectedRoute roles={["admin", "moderator", "editor"]}>
+              <QuickActions />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
@@ -45,10 +60,17 @@ const router = createBrowserRouter(
         <Route path="/items/*" element={<ItemPage />} />
         <Route path="/powers/*" element={<PowerPage />} />
         <Route path="/professions/*" element={<ProfessionPage />} />
-        <Route path="/spells/*" element={<SpellPage />} />
-        <Route path="/weapons/*" element={<WeaponPage />} />
-        <Route path="/armors/*" element={<ArmorPage />} />
-        <Route path="/users/*" element={<UserPage />} />
+        <Route path="/species/*" element={<SpeciesPage />} />
+        <Route path="/backgrounds/*" element={<BackgroundPage />} />
+        {/* No roles: every logged-in user, guests included, has a profile */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserPage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>,

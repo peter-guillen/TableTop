@@ -5,7 +5,6 @@ import { authApi } from "../features/auth/api/authApi.js";
 import { userApi } from "../features/users/api/userApi.tsx";
 
 import { archetypeApi } from "../features/archetypes/api/archetypeApi.js";
-import { armorApi } from "../features/armors/api/armorApi.jsx";
 import { articleApi } from "../features/articles/api/articleApi.tsx";
 import { backgroundApi } from "../features/backgrounds/api/backgroundApi.js";
 import { characterApi } from "../features/characters/api/characterApi.js";
@@ -15,9 +14,7 @@ import { libraryApi } from "../features/library/api/libraryApi.tsx";
 import { powerApi } from "../features/powers/api/powerApi.js";
 import { professionApi } from "../features/professions/api/professionApi.js";
 import { speciesApi } from "../features/species/api/speciesApi.js";
-import { spellApi } from "../features/spells/api/spellApi.js";
 import { traitApi } from "../features/traits/api/traitApi.js";
-import { weaponApi } from "../features/weapons/api/weaponApi.js";
 
 export const store = configureStore({
   reducer: {
@@ -26,7 +23,6 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
 
     [archetypeApi.reducerPath]: archetypeApi.reducer,
-    [armorApi.reducerPath]: armorApi.reducer,
     [articleApi.reducerPath]: articleApi.reducer,
     [backgroundApi.reducerPath]: backgroundApi.reducer,
     [characterApi.reducerPath]: characterApi.reducer,
@@ -36,9 +32,7 @@ export const store = configureStore({
     [powerApi.reducerPath]: powerApi.reducer,
     [professionApi.reducerPath]: professionApi.reducer,
     [speciesApi.reducerPath]: speciesApi.reducer,
-    [spellApi.reducerPath]: spellApi.reducer,
     [traitApi.reducerPath]: traitApi.reducer,
-    [weaponApi.reducerPath]: weaponApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -47,7 +41,6 @@ export const store = configureStore({
       userApi.middleware,
 
       archetypeApi.middleware,
-      armorApi.middleware,
       articleApi.middleware,
       backgroundApi.middleware,
       characterApi.middleware,
@@ -57,9 +50,7 @@ export const store = configureStore({
       powerApi.middleware,
       professionApi.middleware,
       speciesApi.middleware,
-      spellApi.middleware,
       traitApi.middleware,
-      weaponApi.middleware,
     ),
 });
 

@@ -17,7 +17,7 @@ import {
   surface,
 } from "../../shared/styles/theme.ts";
 
-type RegisterUser = Omit<UserFormData, "_id" | "role">;
+type RegisterUser = Omit<UserFormData, "_id" | "role" | "profile">;
 
 export const Register = () => {
   const [createUser] = useCreateUserMutation();
