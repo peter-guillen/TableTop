@@ -63,7 +63,9 @@ const GAME_RESOURCE_ROUTES = [
 ];
 
 const isWithin = (pathname: string, routes: string[]) =>
-  routes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+  routes.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
 
 // Dropdown opens on hover AND when anything inside it has keyboard focus
 const dropdownMenu =
@@ -108,6 +110,18 @@ export const Navbar = () => {
   };
 
   const canSeeAdmin = isAdminOrMod(currentUser?.role);
+  const canCreateContent = ["admin", "moderator", "editor"].includes(
+    currentUser?.role ?? "",
+  );
+  // Guests and logged-out visitors can browse, but can't have characters
+  const canPlay = ["admin", "moderator", "editor", "user"].includes(
+    currentUser?.role ?? "",
+  );
+  // Users can opt to show their name instead of their username (Profile page)
+  const displayName =
+    currentUser?.profile?.showName && currentUser.profile.name
+      ? currentUser.profile.name
+      : currentUser?.username;
   const closeMobile = () => setIsMobileMenuOpen(false);
 
   return (
@@ -133,14 +147,20 @@ export const Navbar = () => {
 
             {/* Desktop Navigation Links */}
             <div className="hidden items-center gap-1 lg:flex">
-              <NavLink to="/" end className={({ isActive }) => navLink(isActive)}>
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) => navLink(isActive)}
+              >
                 <FaHouse className="h-4 w-4" />
                 <span>Home</span>
               </NavLink>
 
               {/* Player Tools Dropdown */}
               <div className="group relative">
-                <button className={navLink(isWithin(pathname, PLAYER_TOOLS_ROUTES))}>
+                <button
+                  className={navLink(isWithin(pathname, PLAYER_TOOLS_ROUTES))}
+                >
                   <span>Player Tools</span>
                   <LuChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
                 </button>
@@ -152,15 +172,19 @@ export const Navbar = () => {
                       <span>Basic Rules</span>
                     </NavLink>
 
-                    <NavLink to="/characters" end className={menuLink}>
-                      <LuScrollText className="h-4 w-4" />
-                      <span>Characters</span>
-                    </NavLink>
+                    {canPlay && (
+                      <>
+                        <NavLink to="/characters" end className={menuLink}>
+                          <LuScrollText className="h-4 w-4" />
+                          <span>Characters</span>
+                        </NavLink>
 
-                    <NavLink to="/characters/create" className={menuLink}>
-                      <LuPencil className="h-4 w-4" />
-                      <span>Character Builder</span>
-                    </NavLink>
+                        <NavLink to="/characters/create" className={menuLink}>
+                          <LuPencil className="h-4 w-4" />
+                          <span>Character Builder</span>
+                        </NavLink>
+                      </>
+                    )}
 
                     {/* Campaigns - not built yet, disabled entry instead of an empty section */}
                     <div
@@ -183,7 +207,9 @@ export const Navbar = () => {
 
               {/* Game Resources Dropdown */}
               <div className="group relative">
-                <button className={navLink(isWithin(pathname, GAME_RESOURCE_ROUTES))}>
+                <button
+                  className={navLink(isWithin(pathname, GAME_RESOURCE_ROUTES))}
+                >
                   <span>Game Resources</span>
                   <LuChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
                 </button>
@@ -226,6 +252,15 @@ export const Navbar = () => {
                 <span>About</span>
               </NavLink>
 
+              {canCreateContent && (
+                <NavLink
+                  to="create"
+                  className={({ isActive }) => navLink(isActive)}
+                >
+                  Create
+                </NavLink>
+              )}
+
               {canSeeAdmin && (
                 <NavLink
                   to="admin"
@@ -242,7 +277,9 @@ export const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={
+                darkMode ? "Switch to light mode" : "Switch to dark mode"
+              }
               className={`rounded-md p-2 transition-colors ${hoverRow} ${focusRing}`}
             >
               {darkMode ? (
@@ -275,14 +312,14 @@ export const Navbar = () => {
                   >
                     <div className={`border-b px-4 py-3 ${line}`}>
                       <p className={`text-sm font-medium ${ink}`}>
-                        {currentUser.username}
+                        {displayName}
                       </p>
                       <p className={`text-xs ${inkSubtle}`}>
                         {currentUser.email}
                       </p>
                     </div>
                     <div className="space-y-0.5 p-1">
-                      <NavLink to="register" className={menuLink}>
+                      <NavLink to="profile" className={menuLink}>
                         <FaUser className="h-4 w-4" />
                         <span>Profile</span>
                       </NavLink>
@@ -353,24 +390,32 @@ export const Navbar = () => {
                   Player Tools
                 </div>
                 <div className="ml-2 space-y-0.5">
-                  <NavLink to="/rules" className={menuLink} onClick={closeMobile}>
+                  <NavLink
+                    to="/rules"
+                    className={menuLink}
+                    onClick={closeMobile}
+                  >
                     Basic Rules
                   </NavLink>
-                  <NavLink
-                    to="/characters"
-                    end
-                    className={menuLink}
-                    onClick={closeMobile}
-                  >
-                    Characters
-                  </NavLink>
-                  <NavLink
-                    to="/characters/create"
-                    className={menuLink}
-                    onClick={closeMobile}
-                  >
-                    Character Builder
-                  </NavLink>
+                  {canPlay && (
+                    <>
+                      <NavLink
+                        to="/characters"
+                        end
+                        className={menuLink}
+                        onClick={closeMobile}
+                      >
+                        Characters
+                      </NavLink>
+                      <NavLink
+                        to="/characters/create"
+                        className={menuLink}
+                        onClick={closeMobile}
+                      >
+                        Character Builder
+                      </NavLink>
+                    </>
+                  )}
                   <div
                     className={`flex items-center justify-between px-2 py-1.5 text-sm ${inkSubtle}`}
                   >
@@ -402,7 +447,11 @@ export const Navbar = () => {
                   >
                     Classes
                   </NavLink>
-                  <NavLink to="/species" className={menuLink} onClick={closeMobile}>
+                  <NavLink
+                    to="/species"
+                    className={menuLink}
+                    onClick={closeMobile}
+                  >
                     Species
                   </NavLink>
                   <NavLink
@@ -412,10 +461,18 @@ export const Navbar = () => {
                   >
                     Backgrounds
                   </NavLink>
-                  <NavLink to="/items" className={menuLink} onClick={closeMobile}>
+                  <NavLink
+                    to="/items"
+                    className={menuLink}
+                    onClick={closeMobile}
+                  >
                     Items
                   </NavLink>
-                  <NavLink to="/powers" className={menuLink} onClick={closeMobile}>
+                  <NavLink
+                    to="/powers"
+                    className={menuLink}
+                    onClick={closeMobile}
+                  >
                     Powers
                   </NavLink>
                 </div>
@@ -429,6 +486,16 @@ export const Navbar = () => {
                 <span>About</span>
               </NavLink>
 
+              {canCreateContent && (
+                <NavLink
+                  to="create"
+                  className={({ isActive }) => navLinkMobile(isActive)}
+                  onClick={closeMobile}
+                >
+                  <span>Create</span>
+                </NavLink>
+              )}
+
               {canSeeAdmin && (
                 <NavLink
                   to="admin"
@@ -441,12 +508,14 @@ export const Navbar = () => {
 
               {/* Mobile User Actions */}
               {currentUser ? (
-                <div className={`mt-2 space-y-1 border-t pt-2 sm:hidden ${line}`}>
+                <div
+                  className={`mt-2 space-y-1 border-t pt-2 sm:hidden ${line}`}
+                >
                   <div className={`px-3 py-2 text-sm font-medium ${ink}`}>
-                    {currentUser.username}
+                    {displayName}
                   </div>
                   <NavLink
-                    to="register"
+                    to="profile"
                     className={({ isActive }) => navLinkMobile(isActive)}
                     onClick={closeMobile}
                   >
@@ -466,7 +535,9 @@ export const Navbar = () => {
                   </button>
                 </div>
               ) : (
-                <div className={`mt-2 space-y-1 border-t pt-2 sm:hidden ${line}`}>
+                <div
+                  className={`mt-2 space-y-1 border-t pt-2 sm:hidden ${line}`}
+                >
                   <NavLink
                     to="register"
                     className={({ isActive }) => navLinkMobile(isActive)}

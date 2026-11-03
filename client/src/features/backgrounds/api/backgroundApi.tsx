@@ -1,11 +1,6 @@
 import API_URL from "../../../shared/api/api";
+import type { Background } from "../backgroundTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Background {
-  _id?: string;
-  name: string;
-  description: string;
-}
 
 export const backgroundApi = createApi({
   reducerPath: "backgroundApi",

@@ -1,11 +1,6 @@
 import API_URL from "../../../shared/api/api";
+import type { Species } from "../speciesTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Species {
-  _id?: string;
-  name: string;
-  description: string;
-}
 
 export const speciesApi = createApi({
   reducerPath: "speciesApi",

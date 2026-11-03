@@ -8,12 +8,26 @@ export const CharacterPage = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<CharacterList />} />
-        <Route path=":id" element={<CharacterDetails />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute roles={["admin", "moderator", "editor", "user"]}>
+              <CharacterList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path=":id"
+          element={
+            <ProtectedRoute roles={["admin", "moderator", "editor", "user"]}>
+              <CharacterDetails />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="create"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor", "user"]}>
               <CharacterForm />
             </ProtectedRoute>
           }
@@ -21,7 +35,7 @@ export const CharacterPage = () => {
         <Route
           path=":id/edit"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "moderator", "editor", "user"]}>
               <CharacterForm />
             </ProtectedRoute>
           }

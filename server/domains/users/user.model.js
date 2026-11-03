@@ -10,6 +10,16 @@ const UserSchema = new mongoose.Schema({
     enum: ["admin", "moderator", "editor", "user", "guest"],
     default: "guest",
   },
+  // Everything in here is optional and edited by the user on their profile page
+  profile: {
+    name: { type: String, maxlength: 50, default: "" },
+    // When true (and a name is set) the site shows the name instead of the username
+    showName: { type: Boolean, default: false },
+    pronouns: { type: String, maxlength: 30, default: "" },
+    bio: { type: String, maxlength: 500, default: "" },
+    location: { type: String, maxlength: 100, default: "" },
+    timeZone: { type: String, maxlength: 64, default: "" },
+  },
 });
 
 // Hash the password before saving it

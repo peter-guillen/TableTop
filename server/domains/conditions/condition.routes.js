@@ -18,20 +18,20 @@ router.get("/:id", validateObjectId, getConditionById);
 router.post(
   "/",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   createCondition,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   validateObjectId,
   updateCondition,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator"]),
   validateObjectId,
   deleteCondition,
 );

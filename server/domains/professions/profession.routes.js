@@ -11,16 +11,26 @@ import {
   updateProfession,
 } from "./profession.controller.js";
 
-router.get(
-  "/",
-  // checkAuthenticated,
-  // checkAuthorization(["admin"]),
-  getProfessions,
-);
-router.post("/", createProfession);
-
+router.get("/", getProfessions);
 router.get("/:id", getProfession);
-router.delete("/:id", deleteProfession);
-router.patch("/:id", updateProfession);
+
+router.post(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator", "editor"]),
+  createProfession,
+);
+router.patch(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator", "editor"]),
+  updateProfession,
+);
+router.delete(
+  "/:id",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator"]),
+  deleteProfession,
+);
 
 export default router;

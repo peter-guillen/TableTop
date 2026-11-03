@@ -11,6 +11,10 @@ interface AdminTableProps<T> {
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   renderRow: (row: T) => React.ReactNode[];
+  // False for sections with no view/edit/create pages (e.g. users)
+  showPageLinks?: boolean;
+  // A row that can't be deleted (e.g. your own account in the users table)
+  lockedRowId?: string;
 }
 
 export function AdminTable<T extends { _id?: string; id?: string }>({
@@ -22,6 +26,8 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
   renderRow,
   searchTerm = "",
   onSearchChange = () => {},
+  showPageLinks = true,
+  lockedRowId,
 }: AdminTableProps<T>) {
   // ==================== SEARCH FILTERING ====================
   const filteredData = React.useMemo(() => {
@@ -127,27 +133,33 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
 
     return (
       <>
-        {/* View Button */}
-        <NavLink to={`/${activeSection}/${rowId}`}>
-          <button className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300">
-            <LuEye className="w-4 h-4" />
-          </button>
-        </NavLink>
+        {showPageLinks && (
+          <>
+            {/* View Button */}
+            <NavLink to={`/${activeSection}/${rowId}`}>
+              <button className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300">
+                <LuEye className="w-4 h-4" />
+              </button>
+            </NavLink>
 
-        {/* Edit Button */}
-        <NavLink to={`/${activeSection}/${rowId}/edit`}>
-          <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
-            <LuPen className="w-4 h-4" />
-          </button>
-        </NavLink>
+            {/* Edit Button */}
+            <NavLink to={`/${activeSection}/${rowId}/edit`}>
+              <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
+                <LuPen className="w-4 h-4" />
+              </button>
+            </NavLink>
+          </>
+        )}
 
         {/* Delete Button */}
-        <button
-          onClick={() => rowId && onDelete(rowId)}
-          className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
-        >
-          <LuTrash2 className="w-4 h-4" />
-        </button>
+        {rowId !== lockedRowId && (
+          <button
+            onClick={() => rowId && onDelete(rowId)}
+            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+          >
+            <LuTrash2 className="w-4 h-4" />
+          </button>
+        )}
       </>
     );
   };
@@ -166,12 +178,14 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
           </p>
         </div>
 
-        <NavLink to={`/${activeSection}/create`}>
-          <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
-            <LuPlus className="w-4 h-4" />
-            <span>Add {title.slice(0, -1)}</span>
-          </button>
-        </NavLink>
+        {showPageLinks && (
+          <NavLink to={`/${activeSection}/create`}>
+            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+              <LuPlus className="w-4 h-4" />
+              <span>Add {title.slice(0, -1)}</span>
+            </button>
+          </NavLink>
+        )}
       </div>
 
       {/* Search Bar */}

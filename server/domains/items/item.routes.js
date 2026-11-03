@@ -15,18 +15,23 @@ import {
 router.get("/", getAllItems);
 router.get("/:id", validateObjectId, getItemById);
 
-router.post("/", checkAuthenticated, checkAuthorization(["admin"]), createItem);
+router.post(
+  "/",
+  checkAuthenticated,
+  checkAuthorization(["admin", "moderator", "editor"]),
+  createItem,
+);
 router.patch(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   validateObjectId,
   updateItem,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator"]),
   validateObjectId,
   deleteItem,
 );

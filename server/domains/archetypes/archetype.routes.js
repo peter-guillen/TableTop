@@ -16,19 +16,19 @@ router.get("/:id", getArchetypeById);
 router.post(
   "/",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   createArchetype,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator"]),
   deleteArchetype,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   updateArchetype,
 );
 

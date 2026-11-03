@@ -16,19 +16,19 @@ router.get("/:id", getBackgroundById);
 router.post(
   "/",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   createBackground,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator"]),
   deleteBackground,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
-  checkAuthorization(["admin"]),
+  checkAuthorization(["admin", "moderator", "editor"]),
   updateBackground,
 );
 
