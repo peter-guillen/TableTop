@@ -48,8 +48,8 @@ export const CharacterPanel = ({
   }
 
   return (
-    <div className="bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-900/80 rounded-2xl border border-stone-200 dark:border-stone-700/50 overflow-hidden shadow-sm">
-      <div className="flex border-b border-stone-200 dark:border-stone-700/50 bg-stone-50 dark:bg-stone-800/30 overflow-x-auto">
+    <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-sm">
+      <div className="flex border-b border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 overflow-x-auto">
         {TABS.map((tab) => (
           <button
             type="button"

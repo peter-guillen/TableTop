@@ -84,7 +84,7 @@ export const PowerActivationSection = ({
             value={activation.duration}
             min="0"
             required
-            className="w-full md:w-1/2 px-4 py-3 bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500 focus:border-transparent transition-all"
+            className="w-full md:w-1/2 px-4 py-3 bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400 focus:border-transparent transition-all"
           />
         </div>
 

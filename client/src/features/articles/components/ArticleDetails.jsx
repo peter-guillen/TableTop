@@ -62,12 +62,12 @@ export const ArticleDetails = () => {
           )}
         </div>
 
-        <article className={`p-8 shadow-sm ${card}`}>
+        <article className={`p-5 sm:p-8 shadow-sm ${card}`}>
           {/* Header */}
           <header className={`pb-6 mb-6 border-b ${line}`}>
             <div className="flex items-center gap-3 mb-3">
               <LuBookOpen className={inkPrimary} size={32} aria-hidden="true" />
-              <h1 className="text-4xl font-extrabold tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight break-words">
                 {article.title}
               </h1>
             </div>

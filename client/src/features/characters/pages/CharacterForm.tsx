@@ -137,7 +137,7 @@ export const CharacterForm = () => {
     <form onSubmit={handleSubmit}>
       <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-white transition-colors duration-300 p-5 md:p-6">
         {/* Header: who the character is */}
-        <div className="bg-white dark:bg-stone-800/50 rounded-2xl border border-stone-200 dark:border-stone-700/50 p-4 md:p-5 mb-3 flex flex-col gap-4">
+        <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 p-4 md:p-5 mb-3 flex flex-col gap-4">
           <div className="flex items-start gap-4">
             <div className="flex-1 min-w-0">
               <CharacterIdentity
@@ -156,14 +156,14 @@ export const CharacterForm = () => {
                   }
                   className={`relative w-14 h-14 rounded-xl border-2 flex flex-col items-center justify-center ${
                     rewardsPending
-                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-800/30 animate-pulse"
-                      : "border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-900/40"
+                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 animate-pulse"
+                      : "border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-950/60"
                   }`}
                 >
                   <span className="text-[8px] font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 leading-none">
                     Lv
                   </span>
-                  <span className="text-2xl font-extrabold leading-none text-stone-900 dark:text-white">
+                  <span className="text-2xl font-extrabold leading-none text-amber-700 dark:text-amber-400">
                     {progression.level}
                   </span>
                   {rewardsPending && (
@@ -173,7 +173,7 @@ export const CharacterForm = () => {
                 <button
                   type="submit"
                   disabled={isCreating || isUpdating}
-                  className="text-sm font-bold px-4 py-2 rounded-lg border bg-emerald-500 border-emerald-600 text-white hover:bg-emerald-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="text-sm font-bold px-4 py-2 rounded-lg border bg-amber-500 border-amber-500 text-stone-950 hover:bg-amber-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {isEditing
                     ? isUpdating

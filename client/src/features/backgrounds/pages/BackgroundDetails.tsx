@@ -47,10 +47,10 @@ export function BackgroundDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between gap-3 mb-6">
           <button
             onClick={handleReturn}
             className="flex items-center gap-2 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white transition-all group"
@@ -75,36 +75,33 @@ export function BackgroundDetails() {
         </div>
 
         {/* Header Card */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <div className="flex items-start justify-between mb-6">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
             <div className="flex-1">
-              <div className="flex items-center gap-4 mb-3">
+              <div className="flex items-center gap-3 sm:gap-4 mb-3">
                 <LuScroll
-                  className="text-emerald-700 dark:text-emerald-400"
+                  className="shrink-0 text-emerald-700 dark:text-emerald-400"
                   size={36}
                 />
-                <h1 className="text-5xl font-bold text-amber-700 dark:text-amber-400">
+                <h1 className="text-3xl sm:text-5xl font-bold break-words min-w-0 text-amber-700 dark:text-amber-400">
                   {background.name}
                 </h1>
               </div>
-              <p className="text-xl text-stone-600 dark:text-stone-300 italic">
+              <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400">
                 Background
               </p>
-            </div>
-            <div className="px-6 py-3 rounded-xl bg-emerald-700 shadow-lg">
-              <p className="text-white font-bold text-lg">Background</p>
             </div>
           </div>
 
           {/* Quick Stats Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+            <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
               <div className="flex items-center gap-3 mb-2">
                 <LuGraduationCap
                   className="text-emerald-700 dark:text-emerald-400"
                   size={20}
                 />
-                <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                   Skills
                 </p>
               </div>
@@ -113,13 +110,13 @@ export function BackgroundDetails() {
               </p>
             </div>
 
-            <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+            <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
               <div className="flex items-center gap-3 mb-2">
                 <LuBackpack
                   className="text-emerald-700 dark:text-emerald-400"
                   size={20}
                 />
-                <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                   Starting Items
                 </p>
               </div>
@@ -128,13 +125,13 @@ export function BackgroundDetails() {
               </p>
             </div>
 
-            <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+            <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
               <div className="flex items-center gap-3 mb-2">
                 <LuSparkles
                   className="text-emerald-700 dark:text-emerald-400"
                   size={20}
                 />
-                <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                   Traits
                 </p>
               </div>
@@ -147,8 +144,8 @@ export function BackgroundDetails() {
 
         {/* Stat Modifiers Section */}
         {background.statModifiers.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuShield size={24} />
               Stat Modifiers
             </h2>
@@ -156,7 +153,7 @@ export function BackgroundDetails() {
               {background.statModifiers.map((modifier, index) => (
                 <div
                   key={index}
-                  className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20"
+                  className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4"
                 >
                   <p className="text-stone-900 dark:text-white font-semibold capitalize">
                     {modifier.stat} {modifier.value > 0 ? "+" : ""}
@@ -175,8 +172,8 @@ export function BackgroundDetails() {
 
         {/* Skill Proficiencies Section */}
         {background.skillProficiencies.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuGraduationCap size={24} />
               Skill Proficiencies
             </h2>
@@ -195,8 +192,8 @@ export function BackgroundDetails() {
 
         {/* Starting Items Section */}
         {background.startingItems.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuBackpack size={24} />
               Starting Items
             </h2>
@@ -208,7 +205,7 @@ export function BackgroundDetails() {
                 return (
                   <div
                     key={`${startingItem.item}-${index}`}
-                    className="bg-stone-50 dark:bg-stone-900/30 rounded-lg px-4 py-2 border border-stone-200 dark:border-amber-500/20"
+                    className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 px-4 py-2"
                   >
                     <p className="text-stone-900 dark:text-white font-semibold">
                       {item.name}
@@ -225,8 +222,8 @@ export function BackgroundDetails() {
 
         {/* Traits Section */}
         {background.traits.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuSparkles size={24} />
               Traits
             </h2>
@@ -238,7 +235,7 @@ export function BackgroundDetails() {
                 return (
                   <div
                     key={traitId}
-                    className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20"
+                    className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4"
                   >
                     <p className="text-stone-900 dark:text-white font-semibold">
                       {trait.name}
@@ -256,8 +253,8 @@ export function BackgroundDetails() {
         )}
 
         {/* Description Section */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-4 flex items-center gap-2">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-4 flex items-center gap-2">
             <LuBookOpen size={24} />
             Description
           </h2>

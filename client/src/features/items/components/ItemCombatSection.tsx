@@ -160,7 +160,7 @@ export const ItemCombatSection = ({
   const renderEffectRow = (effect: HealthEffect, index: number) => (
     <div
       key={index}
-      className="space-y-3 p-4 bg-stone-100 dark:bg-stone-900/30 rounded-lg border border-stone-300 dark:border-emerald-500/20"
+      className="space-y-3 p-4 bg-stone-50 dark:bg-stone-950/60 rounded-lg border border-stone-200 dark:border-stone-800"
     >
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
         <div>
@@ -445,7 +445,7 @@ export const ItemCombatSection = ({
           {statModifiers.map((modifier, index) => (
             <div
               key={index}
-              className="space-y-3 p-4 bg-stone-100 dark:bg-stone-900/30 rounded-lg border border-stone-300 dark:border-emerald-500/20"
+              className="space-y-3 p-4 bg-stone-50 dark:bg-stone-950/60 rounded-lg border border-stone-200 dark:border-stone-800"
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
                 <div>

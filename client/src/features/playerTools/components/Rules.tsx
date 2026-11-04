@@ -75,8 +75,8 @@ export function Rules() {
     <div className="min-h-screen bg-gradient-to-b from-stone-100 via-stone-50 to-stone-100 dark:from-stone-900 dark:via-stone-800 dark:to-stone-900 text-stone-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
+        <div className="mb-8 md:mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
             Basic Rules
           </h1>
           <p className="text-xl text-stone-600 dark:text-stone-300">

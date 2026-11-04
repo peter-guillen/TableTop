@@ -114,14 +114,14 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
         {cells.map((cell, index) => (
           <td
             key={index}
-            className="px-6 py-4 text-sm text-stone-900 dark:text-white"
+            className="px-4 lg:px-6 py-4 text-sm text-stone-900 dark:text-white"
           >
             {(cell as React.ReactNode) ?? ""}
           </td>
         ))}
 
         {/* Action Buttons */}
-        <td className="px-6 py-4 text-sm text-stone-500 dark:text-stone-400">
+        <td className="px-4 lg:px-6 py-4 text-sm text-stone-500 dark:text-stone-400">
           <div className="flex space-x-2">{renderActionButtons(row)}</div>
         </td>
       </tr>
@@ -136,17 +136,21 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
         {showPageLinks && (
           <>
             {/* View Button */}
-            <NavLink to={`/${activeSection}/${rowId}`}>
-              <button className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300">
-                <LuEye className="w-4 h-4" />
-              </button>
+            <NavLink
+              to={`/${activeSection}/${rowId}`}
+              aria-label="View"
+              className="p-1.5 rounded text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300"
+            >
+              <LuEye className="w-4 h-4" />
             </NavLink>
 
             {/* Edit Button */}
-            <NavLink to={`/${activeSection}/${rowId}/edit`}>
-              <button className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">
-                <LuPen className="w-4 h-4" />
-              </button>
+            <NavLink
+              to={`/${activeSection}/${rowId}/edit`}
+              aria-label="Edit"
+              className="p-1.5 rounded text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300"
+            >
+              <LuPen className="w-4 h-4" />
             </NavLink>
           </>
         )}
@@ -154,8 +158,10 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
         {/* Delete Button */}
         {rowId !== lockedRowId && (
           <button
+            type="button"
+            aria-label="Delete"
             onClick={() => rowId && onDelete(rowId)}
-            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+            className="p-1.5 rounded text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
           >
             <LuTrash2 className="w-4 h-4" />
           </button>
@@ -168,7 +174,7 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
         <div>
           <h2 className="text-2xl font-bold text-stone-900 dark:text-white">
             {title}
@@ -179,11 +185,12 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
         </div>
 
         {showPageLinks && (
-          <NavLink to={`/${activeSection}/create`}>
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
-              <LuPlus className="w-4 h-4" />
-              <span>Add {title.slice(0, -1)}</span>
-            </button>
+          <NavLink
+            to={`/${activeSection}/create`}
+            className="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+          >
+            <LuPlus className="w-4 h-4" />
+            <span>Add {title.slice(0, -1)}</span>
           </NavLink>
         )}
       </div>
@@ -202,8 +209,50 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
         </div>
       </div>
 
+      {/* Mobile Cards - one card per row, first cell is the card title */}
+      <div className="md:hidden space-y-3">
+        {filteredData?.length ? (
+          filteredData.map((row) => {
+            const cells = renderRow ? renderRow(row) : defaultRenderRow(row);
+            return (
+              <div
+                key={getRowKey(row)}
+                className="bg-white dark:bg-stone-800 rounded-lg shadow-sm border border-stone-200 dark:border-stone-700 p-4"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <p className="min-w-0 break-words font-semibold text-stone-900 dark:text-white">
+                    {(cells[0] as React.ReactNode) ?? ""}
+                  </p>
+                  <div className="flex shrink-0 -mr-1.5 -mt-1.5">
+                    {renderActionButtons(row)}
+                  </div>
+                </div>
+                {cells.length > 1 && (
+                  <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+                    {cells.slice(1).map((cell, index) => (
+                      <React.Fragment key={index}>
+                        <dt className="text-xs font-medium uppercase tracking-wider text-stone-500 dark:text-stone-400 pt-0.5">
+                          {columns[index + 1]}
+                        </dt>
+                        <dd className="min-w-0 break-words text-stone-900 dark:text-white">
+                          {(cell as React.ReactNode) ?? ""}
+                        </dd>
+                      </React.Fragment>
+                    ))}
+                  </dl>
+                )}
+              </div>
+            );
+          })
+        ) : (
+          <p className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 px-4 py-8 text-center text-sm text-stone-500 dark:text-stone-400">
+            No {title.toLowerCase()} found.
+          </p>
+        )}
+      </div>
+
       {/* Data Table */}
-      <div className="bg-white dark:bg-stone-800 rounded-lg shadow-sm border border-stone-200 dark:border-stone-700 overflow-hidden">
+      <div className="hidden md:block bg-white dark:bg-stone-800 rounded-lg shadow-sm border border-stone-200 dark:border-stone-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             {/* Table Header */}
@@ -212,12 +261,12 @@ export function AdminTable<T extends { _id?: string; id?: string }>({
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider"
+                    className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider"
                   >
                     {column}
                   </th>
                 ))}
-                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider">
+                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>

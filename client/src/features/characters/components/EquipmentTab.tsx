@@ -11,7 +11,7 @@ export const EquipmentTab = ({
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
           Weapons
         </p>
         <WeaponsTab
@@ -21,7 +21,7 @@ export const EquipmentTab = ({
         />
       </div>
       <div>
-        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
           Armor
         </p>
         <ArmorsTab

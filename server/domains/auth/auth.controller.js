@@ -12,7 +12,8 @@ const userMe = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  // Mobile keyboards often add a trailing space after an email suggestion
+  const user = await User.findOne({ email: String(email ?? "").trim() });
   if (!user) {
     return res.status(401).json({ message: "Invalid username or password" });
   }

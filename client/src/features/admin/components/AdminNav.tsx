@@ -23,6 +23,14 @@ import {
   useGetAllItemsQuery,
   useDeleteItemMutation,
 } from "../../items/api/itemApi.tsx";
+import {
+  useGetAllSpeciesQuery,
+  useDeleteSpeciesMutation,
+} from "../../species/api/speciesApi.tsx";
+import {
+  useGetAllBackgroundsQuery,
+  useDeleteBackgroundMutation,
+} from "../../backgrounds/api/backgroundApi.tsx";
 
 import {
   LuUsers,
@@ -73,9 +81,29 @@ export const AdminNav = () => {
     isError: itemError,
   } = useGetAllItemsQuery();
   const [deleteItem] = useDeleteItemMutation();
+  const {
+    data: speciesList = [],
+    isLoading: speciesLoading,
+    isError: speciesError,
+  } = useGetAllSpeciesQuery();
+  const [deleteSpecies] = useDeleteSpeciesMutation();
+  const {
+    data: backgroundList = [],
+    isLoading: backgroundLoading,
+    isError: backgroundError,
+  } = useGetAllBackgroundsQuery();
+  const [deleteBackground] = useDeleteBackgroundMutation();
 
   // Provide a data and actions map that AdminRoutes consumes
   const sectionConfig = {
+    species: {
+      data: speciesList,
+      deleteFn: deleteSpecies,
+    },
+    backgrounds: {
+      data: backgroundList,
+      deleteFn: deleteBackground,
+    },
     articles: {
       data: articleList,
       deleteFn: deleteArticle,
@@ -103,12 +131,22 @@ export const AdminNav = () => {
     articleLoading ||
     professionLoading ||
     powerLoading ||
-    itemLoading
+    itemLoading ||
+    speciesLoading ||
+    backgroundLoading
   ) {
     return <p>Loading...</p>;
   }
 
-  if (userError || articleError || professionError || powerError || itemError) {
+  if (
+    userError ||
+    articleError ||
+    professionError ||
+    powerError ||
+    itemError ||
+    speciesError ||
+    backgroundError
+  ) {
     return <p>Something went wrong while fetching data.</p>;
   }
 
@@ -123,11 +161,11 @@ export const AdminNav = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-stone-100 dark:bg-stone-900">
-      {/* Sidebar */}
-      <div className="w-64 bg-white dark:bg-stone-800 shadow-sm border-r border-stone-200 dark:border-stone-700">
+    <div className="flex flex-col md:flex-row min-h-screen md:h-screen bg-stone-100 dark:bg-stone-900">
+      {/* Sidebar - a scrollable tab strip on mobile, a sidebar from md up */}
+      <div className="w-full md:w-64 md:shrink-0 bg-white dark:bg-stone-800 shadow-sm border-b md:border-b-0 md:border-r border-stone-200 dark:border-stone-700">
         {/* Logo */}
-        <div className="p-6">
+        <div className="hidden md:block p-6">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-emerald-700 rounded-lg flex items-center justify-center">
               <LuSparkles className="w-5 h-5 text-white" />
@@ -139,23 +177,27 @@ export const AdminNav = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="mt-6 px-3">
+        <nav className="flex gap-1 overflow-x-auto px-3 py-2 md:block md:mt-6 md:py-0">
           {navigationItems.map((item) => {
             const Icon = item.icon;
             return (
               <button
                 key={item.id}
-                onClick={() => setActiveSection(item.id)}
-                className={`w-full flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
+                onClick={() => {
+                  // Each section starts with a fresh search
+                  setActiveSection(item.id);
+                  setSearchTerm("");
+                }}
+                className={`shrink-0 whitespace-nowrap md:w-full flex items-center px-3 py-2 md:mb-1 rounded-lg text-sm font-medium transition-colors ${
                   activeSection === item.id
-                    ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-r-2 border-emerald-700 dark:border-emerald-400"
+                    ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 md:border-r-2 border-emerald-700 dark:border-emerald-400"
                     : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700"
                 }`}
               >
-                <Icon className="w-5 h-5 mr-3" />
+                <Icon className="w-5 h-5 mr-2 md:mr-3" />
                 {item.label}
                 {activeSection === item.id && (
-                  <LuChevronRight className="w-4 h-4 ml-auto" />
+                  <LuChevronRight className="hidden md:block w-4 h-4 ml-auto" />
                 )}
               </button>
             );
@@ -164,8 +206,8 @@ export const AdminNav = () => {
       </div>
 
       {/* Main Dashboard Content */}
-      <div className="flex-1 overflow-auto">
-        <div className="p-6">
+      <div className="flex-1 min-w-0 md:overflow-auto">
+        <div className="p-4 md:p-6">
           <AdminRoutes
             activeSection={activeSection}
             searchTerm={searchTerm}

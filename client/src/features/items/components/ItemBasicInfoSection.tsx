@@ -180,7 +180,7 @@ export const ItemBasicInfoSection = ({
               {quality.map((q) => (
                 <span
                   key={q}
-                  className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-full border border-stone-300 dark:border-emerald-500/30 capitalize"
+                  className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-500/40 capitalize"
                 >
                   {q}
                   <button
@@ -219,7 +219,7 @@ export const ItemBasicInfoSection = ({
               {materials.map((m) => (
                 <span
                   key={m}
-                  className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-full border border-stone-300 dark:border-emerald-500/30 capitalize"
+                  className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-500/40 capitalize"
                 >
                   {m}
                   <button

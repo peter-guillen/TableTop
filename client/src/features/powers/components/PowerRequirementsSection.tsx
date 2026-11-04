@@ -64,7 +64,7 @@ export const PowerRequirementsSection = ({
             onChange={(e) =>
               onRequirementsChange("minLevel", Number(e.target.value))
             }
-            className="w-full md:w-1/3 px-4 py-3 bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500 focus:border-transparent transition-all"
+            className="w-full md:w-1/3 px-4 py-3 bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400 focus:border-transparent transition-all"
           />
         </div>
 
@@ -74,7 +74,7 @@ export const PowerRequirementsSection = ({
             Required Traits
           </label>
           {traitOptions.length === 0 ? (
-            <p className="text-sm text-stone-500">No traits available yet.</p>
+            <p className="text-sm text-stone-500 dark:text-stone-400">No traits available yet.</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {traitOptions.map((trait) => (
@@ -114,7 +114,7 @@ export const PowerRequirementsSection = ({
               Weapon Tags *
             </label>
             {weaponTagOptions.length === 0 ? (
-              <p className="text-sm text-stone-500">Loading options…</p>
+              <p className="text-sm text-stone-500 dark:text-stone-400">Loading options…</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {weaponTagOptions.map((tag) => (
@@ -156,7 +156,7 @@ export const PowerRequirementsSection = ({
               Grants
             </label>
             {allPowers.length === 0 ? (
-              <p className="text-sm text-stone-500">No powers available yet.</p>
+              <p className="text-sm text-stone-500 dark:text-stone-400">No powers available yet.</p>
             ) : (
               <>
                 <select
@@ -188,7 +188,7 @@ export const PowerRequirementsSection = ({
                     return (
                       <span
                         key={id}
-                        className="flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 border border-stone-300 dark:border-emerald-500/30"
+                        className="flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/40"
                       >
                         {power.name}
                         <button
