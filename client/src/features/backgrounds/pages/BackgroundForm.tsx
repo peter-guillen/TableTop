@@ -90,7 +90,7 @@ export function BackgroundForm() {
   if (isError) return <p>Something went wrong.</p>;
 
   return (
-    <div className="min-h-screen bg-stone-100 dark:bg-stone-950 p-6">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8">

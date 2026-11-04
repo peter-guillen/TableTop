@@ -214,7 +214,7 @@ export const PowerConditionsSection = ({
             {allConditions.map((condition) => (
               <div
                 key={condition._id}
-                className="bg-stone-100 dark:bg-stone-900/30 p-3 rounded-lg border border-stone-300 dark:border-emerald-500/20"
+                className="bg-stone-50 dark:bg-stone-950/60 p-3 rounded-lg border border-stone-200 dark:border-stone-800"
               >
                 <label className="flex items-center gap-2 text-stone-700 dark:text-stone-300 cursor-pointer mb-2">
                   <input
@@ -227,7 +227,7 @@ export const PowerConditionsSection = ({
                 </label>
 
                 {isConditionSelected(condition._id) && (
-                  <div className="grid grid-cols-2 gap-2 pl-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-6">
                     <select
                       value={getSelectedCondition(condition._id)?.durationType}
                       onChange={(e) =>
@@ -237,7 +237,7 @@ export const PowerConditionsSection = ({
                           e.target.value,
                         )
                       }
-                      className="px-2 py-2 text-sm bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500"
+                      className="px-2 py-2 text-sm bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-lg text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400"
                     >
                       <option value="turns">Turns</option>
                       <option value="until_broken">Until broken</option>
@@ -260,7 +260,7 @@ export const PowerConditionsSection = ({
                             Number(e.target.value),
                           )
                         }
-                        className="px-2 py-2 text-sm bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500"
+                        className="px-2 py-2 text-sm bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400"
                       />
                     )}
                   </div>

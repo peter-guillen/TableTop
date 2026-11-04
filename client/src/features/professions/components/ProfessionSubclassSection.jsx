@@ -111,7 +111,7 @@ export const ProfessionSubclassSection = ({
                   <button
                     type="button"
                     onClick={() => removeEquipment(item)}
-                    className="text-stone-600 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                    className="text-stone-600 hover:text-red-400 transition-colors sm:opacity-0 sm:group-hover:opacity-100"
                   >
                     <LuX size={14} />
                   </button>

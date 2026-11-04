@@ -25,11 +25,11 @@ export const CharacterArchetype = ({
     "bg-transparent border-none text-stone-900 dark:text-white text-xs font-semibold outline-none cursor-pointer w-full mt-0.5 leading-tight";
 
   const fieldClasses =
-    "bg-white dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50 rounded-lg px-3 py-2 flex flex-col justify-center min-w-0";
+    "bg-stone-50 dark:bg-stone-950/60 border border-stone-200 dark:border-stone-800 rounded-lg px-3 py-2 flex flex-col justify-center min-w-0 focus-within:border-emerald-600 dark:focus-within:border-emerald-500 transition-colors";
 
   return (
     <div className="flex items-stretch gap-2 flex-wrap">
-      <div className="bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700/50 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
+      <div className="bg-stone-100 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-lg p-0.5 flex gap-0.5 flex-shrink-0 self-stretch items-center">
         {(["classed", "classless"] as const).map((m) => (
           <button
             type="button"
@@ -47,7 +47,7 @@ export const CharacterArchetype = ({
             }}
             className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wide transition-all duration-150 ${
               mode === m
-                ? "bg-white dark:bg-stone-600 text-stone-900 dark:text-white shadow-sm"
+                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
             }`}
           >
@@ -57,7 +57,7 @@ export const CharacterArchetype = ({
       </div>
 
       <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
-        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
           Species
         </p>
         <select
@@ -80,7 +80,7 @@ export const CharacterArchetype = ({
       </div>
 
       <div className={`${fieldClasses} flex-1 min-w-[90px]`}>
-        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
           Background
         </p>
         <select
@@ -104,7 +104,7 @@ export const CharacterArchetype = ({
 
       {mode === "classed" && (
         <div className={`${fieldClasses} flex-1 min-w-[100px]`}>
-          <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
             Class
           </p>
           <select

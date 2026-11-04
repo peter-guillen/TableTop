@@ -32,7 +32,7 @@ const GRANT_BADGE_CLASSES = {
 function DetailCard({ children, className = "" }) {
   return (
     <div
-      className={`bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-950/80 backdrop-blur-sm rounded-2xl border border-stone-200 dark:border-emerald-500/20 shadow-md p-8 mb-6 ${className}`}
+      className={`bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-950/80 backdrop-blur-sm rounded-2xl border border-stone-200 dark:border-emerald-500/20 shadow-md p-5 sm:p-8 mb-6 ${className}`}
     >
       {children}
     </div>
@@ -103,9 +103,9 @@ export function ProfessionDetails() {
   );
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between gap-3 mb-6">
           <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-all group"
@@ -131,9 +131,9 @@ export function ProfessionDetails() {
 
         {/* ── Header Card ── */}
         <DetailCard>
-          <div className="flex items-center gap-4 mb-3">
-            <LuCrown className="text-emerald-700 dark:text-emerald-400" size={36} />
-            <h1 className="text-5xl font-bold text-amber-700 dark:text-amber-400 ">
+          <div className="flex items-center gap-3 sm:gap-4 mb-3">
+            <LuCrown className="shrink-0 text-emerald-700 dark:text-emerald-400" size={36} />
+            <h1 className="text-3xl sm:text-5xl font-bold break-words min-w-0 text-amber-700 dark:text-amber-400 ">
               {profession.name}
             </h1>
           </div>

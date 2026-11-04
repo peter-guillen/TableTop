@@ -25,8 +25,8 @@ export const CharacterLoadout = ({ formData }: CharacterBaseProps) => {
     : [];
 
   return (
-    <div className="bg-white dark:bg-stone-800/50 rounded-xl border border-stone-200 dark:border-stone-700/50 p-4">
-      <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
+    <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
+      <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2">
         Loadout
       </p>
       {weaponSlots.map(({ label, id }) => {
@@ -42,7 +42,7 @@ export const CharacterLoadout = ({ formData }: CharacterBaseProps) => {
         return (
           <div
             key={label}
-            className="py-1.5 border-b border-stone-100 dark:border-stone-700/40 last:border-0"
+            className="py-1.5 border-b border-stone-100 dark:border-stone-800 last:border-0"
           >
             <div className="flex justify-between items-center">
               <span className="text-xs text-stone-500 dark:text-stone-400">
@@ -62,7 +62,7 @@ export const CharacterLoadout = ({ formData }: CharacterBaseProps) => {
           </div>
         );
       })}
-      <div className="py-1.5 border-b border-stone-100 dark:border-stone-700/40 last:border-0">
+      <div className="py-1.5 border-b border-stone-100 dark:border-stone-800 last:border-0">
         <div className="flex justify-between items-center">
           <span className="text-xs text-stone-500 dark:text-stone-400">
             Armor

@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { twMerge } from "tailwind-merge";
 import {
   GiBroadsword,
   GiShield,
@@ -8,13 +7,30 @@ import {
   GiGemPendant,
 } from "react-icons/gi";
 
-import { Item, ItemCategory } from "../itemTypes.ts";
+import { Item, ItemCategory, Rarity } from "../itemTypes.ts";
 
 interface ItemPreviewProps {
   items: Item[];
 }
 
-// Icon by category — no more school override, Item has no school concept
+// Rarity ladder runs cool to warm; the top two tiers get a solid fill so a
+// legendary never reads like a common
+const RARITY_BADGE: Record<Rarity, string> = {
+  common:
+    "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border-stone-300 dark:border-stone-600",
+  uncommon:
+    "bg-lime-50 dark:bg-lime-500/10 text-lime-700 dark:text-lime-300 border-lime-300 dark:border-lime-500/40",
+  rare: "bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/40",
+  heroic:
+    "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-500/40",
+  epic: "bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-300 dark:border-fuchsia-500/40",
+  legendary: "bg-amber-400 text-stone-950 border-amber-500 dark:border-amber-300",
+  mythic:
+    "bg-rose-600 text-white border-rose-700 dark:bg-rose-500 dark:border-rose-400",
+};
+
+// Icon by category — the icon carries the category's identity, so the card
+// itself stays in the stone/emerald palette
 const categoryIconMap: Record<ItemCategory, typeof GiBroadsword> = {
   weapon: GiBroadsword,
   armor: GiShield,
@@ -23,75 +39,12 @@ const categoryIconMap: Record<ItemCategory, typeof GiBroadsword> = {
   trinket: GiGemPendant,
 };
 
-// Static class map instead of interpolated `text-${color}-600` (JIT-safe)
-interface ColorScheme {
-  text: string;
-  border: string;
-  badgeBg: string;
-  badgeText: string;
-}
-
-const colorSchemes: Record<string, ColorScheme> = {
-  red: {
-    text: "text-red-600 dark:text-red-400",
-    border: "border-red-200 dark:border-red-600",
-    badgeBg: "bg-red-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-red-700 dark:text-red-300",
-  },
-  blue: {
-    text: "text-blue-600 dark:text-blue-400",
-    border: "border-blue-200 dark:border-blue-600",
-    badgeBg: "bg-blue-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-blue-700 dark:text-blue-300",
-  },
-  orange: {
-    text: "text-orange-600 dark:text-orange-400",
-    border: "border-orange-200 dark:border-orange-600",
-    badgeBg: "bg-orange-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-orange-700 dark:text-orange-300",
-  },
-  purple: {
-    text: "text-purple-600 dark:text-purple-400",
-    border: "border-purple-200 dark:border-purple-600",
-    badgeBg: "bg-purple-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-purple-700 dark:text-purple-300",
-  },
-  green: {
-    text: "text-green-600 dark:text-green-400",
-    border: "border-green-200 dark:border-green-600",
-    badgeBg: "bg-green-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-green-700 dark:text-green-300",
-  },
-  magenta: {
-    text: "text-pink-600 dark:text-pink-400",
-    border: "border-pink-200 dark:border-pink-600",
-    badgeBg: "bg-pink-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-pink-700 dark:text-pink-300",
-  },
-  gray: {
-    text: "text-stone-600 dark:text-stone-400",
-    border: "border-stone-200 dark:border-stone-600",
-    badgeBg: "bg-stone-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-stone-700 dark:text-stone-300",
-  },
-};
-
-const categoryColors: Record<ItemCategory, string> = {
-  weapon: "orange",
-  armor: "blue",
-  accessory: "purple",
-  consumable: "green",
-  trinket: "magenta",
-};
-
 export const ItemPreview = ({ items }: ItemPreviewProps) => {
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {items.map((item) => {
         const IconComponent =
           categoryIconMap[item.category as ItemCategory] ?? GiGemPendant;
-        const colorKey = categoryColors[item.category as ItemCategory];
-        const scheme = colorSchemes[colorKey] ?? colorSchemes.gray;
 
         const damageEffect = item.healthEffects.find(
           (e) => e.direction === "damage",
@@ -132,93 +85,110 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
           <NavLink
             key={item._id ?? item.name}
             to={`/items/${item._id}`}
-            className="block"
+            className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:focus-visible:ring-emerald-400"
           >
-            <div
-              className={twMerge(
-                scheme.text,
-                scheme.border,
-                "group bg-white dark:bg-stone-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-stone-50 dark:hover:bg-stone-750",
-              )}
-            >
+            <div className="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-4 transition-colors hover:border-emerald-600 dark:hover:border-emerald-500">
               <div className="flex items-start justify-between">
                 {/* Left Section - Icon and Main Info */}
-                <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg transition-colors duration-200 bg-stone-100 dark:bg-stone-700 group-hover:bg-stone-200 dark:group-hover:bg-stone-600">
+                <div className="flex flex-1 min-w-0 items-start space-x-3">
+                  <div className="shrink-0 rounded-lg bg-emerald-700 p-2 text-white dark:bg-emerald-500 dark:text-stone-950">
                     <IconComponent className="w-5 h-5" />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     {/* Name */}
-                    <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="text-lg font-semibold text-stone-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <h3 className="text-lg font-semibold break-words text-stone-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-200">
                         {item.name}
                       </h3>
+                      {/* Mobile badges sit under the name instead of squeezing the text column */}
+                      <div className="flex flex-wrap gap-1.5 sm:hidden">
+                        <span className="px-2 py-0.5 rounded-full border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-xs font-medium capitalize whitespace-nowrap text-stone-700 dark:text-stone-300">
+                          {item.category}
+                        </span>
+                        {item.rarity && (
+                          <span
+                            className={`px-2 py-0.5 rounded-full border text-xs font-semibold capitalize whitespace-nowrap ${RARITY_BADGE[item.rarity]}`}
+                          >
+                            {item.rarity}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mb-2">
+                    <p className="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mb-3">
                       {item.description}
                     </p>
 
-                    {/* Primary Stats Row */}
-                    {(damageDisplay || healingDisplay) && (
-                      <div className="flex items-center space-x-4 text-sm text-stone-600 dark:text-stone-400 mb-2">
-                        {damageDisplay && (
-                          <div className="flex items-center space-x-1">
-                            <span className="font-medium text-stone-900 dark:text-stone-300">
-                              Damage:
-                            </span>
-                            <span>{damageDisplay}</span>
-                          </div>
-                        )}
-                        {healingDisplay && (
-                          <div className="flex items-center space-x-1">
-                            <span className="font-medium text-stone-900 dark:text-stone-300">
-                              Healing:
-                            </span>
-                            <span>{healingDisplay}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Secondary Stats Row */}
-                    <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-500">
-                      {item.rarity && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Rarity:</span>
-                          <span className="capitalize">{item.rarity}</span>
+                    {/* Stats Row */}
+                    <div className="flex flex-wrap gap-x-5 gap-y-2">
+                      {damageDisplay && (
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Damage
+                          </p>
+                          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400">
+                            {damageDisplay}
+                          </p>
+                        </div>
+                      )}
+                      {healingDisplay && (
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Healing
+                          </p>
+                          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400">
+                            {healingDisplay}
+                          </p>
                         </div>
                       )}
                       {!!item.value && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Value:</span>
-                          <span>{item.value}</span>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Value
+                          </p>
+                          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
+                            {item.value}
+                          </p>
                         </div>
                       )}
                       {item.category === "trinket" &&
                         item.selfCharges?.recharge && (
-                          <div className="flex items-center space-x-1">
-                            <span className="font-medium">Recharge:</span>
-                            <span className="capitalize">
+                          <div>
+                            <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                              Recharge
+                            </p>
+                            <p className="text-sm font-semibold text-stone-800 dark:text-stone-200 capitalize">
                               {item.selfCharges.recharge.replace("_", " ")}
-                            </span>
+                            </p>
                           </div>
                         )}
+                      {/* Granted Powers — any category can grant (weapon → technique, enchanted item → spell) */}
+                      {item.grantedPowers.length > 0 && (
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Grants
+                          </p>
+                          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
+                            {item.grantedPowers.length} power
+                            {item.grantedPowers.length === 1 ? "" : "s"}
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     {/* Weapon Properties */}
                     {item.category === "weapon" &&
                       item.properties.length > 0 && (
-                        <div className="flex items-center flex-wrap mt-2">
-                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                            Properties:
+                        <div className="flex items-center flex-wrap gap-1.5 mt-3">
+                          <span className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mr-1">
+                            Properties
                           </span>
                           {item.properties.map((property) => (
                             <span
                               key={property}
-                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
+                              className="rounded-full border border-stone-200 dark:border-stone-700 px-2 py-0.5 text-xs text-stone-600 dark:text-stone-300 capitalize"
                             >
                               {property}
                             </span>
@@ -228,14 +198,14 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
 
                     {/* Armor Resistances */}
                     {item.category === "armor" && resistedTypes.length > 0 && (
-                      <div className="flex items-center flex-wrap mt-2">
-                        <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                          Resists:
+                      <div className="flex items-center flex-wrap gap-1.5 mt-3">
+                        <span className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mr-1">
+                          Resists
                         </span>
                         {resistedTypes.map((type) => (
                           <span
                             key={type}
-                            className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
+                            className="rounded-full border border-stone-200 dark:border-stone-700 px-2 py-0.5 text-xs text-stone-600 dark:text-stone-300 capitalize"
                           >
                             {type}
                           </span>
@@ -246,14 +216,14 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                     {/* Accessory Stat Modifiers */}
                     {item.category === "accessory" &&
                       item.statModifiers.length > 0 && (
-                        <div className="flex items-center flex-wrap mt-2">
-                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                            Boosts:
+                        <div className="flex items-center flex-wrap gap-1.5 mt-3">
+                          <span className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mr-1">
+                            Boosts
                           </span>
                           {item.statModifiers.map((modifier, idx) => (
                             <span
                               key={`${modifier.stat}-${idx}`}
-                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
+                              className="rounded-full border border-stone-200 dark:border-stone-700 px-2 py-0.5 text-xs text-stone-600 dark:text-stone-300 capitalize"
                             >
                               {modifier.stat} {modifier.value > 0 ? "+" : ""}
                               {modifier.value}
@@ -261,33 +231,21 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
                           ))}
                         </div>
                       )}
-
-                    {/* Granted Powers — any category can grant (weapon → technique, enchanted item → spell) */}
-                    {item.grantedPowers.length > 0 && (
-                      <div className="flex items-center mt-2">
-                        <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                          Grants:
-                        </span>
-                        <span className="text-xs text-stone-600 dark:text-stone-400">
-                          {item.grantedPowers.length} power
-                          {item.grantedPowers.length === 1 ? "" : "s"}
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
 
-                {/* Right Section - Category Badge */}
-                <div className="flex flex-col items-end space-y-2">
-                  <div
-                    className={twMerge(
-                      scheme.badgeBg,
-                      scheme.badgeText,
-                      "px-3 py-1 rounded-full text-xs font-medium capitalize",
-                    )}
-                  >
+                {/* Right Section - Category / Rarity Badges */}
+                <div className="hidden sm:flex shrink-0 ml-3 flex-col items-end space-y-2">
+                  <div className="px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-xs font-medium capitalize whitespace-nowrap text-stone-700 dark:text-stone-300">
                     {item.category}
                   </div>
+                  {item.rarity && (
+                    <div
+                      className={`px-3 py-1 rounded-full border text-xs font-semibold capitalize whitespace-nowrap ${RARITY_BADGE[item.rarity]}`}
+                    >
+                      {item.rarity}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

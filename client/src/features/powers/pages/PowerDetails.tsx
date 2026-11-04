@@ -79,10 +79,10 @@ export function PowerDetails() {
   );
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between gap-3 mb-6">
           <button
             onClick={handleReturn}
             className="flex items-center gap-2 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white transition-all group"
@@ -107,26 +107,21 @@ export function PowerDetails() {
         </div>
 
         {/* Header Card */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <div className="flex items-start justify-between mb-6">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
             <div className="flex-1">
-              <div className="flex items-center gap-4 mb-3">
+              <div className="flex items-center gap-3 sm:gap-4 mb-3">
                 <LuSparkles
-                  className="text-emerald-700 dark:text-emerald-400"
+                  className="shrink-0 text-emerald-700 dark:text-emerald-400"
                   size={36}
                 />
-                <h1 className="text-5xl font-bold text-amber-700 dark:text-amber-400 ">
+                <h1 className="text-3xl sm:text-5xl font-bold break-words min-w-0 text-amber-700 dark:text-amber-400">
                   {power.name}
                 </h1>
               </div>
-              <p className="text-xl text-stone-600 dark:text-stone-300 italic capitalize">
+              <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400">
                 {power.kind}
-                {isSpell && <> &bull; {power.school}</>}
-              </p>
-            </div>
-            <div className="px-6 py-3 rounded-xl bg-emerald-700 shadow-lg">
-              <p className="text-white font-bold text-lg capitalize">
-                {isSpell ? power.school : power.kind}
+                {isSpell && <> &middot; {power.school}</>}
               </p>
             </div>
           </div>
@@ -134,13 +129,13 @@ export function PowerDetails() {
           {/* Quick Stats Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             {power.activation?.action && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuClock
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Casting Time
                   </p>
                 </div>
@@ -159,13 +154,13 @@ export function PowerDetails() {
             )}
 
             {power.targeting?.range != null && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuTarget
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Range
                   </p>
                 </div>
@@ -178,13 +173,13 @@ export function PowerDetails() {
             )}
 
             {!!power.activation?.duration && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuZap
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Duration
                   </p>
                 </div>
@@ -196,13 +191,13 @@ export function PowerDetails() {
             )}
 
             {power.activation?.cost != null && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuCoins
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Cost
                   </p>
                 </div>
@@ -215,18 +210,18 @@ export function PowerDetails() {
         </div>
 
         {/* Combat Properties Section */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
             <LuFlame size={24} />
             Combat Properties
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {damageDisplay && (
-              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-6">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                   Damage
                 </p>
-                <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+                <p className="text-2xl sm:text-3xl font-bold text-amber-700 dark:text-amber-400">
                   {damageDisplay}
                 </p>
                 {damageEffect?.persistent && (
@@ -244,19 +239,19 @@ export function PowerDetails() {
             )}
 
             {healingDisplay && (
-              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-6">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                   Healing
                 </p>
-                <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+                <p className="text-2xl sm:text-3xl font-bold text-amber-700 dark:text-amber-400">
                   {healingDisplay}
                 </p>
               </div>
             )}
 
             {power.offensiveStat && (
-              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-6">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                   Offensive Stat
                 </p>
                 <p className="text-xl font-semibold text-stone-900 dark:text-white">
@@ -266,7 +261,7 @@ export function PowerDetails() {
             )}
 
             {power.targeting && (
-              <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-6">
                 <div className="flex items-center gap-2 mb-2">
                   <LuUsers
                     size={16}
@@ -296,7 +291,7 @@ export function PowerDetails() {
               {damageTypesUsed.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-3 py-1 rounded-full bg-stone-100 text-stone-600 dark:bg-stone-700/50 dark:text-stone-300 capitalize"
+                  className="text-xs px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 capitalize"
                 >
                   {tag}
                 </span>
@@ -341,8 +336,8 @@ export function PowerDetails() {
 
         {/* Stat Modifiers Section */}
         {power.statModifiers.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuShield size={24} />
               Stat Modifiers
             </h2>
@@ -350,7 +345,7 @@ export function PowerDetails() {
               {power.statModifiers.map((modifier, index) => (
                 <div
                   key={index}
-                  className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20"
+                  className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4"
                 >
                   <p className="text-stone-900 dark:text-white font-semibold">
                     {modifier.stat} {modifier.value > 0 ? "+" : ""}
@@ -378,8 +373,8 @@ export function PowerDetails() {
 
         {/* Conditions Inflicted Section */}
         {power.conditions.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuUsers size={24} />
               Conditions Inflicted
             </h2>
@@ -391,7 +386,7 @@ export function PowerDetails() {
                 return (
                   <div
                     key={`${powerCondition.condition}-${idx}`}
-                    className="bg-stone-50 dark:bg-stone-900/30 rounded-lg px-4 py-2 border border-stone-200 dark:border-amber-500/20"
+                    className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 px-4 py-2"
                   >
                     <p className="text-stone-900 dark:text-white font-semibold capitalize">
                       {condition.name}
@@ -414,8 +409,8 @@ export function PowerDetails() {
         {power.kind === "trait" &&
           power.grantedPowers &&
           power.grantedPowers.length > 0 && (
-            <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-              <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+            <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+              <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
                 <LuSparkles size={24} />
                 Grants
               </h2>
@@ -427,8 +422,8 @@ export function PowerDetails() {
           )}
 
         {/* Description Section */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-4 flex items-center gap-2">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-4 flex items-center gap-2">
             <LuBookOpen size={24} />
             Description
           </h2>

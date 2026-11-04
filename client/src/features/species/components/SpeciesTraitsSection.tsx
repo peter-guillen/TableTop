@@ -31,7 +31,7 @@ export const SpeciesTraitsSection = ({
       <div>
         <label className={`${formLabel} mb-2`}>Species Traits</label>
         {traitOptions.length === 0 ? (
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-stone-500 dark:text-stone-400">
             No traits available yet. Create a power with kind "trait" first.
           </p>
         ) : (

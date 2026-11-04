@@ -71,7 +71,6 @@ export const ItemList = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  console.log(constants);
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong</p>;
 
@@ -213,30 +212,30 @@ export const ItemList = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-8 transition-colors duration-300">
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 md:p-8 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-amber-700 dark:text-amber-400">
               Items
             </h1>
-            <p className="text-xl text-stone-600 dark:text-stone-300">
+            <p className="text-lg md:text-xl text-stone-600 dark:text-stone-300">
               Weave magic into your life
             </p>
           </div>
         </div>
 
         <div className="flex justify-center">
-          <div className="w-3/4">
+          <div className="w-full lg:w-3/4">
             {/* Category Tabs */}
-            <div className="flex gap-2 mb-6 border-b border-stone-200 dark:border-stone-700">
+            <div className="flex gap-1 sm:gap-2 mb-6 border-b border-stone-200 dark:border-stone-800 overflow-x-auto">
               {CATEGORY_TABS.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 capitalize text-sm font-medium border-b-2 transition-colors ${
+                  className={`shrink-0 whitespace-nowrap px-3 sm:px-4 py-2 capitalize text-sm font-semibold border-b-2 transition-colors ${
                     selectedCategory === category
-                      ? "border-emerald-600 text-emerald-700 dark:text-emerald-400"
-                      : "border-transparent text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
+                      ? "border-emerald-600 dark:border-emerald-400 text-emerald-700 dark:text-emerald-400"
+                      : "border-transparent text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:border-stone-300 dark:hover:border-stone-600"
                   }`}
                 >
                   {category}
@@ -256,26 +255,26 @@ export const ItemList = () => {
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="Search items..."
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-white placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-white placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400"
                 />
               </div>
 
               <div className="relative" ref={filterRef}>
                 <button
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
                 >
                   <LuFilter size={18} />
                   <span>Filter</span>
                   {activeFilterCount > 0 && (
-                    <span className="flex items-center justify-center w-5 h-5 text-xs rounded-full bg-emerald-600 text-white">
+                    <span className="flex items-center justify-center w-5 h-5 text-xs font-semibold rounded-full bg-emerald-700 text-white dark:bg-emerald-500 dark:text-stone-950">
                       {activeFilterCount}
                     </span>
                   )}
                 </button>
 
                 {isFilterOpen && (
-                  <div className="absolute right-0 mt-2 w-64 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 shadow-lg p-4 z-10 max-h-96 overflow-y-auto">
+                  <div className="absolute right-0 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl p-4 z-10 max-h-96 overflow-y-auto">
                     <div className="flex items-center justify-between mb-3">
                       <p className="text-sm font-semibold text-stone-900 dark:text-white">
                         Filters
@@ -292,7 +291,7 @@ export const ItemList = () => {
                     </div>
 
                     {/* Universal filters */}
-                    <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                       Rarity
                     </p>
                     <div className="flex flex-col gap-1 max-h-32 overflow-y-auto mb-4">
@@ -303,6 +302,7 @@ export const ItemList = () => {
                         >
                           <input
                             type="checkbox"
+                            className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                             checked={selectedRarities.includes(rarity)}
                             onChange={() =>
                               toggle(
@@ -317,7 +317,7 @@ export const ItemList = () => {
                       ))}
                     </div>
 
-                    <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                       Quality
                     </p>
                     <div className="flex flex-col gap-1 max-h-32 overflow-y-auto mb-4">
@@ -328,6 +328,7 @@ export const ItemList = () => {
                         >
                           <input
                             type="checkbox"
+                            className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                             checked={selectedQualities.includes(quality)}
                             onChange={() =>
                               toggle(
@@ -342,7 +343,7 @@ export const ItemList = () => {
                       ))}
                     </div>
 
-                    <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                       Materials
                     </p>
                     <div className="flex flex-col gap-1 max-h-32 overflow-y-auto mb-4">
@@ -353,6 +354,7 @@ export const ItemList = () => {
                         >
                           <input
                             type="checkbox"
+                            className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                             checked={selectedMaterials.includes(material)}
                             onChange={() =>
                               toggle(
@@ -370,7 +372,7 @@ export const ItemList = () => {
                     {/* Category-specific filters */}
                     {selectedCategory === "weapon" && (
                       <>
-                        <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                           Properties
                         </p>
                         <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
@@ -381,6 +383,7 @@ export const ItemList = () => {
                             >
                               <input
                                 type="checkbox"
+                                className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                                 checked={selectedProperties.includes(property)}
                                 onChange={() =>
                                   toggle(
@@ -399,7 +402,7 @@ export const ItemList = () => {
 
                     {selectedCategory === "armor" && (
                       <>
-                        <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                           Resists
                         </p>
                         <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
@@ -410,6 +413,7 @@ export const ItemList = () => {
                             >
                               <input
                                 type="checkbox"
+                                className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                                 checked={selectedResistanceTypes.includes(type)}
                                 onChange={() =>
                                   toggle(
@@ -428,7 +432,7 @@ export const ItemList = () => {
 
                     {selectedCategory === "accessory" && (
                       <>
-                        <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                           Boosts
                         </p>
                         <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
@@ -439,6 +443,7 @@ export const ItemList = () => {
                             >
                               <input
                                 type="checkbox"
+                                className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                                 checked={selectedModifierStats.includes(stat)}
                                 onChange={() =>
                                   toggle(
@@ -457,7 +462,7 @@ export const ItemList = () => {
 
                     {selectedCategory === "consumable" && (
                       <>
-                        <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                           Effect
                         </p>
                         <div className="flex flex-col gap-1 mb-4">
@@ -468,6 +473,7 @@ export const ItemList = () => {
                             >
                               <input
                                 type="checkbox"
+                                className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                                 checked={selectedHealthDirections.includes(
                                   direction,
                                 )}
@@ -484,7 +490,7 @@ export const ItemList = () => {
                           ))}
                         </div>
 
-                        <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                           Damage Type
                         </p>
                         <div className="flex flex-col gap-1 max-h-32 overflow-y-auto">
@@ -495,6 +501,7 @@ export const ItemList = () => {
                             >
                               <input
                                 type="checkbox"
+                                className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                                 checked={selectedConsumableDamageTypes.includes(
                                   type,
                                 )}
@@ -515,7 +522,7 @@ export const ItemList = () => {
 
                     {selectedCategory === "trinket" && (
                       <>
-                        <p className="text-xs font-medium text-stone-500 dark:text-stone-400 mb-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                           Recharge
                         </p>
                         <div className="flex flex-col gap-1">
@@ -526,6 +533,7 @@ export const ItemList = () => {
                             >
                               <input
                                 type="checkbox"
+                                className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
                                 checked={selectedRechargeOptions.includes(
                                   option,
                                 )}

@@ -3,6 +3,23 @@ import { useState } from "react";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 import type { CharacterSectionProps } from "../charactersTypes";
+import type { Rarity } from "../../items/itemTypes";
+
+// Rarity ladder runs cool to warm; the top two tiers get a solid fill so a
+// legendary never reads like a common
+const RARITY_BADGE: Record<Rarity, string> = {
+  common:
+    "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border-stone-300 dark:border-stone-600",
+  uncommon:
+    "bg-lime-50 dark:bg-lime-500/10 text-lime-700 dark:text-lime-300 border-lime-300 dark:border-lime-500/40",
+  rare: "bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/40",
+  heroic:
+    "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-500/40",
+  epic: "bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-300 dark:border-fuchsia-500/40",
+  legendary: "bg-amber-400 text-stone-950 border-amber-500 dark:border-amber-300",
+  mythic:
+    "bg-rose-600 text-white border-rose-700 dark:bg-rose-500 dark:border-rose-400",
+};
 
 type WeaponSlot = "mainHand" | "offHand";
 
@@ -109,8 +126,8 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
         ];
         const buttonClass = `text-xs font-bold px-3 py-1.5 rounded-lg border transition-all duration-150 cursor-pointer ${
           sel
-            ? "bg-emerald-50 dark:bg-emerald-800/30 border-emerald-300 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300"
-            : "bg-white dark:bg-stone-700/40 border-stone-200 dark:border-stone-600/40 text-stone-600 dark:text-stone-300 hover:border-emerald-300 dark:hover:border-emerald-500/40"
+            ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300"
+            : "bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:border-emerald-300 dark:hover:border-emerald-500/40"
         }`;
 
         return (
@@ -118,12 +135,12 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
             key={id}
             className={`rounded-xl border overflow-hidden transition-all duration-200 ${
               sel
-                ? "bg-emerald-50 dark:bg-emerald-800/20 border-emerald-300 dark:border-emerald-500/40"
-                : "bg-white dark:bg-stone-800/50 border-stone-200 dark:border-stone-700/50"
+                ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/40"
+                : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800"
             }`}
           >
             <div
-              className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-700/20 transition-colors"
+              className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-stone-50 dark:hover:bg-stone-800/60 transition-colors"
               onClick={() => setExpanded(open ? null : id)}
             >
               <div className="flex items-center gap-2 flex-wrap">
@@ -136,11 +153,15 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
                 >
                   {weapon.name}
                 </span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-amber-100 dark:bg-amber-800/30 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-500/40">
-                  {weapon.rarity}
-                </span>
+                {weapon.rarity && (
+                  <span
+                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide ${RARITY_BADGE[weapon.rarity]}`}
+                  >
+                    {weapon.rarity}
+                  </span>
+                )}
                 {sel && (
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-500/40">
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-500/40">
                     {slotLabel}
                   </span>
                 )}
@@ -151,7 +172,7 @@ export const WeaponsTab = ({ formData, patchForm }: CharacterSectionProps) => {
             </div>
 
             {open && (
-              <div className="px-4 pb-4 border-t border-stone-100 dark:border-stone-700/50">
+              <div className="px-4 pb-4 border-t border-stone-100 dark:border-stone-800">
                 <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed mt-3">
                   {weapon.description}
                 </p>

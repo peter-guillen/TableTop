@@ -251,12 +251,12 @@ export const ItemSpecialSection = ({
                 addSkill();
               }
             }}
-            className="flex-1 px-4 py-3 bg-white dark:bg-stone-900/50 border border-stone-300 dark:border-emerald-500/30 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-500 focus:border-transparent transition-all"
+            className="flex-1 px-4 py-3 bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-lg text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400 focus:border-transparent transition-all"
           />
           <button
             type="button"
             onClick={addSkill}
-            className="flex items-center gap-1 px-4 py-3 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-lg border border-stone-300 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-600/30 transition-all"
+            className="flex items-center gap-1 px-4 py-3 text-sm bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-lg border border-emerald-300 dark:border-emerald-500/40 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-all"
           >
             <LuPlus size={16} />
             Add
@@ -267,7 +267,7 @@ export const ItemSpecialSection = ({
             {uniqueSkills.map((skill) => (
               <span
                 key={skill}
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 rounded-full border border-stone-300 dark:border-emerald-500/30"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-500/40"
               >
                 {skill}
                 <button

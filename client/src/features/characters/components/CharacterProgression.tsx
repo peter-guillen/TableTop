@@ -21,15 +21,6 @@ const GROUP_LABELS: Record<PowerGroup, string> = {
   traits: "Traits",
 };
 
-const KIND_CHIP: Record<string, string> = {
-  spell:
-    "bg-violet-100 dark:bg-violet-800/30 text-violet-700 dark:text-violet-300 border-violet-300 dark:border-violet-500/40",
-  ability:
-    "bg-sky-100 dark:bg-sky-800/30 text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/40",
-  trait:
-    "bg-amber-100 dark:bg-amber-800/30 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-500/40",
-};
-
 const STAT_LABELS: Record<string, string> = {
   hpMax: "HP Max",
   mpMax: "MP Max",
@@ -37,10 +28,10 @@ const STAT_LABELS: Record<string, string> = {
 };
 
 const PILL =
-  "text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-stone-100 dark:bg-stone-700/40 text-stone-600 dark:text-stone-300 border-stone-200 dark:border-stone-600/40";
+  "text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border-stone-200 dark:border-stone-700";
 
 const LABEL =
-  "text-[9px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400";
+  "text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400";
 
 export const CharacterProgression = ({
   formData,
@@ -176,7 +167,7 @@ export const CharacterProgression = ({
       : "";
 
   return (
-    <div className="bg-white dark:bg-stone-800/50 rounded-xl border border-stone-200 dark:border-stone-700/50 p-4">
+    <div className="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className={LABEL}>Progression</p>
@@ -192,7 +183,7 @@ export const CharacterProgression = ({
           }}
           disabled={!hasTrack || pending || level >= maxLevel}
           title={levelUpHint}
-          className="text-xs font-bold px-3 py-1.5 rounded-lg border transition-all duration-150 bg-emerald-500 border-emerald-600 text-white hover:bg-emerald-600 disabled:bg-white disabled:dark:bg-stone-700/40 disabled:border-stone-200 disabled:dark:border-stone-600/40 disabled:text-stone-400 disabled:cursor-not-allowed cursor-pointer"
+          className="text-xs font-bold px-3 py-1.5 rounded-lg border transition-all duration-150 bg-emerald-700 border-emerald-700 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:border-emerald-500 dark:text-stone-950 dark:hover:bg-emerald-400 disabled:bg-white disabled:dark:bg-stone-800 disabled:border-stone-200 disabled:dark:border-stone-700 disabled:text-stone-400 disabled:dark:text-stone-500 disabled:hover:bg-white disabled:dark:hover:bg-stone-800 disabled:cursor-not-allowed cursor-pointer"
         >
           {level >= maxLevel ? "Max Level" : "Level Up"}
         </button>
@@ -229,10 +220,10 @@ export const CharacterProgression = ({
               <span
                 className={`w-5 h-5 rounded-full border-2 text-[9px] font-bold flex items-center justify-center transition-all ${
                   claimed
-                    ? "bg-emerald-500 border-emerald-500 text-white"
+                    ? "bg-emerald-700 border-emerald-700 text-white dark:bg-emerald-500 dark:border-emerald-500 dark:text-stone-950"
                     : waiting
-                      ? "bg-emerald-50 dark:bg-emerald-800/30 border-emerald-500 text-emerald-700 dark:text-emerald-300 animate-pulse"
-                      : "bg-white dark:bg-stone-800 border-stone-300 dark:border-stone-600 text-stone-400 group-hover:border-emerald-300"
+                      ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-500 text-emerald-700 dark:text-emerald-300 animate-pulse"
+                      : "bg-white dark:bg-stone-950 border-stone-300 dark:border-stone-700 text-stone-400 group-hover:border-emerald-600 dark:group-hover:border-emerald-500"
                 } ${active ? "ring-2 ring-offset-1 ring-emerald-400 dark:ring-offset-stone-900" : ""}`}
               >
                 {lvl}
@@ -283,13 +274,13 @@ export const CharacterProgression = ({
         <div
           className={`mt-3 rounded-lg border p-3 ${
             claiming
-              ? "border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-800/20"
-              : "border-stone-200 dark:border-stone-700/50 bg-stone-50 dark:bg-stone-900/30"
+              ? "border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/10"
+              : "border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60"
           }`}
         >
           <div className="flex items-center justify-between mb-2">
             <p
-              className={`text-[9px] font-bold uppercase tracking-widest ${
+              className={`text-[10px] font-semibold uppercase tracking-widest ${
                 claiming
                   ? "text-emerald-700 dark:text-emerald-300"
                   : "text-stone-500 dark:text-stone-400"
@@ -319,7 +310,7 @@ export const CharacterProgression = ({
               return (
                 <span
                   key={id}
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${KIND_CHIP[power?.kind ?? ""] ?? PILL}`}
+                  className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border-stone-200 dark:border-stone-700"
                 >
                   ◆ {power?.name ?? id}
                   <span className="font-normal opacity-70"> · {power?.kind}</span>
@@ -394,15 +385,15 @@ export const CharacterProgression = ({
                           }
                           className={`text-left rounded-lg border p-2 transition-all duration-150 cursor-pointer ${
                             sel
-                              ? "bg-emerald-100 dark:bg-emerald-800/40 border-emerald-500"
-                              : "bg-white dark:bg-stone-800/50 border-stone-200 dark:border-stone-700/50 hover:border-emerald-300 dark:hover:border-emerald-500/40"
+                              ? "bg-emerald-100 dark:bg-emerald-500/20 border-emerald-500"
+                              : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 hover:border-emerald-300 dark:hover:border-emerald-500/40"
                           }`}
                         >
                           <p className="text-xs font-bold text-stone-900 dark:text-white">
                             {p.name}
                           </p>
                           <span
-                            className={`inline-block text-[8px] font-bold uppercase tracking-wide px-1.5 rounded-full border mt-0.5 ${KIND_CHIP[p.kind] ?? PILL}`}
+                            className="inline-block text-[8px] font-bold uppercase tracking-wide px-1.5 rounded-full border mt-0.5 bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border-stone-200 dark:border-stone-700"
                           >
                             {p.kind}
                           </span>
@@ -419,7 +410,7 @@ export const CharacterProgression = ({
                     onChange={(e) =>
                       setPicks({ ...picks, [index]: e.target.value })
                     }
-                    className="w-full bg-white dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50 rounded-md text-xs px-2 py-1.5 text-stone-900 dark:text-white"
+                    className="w-full bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-md text-xs px-2 py-1.5 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400"
                   >
                     <option value="">Choose a power</option>
                     {(Object.keys(GROUP_LABELS) as PowerGroup[]).map(
@@ -450,7 +441,7 @@ export const CharacterProgression = ({
               type="button"
               onClick={claimRewards}
               disabled={!canClaim}
-              className="w-full mt-3 text-xs font-bold px-3 py-2 rounded-lg border transition-all duration-150 bg-emerald-500 border-emerald-600 text-white hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full mt-3 text-xs font-bold px-3 py-2 rounded-lg border transition-all duration-150 bg-emerald-700 border-emerald-700 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:border-emerald-500 dark:text-stone-950 dark:hover:bg-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
             >
               {canClaim ? "Claim Rewards" : "Make your choices to claim"}
             </button>

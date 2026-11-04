@@ -37,16 +37,23 @@ export const Login = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await login(formData).unwrap();
+      // Mobile keyboards often add a trailing space after an email suggestion
+      await login({ ...formData, email: formData.email.trim() }).unwrap();
       navigate("/");
     } catch (error) {
-      setErrorMessage("Invalid email or password");
+      // Only a 401 means bad credentials, anything else is a network/server problem
+      const status = (error as { status?: number | string })?.status;
+      setErrorMessage(
+        status === 401
+          ? "Invalid email or password"
+          : "Unable to log in right now. Please try again.",
+      );
     }
   };
 
   return (
     <div
-      className={`flex min-h-screen items-center justify-center px-6 py-16 ${surface} ${ink}`}
+      className={`flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 sm:py-16 ${surface} ${ink}`}
     >
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
@@ -57,7 +64,7 @@ export const Login = () => {
           <p className={`mt-2 ${inkMuted}`}>Log in to continue your journey</p>
         </div>
 
-        <div className={`${card} p-8 shadow-sm`}>
+        <div className={`${card} p-6 sm:p-8 shadow-sm`}>
           <form onSubmit={handleSubmit} className="space-y-5">
             {[
               {
@@ -65,14 +72,16 @@ export const Login = () => {
                 label: "Email",
                 type: "email",
                 placeholder: "Enter your email",
+                autoComplete: "email",
               },
               {
                 id: "password" as keyof UserLogin,
                 label: "Password",
                 type: "password",
                 placeholder: "Enter your password",
+                autoComplete: "current-password",
               },
-            ].map(({ id, label, type, placeholder }) => (
+            ].map(({ id, label, type, placeholder, autoComplete }) => (
               <div key={id}>
                 <label htmlFor={id} className={`${formLabel} mb-1`}>
                   {label}
@@ -83,6 +92,9 @@ export const Login = () => {
                   id={id}
                   className={formInput}
                   placeholder={placeholder}
+                  autoComplete={autoComplete}
+                  autoCapitalize="none"
+                  autoCorrect="off"
                   onChange={handleInputChange}
                   value={formData[id]}
                 />

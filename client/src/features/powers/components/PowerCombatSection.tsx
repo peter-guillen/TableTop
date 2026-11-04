@@ -75,9 +75,7 @@ export const PowerCombatSection = ({
       <div className="space-y-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className={`${formLabel} mb-2`}>
-              Target Category *
-            </label>
+            <label className={`${formLabel} mb-2`}>Target Category *</label>
             <select
               name="targetCategory"
               onChange={(e) =>
@@ -97,9 +95,7 @@ export const PowerCombatSection = ({
           </div>
 
           <div>
-            <label className={`${formLabel} mb-2`}>
-              Target Count *
-            </label>
+            <label className={`${formLabel} mb-2`}>Target Count *</label>
             <input
               type="number"
               placeholder="1"
@@ -117,9 +113,7 @@ export const PowerCombatSection = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className={`${formLabel} mb-2`}>
-              Range (ft) *
-            </label>
+            <label className={`${formLabel} mb-2`}>Range (ft) *</label>
             <input
               type="number"
               placeholder="0"
@@ -135,9 +129,7 @@ export const PowerCombatSection = ({
           </div>
 
           <div>
-            <label className={`${formLabel} mb-2`}>
-              Area Shape
-            </label>
+            <label className={`${formLabel} mb-2`}>Area Shape</label>
             <select
               name="shape"
               onChange={(e) =>
@@ -162,9 +154,7 @@ export const PowerCombatSection = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className={`${formLabel} mb-2`}>
-              Area Size (ft)
-            </label>
+            <label className={`${formLabel} mb-2`}>Area Size (ft)</label>
             <input
               type="number"
               placeholder="0"
@@ -184,9 +174,7 @@ export const PowerCombatSection = ({
       {/* Damage Section */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <label className={formLabel}>
-            Damage
-          </label>
+          <label className={formLabel}>Damage</label>
           <button
             type="button"
             onClick={() => addEffect("damage")}
@@ -204,9 +192,7 @@ export const PowerCombatSection = ({
               className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end"
             >
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Damage Type
-                </label>
+                <label className={`${formLabel} mb-2`}>Damage Type</label>
                 <select
                   value={dmg.damageType || ""}
                   onChange={(e) =>
@@ -223,9 +209,7 @@ export const PowerCombatSection = ({
                 </select>
               </div>
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Dice Count
-                </label>
+                <label className={`${formLabel} mb-2`}>Dice Count</label>
                 <input
                   type="number"
                   placeholder="2"
@@ -237,9 +221,7 @@ export const PowerCombatSection = ({
                 />
               </div>
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Type
-                </label>
+                <label className={`${formLabel} mb-2`}>Type</label>
                 <select
                   value={dmg.diceSize || ""}
                   onChange={(e) =>
@@ -258,9 +240,7 @@ export const PowerCombatSection = ({
                 </select>
               </div>
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Modifier
-                </label>
+                <label className={`${formLabel} mb-2`}>Modifier</label>
                 <input
                   type="number"
                   placeholder="0"
@@ -283,14 +263,10 @@ export const PowerCombatSection = ({
         </div>
       </div>
 
-      <br className="p-8 m-8" />
-
       {/* Healing Section */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <label className={formLabel}>
-            Healing
-          </label>
+          <label className={formLabel}>Healing</label>
           <button
             type="button"
             onClick={() => addEffect("healing")}
@@ -308,9 +284,7 @@ export const PowerCombatSection = ({
               className="grid grid-cols-2 md:grid-cols-5 gap-4 items-end"
             >
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Damage Type
-                </label>
+                <label className={`${formLabel} mb-2`}>Damage Type</label>
                 <select
                   value={heal.damageType || ""}
                   onChange={(e) =>
@@ -327,9 +301,7 @@ export const PowerCombatSection = ({
                 </select>
               </div>
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Dice Count
-                </label>
+                <label className={`${formLabel} mb-2`}>Dice Count</label>
                 <input
                   type="number"
                   placeholder="2"
@@ -341,9 +313,7 @@ export const PowerCombatSection = ({
                 />
               </div>
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Type
-                </label>
+                <label className={`${formLabel} mb-2`}>Type</label>
                 <select
                   value={heal.diceSize || ""}
                   onChange={(e) =>
@@ -362,9 +332,7 @@ export const PowerCombatSection = ({
                 </select>
               </div>
               <div>
-                <label className={`${formLabel} mb-2`}>
-                  Modifier
-                </label>
+                <label className={`${formLabel} mb-2`}>Modifier</label>
                 <input
                   type="number"
                   placeholder="0"

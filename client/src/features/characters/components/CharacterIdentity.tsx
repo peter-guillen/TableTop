@@ -1,7 +1,7 @@
 import type { CharacterBaseProps } from "../charactersTypes";
 
 const INPUT =
-  "bg-white dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50 rounded-md text-xs px-2 py-1 text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:border-emerald-400 dark:focus:border-emerald-500 transition-colors";
+  "bg-white dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-md text-xs px-2 py-1 text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:border-emerald-400 dark:focus:border-emerald-500 transition-colors";
 
 export const CharacterIdentity = ({
   formData,
@@ -29,7 +29,7 @@ export const CharacterIdentity = ({
       )}
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[9px] font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500">
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
           Pronouns
         </span>
         <input
@@ -53,7 +53,7 @@ export const CharacterIdentity = ({
           }
         />
 
-        <span className="text-[9px] font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 ml-2">
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 ml-2">
           Age
         </span>
         <input

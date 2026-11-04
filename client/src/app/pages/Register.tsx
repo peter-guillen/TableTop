@@ -37,7 +37,8 @@ export const Register = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await createUser(formData).unwrap();
+      // Mobile keyboards often add a trailing space after an email suggestion
+      await createUser({ ...formData, email: formData.email.trim() }).unwrap();
       navigate("/");
     } catch (error) {
       setErrorMessage("Registration failed");
@@ -46,7 +47,7 @@ export const Register = () => {
 
   return (
     <div
-      className={`flex min-h-screen items-center justify-center px-6 py-16 ${surface} ${ink}`}
+      className={`flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 sm:py-16 ${surface} ${ink}`}
     >
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
@@ -57,7 +58,7 @@ export const Register = () => {
           <p className={`mt-2 ${inkMuted}`}>Join the adventure. It's free to start.</p>
         </div>
 
-        <div className={`${card} p-8 shadow-sm`}>
+        <div className={`${card} p-6 sm:p-8 shadow-sm`}>
           <form onSubmit={handleSubmit} className="space-y-5">
             {[
               {
@@ -65,20 +66,23 @@ export const Register = () => {
                 label: "Username",
                 type: "text",
                 placeholder: "Enter your username",
+                autoComplete: "username",
               },
               {
                 id: "email" as keyof RegisterUser,
                 label: "Email",
                 type: "email",
                 placeholder: "Enter your email",
+                autoComplete: "email",
               },
               {
                 id: "password" as keyof RegisterUser,
                 label: "Password",
                 type: "password",
                 placeholder: "Enter your password",
+                autoComplete: "new-password",
               },
-            ].map(({ id, label, type, placeholder }) => (
+            ].map(({ id, label, type, placeholder, autoComplete }) => (
               <div key={id}>
                 <label htmlFor={id} className={`${formLabel} mb-1`}>
                   {label}
@@ -89,6 +93,9 @@ export const Register = () => {
                   id={id}
                   className={formInput}
                   placeholder={placeholder}
+                  autoComplete={autoComplete}
+                  autoCapitalize="none"
+                  autoCorrect="off"
                   onChange={handleInputChange}
                   value={formData[id]}
                 />

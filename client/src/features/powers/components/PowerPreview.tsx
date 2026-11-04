@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { twMerge } from "tailwind-merge";
 import {
   GiIceBolt,
   GiFireball,
@@ -29,7 +28,8 @@ const kindIconMap: Record<PowerKind, typeof GiIceBolt> = {
   trait: GiFamilyTree,
 };
 
-// Icon override by school — spells only
+// Icon override by school — spells only. The icon carries the school's
+// identity, so the card itself stays in the stone/emerald palette.
 const schoolIconMap: Record<SpellSchool, typeof GiIceBolt> = {
   abjuration: GiFireball,
   evocation: GiLightningHelix,
@@ -41,95 +41,12 @@ const schoolIconMap: Record<SpellSchool, typeof GiIceBolt> = {
   illusion: GiSparkSpirit,
 };
 
-// Static class map instead of interpolated `text-${color}-600` (JIT-safe)
-interface ColorScheme {
-  text: string;
-  border: string;
-  badgeBg: string;
-  badgeText: string;
-}
-
-const colorSchemes: Record<string, ColorScheme> = {
-  red: {
-    text: "text-red-600 dark:text-red-400",
-    border: "border-red-200 dark:border-red-600",
-    badgeBg: "bg-red-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-red-700 dark:text-red-300",
-  },
-  blue: {
-    text: "text-blue-600 dark:text-blue-400",
-    border: "border-blue-200 dark:border-blue-600",
-    badgeBg: "bg-blue-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-blue-700 dark:text-blue-300",
-  },
-  yellow: {
-    text: "text-yellow-600 dark:text-yellow-400",
-    border: "border-yellow-200 dark:border-yellow-600",
-    badgeBg: "bg-yellow-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-yellow-700 dark:text-yellow-300",
-  },
-  orange: {
-    text: "text-orange-600 dark:text-orange-400",
-    border: "border-orange-200 dark:border-orange-600",
-    badgeBg: "bg-orange-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-orange-700 dark:text-orange-300",
-  },
-  purple: {
-    text: "text-purple-600 dark:text-purple-400",
-    border: "border-purple-200 dark:border-purple-600",
-    badgeBg: "bg-purple-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-purple-700 dark:text-purple-300",
-  },
-  green: {
-    text: "text-green-600 dark:text-green-400",
-    border: "border-green-200 dark:border-green-600",
-    badgeBg: "bg-green-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-green-700 dark:text-green-300",
-  },
-  magenta: {
-    text: "text-pink-600 dark:text-pink-400",
-    border: "border-pink-200 dark:border-pink-600",
-    badgeBg: "bg-pink-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-pink-700 dark:text-pink-300",
-  },
-  cyan: {
-    text: "text-cyan-600 dark:text-cyan-400",
-    border: "border-cyan-200 dark:border-cyan-600",
-    badgeBg: "bg-cyan-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-cyan-700 dark:text-cyan-300",
-  },
-  gray: {
-    text: "text-stone-600 dark:text-stone-400",
-    border: "border-stone-200 dark:border-stone-600",
-    badgeBg: "bg-stone-500 bg-opacity-10 dark:bg-opacity-20",
-    badgeText: "text-stone-700 dark:text-stone-300",
-  },
-};
-
-const schoolColors: Record<SpellSchool, string> = {
-  abjuration: "red",
-  evocation: "blue",
-  transmutation: "yellow",
-  divination: "orange",
-  necromancy: "purple",
-  conjuration: "green",
-  enchantment: "magenta",
-  illusion: "cyan",
-};
-
-const kindColors: Record<PowerKind, string> = {
-  spell: "blue",
-  technique: "orange",
-  ability: "green",
-  trait: "purple",
-};
-
 export const PowerPreview = ({
   powers,
   conditionsById = {},
 }: PowerPreviewProps) => {
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {powers.map((power) => {
         const isSpell = power.kind === "spell" && power.school;
 
@@ -137,11 +54,6 @@ export const PowerPreview = ({
           ? (schoolIconMap[power.school as SpellSchool] ??
             kindIconMap[power.kind])
           : kindIconMap[power.kind];
-
-        const colorKey = isSpell
-          ? schoolColors[power.school as SpellSchool]
-          : kindColors[power.kind];
-        const scheme = colorSchemes[colorKey] ?? colorSchemes.gray;
 
         const damageEffect = power.healthEffects.find(
           (e) => e.direction === "damage",
@@ -176,118 +88,143 @@ export const PowerPreview = ({
           <NavLink
             key={power._id ?? power.name}
             to={`/powers/${power._id}`}
-            className="block"
+            className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:focus-visible:ring-emerald-400"
           >
-            <div
-              className={twMerge(
-                scheme.text,
-                scheme.border,
-                "group bg-white dark:bg-stone-800 rounded-lg border-l-4 border shadow-sm hover:shadow-md transition-all duration-200 p-4 hover:bg-stone-50 dark:hover:bg-stone-750",
-              )}
-            >
+            <div className="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-4 transition-colors hover:border-emerald-600 dark:hover:border-emerald-500">
               <div className="flex items-start justify-between">
                 {/* Left Section - Icon and Main Info */}
-                <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg transition-colors duration-200 bg-stone-100 dark:bg-stone-700 group-hover:bg-stone-200 dark:group-hover:bg-stone-600">
+                <div className="flex flex-1 min-w-0 items-start space-x-3">
+                  <div className="shrink-0 rounded-lg bg-emerald-700 p-2 text-white dark:bg-emerald-500 dark:text-stone-950">
                     <IconComponent className="w-5 h-5" />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     {/* Name */}
-                    <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="text-lg font-semibold text-stone-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-200">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <h3 className="text-lg font-semibold break-words text-stone-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-200">
                         {power.name}
                       </h3>
+                      {/* Mobile badges sit under the name instead of squeezing the text column */}
+                      <div className="flex flex-wrap gap-1.5 sm:hidden">
+                        <span className="px-2 py-0.5 rounded-full border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-xs font-medium capitalize whitespace-nowrap text-stone-700 dark:text-stone-300">
+                          {power.kind}
+                        </span>
+                        {isSpell && (
+                          <span className="px-2 py-0.5 rounded-full border border-stone-200 dark:border-stone-700 text-xs font-medium capitalize whitespace-nowrap text-stone-500 dark:text-stone-400">
+                            {power.school}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mb-2">
+                    <p className="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mb-3">
                       {power.description}
                     </p>
 
-                    {/* Primary Stats Row */}
-                    {(damageDisplay || healingDisplay) && (
-                      <div className="flex items-center space-x-4 text-sm text-stone-600 dark:text-stone-400 mb-2">
-                        {damageDisplay && (
-                          <div className="flex items-center space-x-1">
-                            <span className="font-medium text-stone-900 dark:text-stone-300">
-                              Damage:
-                            </span>
-                            <span>{damageDisplay}</span>
-                          </div>
-                        )}
-                        {healingDisplay && (
-                          <div className="flex items-center space-x-1">
-                            <span className="font-medium text-stone-900 dark:text-stone-300">
-                              Healing:
-                            </span>
-                            <span>{healingDisplay}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Secondary Stats Row */}
-                    <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-500">
+                    {/* Stats Row */}
+                    <div className="flex flex-wrap gap-x-5 gap-y-2">
+                      {damageDisplay && (
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Damage
+                          </p>
+                          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400">
+                            {damageDisplay}
+                          </p>
+                        </div>
+                      )}
+                      {healingDisplay && (
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Healing
+                          </p>
+                          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400">
+                            {healingDisplay}
+                          </p>
+                        </div>
+                      )}
                       {power.targeting?.range != null && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Range:</span>
-                          <span>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Range
+                          </p>
+                          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
                             {power.targeting.range === 0
                               ? "Self"
                               : `${power.targeting.range} ft`}
-                          </span>
+                          </p>
                         </div>
                       )}
                       {power.activation?.action && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Casting:</span>
-                          <span>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Casting
+                          </p>
+                          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
                             {power.activation.action
                               .split("_")
                               .map(
                                 (word) => word[0].toUpperCase() + word.slice(1),
                               )
                               .join(" ")}
-                          </span>
+                          </p>
                         </div>
                       )}
                       {!!power.activation?.duration && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Duration:</span>
-                          <span>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Duration
+                          </p>
+                          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
                             {power.activation.duration} turn
                             {power.activation.duration === 1 ? "" : "s"}
-                          </span>
+                          </p>
                         </div>
                       )}
                       {power.recharge && power.recharge !== "unlimited" && (
-                        <div className="flex items-center space-x-1">
-                          <span className="font-medium">Recharge:</span>
-                          <span>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                            Recharge
+                          </p>
+                          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
                             {power.recharge
                               .split("_")
                               .map(
                                 (word) => word[0].toUpperCase() + word.slice(1),
                               )
                               .join(" ")}
-                          </span>
+                          </p>
                         </div>
                       )}
+                      {/* Trait grants */}
+                      {power.kind === "trait" &&
+                        power.grantedPowers &&
+                        power.grantedPowers.length > 0 && (
+                          <div>
+                            <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                              Grants
+                            </p>
+                            <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
+                              {power.grantedPowers.length} power
+                              {power.grantedPowers.length === 1 ? "" : "s"}
+                            </p>
+                          </div>
+                        )}
                     </div>
 
                     {/* Technique weapon requirements */}
                     {power.kind === "technique" &&
                       power.requirements?.properties &&
                       power.requirements.properties.length > 0 && (
-                        <div className="flex items-center flex-wrap mt-2">
-                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                            Weapon Tags:
+                        <div className="flex items-center flex-wrap gap-1.5 mt-3">
+                          <span className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mr-1">
+                            Weapon Tags
                           </span>
                           {power.requirements.properties.map((tag) => (
                             <span
                               key={tag}
-                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
+                              className="rounded-full border border-stone-200 dark:border-stone-700 px-2 py-0.5 text-xs text-stone-600 dark:text-stone-300 capitalize"
                             >
                               {tag}
                             </span>
@@ -295,26 +232,11 @@ export const PowerPreview = ({
                         </div>
                       )}
 
-                    {/* Trait grants */}
-                    {power.kind === "trait" &&
-                      power.grantedPowers &&
-                      power.grantedPowers.length > 0 && (
-                        <div className="flex items-center mt-2">
-                          <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                            Grants:
-                          </span>
-                          <span className="text-xs text-stone-600 dark:text-stone-400">
-                            {power.grantedPowers.length} power
-                            {power.grantedPowers.length === 1 ? "" : "s"}
-                          </span>
-                        </div>
-                      )}
-
                     {/* Condition Tags */}
                     {power.conditions.length > 0 && (
-                      <div className="flex items-center flex-wrap mt-2">
-                        <span className="text-xs text-stone-500 dark:text-stone-500 mr-2">
-                          Conditions:
+                      <div className="flex items-center flex-wrap gap-1.5 mt-3">
+                        <span className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mr-1">
+                          Conditions
                         </span>
                         {power.conditions.map((powerCondition, idx) => {
                           const condition =
@@ -326,7 +248,7 @@ export const PowerPreview = ({
                           return (
                             <span
                               key={`${powerCondition.condition}-${idx}`}
-                              className="text-xs text-stone-600 dark:text-stone-400 mr-2 capitalize"
+                              className="rounded-full border border-stone-200 dark:border-stone-700 px-2 py-0.5 text-xs text-stone-600 dark:text-stone-300 capitalize"
                             >
                               {condition.name} (
                               {powerCondition.durationType === "permanent"
@@ -344,18 +266,12 @@ export const PowerPreview = ({
                 </div>
 
                 {/* Right Section - Kind / School Badges */}
-                <div className="flex flex-col items-end space-y-2">
-                  <div
-                    className={twMerge(
-                      scheme.badgeBg,
-                      scheme.badgeText,
-                      "px-3 py-1 rounded-full text-xs font-medium capitalize",
-                    )}
-                  >
+                <div className="hidden sm:flex shrink-0 ml-3 flex-col items-end space-y-2">
+                  <div className="px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-xs font-medium capitalize whitespace-nowrap text-stone-700 dark:text-stone-300">
                     {power.kind}
                   </div>
                   {isSpell && (
-                    <div className="px-3 py-1 rounded-full text-xs font-medium capitalize bg-stone-100 dark:bg-stone-700 text-stone-600 dark:text-stone-400">
+                    <div className="px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-xs font-medium capitalize whitespace-nowrap text-stone-500 dark:text-stone-400">
                       {power.school}
                     </div>
                   )}

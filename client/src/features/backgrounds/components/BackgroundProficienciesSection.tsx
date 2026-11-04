@@ -65,7 +65,7 @@ export const BackgroundProficienciesSection = ({
         <div>
           <label className={`${formLabel} mb-2`}>Skill Proficiencies</label>
           {skillOptions.length === 0 ? (
-            <p className="text-sm text-stone-500">Loading options…</p>
+            <p className="text-sm text-stone-500 dark:text-stone-400">Loading options…</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {skillOptions.map((skill) => (

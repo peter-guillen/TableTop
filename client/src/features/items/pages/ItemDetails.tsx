@@ -13,9 +13,26 @@ import {
   LuZap,
 } from "react-icons/lu";
 import { useGetItemByIdQuery } from "../api/itemApi";
+import type { Rarity } from "../itemTypes";
 
 // TODO: confirm actual path/hook name for the Power domain's RTK Query slice
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+
+// Rarity ladder runs cool to warm; the top two tiers get a solid fill so a
+// legendary never reads like a common
+const RARITY_BADGE: Record<Rarity, string> = {
+  common:
+    "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border-stone-300 dark:border-stone-600",
+  uncommon:
+    "bg-lime-50 dark:bg-lime-500/10 text-lime-700 dark:text-lime-300 border-lime-300 dark:border-lime-500/40",
+  rare: "bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/40",
+  heroic:
+    "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-500/40",
+  epic: "bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-300 dark:border-fuchsia-500/40",
+  legendary: "bg-amber-400 text-stone-950 border-amber-500 dark:border-amber-300",
+  mythic:
+    "bg-rose-600 text-white border-rose-700 dark:bg-rose-500 dark:border-rose-400",
+};
 
 export function ItemDetails() {
   const { id } = useParams<{ id: string }>();
@@ -72,10 +89,10 @@ export function ItemDetails() {
     (item.selfCharges.recharge !== "none" || !!item.selfCharges.usesRemaining);
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between gap-3 mb-6">
           <button
             onClick={handleReturn}
             className="flex items-center gap-2 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white transition-all group"
@@ -100,57 +117,62 @@ export function ItemDetails() {
         </div>
 
         {/* Header Card */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <div className="flex items-start justify-between mb-6">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
             <div className="flex-1">
-              <div className="flex items-center gap-4 mb-3">
+              <div className="flex items-center gap-3 sm:gap-4 mb-3">
                 <LuSparkles
-                  className="text-emerald-700 dark:text-emerald-400"
+                  className="shrink-0 text-emerald-700 dark:text-emerald-400"
                   size={36}
                 />
-                <h1 className="text-5xl font-bold text-amber-700 dark:text-amber-400 ">
+                <h1 className="text-3xl sm:text-5xl font-bold break-words min-w-0 text-amber-700 dark:text-amber-400">
                   {item.name}
                 </h1>
               </div>
-              <p className="text-xl text-stone-600 dark:text-stone-300 italic capitalize">
-                {item.category}
-                {item.rarity && <> &bull; {item.rarity}</>}
-              </p>
-            </div>
-            <div className="px-6 py-3 rounded-xl bg-emerald-700 shadow-lg">
-              <p className="text-white font-bold text-lg capitalize">
-                {item.category}
-              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400">
+                  {item.category}
+                </p>
+                {item.rarity && (
+                  <span
+                    className={`px-3 py-0.5 rounded-full border text-xs font-bold uppercase tracking-widest ${RARITY_BADGE[item.rarity]}`}
+                  >
+                    {item.rarity}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Quick Stats Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             {item.rarity && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuGem
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Rarity
                   </p>
                 </div>
-                <p className="text-xl text-stone-900 dark:text-white font-semibold capitalize">
+                <span
+                  className={`inline-block px-3 py-1 rounded-full border text-sm font-semibold capitalize ${RARITY_BADGE[item.rarity]}`}
+                >
                   {item.rarity}
-                </p>
+                </span>
               </div>
             )}
 
             {!!item.value && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuCoins
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Value
                   </p>
                 </div>
@@ -161,13 +183,13 @@ export function ItemDetails() {
             )}
 
             {hasSelfCharges && (
-              <div className="bg-stone-50 dark:bg-stone-900/50 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20">
+              <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <LuZap
                     className="text-emerald-700 dark:text-emerald-400"
                     size={20}
                   />
-                  <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">
                     Charges
                   </p>
                 </div>
@@ -195,7 +217,7 @@ export function ItemDetails() {
               {item.materials.map((m) => (
                 <span
                   key={`material-${m}`}
-                  className="text-xs px-3 py-1 rounded-full bg-stone-100 text-stone-600 dark:bg-stone-700/50 dark:text-stone-300 capitalize"
+                  className="text-xs px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 capitalize"
                 >
                   {m}
                 </span>
@@ -209,18 +231,18 @@ export function ItemDetails() {
           healingDisplay ||
           item.resistances.length > 0 ||
           item.properties.length > 0) && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuFlame size={24} />
               Combat & Effects
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {damageDisplay && (
-                <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
-                  <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+                <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-6">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                     Damage
                   </p>
-                  <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+                  <p className="text-2xl sm:text-3xl font-bold text-amber-700 dark:text-amber-400">
                     {damageDisplay}
                   </p>
                   {damageEffect?.persistent && (
@@ -237,11 +259,11 @@ export function ItemDetails() {
               )}
 
               {healingDisplay && (
-                <div className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-6 border border-stone-200 dark:border-amber-500/20">
-                  <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+                <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-6">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                     Healing
                   </p>
-                  <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+                  <p className="text-2xl sm:text-3xl font-bold text-amber-700 dark:text-amber-400">
                     {healingDisplay}
                   </p>
                 </div>
@@ -254,7 +276,7 @@ export function ItemDetails() {
                 {damageTypesUsed.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs px-3 py-1 rounded-full bg-stone-100 text-stone-600 dark:bg-stone-700/50 dark:text-stone-300 capitalize"
+                    className="text-xs px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 capitalize"
                   >
                     {tag}
                   </span>
@@ -265,7 +287,7 @@ export function ItemDetails() {
             {/* Resistances */}
             {item.resistances.length > 0 && (
               <div className="mt-6">
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                   Resistances
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -274,7 +296,7 @@ export function ItemDetails() {
                       key={`${r.damageType}-${idx}`}
                       className="text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 capitalize"
                     >
-                      {r.rule} &bull; {r.damageType}
+                      {r.rule} &middot; {r.damageType}
                     </span>
                   ))}
                 </div>
@@ -284,14 +306,14 @@ export function ItemDetails() {
             {/* Properties */}
             {item.properties.length > 0 && (
               <div className="mt-6">
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-2">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
                   Properties
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {item.properties.map((property) => (
                     <span
                       key={property}
-                      className="text-xs px-3 py-1 rounded-full bg-stone-100 text-stone-600 dark:bg-stone-700/50 dark:text-stone-300 capitalize"
+                      className="text-xs px-3 py-1 rounded-full border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 capitalize"
                     >
                       {property}
                     </span>
@@ -304,8 +326,8 @@ export function ItemDetails() {
 
         {/* Stat Modifiers Section */}
         {item.statModifiers.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuShield size={24} />
               Stat Modifiers
             </h2>
@@ -313,7 +335,7 @@ export function ItemDetails() {
               {item.statModifiers.map((modifier, index) => (
                 <div
                   key={index}
-                  className="bg-stone-50 dark:bg-stone-900/30 rounded-lg p-4 border border-stone-200 dark:border-amber-500/20"
+                  className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 p-4"
                 >
                   <p className="text-stone-900 dark:text-white font-semibold capitalize">
                     {modifier.stat} {modifier.value > 0 ? "+" : ""}
@@ -341,8 +363,8 @@ export function ItemDetails() {
 
         {/* Granted Powers Section — any category can grant (weapon → technique, enchanted item → spell) */}
         {item.grantedPowers.length > 0 && (
-          <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-6 flex items-center gap-2">
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+            <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-6 flex items-center gap-2">
               <LuSparkles size={24} />
               Grants
             </h2>
@@ -353,7 +375,7 @@ export function ItemDetails() {
                 return (
                   <div
                     key={`${grant.power}-${idx}`}
-                    className="bg-stone-50 dark:bg-stone-900/30 rounded-lg px-4 py-2 border border-stone-200 dark:border-amber-500/20"
+                    className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/60 px-4 py-2"
                   >
                     <p className="text-stone-900 dark:text-white font-semibold capitalize">
                       {power ? power.name : "Unknown Power"}
@@ -377,8 +399,8 @@ export function ItemDetails() {
         )}
 
         {/* Description Section */}
-        <div className="bg-white dark:bg-stone-950/70 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-amber-500/30 shadow-md dark:shadow-2xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 mb-4 flex items-center gap-2">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm p-5 sm:p-8 mb-6">
+          <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-4 flex items-center gap-2">
             <LuBookOpen size={24} />
             Description
           </h2>
