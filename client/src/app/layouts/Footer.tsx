@@ -10,8 +10,6 @@ import {
 import { FaDiceD20 } from "react-icons/fa6";
 import { surfaceInverse } from "../../shared/styles/theme.ts";
 
-// The footer is always a dark band, so it uses fixed light-on-dark colors
-// instead of the light/dark pairs from theme.ts.
 const footerHeading =
   "mb-4 text-xs font-bold uppercase tracking-wider text-amber-400";
 const footerLink =
@@ -34,7 +32,7 @@ export function Footer() {
               </h3>
             </div>
             <p className="text-stone-400">
-              Tools, rules, and resources for building legendary tabletop RPG
+              Tools, rules, and resources for building legendary RPGHub
               campaigns.
             </p>
           </div>

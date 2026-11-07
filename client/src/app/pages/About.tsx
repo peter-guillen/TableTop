@@ -64,7 +64,7 @@ export function About() {
             Peter — builder of RPGHub
           </h1>
           <p className={`font-mono text-sm ${inkAccent}`}>
-            self-taught developer · tabletop designer
+            self-taught developer · RPGHub designer
           </p>
         </header>
 
@@ -145,7 +145,7 @@ export function About() {
 
         <Section tag="LV 06 — CAPSTONE">
           <p className={prose}>
-            This tabletop became my capstone project. Why? Because what nerd
+            RPGHub became my capstone project. Why? Because what nerd
             hasn't arrogantly said, "D&D is so flawed, I could do a better job"?{" "}
             <span className={`italic ${inkSubtle}`}>
               [Insert a nasal sound and the pushing up of glasses. I do wear

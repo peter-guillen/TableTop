@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Item from "./item.model.js";
 import { logAction } from "../../shared/utils/logger.js";
 

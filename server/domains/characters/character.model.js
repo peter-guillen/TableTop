@@ -26,7 +26,6 @@ const characterSchema = new Schema(
 
     archetype: {
       profession: { type: Schema.Types.ObjectId, ref: "Profession" },
-      affinity: { type: Schema.Types.ObjectId, ref: "Affinity" },
     },
 
     progression: {

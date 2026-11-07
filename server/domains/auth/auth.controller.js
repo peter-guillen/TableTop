@@ -1,5 +1,4 @@
 import User from "../users/user.model.js";
-import mongoose from "mongoose";
 import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const userMe = async (req, res) => {

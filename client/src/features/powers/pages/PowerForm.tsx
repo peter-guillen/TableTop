@@ -47,7 +47,6 @@ export function PowerForm() {
   const {
     handleInputChange,
     handleFieldChange,
-    handleCheckedChange,
     handleArrayFieldChange,
     handleObjectFieldChange,
   } = useFormHandlers(setFormData);

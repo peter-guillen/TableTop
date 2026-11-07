@@ -15,7 +15,6 @@ import {
 import { useGetItemByIdQuery } from "../api/itemApi";
 import type { Rarity } from "../itemTypes";
 
-// TODO: confirm actual path/hook name for the Power domain's RTK Query slice
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 
 // Rarity ladder runs cool to warm; the top two tiers get a solid fill so a

@@ -62,7 +62,6 @@ const router = createBrowserRouter(
         <Route path="/professions/*" element={<ProfessionPage />} />
         <Route path="/species/*" element={<SpeciesPage />} />
         <Route path="/backgrounds/*" element={<BackgroundPage />} />
-        {/* No roles: every logged-in user, guests included, has a profile */}
         <Route
           path="/profile"
           element={

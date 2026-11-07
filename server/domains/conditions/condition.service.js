@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Condition from "./condition.model.js";
 import { logAction } from "../../shared/utils/logger.js";
 

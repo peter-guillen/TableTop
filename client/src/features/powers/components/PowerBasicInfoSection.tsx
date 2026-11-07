@@ -1,4 +1,4 @@
-import { Power, SpellSchool, PowerKind } from "../powerTypes";
+import { SpellSchool, PowerKind } from "../powerTypes";
 import { LuBookOpen } from "react-icons/lu";
 import { OffensiveStat } from "../../../shared/constants/constantTypes";
 import {

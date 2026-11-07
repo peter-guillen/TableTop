@@ -93,7 +93,7 @@ export function LandingPage() {
           >
             <LuSparkles className={`h-4 w-4 ${inkPrimary}`} aria-hidden="true" />
             <span className={`text-sm font-semibold ${inkMuted}`}>
-              A Custom Tabletop RPG System
+              RPGHub: A Custom RPG System
             </span>
           </div>
 
@@ -137,7 +137,7 @@ export function LandingPage() {
             <h2 className={sectionHeading}>Everything You Need</h2>
             <p className={sectionLead}>
               From spell descriptions to character building, explore all the
-              tools to enhance your tabletop experience.
+              tools to enhance your RPGHub experience.
             </p>
           </div>
 
@@ -216,7 +216,7 @@ export function LandingPage() {
         <div className="mx-auto max-w-4xl text-center">
           <h2 className={sectionHeading}>Join the Adventure</h2>
           <p className={`mb-12 ${sectionLead}`}>
-            Ready to enhance your tabletop experience? Create an account to
+            Ready to enhance your RPGHub experience? Create an account to
             unlock character creation and campaign management features.
           </p>
 

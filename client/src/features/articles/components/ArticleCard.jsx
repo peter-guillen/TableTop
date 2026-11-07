@@ -1,6 +1,4 @@
-// import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-// import { ArticleContext } from "../context/ArticleContext";
 import { LuSparkles } from "react-icons/lu";
 import { useGetAllArticlesQuery } from "../api/articleApi";
 import {
@@ -14,7 +12,6 @@ import {
 
 export const ArticleCard = () => {
   const { data: articleList } = useGetAllArticlesQuery();
-  // const { articleList } = useContext(ArticleContext);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

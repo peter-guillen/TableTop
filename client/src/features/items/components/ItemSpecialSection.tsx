@@ -14,8 +14,7 @@ import {
   formRemoveButton,
 } from "../../../shared/styles/theme.ts";
 
-// TODO: swap for the real Power type once its import path is confirmed —
-// this is just the subset ItemSpecialSection actually needs to render a picker.
+// The subset of a Power that ItemSpecialSection needs to render its picker
 interface PowerOption {
   _id: string;
   name: string;

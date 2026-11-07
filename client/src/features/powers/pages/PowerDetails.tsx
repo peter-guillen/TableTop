@@ -16,7 +16,6 @@ import {
 } from "react-icons/lu";
 import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi.ts";
 import { useGetPowerByIdQuery } from "../api/powerApi";
-import { Power } from "../powerTypes.ts";
 
 export function PowerDetails() {
   const { id } = useParams<{ id: string }>();

@@ -1,4 +1,3 @@
-// import { HealthEffect } from "../../../shared/constants/constantTypes";
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
 import {
   Targeting,
