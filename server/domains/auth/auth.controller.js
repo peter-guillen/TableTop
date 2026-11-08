@@ -1,4 +1,6 @@
+import jwt from "jsonwebtoken";
 import User from "../users/user.model.js";
+import RevokedToken from "./revokedToken.model.js";
 import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const userMe = async (req, res) => {
@@ -40,8 +42,40 @@ const loginUser = async (req, res) => {
     });
 };
 
-const logoutUser = (req, res) => {
+const logoutUser = async (req, res) => {
   const isProduction = process.env.NODE_ENV === "production";
+
+  // Revoke this browser's token so it stops working even if someone kept a
+  // copy. Other devices stay logged in. A missing or already-invalid token
+  // has nothing to revoke; the cookie is still cleared below.
+  const token = req.cookies.token;
+  let decoded = null;
+  if (token) {
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      decoded = null;
+    }
+  }
+  if (decoded?.jti) {
+    try {
+      // upsert: logging out twice with the same token isn't an error
+      await RevokedToken.updateOne(
+        { jti: decoded.jti },
+        { $setOnInsert: { expiresAt: new Date(decoded.exp * 1000) } },
+        { upsert: true },
+      );
+    } catch (error) {
+      res.clearCookie("token", {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: "lax",
+      });
+      return res
+        .status(500)
+        .json({ message: "Logged out here, but the session could not be revoked" });
+    }
+  }
 
   res
     .clearCookie("token", {
