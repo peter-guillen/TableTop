@@ -1,6 +1,6 @@
 # RPGHub
 
-A full-stack TTRPG companion application for browsing, managing, and building around RPGHub's custom RPG system — powers, items, species, backgrounds, professions, and (in progress) character creation. Built as a portfolio project to demonstrate production-grade backend architecture, not just CRUD plumbing.
+A full-stack TTRPG companion application for browsing, managing, and building around RPGHub's custom RPG system — powers, items, species, backgrounds, professions, and character creation. Built as a portfolio project to demonstrate production-grade backend architecture, not just CRUD plumbing.
 
 **Live app:** https://rpgtabletop.netlify.app/
 
@@ -28,14 +28,9 @@ Most "TTRPG database" projects stop at models and endpoints. RPGHub is built aro
 
 - **Power / Item / Species / Background / Profession Library** — browsable, searchable catalogs of custom game content
 - **Admin Panel** — full CRUD for game content management, gated by role
-- **Character Builder** _(in progress)_ — composes data across multiple library domains into a single character state
+- **Character Builder** — composes data across multiple library domains into a single character state
 - **JWT Authentication** — session-cookie-based auth persistence
 - **Dark/Light Theme** — persisted via cookies
-
-### Planned
-
-- Full character sheet management (tracker vs. builder split: builder handles deliberate configuration, tracker handles live mutable session state like current HP/MP and active conditions)
-- Campaign management tools
 
 ## Project Structure
 
@@ -58,7 +53,7 @@ client/
 
 ## Getting Started
 
-— To use an explore as an admin use username: demo password: demo
+**Try the live demo:** click **Try the demo** on the login page, or log in with email `demo@rpg.com` and password `demo`. The demo account is a regular user: it can browse the library and build characters.
 
 ### Prerequisites
 
@@ -143,7 +138,7 @@ _(Items, species, backgrounds, professions, and conditions follow the same patte
 
 ## Development Status
 
-Live and in active development. Core CRUD, auth, and admin tooling are complete and deployed. Current focus: TypeScript migration and the character builder/tracker system.
+Live and in active development. Core CRUD, auth, and admin tooling are complete and deployed. Current focus: TypeScript migration and the character builder.
 
 ## Contributing
 

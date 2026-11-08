@@ -239,9 +239,6 @@ export const UserPage = () => {
                         Use my time zone
                       </button>
                     </div>
-                    <p className={formHint}>
-                      Helps when scheduling campaigns with other players.
-                    </p>
                   </div>
                 </div>
               </section>

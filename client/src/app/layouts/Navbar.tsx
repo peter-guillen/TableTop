@@ -41,7 +41,6 @@ import {
   LuDrama,
   LuSparkles,
   LuBook,
-  LuFlag,
   LuAnvil,
   LuScrollText,
   LuPencil,
@@ -140,7 +139,7 @@ export const Navbar = () => {
                 <span
                   className={`hidden text-lg font-extrabold tracking-tight sm:block sm:text-xl ${ink}`}
                 >
-                  RPG Hub
+                  RPGHub
                 </span>
               </div>
             </NavLink>
@@ -185,17 +184,6 @@ export const Navbar = () => {
                         </NavLink>
                       </>
                     )}
-
-                    {/* Campaigns - not built yet, disabled entry instead of an empty section */}
-                    <div
-                      className={`flex cursor-not-allowed items-center justify-between px-2 py-1.5 text-sm ${inkSubtle}`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <LuFlag className="h-4 w-4" />
-                        <span>Campaigns</span>
-                      </span>
-                      <span className="text-xs italic">Soon</span>
-                    </div>
 
                     <NavLink to="/articles" className={menuLink}>
                       <FaUsers className="h-4 w-4" />
@@ -416,12 +404,6 @@ export const Navbar = () => {
                       </NavLink>
                     </>
                   )}
-                  <div
-                    className={`flex items-center justify-between px-2 py-1.5 text-sm ${inkSubtle}`}
-                  >
-                    <span>Campaigns</span>
-                    <span className="text-xs italic">Soon</span>
-                  </div>
                   <NavLink
                     to="/articles"
                     className={menuLink}

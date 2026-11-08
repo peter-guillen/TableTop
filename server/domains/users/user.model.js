@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["admin", "moderator", "editor", "user", "guest"],
-    default: "guest",
+    // New accounts start as "user" so they can build characters right away
+    default: "user",
   },
   // Everything in here is optional and edited by the user on their profile page
   profile: {

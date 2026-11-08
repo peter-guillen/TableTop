@@ -26,7 +26,9 @@ const loginUser = async (req, res) => {
     .cookie("token", token, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      // The client reaches the API through the Netlify proxy (_redirects), so
+      // the cookie is first-party and Lax works. Lax also blocks most CSRF
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     .status(200)
@@ -45,7 +47,8 @@ const logoutUser = (req, res) => {
     .clearCookie("token", {
       httpOnly: true,
       secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      // Same options as the login cookie, as Express recommends for clearCookie
+      sameSite: "lax",
     })
     .status(200)
     .json({ success: true, message: "Logout successful" });

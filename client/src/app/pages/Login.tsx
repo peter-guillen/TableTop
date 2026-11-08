@@ -13,6 +13,7 @@ import {
   inkAccent,
   inkMuted,
   primaryButton,
+  secondaryButton,
   surface,
 } from "../../shared/styles/theme.ts";
 interface UserLogin {
@@ -46,6 +47,22 @@ export const Login = () => {
       setErrorMessage(
         status === 401
           ? "Invalid email or password"
+          : "Unable to log in right now. Please try again.",
+      );
+    }
+  };
+
+  // Logs in with the public demo account (a regular "user"), so visitors can
+  // try the app without signing up. The same credentials are in the README
+  const handleDemoLogin = async () => {
+    try {
+      await login({ email: "demo@rpg.com", password: "demo" }).unwrap();
+      navigate("/");
+    } catch (error) {
+      const status = (error as { status?: number | string })?.status;
+      setErrorMessage(
+        status === 401
+          ? "The demo account is unavailable right now."
           : "Unable to log in right now. Please try again.",
       );
     }
@@ -117,6 +134,14 @@ export const Login = () => {
               <LuArrowRight className="h-5 w-5" aria-hidden="true" />
             </button>
           </form>
+
+          <button
+            type="button"
+            onClick={handleDemoLogin}
+            className={`${secondaryButton} mt-3 w-full px-8 py-3`}
+          >
+            Try the demo
+          </button>
 
           <p className={`mt-6 text-center text-sm ${inkMuted}`}>
             Don't have an account?{" "}
