@@ -1,9 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   useGetCurrentUserQuery,
   useLogoutMutation,
 } from "../../features/auth/api/authApi.tsx";
+import { characterApi } from "../../features/characters/api/characterApi.tsx";
+import { userApi } from "../../features/users/api/userApi.tsx";
 
 import { ThemeContext } from "../contexts/ThemeContext.tsx";
 import {
@@ -77,6 +80,7 @@ export const Navbar = () => {
   const { data: currentUser } = useGetCurrentUserQuery();
 
   const [logout] = useLogoutMutation();
+  const dispatch = useDispatch();
 
   const themeContext = useContext(ThemeContext);
   if (!themeContext)
@@ -103,9 +107,24 @@ export const Navbar = () => {
     };
   }, []);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    try {
+      // Wait for the server to revoke the session before leaving the page
+      await logout().unwrap();
+    } catch {
+      // Still leave and clear below. If revoking fails the server still
+      // clears the cookie (it answers 500). If the request never reached the
+      // server, the cookie remains, but dropping private data from memory is
+      // still the safer choice
+    }
+    // Navigate first so pages that show private data unmount, then clear the
+    // caches that belong to this user. The next person on this browser starts
+    // with no characters or user list in memory. Public library caches
+    // (powers, items, species...) are the same for everyone, so they stay.
+    // Add any new per-user API here.
     navigate("/login");
+    dispatch(characterApi.util.resetApiState());
+    dispatch(userApi.util.resetApiState());
   };
 
   const canSeeAdmin = isAdminOrMod(currentUser?.role);
