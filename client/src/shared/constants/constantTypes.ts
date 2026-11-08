@@ -103,15 +103,6 @@ export type Profession =
   | "Summoner"
   | "Psychic";
 
-export type Affinities =
-  | "Arcane"
-  | "Primal"
-  | "Divine"
-  | "Eldritch"
-  | "Blood"
-  | "Martial"
-  | "Chi";
-
 export type Background =
   | "Soldier"
   | "Sage"
@@ -205,7 +196,6 @@ export interface LevelReward {
 
 export interface Constants {
   PROFESSIONS: string[];
-  // AFFINITIES: string[];
 
   CONDITIONS: string[];
   STATS: Record<string, string>;

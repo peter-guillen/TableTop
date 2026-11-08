@@ -6,7 +6,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 1234;
 const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/spells-app";
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/rpghub";
 
 if (!process.env.MONGODB_URI && process.env.NODE_ENV === "production") {
   throw new Error("MONGODB_URI is required in production");

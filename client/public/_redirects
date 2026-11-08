@@ -1,3 +1,3 @@
 # Proxy API calls through Netlify so the auth cookie is first-party (iOS Safari blocks third-party cookies)
-/api/*  https://YOUR-RAILWAY-HOST.up.railway.app/api/:splat  200
+/api/*  https://tabletop-production.up.railway.app/api/:splat  200
 /* /index.html 200

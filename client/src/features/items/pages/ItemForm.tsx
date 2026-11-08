@@ -11,7 +11,6 @@ import {
   useUpdateItemMutation,
 } from "../api/itemApi";
 
-// TODO: confirm actual path/hook name for the Power domain's RTK Query slice
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 
 import { ItemBasicInfoSection } from "../components/ItemBasicInfoSection";

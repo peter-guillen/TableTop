@@ -10,8 +10,6 @@ import {
 import { FaDiceD20 } from "react-icons/fa6";
 import { surfaceInverse } from "../../shared/styles/theme.ts";
 
-// The footer is always a dark band, so it uses fixed light-on-dark colors
-// instead of the light/dark pairs from theme.ts.
 const footerHeading =
   "mb-4 text-xs font-bold uppercase tracking-wider text-amber-400";
 const footerLink =
@@ -30,12 +28,12 @@ export function Footer() {
                 <FaDiceD20 className="h-5 w-5" />
               </div>
               <h3 className="text-2xl font-extrabold tracking-tight text-white">
-                RPG Hub
+                RPGHub
               </h3>
             </div>
             <p className="text-stone-400">
-              Tools, rules, and resources for building legendary tabletop RPG
-              campaigns.
+              Tools, rules, and resources for building legendary RPGHub
+              characters.
             </p>
           </div>
 
@@ -119,7 +117,7 @@ export function Footer() {
         {/* bottom bar */}
         <div className="flex flex-col items-center justify-center gap-4 text-sm text-stone-400 sm:flex-row">
           <span>
-            © {new Date().getFullYear()} RPG Hub. Built by Peter Guillen.
+            © {new Date().getFullYear()} RPGHub. Built by Peter Guillen.
           </span>
         </div>
       </div>

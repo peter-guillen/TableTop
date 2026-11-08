@@ -69,12 +69,12 @@ export function LandingPage() {
     {
       title: "Create Account",
       description:
-        "Sign up to save favorites, create characters, and access advanced campaign management tools.",
+        "Sign up to create and save your characters.",
     },
     {
       title: "Start Playing",
       description:
-        "Build characters, plan campaigns, and embark on epic adventures with all the tools you need.",
+        "Build characters and embark on epic adventures with all the tools you need.",
     },
   ];
 
@@ -93,7 +93,7 @@ export function LandingPage() {
           >
             <LuSparkles className={`h-4 w-4 ${inkPrimary}`} aria-hidden="true" />
             <span className={`text-sm font-semibold ${inkMuted}`}>
-              A Custom Tabletop RPG System
+              RPGHub: A Custom RPG System
             </span>
           </div>
 
@@ -109,8 +109,7 @@ export function LandingPage() {
             className={`mx-auto mb-12 max-w-3xl text-xl leading-relaxed md:text-2xl ${inkMuted}`}
           >
             Discover a complete collection of powers, items, classes, and
-            guides. Everything you need to create legendary characters and
-            unforgettable campaigns.
+            guides. Everything you need to create legendary characters.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -137,7 +136,7 @@ export function LandingPage() {
             <h2 className={sectionHeading}>Everything You Need</h2>
             <p className={sectionLead}>
               From spell descriptions to character building, explore all the
-              tools to enhance your tabletop experience.
+              tools to enhance your RPGHub experience.
             </p>
           </div>
 
@@ -216,8 +215,8 @@ export function LandingPage() {
         <div className="mx-auto max-w-4xl text-center">
           <h2 className={sectionHeading}>Join the Adventure</h2>
           <p className={`mb-12 ${sectionLead}`}>
-            Ready to enhance your tabletop experience? Create an account to
-            unlock character creation and campaign management features.
+            Ready to enhance your RPGHub experience? Create an account to
+            unlock character creation.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">

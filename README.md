@@ -1,6 +1,6 @@
 # RPGHub
 
-A full-stack TTRPG companion application for browsing, managing, and building around a custom tabletop RPG system — spells, weapons, armor, and (in progress) character creation. Built as a portfolio project to demonstrate production-grade backend architecture, not just CRUD plumbing.
+A full-stack TTRPG companion application for browsing, managing, and building around RPGHub's custom RPG system — powers, items, species, backgrounds, professions, and character creation. Built as a portfolio project to demonstrate production-grade backend architecture, not just CRUD plumbing.
 
 **Live app:** https://rpgtabletop.netlify.app/
 
@@ -8,8 +8,8 @@ A full-stack TTRPG companion application for browsing, managing, and building ar
 
 Most "TTRPG database" projects stop at models and endpoints. RPGHub is built around the actual design problems that show up once a domain gets complex:
 
-- **Domain-Driven Design backend.** The server was migrated from a flat MVC structure to a DDD architecture once the project grew past 15 domains, with clear separation between domain logic, shared subdocument schemas, and infrastructure concerns.
-- **Deliberate schema modeling, not just Mongoose defaults.** The `Power` schema separates effects into three independent arrays (`healthEffects`, `statModifiers`, `conditions`) rather than one generic "effect" blob — `statModifiers` unifies buffs and debuffs through signed values instead of duplicating logic, and `Condition` was graduated from an embedded blob into its own referenced domain model once it needed independent lifecycle and reuse across spells.
+- **Domain-Driven Design backend.** The server was migrated from a flat MVC structure to a DDD architecture once the project grew past 15 domains, with clear separation between domain logic and infrastructure concerns.
+- **Deliberate schema modeling, not just Mongoose defaults.** The `Power` schema separates effects into three independent arrays (`healthEffects`, `statModifiers`, `conditions`) rather than one generic "effect" blob — `statModifiers` unifies buffs and debuffs through signed values instead of duplicating logic, and `Condition` was graduated from an embedded blob into its own referenced domain model once it needed independent lifecycle and reuse across powers.
 - **Embedded vs. referenced, decided per case.** Document relationships (snapshot vs. live-reference, embed vs. reference) are chosen deliberately based on whether data needs to move with its parent or stay live and shared — not defaulted to whichever Mongoose pattern is easiest to write.
 - **State architecture matches the data's shape.** Redux (RTK Query + slices) is used where state is genuinely global and multi-domain (e.g., the character builder, which composes data across many library sources); local `useState` is used everywhere simpler. This is a conscious tradeoff, not one pattern applied everywhere.
 - **Shared constants without a shared codebase.** Because frontend and backend deploy independently (Netlify + Railway), backend constants are exposed through a dedicated `/api/constants` RTK Query endpoint instead of being duplicated or fragile-imported across the split deployment.
@@ -22,35 +22,30 @@ Most "TTRPG database" projects stop at models and endpoints. RPGHub is built aro
 **Testing:** Vitest (backend unit/integration tests for services, controllers, and middleware)
 **Deployment:** MongoDB Atlas · Netlify (frontend) · Railway (backend)
 
-> **TypeScript migration:** Actively in progress across both frontend and backend, module by module (currently converted: shared hooks like `useFormHandlers` with generics, several form and admin components, backend schema layers). The project intentionally started in JavaScript and is migrating incrementally rather than as a rewrite, to keep the app shippable throughout.
+> **TypeScript migration:** Actively in progress across both frontend and backend, module by module (currently converted: shared hooks like `useFormHandlers` with generics, several form and admin components). The project intentionally started in JavaScript and is migrating incrementally rather than as a rewrite, to keep the app shippable throughout.
 
 ## Features
 
-- **Spell / Weapon / Armor Library** — browsable, searchable catalogs of custom game content
+- **Power / Item / Species / Background / Profession Library** — browsable, searchable catalogs of custom game content
 - **Admin Panel** — full CRUD for game content management, gated by role
-- **Character Builder** _(in progress)_ — composes data across multiple library domains into a single character state
+- **Character Builder** — composes data across multiple library domains into a single character state
 - **JWT Authentication** — session-cookie-based auth persistence
 - **Dark/Light Theme** — persisted via cookies
-
-### Planned
-
-- Full character sheet management (tracker vs. builder split: builder handles deliberate configuration, tracker handles live mutable session state like current HP/MP and active conditions)
-- Campaign management tools
 
 ## Project Structure
 
 ```
 server/
-├── domains/              # DDD-organized business domains (spells, characters, etc.)
+├── domains/              # DDD-organized business domains (powers, items, characters, etc.)
 ├── shared/
-│   └── schemas/          # Shared subdocument schemas (e.g. Condition, effect types)
+│   └── middlewares/      # Authentication, authorization, and ID validation
 └── ...
 
 client/
 └── src/
     ├── app/               # routes, layouts, top-level pages
-    ├── features/          # feature-driven modules (admin, spells, weapons, armor, characters)
-    │   └── spells/
+    ├── features/          # feature-driven modules (admin, powers, items, characters)
+    │   └── powers/
     │       ├── api/       # RTK Query endpoints
     │       └── pages/
     └── shared/
@@ -58,7 +53,7 @@ client/
 
 ## Getting Started
 
-— To use an explore as an admin use username: demo password: demo
+**Try the live demo:** click **Try the demo** on the login page, or log in with email `demo@rpg.com` and password `demo`. The demo account is a regular user: it can browse the library and build characters.
 
 ### Prerequisites
 
@@ -85,7 +80,7 @@ Create a `.env` file in `server/`:
 
 ```env
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
+MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 PEPPER=your_pepper_value
 ```
@@ -113,22 +108,22 @@ npm test
 
 | Method | Endpoint             | Description       | Auth |
 | ------ | -------------------- | ----------------- | ---- |
-| POST   | `/api/auth/register` | Register new user | No   |
+| POST   | `/api/users/register` | Register new user | No   |
 | POST   | `/api/auth/login`    | Login user        | No   |
 | POST   | `/api/auth/logout`   | Logout user       | Yes  |
 | GET    | `/api/auth/me`       | Get current user  | Yes  |
 
-### Spells
+### Powers
 
-| Method | Endpoint          | Description      | Auth  |
-| ------ | ----------------- | ---------------- | ----- |
-| GET    | `/api/spells`     | Get all spells   | No    |
-| GET    | `/api/spells/:id` | Get single spell | No    |
-| POST   | `/api/spells`     | Create spell     | Admin |
-| PUT    | `/api/spells/:id` | Update spell     | Admin |
-| DELETE | `/api/spells/:id` | Delete spell     | Admin |
+| Method | Endpoint          | Description      | Auth       |
+| ------ | ----------------- | ---------------- | ---------- |
+| GET    | `/api/powers`     | Get all powers   | No         |
+| GET    | `/api/powers/:id` | Get single power | No         |
+| POST   | `/api/powers`     | Create power     | Editor+    |
+| PATCH  | `/api/powers/:id` | Update power     | Editor+    |
+| DELETE | `/api/powers/:id` | Delete power     | Moderator+ |
 
-_(Weapons and armor follow the same pattern.)_
+_(Items, species, backgrounds, professions, and conditions follow the same pattern.)_
 
 ### Constants
 
@@ -139,11 +134,11 @@ _(Weapons and armor follow the same pattern.)_
 ## User Roles
 
 - **Admin** — full CRUD access to all game content
-- **User** — read-only browsing of spells, weapons, and armor
+- **User** — browses the library and builds characters
 
 ## Development Status
 
-Live and in active development. Core CRUD, auth, and admin tooling are complete and deployed. Current focus: TypeScript migration and the character builder/tracker system.
+Live and in active development. Core CRUD, auth, and admin tooling are complete and deployed. Current focus: TypeScript migration and the character builder.
 
 ## Contributing
 

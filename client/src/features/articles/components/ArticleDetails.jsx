@@ -1,7 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { LuArrowLeft, LuBookOpen, LuPen } from "react-icons/lu";
 import { useGetCurrentUserQuery } from "../../auth/api/authApi.tsx";
-// import { ArticleContext } from "../context/ArticleContext";
 
 import { NotFound } from "../../../app/pages/NotFound.tsx";
 
@@ -20,7 +19,6 @@ import {
 } from "../../../shared/styles/theme.ts";
 
 export const ArticleDetails = () => {
-  // const { articleList } = useContext(ArticleContext);
   const { id } = useParams();
   const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
   const { data: currentUser } = useGetCurrentUserQuery();

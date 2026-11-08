@@ -32,6 +32,16 @@ export const userApi = createApi({
         body: newUser,
       }),
       invalidatesTags: [{ type: "User", id: "LIST" }],
+      // Signing up also logs the user in, so refresh the current user that
+      // the Navbar and ProtectedRoute read from authApi
+      async onQueryStarted(newUser, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(authApi.util.invalidateTags(["Auth"]));
+        } catch {
+          // Failed signup: the Register page shows the error
+        }
+      },
     }),
 
     updateUser: builder.mutation<

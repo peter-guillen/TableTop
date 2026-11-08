@@ -94,7 +94,7 @@ export const seedBackgrounds = async () => {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const MONGODB_URI =
-    process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/spells-app";
+    process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/rpghub";
   console.log("Connecting to:", MONGODB_URI);
   mongoose
     .connect(MONGODB_URI)

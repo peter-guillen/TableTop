@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Power from "./power.model.js";
 import { logAction } from "../../shared/utils/logger.js";
 

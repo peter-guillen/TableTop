@@ -1,5 +1,6 @@
 import User from "./user.model.js";
 import mongoose from "mongoose";
+import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const getAllUsers = async (req, res) => {
   const users = await User.find({}).select("-password");
@@ -28,6 +29,16 @@ const createUser = async (req, res) => {
   try {
     const user = new User({ email, username, password });
     await user.save();
+    // Log the new user in right away. Same cookie settings as loginUser in
+    // auth.controller.js
+    const token = generateToken(user);
+    const isProduction = process.env.NODE_ENV === "production";
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
     res.status(201).json({
       _id: user._id,
       username: user.username,
@@ -38,7 +49,12 @@ const createUser = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({ message: "User already exists" });
     }
-    throw error;
+    // Missing or invalid fields. Responding here instead of rethrowing keeps
+    // a bad signup request from crashing the server
+    if (error.name === "ValidationError") {
+      return res.status(400).json({ message: error.message });
+    }
+    res.status(500).json({ message: "Registration failed" });
   }
 };
 

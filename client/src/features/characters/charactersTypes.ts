@@ -21,7 +21,6 @@ export interface Origin {
 
 export interface Archetype {
   profession?: Id;
-  affinity?: Id;
 }
 
 export interface Progression {

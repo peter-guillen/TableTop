@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["admin", "moderator", "editor", "user", "guest"],
-    default: "guest",
+    // New accounts start as "user" so they can build characters right away
+    default: "user",
   },
   // Everything in here is optional and edited by the user on their profile page
   profile: {
@@ -33,8 +34,6 @@ UserSchema.pre("save", async function () {
 
 // Method to compare the password
 UserSchema.methods.comparePassword = async function (password) {
-  // -- Return to this to remove String so that it is handled properly by the frontend
-  // return await bcrypt.compare(password, this.password);
   return await bcrypt.compare(
     String(password) + process.env.PEPPER,
     String(this.password),

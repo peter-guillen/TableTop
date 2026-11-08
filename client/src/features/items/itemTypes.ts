@@ -1,4 +1,4 @@
-import { Skill, Stats } from "../../shared/constants/constantTypes.ts";
+import { Skill } from "../../shared/constants/constantTypes.ts";
 
 export type Category =
   | "weapon"
