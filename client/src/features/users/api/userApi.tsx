@@ -5,7 +5,6 @@ import { RootState } from "../../../app/store.ts";
 import { authApi } from "../../auth/api/authApi.tsx";
 
 type NewUserInput = Omit<UserFormData, "_id" | "role">;
-type UpdateUserInput = Partial<Omit<UserFormData, "_id">>;
 
 export const userApi = createApi({
   reducerPath: "usersApi",
@@ -18,11 +17,6 @@ export const userApi = createApi({
     getAllUsers: builder.query<UserType[], void>({
       query: () => "/",
       providesTags: [{ type: "User", id: "LIST" }],
-    }),
-
-    getUserById: builder.query<UserType, string>({
-      query: (id) => `/${id}`,
-      providesTags: (result, error, id) => [{ type: "User", id }],
     }),
 
     createUser: builder.mutation<UserType, NewUserInput>({
@@ -42,21 +36,6 @@ export const userApi = createApi({
           // Failed signup: the Register page shows the error
         }
       },
-    }),
-
-    updateUser: builder.mutation<
-      UserType,
-      { id: string; data: UpdateUserInput }
-    >({
-      query: ({ id, data }) => ({
-        url: `/${id}`,
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: (result, error, { id }) => [
-        { type: "User", id },
-        { type: "User", id: "LIST" },
-      ],
     }),
 
     updateUserRole: builder.mutation<UserType, { id: string; role: string }>({
@@ -111,9 +90,7 @@ export const userApi = createApi({
 
 export const {
   useGetAllUsersQuery,
-  useGetUserByIdQuery,
   useCreateUserMutation,
-  useUpdateUserMutation,
   useUpdateUserRoleMutation,
   useUpdateMyProfileMutation,
   useDeleteUserMutation,

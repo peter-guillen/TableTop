@@ -2,9 +2,6 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Backgrounds from "../domains/backgrounds/background.model.js";
 import { SKILLS, STATS } from "../shared/constants/constants.js";
-// TODO: export SPELLS (array of canonical background names) from constants.js
-// to re-enable the drift guard in seedBackgroundss() below.
-// import { STATS, SPELLS } from "../modules/constants/constants.js";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -77,15 +74,6 @@ const backgroundSeeds = [
 ];
 
 export const seedBackgrounds = async () => {
-  // Drift guard — uncomment once SPELLS is exported from constants.js
-  // const seededNames = backgroundSeeds.map((s) => s.name);
-  // const missing = SPELLS.filter((name) => !seededNames.includes(name));
-  // if (missing.length > 0) {
-  //   console.warn(
-  //     `Warning: SPELLS has entries with no seed data: ${missing.join(", ")}`,
-  //   );
-  // }
-
   await Backgrounds.deleteMany({});
   const created = await Backgrounds.insertMany(backgroundSeeds);
   console.log(`Seeded ${created.length} backgrounds.`);

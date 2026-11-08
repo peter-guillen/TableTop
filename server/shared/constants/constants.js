@@ -15,17 +15,6 @@ export const PROFESSIONS = [
   "psychic",
 ];
 
-export const AFFINITIES = [
-  "arcane",
-  "primal",
-  "divine",
-  "eldritch",
-  "blood",
-  "psionic",
-  "martial",
-  "chi",
-];
-
 export const CONDITIONS = [
   "blinded",
   "charmed",
@@ -41,34 +30,6 @@ export const CONDITIONS = [
   "restrained",
   "stunned",
   "unconscious",
-];
-
-export const BACKGROUNDS = [
-  "soldier",
-  "sage",
-  "scholar",
-  "thief",
-  "acolyte",
-  "mercenary",
-  "adventurer",
-];
-
-export const TRAITS = [
-  "steady",
-  "fast_and_furious",
-  "unshakeable",
-  "super_strong",
-  "patient",
-];
-
-export const SPECIES = [
-  "human",
-  "dwarf",
-  "elf",
-  "orc",
-  "naga",
-  "werewolf",
-  "vampire",
 ];
 
 // ------------------------- Global Constants -------------------------

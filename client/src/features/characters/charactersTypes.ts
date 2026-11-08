@@ -52,7 +52,6 @@ export interface Resources {
 
 export type PassiveStatKey = keyof PassiveStats;
 export type ResourceKey = "hp" | "mp" | "mom";
-export type ResourceMaxKey = "hpMax" | "mpMax" | "momMax";
 
 export interface Stats {
   passive: PassiveStats;

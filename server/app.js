@@ -18,34 +18,28 @@ import constantsRoutes from "./shared/constants/constants.routes.js";
 import authRoutes from "./domains/auth/auth.routes.js";
 
 import activityRoutes from "./domains/activity/activity.routes.js";
-import archetypeRoutes from "./domains/archetypes/archetype.routes.js";
 import articleRoutes from "./domains/articles/article.routes.js";
 import backgroundRoutes from "./domains/backgrounds/background.routes.js";
 import characterRoutes from "./domains/characters/character.routes.js";
 import conditionRoutes from "./domains/conditions/condition.routes.js";
 import itemRoutes from "./domains/items/item.routes.js";
-import libraryRoutes from "./domains/library/library.routes.js";
 import powerRoutes from "./domains/powers/power.routes.js";
 import professionRoutes from "./domains/professions/profession.routes.js";
 import speciesRoutes from "./domains/species/species.routes.js";
-import traitRoutes from "./domains/traits/trait.routes.js";
 import userRoutes from "./domains/users/user.routes.js";
 
 app.use("/api/constants", constantsRoutes);
 app.use("/api/auth", authRoutes);
 
 app.use("/api/activity", activityRoutes);
-app.use("/api/archetype", archetypeRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/backgrounds", backgroundRoutes);
 app.use("/api/characters", characterRoutes);
 app.use("/api/conditions", conditionRoutes);
 app.use("/api/items", itemRoutes);
-app.use("/api/library", libraryRoutes);
 app.use("/api/powers", powerRoutes);
 app.use("/api/professions", professionRoutes);
 app.use("/api/species", speciesRoutes);
-app.use("/api/traits", traitRoutes);
 app.use("/api/users", userRoutes);
 
 export default app;
