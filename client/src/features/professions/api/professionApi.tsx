@@ -28,11 +28,6 @@ export const professionApi = createApi({
       providesTags: [{ type: "Profession", id: "LIST" }],
     }),
 
-    getProfessionById: builder.query<Profession, string>({
-      query: (id) => `/api/professions/${id}`,
-      providesTags: (result, error, id) => [{ type: "Profession", id }],
-    }),
-
     createProfession: builder.mutation<Profession, Profession>({
       query: (newProfession) => ({
         url: "/api/professions",
@@ -72,7 +67,6 @@ export const professionApi = createApi({
 
 export const {
   useGetAllProfessionsQuery,
-  useGetProfessionByIdQuery,
   useCreateProfessionMutation,
   useUpdateProfessionMutation,
   useDeleteProfessionMutation,

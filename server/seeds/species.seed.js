@@ -2,9 +2,6 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Species from "../domains/species/species.model.js";
 import { STATS } from "../shared/constants/constants.js";
-// TODO: export SPELLS (array of canonical species names) from constants.js
-// to re-enable the drift guard in seedSpeciess() below.
-// import { STATS, SPELLS } from "../modules/constants/constants.js";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -60,15 +57,6 @@ const speciesSeeds = [
 ];
 
 export const seedSpecies = async () => {
-  // Drift guard — uncomment once SPELLS is exported from constants.js
-  // const seededNames = speciesSeeds.map((s) => s.name);
-  // const missing = SPELLS.filter((name) => !seededNames.includes(name));
-  // if (missing.length > 0) {
-  //   console.warn(
-  //     `Warning: SPELLS has entries with no seed data: ${missing.join(", ")}`,
-  //   );
-  // }
-
   await Species.deleteMany({});
   const created = await Species.insertMany(speciesSeeds);
   console.log(`Seeded ${created.length} species.`);

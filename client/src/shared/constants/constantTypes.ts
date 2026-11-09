@@ -197,18 +197,13 @@ export interface LevelReward {
 export interface Constants {
   PROFESSIONS: string[];
 
-  CONDITIONS: string[];
   STATS: Record<string, string>;
   OFFENSIVE_STATS: OffensiveStat[];
-  DEFENSIVE_STATS: Stats[];
-  MOBILITY_STATS: Stats[];
-  RESOURCE_STATS: Stats[];
   STAT_CATEGORIES: Record<
     "OFFENSIVE" | "DEFENSIVE" | "MOBILITY" | "RESOURCES",
     StatCategory
   >;
 
-  EFFECT_TYPES: EffectType[];
   DAMAGE_TYPES: DamageType[];
   SKILLS: Record<string, Skills>;
 
@@ -217,12 +212,7 @@ export interface Constants {
   MATERIALS: Materials[];
 
   PROPERTIES: Properties[];
-  BACKGROUNDS: string[];
-  TRAITS: string[];
-  SPECIES: string;
-  ARMOR: string;
 
   MAX_LEVEL: number;
-  BASE_POWER_SLOTS: number;
   CLASSLESS_LEVEL_REWARDS: LevelReward[];
 }

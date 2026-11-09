@@ -11,6 +11,9 @@ const UserSchema = new mongoose.Schema({
     // New accounts start as "user" so they can build characters right away
     default: "user",
   },
+  // Copied into every token. Increasing it ends all of this user's sessions
+  // at once (for a future password change). Missing on older accounts = 0
+  tokenVersion: { type: Number, default: 0 },
   // Everything in here is optional and edited by the user on their profile page
   profile: {
     name: { type: String, maxlength: 50, default: "" },

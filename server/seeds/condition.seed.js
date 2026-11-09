@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Condition from "../domains/conditions/condition.model.js";
-import { CONDITIONS } from "../shared/constants/constants.js";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -76,15 +75,6 @@ const conditionSeeds = [
 ];
 
 export const seedConditions = async () => {
-  // Guard against constants drifting from the seed list
-  // const seededNames = conditionSeeds.map((c) => c.condition);
-  // const missing = CONDITIONS.filter((c) => !seededNames.includes(c));
-  // if (missing.length > 0) {
-  //   console.warn(
-  //     `Warning: CONDITIONS has entries with no seed data: ${missing.join(", ")}`,
-  //   );
-  // }
-
   await Condition.deleteMany({});
   const created = await Condition.insertMany(conditionSeeds);
   console.log(`Seeded ${created.length} conditions.`);

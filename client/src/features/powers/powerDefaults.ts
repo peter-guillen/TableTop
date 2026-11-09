@@ -2,15 +2,8 @@ import {
   Power,
   Activation,
   Targeting,
-  Condition,
   Requirements,
 } from "./powerTypes";
-
-export const defaultCondition: Condition = {
-  condition: "",
-  durationType: "turns",
-  duration: 0,
-};
 
 export const defaultActivation: Activation = {
   action: "major_action",
