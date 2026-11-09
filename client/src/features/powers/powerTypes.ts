@@ -1,3 +1,9 @@
+import type {
+  DurationType,
+  HealthEffect,
+  StatModifier,
+} from "../../shared/constants/constantTypes";
+
 export type PowerKind = "spell" | "ability" | "technique" | "trait";
 
 export type SpellSchool =
@@ -41,50 +47,11 @@ export interface Targeting {
   size?: number;
 }
 
-/* ------------------------------ HealthEffect ------------------------------ */
-export type DamageType =
-  | "slashing"
-  | "piercing"
-  | "bludgeoning"
-  | "fire"
-  | "water"
-  | "air"
-  | "earth"
-  | "light"
-  | "dark"
-  | "force"
-  | "psychic"
-  | "poison"
-  | "acid"
-  | "radiant"
-  | "necrotic";
-
-export interface HealthEffect {
-  direction: "damage" | "healing";
-  damageType?: DamageType;
-  diceSize?: number;
-  diceCount?: number;
-  flat?: number;
-  persistent: boolean;
-  durationType?: "turns" | "until_broken" | "permanent";
-  duration?: number;
-
-  /* ------------------------------ StatModifier ------------------------------ */
-}
-export interface StatModifier {
-  stat: string;
-  value: number;
-  durationType: "turns" | "until_broken" | "permanent";
-  duration?: number;
-  target: string;
-  description: string;
-}
-
 /* ------------------------------ Condition ------------------------------ */
 
 export interface Condition {
   condition: string;
-  durationType: "turns" | "until_broken" | "permanent";
+  durationType: DurationType;
   duration?: number;
 }
 

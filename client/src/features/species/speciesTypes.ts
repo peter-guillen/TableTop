@@ -1,18 +1,7 @@
 import {
-  DamageType,
+  Resistance,
   StatModifier,
 } from "../../shared/constants/constantTypes";
-
-export type ResistanceRule =
-  | "resistance"
-  | "vulnerability"
-  | "immunity"
-  | "absorption";
-
-export interface Resistance {
-  damageType: DamageType | "";
-  rule: ResistanceRule | "";
-}
 
 export interface Species {
   _id?: string;

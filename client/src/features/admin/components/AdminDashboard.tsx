@@ -13,6 +13,13 @@ import {
 } from "react-icons/lu";
 
 import API_URL from "../../../shared/api/api";
+import type { ArticleFormData } from "../../articles/articleTypes";
+import type { Background } from "../../backgrounds/backgroundTypes";
+import type { Item } from "../../items/itemTypes";
+import type { Power } from "../../powers/powerTypes";
+import type { Profession } from "../../professions/api/professionApi";
+import type { Species } from "../../species/speciesTypes";
+import type { UserType } from "../../users/userTypes";
 import {
   card,
   iconTile,
@@ -25,13 +32,24 @@ import {
   hoverRow,
 } from "../../../shared/styles/theme.ts";
 
-type SectionEntry = {
-  data: any[];
+// The data and delete action per section, built in AdminNav
+type SectionEntry<T> = {
+  data: T[];
   deleteFn: (id: string) => void;
 };
 
+export interface AdminSectionConfig {
+  users: SectionEntry<UserType>;
+  articles: SectionEntry<ArticleFormData>;
+  professions: SectionEntry<Profession>;
+  powers: SectionEntry<Power>;
+  items: SectionEntry<Item>;
+  species: SectionEntry<Species>;
+  backgrounds: SectionEntry<Background>;
+}
+
 interface AdminDashboardProps {
-  sectionConfig: Record<string, SectionEntry>;
+  sectionConfig: AdminSectionConfig;
   // Only admins see user counts; moderators get content stats only
   canManageUsers: boolean;
 }

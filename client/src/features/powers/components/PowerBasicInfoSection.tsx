@@ -1,6 +1,5 @@
-import { SpellSchool, PowerKind } from "../powerTypes";
+import { SpellSchool, PowerKind, OffensiveStat } from "../powerTypes";
 import { LuBookOpen } from "react-icons/lu";
-import { OffensiveStat } from "../../../shared/constants/constantTypes";
 import {
   formHeading,
   formInput,

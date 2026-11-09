@@ -1,7 +1,8 @@
 import { LuShield, LuPlus, LuTrash2 } from "react-icons/lu";
-import { Resistance, ResistanceRule } from "../speciesTypes";
 import {
   DamageType,
+  Resistance,
+  ResistanceRule,
   StatModifier,
 } from "../../../shared/constants/constantTypes";
 import {

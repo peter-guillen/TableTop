@@ -40,7 +40,7 @@ export const Register = () => {
       // Mobile keyboards often add a trailing space after an email suggestion
       await createUser({ ...formData, email: formData.email.trim() }).unwrap();
       navigate("/");
-    } catch (error) {
+    } catch {
       setErrorMessage("Registration failed");
     }
   };

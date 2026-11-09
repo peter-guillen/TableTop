@@ -1,5 +1,5 @@
 import { LuShieldCheck, LuX } from "react-icons/lu";
-import { PowerKind } from "../powerTypes";
+import { PowerKind, Requirements } from "../powerTypes";
 import {
   formCheckTile,
   formCheckbox,
@@ -23,9 +23,9 @@ interface PowerRequirementsSectionProps {
   grantedPowers: string[];
   allPowers: PowerOption[];
 
-  onRequirementsChange: (
-    field: "minLevel" | "requiredTraits" | "properties",
-    value: number | string[],
+  onRequirementsChange: <K extends keyof Requirements>(
+    field: K,
+    value: Requirements[K],
   ) => void;
   onGrantedPowersChange: (value: string[]) => void;
 }

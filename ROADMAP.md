@@ -33,8 +33,8 @@ Check items off as they land; delete ones that become irrelevant.
   - Refuse to start without `JWT_SECRET` and `PEPPER`.
   - Load `.env` before `app.js` runs. Today `app.js` reads `CLIENT_URL` before `dotenv.config()`, because ESM imports load first.
 - [ ] **7. Dependency vulnerabilities.** Server: 1 critical, 1 high and 1 moderate, all in Express's dependencies. Client: 2 moderate.
-- [ ] **8. Client type check.** Fix the 16 type errors first, then make `npm run build` run the type check. In the other order, the next Netlify deploy fails.
-- [ ] **9. Lint.** Migrate to ESLint 9's flat config, and extend the script to `.ts` and `.tsx`.
+- [x] **8. Client type check.** Fixed the 16 type errors, then made `npm run build` run `tsc --noEmit` first. Along the way, `/api/constants` now sends `DAMAGE_TYPES`, `RARITY`, `QUALITY`, `MATERIALS` and `PROPERTIES` as arrays (the client called `.map` on them as objects), and the duplicate game types were merged into `constantTypes.ts` (shared) or the one domain that uses them.
+- [x] **9. Lint.** `eslint.config.js` (flat config, `typescript-eslint`) lints `.js`, `.jsx`, `.ts` and `.tsx` with 0 errors and 0 warnings. `react/prop-types` is off (TypeScript checks props), and `react/no-unescaped-entities` only forbids `>` and `}`.
 - [ ] **10. CI.** GitHub Actions running lint, the type check, server tests and the build, plus a status badge. Add client tests to CI once item 24 exists.
 - [ ] **11. README accuracy.**
   - Remove "production-grade" until items 2, 7 and 10 are done (crash points, dependency vulnerabilities, CI).
@@ -86,6 +86,7 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
 - [ ] **31. Shared UI, kept small.** Only presentational pieces that repeat unchanged, such as loading, error and empty states, a search input and a filter dropdown. No generic list, form or detail component; those stay per domain.
 - [ ] **32. TypeScript.** Convert the 16 remaining client JS files. Convert the server only if you keep that README claim.
+  - **Rebuild the profession form first (own branch).** `ProfessionForm.jsx` is an old D&D-style template: it sends `title` (the model requires `name`), `hitDie`, `savingThrows` and `spellSlots` (not in the model), and never sends `levelRewards`. Its armor, weapon and skill options don't match `ARMOR`, `PROPERTIES` or `SKILLS`. Edit and details call `useGetAllProfessionsQuery(id)` instead of fetching one profession. `ARMOR` also needs adding to `/api/constants`.
 
 ## 5. Polish
 

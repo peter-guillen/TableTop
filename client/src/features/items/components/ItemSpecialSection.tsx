@@ -4,7 +4,6 @@ import {
   GrantedPower,
   SelfCharges,
   GrantedPowerRecharge,
-  Recharge,
 } from "../itemTypes";
 import {
   formChipButton,
@@ -42,7 +41,7 @@ const GRANTED_POWER_RECHARGE_OPTIONS: GrantedPowerRecharge[] = [
   "daily",
 ];
 
-const SELF_CHARGES_RECHARGE_OPTIONS: Recharge[] = [
+const SELF_CHARGES_RECHARGE_OPTIONS: SelfCharges["recharge"][] = [
   "none",
   "short_rest",
   "long_rest",
@@ -219,7 +218,10 @@ export const ItemSpecialSection = ({
             <select
               value={selfCharges.recharge}
               onChange={(e) =>
-                onSelfChargesChange("recharge", e.target.value as Recharge)
+                onSelfChargesChange(
+                  "recharge",
+                  e.target.value as SelfCharges["recharge"],
+                )
               }
               className={`${formInput} capitalize`}
             >

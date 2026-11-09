@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { LuBookOpen, LuX } from "react-icons/lu";
-import { ItemCategory } from "../itemTypes";
-import {
-  Rarity,
-  Quality,
-  Material,
-} from "../../../shared/constants/constantTypes";
+import { Category, Rarity, Quality, Materials } from "../itemTypes";
 import {
   formHeading,
   formInput,
@@ -14,23 +9,23 @@ import {
 
 interface ItemBasicInfoProps {
   name: string;
-  category: ItemCategory | "";
+  category: Category | "";
   rarity: Rarity | "";
   quality: Quality[];
-  materials: Material[];
+  materials: Materials[];
   value: number;
   rarityOptions: Rarity[];
   qualityOptions: Quality[];
-  materialOptions: Material[];
+  materialOptions: Materials[];
   onInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
   onValueChange: (value: number) => void;
   onQualityChange: (newData: Quality[]) => void;
-  onMaterialsChange: (newData: Material[]) => void;
+  onMaterialsChange: (newData: Materials[]) => void;
 }
 
-const CATEGORY_OPTIONS: ItemCategory[] = [
+const CATEGORY_OPTIONS: Category[] = [
   "weapon",
   "armor",
   "accessory",
@@ -67,12 +62,12 @@ export const ItemBasicInfoSection = ({
   };
 
   const addMaterial = (value: string) => {
-    if (!value || materials.includes(value as Material)) return;
-    onMaterialsChange([...materials, value as Material]);
+    if (!value || materials.includes(value as Materials)) return;
+    onMaterialsChange([...materials, value as Materials]);
     setMaterialDraft("");
   };
 
-  const removeMaterial = (value: Material) => {
+  const removeMaterial = (value: Materials) => {
     onMaterialsChange(materials.filter((m) => m !== value));
   };
 

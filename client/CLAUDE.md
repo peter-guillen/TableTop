@@ -6,20 +6,20 @@ React 18 + Vite + Redux Toolkit / RTK Query + Tailwind. The primary rules in the
 
 ```bash
 npm run dev                 # vite on :5173, proxies /api to http://localhost:1234 (start the server too)
-npm run build
-npx tsc --noEmit            # type-check; there is no script for it
-npm run lint                # currently broken: ESLint 9 ignores the legacy .eslintrc.cjs (needs flat-config migration)
+npm run build               # runs tsc --noEmit, then vite build
+npx tsc --noEmit            # type-check on its own
+npm run lint                # ESLint 9 flat config (eslint.config.js), .js/.jsx/.ts/.tsx, max 0 warnings
 ```
 
-There are no client tests. Verify changes with `npx tsc --noEmit` and `npm run build`, and show their output.
+There are no client tests. Verify changes with `npm run lint` and `npm run build` (which type-checks), and show their output.
 
-- `npm run build` does **not** type-check, so always run `tsc` separately.
-- `tsc` currently reports 16 existing errors (ROADMAP item 8). Make sure a change doesn't raise that count or add errors in files it touches.
+- `tsc` and lint are both at 0 errors. Keep them there: a type error now fails the Netlify build.
 
 ## Language
 
 - **New files are TypeScript** (`.ts`/`.tsx`). `tsconfig` is `strict` with `allowJs`, so existing `.jsx` files (e.g. professions, articles) keep working. Convert one only when asked.
 - Shared data shapes go in `features/<domain>/<x>Types.ts`, and empty-form defaults in `<x>Defaults.ts`. Keep them matching the server model.
+- `shared/constants/constantTypes.ts` holds only types used by more than one domain (`DamageType`, `Stats`, `Skills`, `Properties`, `StatModifier`, `HealthEffect`, `Resistance`, ...) and the `Constants` response shape. A type used by one domain (for example `Rarity` and `Quality` for items) lives in that domain's `<x>Types.ts`. Don't hardcode DB-backed names (professions, species, backgrounds) as union types; they come from the API.
 
 ## Structure
 

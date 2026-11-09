@@ -7,7 +7,7 @@ import {
   GiGemPendant,
 } from "react-icons/gi";
 
-import { Item, ItemCategory, Rarity } from "../itemTypes.ts";
+import { Item, Category, Rarity } from "../itemTypes.ts";
 
 interface ItemPreviewProps {
   items: Item[];
@@ -31,7 +31,7 @@ const RARITY_BADGE: Record<Rarity, string> = {
 
 // Icon by category — the icon carries the category's identity, so the card
 // itself stays in the stone/emerald palette
-const categoryIconMap: Record<ItemCategory, typeof GiBroadsword> = {
+const categoryIconMap: Record<Category, typeof GiBroadsword> = {
   weapon: GiBroadsword,
   armor: GiShield,
   accessory: GiRing,
@@ -44,7 +44,7 @@ export const ItemPreview = ({ items }: ItemPreviewProps) => {
     <div className="space-y-3">
       {items.map((item) => {
         const IconComponent =
-          categoryIconMap[item.category as ItemCategory] ?? GiGemPendant;
+          categoryIconMap[item.category as Category] ?? GiGemPendant;
 
         const damageEffect = item.healthEffects.find(
           (e) => e.direction === "damage",

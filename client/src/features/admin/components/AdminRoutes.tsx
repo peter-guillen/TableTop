@@ -1,18 +1,14 @@
 // components/AdminRouter.jsx
 import { AdminTable } from "./AdminTable.tsx";
 import { AdminDashboard } from "./AdminDashboard.tsx";
+import type { AdminSectionConfig } from "./AdminDashboard.tsx";
 import React from "react";
-
-type SectionEntry = {
-  data: any[];
-  deleteFn: (id: string) => void;
-};
 
 interface AdminRouterTypes {
   activeSection: string;
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  sectionConfig: Record<string, SectionEntry>;
+  sectionConfig: AdminSectionConfig;
   canManageUsers: boolean;
   currentUserId?: string;
   onRoleChange: (id: string, role: string) => void;
@@ -58,11 +54,12 @@ export function AdminRoutes({
           onSearchChange={onSearchChange}
           showPageLinks={false}
           lockedRowId={currentUserId}
-          renderRow={(user: any) => [
+          renderRow={(user) => [
             user.username,
             user.email,
             // The server refuses changes to your own role, so lock that row
             <select
+              key="role"
               aria-label={`Role for ${user.username}`}
               value={user.role}
               disabled={user._id === currentUserId}

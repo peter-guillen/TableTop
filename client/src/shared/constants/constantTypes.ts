@@ -1,11 +1,8 @@
-export type EffectType =
-  | "damage"
-  | "healing"
-  | "buff"
-  | "debuff"
-  | "control"
-  | "utility"
-  | "summon";
+// Types shared by more than one domain. They mirror
+// server/shared/constants/constants.js and the sub-documents several models
+// repeat. Types used by only one domain live in that domain's <x>Types.ts.
+import type { Rarity, Quality, Materials } from "../../features/items/itemTypes";
+import type { OffensiveStat } from "../../features/powers/powerTypes";
 
 export type DamageType =
   | "slashing"
@@ -24,61 +21,10 @@ export type DamageType =
   | "radiant"
   | "necrotic";
 
-export type OffensiveStat = "might" | "accuracy" | "dominance";
+export type DurationType = "turns" | "until_broken" | "permanent";
 
-export interface StatModifier {
-  stat: string;
-  value: number;
-  durationType: "turns" | "until_broken" | "permanent";
-  duration?: number;
-  target: string;
-  description: string;
-}
-
-export interface HealthEffect {
-  direction: "damage" | "healing";
-  diceSize?: number;
-  diceCount?: number;
-  flat?: number;
-  persistent: boolean;
-  durationType?: "turns" | "until_broken" | "permanent";
-  duration?: number;
-}
-
-export type Rarity =
-  | "common"
-  | "uncommon"
-  | "rare"
-  | "heroic"
-  | "epic"
-  | "legendary"
-  | "mythic";
-
-export type Materials =
-  | "silvered"
-  | "adamantine"
-  | "steel"
-  | "iron"
-  | "mithril"
-  | "orichalcum"
-  | "dragonscale"
-  | "bone"
-  | "silver";
-
-export type Quality =
-  | "Enchanted"
-  | "Blessed"
-  | "Cursed"
-  | "Divine"
-  | "Masterwork"
-  | "Runed"
-  | "Corrupted"
-  | "Sentient"
-  | "Unstable"
-  | "Ancestral"
-  | "Forbidden"
-  | "Relic";
-
+// Weapon properties: item properties, technique requirements,
+// profession weapon proficiencies
 export type Properties =
   | "finesse"
   | "heavy"
@@ -88,45 +34,6 @@ export type Properties =
   | "one-handed"
   | "two-handed"
   | "versatile";
-
-export type Profession =
-  | "Warrior"
-  | "Knight"
-  | "Rogue"
-  | "Ranger"
-  | "Paladin"
-  | "Warlock"
-  | "Witch"
-  | "Wizard"
-  | "Sorcerer"
-  | "Magician"
-  | "Summoner"
-  | "Psychic";
-
-export type Background =
-  | "Soldier"
-  | "Sage"
-  | "Scholar"
-  | "Thief"
-  | "Acolyte"
-  | "Mercenary"
-  | "Adeventurer";
-
-export type Traits =
-  | "Steady"
-  | "Fast & Furious"
-  | "Unshakeable"
-  | "Super Strong"
-  | "Patient";
-
-export type Species =
-  | "Human"
-  | "Dwarf"
-  | "Elf"
-  | "Orc"
-  | "Naga"
-  | "Werewolf"
-  | "Vampire";
 
 export type Skills =
   | "acrobatics"
@@ -168,16 +75,46 @@ export type Stats =
   | "mom"
   | "momMax";
 
+// statModifiers[] on powers, species, backgrounds and professions.
+// Items widen `stat` to skills too (see itemTypes.ts).
+// "" is the form's "nothing picked yet" value.
+export interface StatModifier {
+  stat: Stats | "";
+  value: number;
+  durationType?: DurationType | "";
+  duration?: number;
+  target?: string;
+  description?: string;
+}
+
+// healthEffects[] on powers and items
+export interface HealthEffect {
+  direction: "damage" | "healing";
+  damageType?: DamageType | "";
+  diceSize?: number;
+  diceCount?: number;
+  flat?: number;
+  persistent: boolean;
+  durationType?: DurationType | "";
+  duration?: number;
+}
+
+export type ResistanceRule =
+  | "resistance"
+  | "vulnerability"
+  | "immunity"
+  | "absorption";
+
+// resistances[] on species and items
+export interface Resistance {
+  damageType: DamageType | "";
+  rule: ResistanceRule | "";
+}
+
 export interface StatCategory {
   label: string;
   stats: Stats[];
 }
-
-export type Armor =
-  | "Light Armor"
-  | "Medium Armor"
-  | "Heavy Armor"
-  | "Unarmored";
 
 export type PowerGroup = "spells" | "abilities" | "traits";
 
@@ -194,10 +131,11 @@ export interface LevelReward {
   slotIncreases?: { group: PowerGroup; value: number }[];
 }
 
+// Response of GET /api/constants (server/shared/constants/constants.controller.js)
 export interface Constants {
   PROFESSIONS: string[];
 
-  STATS: Record<string, string>;
+  STATS: Record<string, Stats>;
   OFFENSIVE_STATS: OffensiveStat[];
   STAT_CATEGORIES: Record<
     "OFFENSIVE" | "DEFENSIVE" | "MOBILITY" | "RESOURCES",
@@ -207,7 +145,7 @@ export interface Constants {
   DAMAGE_TYPES: DamageType[];
   SKILLS: Record<string, Skills>;
 
-  RARITY: Rarity;
+  RARITY: Rarity[];
   QUALITY: Quality[];
   MATERIALS: Materials[];
 
