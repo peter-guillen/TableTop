@@ -16,7 +16,7 @@ Check items off as they land; delete ones that become irrelevant.
 
 ## 1. Stop the bleeding: live site safe and accurate
 
-- [ ] **1. Deploy `auth-sessions`.** Merge to get logout revocation, the cache clear on logout, and the second dead-code pass live. Everyone has to log in once more. (Live today: a token reused after logout still returns 200, and `/api/traits` still responds.)
+- [x] **1. Deploy `auth-sessions`.** Merged in PR #10 (2026-11-08). Verified live: a token reused after logout gets 401, a second session stays logged in when another logs out, and `/api/traits`, `/api/archetype` and `/api/library` return 404.
 - [ ] **2. Crash points.** Error handling only. Moving these domains to the service layer is item 28.
   - Add error handling to the 20 async handlers that have none (articles, backgrounds, professions, species, users, auth).
   - Add `validateObjectId` to the 4 `GET /:id` routes that lack it.
