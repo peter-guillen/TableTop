@@ -1,4 +1,10 @@
-import { Skill } from "../../shared/constants/constantTypes.ts";
+import type {
+  HealthEffect,
+  Resistance,
+  Properties,
+  Skills,
+  StatModifier as SharedStatModifier,
+} from "../../shared/constants/constantTypes";
 
 export type Category =
   | "weapon"
@@ -16,6 +22,17 @@ export type Rarity =
   | "legendary"
   | "mythic";
 
+export type Materials =
+  | "silvered"
+  | "adamantine"
+  | "steel"
+  | "iron"
+  | "mithril"
+  | "orichalcum"
+  | "dragonscale"
+  | "bone"
+  | "silver";
+
 export type Quality =
   | "enchanted"
   | "blessed"
@@ -29,46 +46,6 @@ export type Quality =
   | "ancestral"
   | "forbidden"
   | "relic";
-
-export type Material =
-  | "silvered"
-  | "adamantine"
-  | "steel"
-  | "iron"
-  | "mithril"
-  | "orichalcum"
-  | "dragonscale"
-  | "bone"
-  | "silver";
-
-export type Property =
-  | "finesse"
-  | "heavy"
-  | "light"
-  | "reach"
-  | "thrown"
-  | "one-handed"
-  | "two-handed"
-  | "versatile";
-
-export type DamageType =
-  | "slashing"
-  | "piercing"
-  | "bludgeoning"
-  | "fire"
-  | "water"
-  | "air"
-  | "earth"
-  | "light"
-  | "dark"
-  | "force"
-  | "psychic"
-  | "poison"
-  | "acid"
-  | "radiant"
-  | "necrotic";
-
-export type DurationType = "turns" | "until_broken" | "permanent";
 
 export type Recharge =
   | "unlimited"
@@ -86,30 +63,10 @@ export type Handedness =
   | "off_hand_only"
   | "versatile";
 
-export interface HealthEffect {
-  direction: "damage" | "healing" | "";
-  damageType: DamageType | "";
-  diceSize: number;
-  diceCount: number;
-  flat: number;
-  persistent: boolean;
-  durationType?: DurationType | "";
-  duration?: number;
-}
-
-export interface StatModifier {
-  stat: Stat | Skill | "";
-  value: number;
-  durationType?: DurationType | "";
-  duration?: number;
-  target?: string;
-  description?: string;
-}
-
-export interface Resistance {
-  damageType: DamageType | "";
-  rule: "resistance" | "vulnerability" | "immunity" | "absorption" | "";
-}
+// Item stat modifiers can target a skill as well as a stat
+export type StatModifier = Omit<SharedStatModifier, "stat"> & {
+  stat: SharedStatModifier["stat"] | Skills;
+};
 
 export interface GrantedPower {
   power: string;
@@ -137,8 +94,8 @@ export interface Item {
 
   rarity: Rarity | "";
   quality: Quality[];
-  materials: Material[];
-  properties: Property[];
+  materials: Materials[];
+  properties: Properties[];
   value: number;
 
   healthEffects: HealthEffect[];

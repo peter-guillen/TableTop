@@ -12,6 +12,7 @@ import {
 } from "../api/itemApi";
 
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+import { Power } from "../../powers/powerTypes";
 
 import { ItemBasicInfoSection } from "../components/ItemBasicInfoSection";
 import { ItemCombatSection } from "../components/ItemCombatSection";
@@ -40,6 +41,10 @@ export function ItemForm() {
     isError,
   } = useGetItemByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
+  // Saved powers always have an _id; narrow the type for the picker
+  const savedPowers = powers.filter(
+    (p): p is Power & { _id: string } => p._id !== undefined,
+  );
   const [createItem] = useCreateItemMutation();
   const [updateItem] = useUpdateItemMutation();
 
@@ -143,7 +148,7 @@ export function ItemForm() {
                 grantedPowers={formData.grantedPowers}
                 selfCharges={formData.selfCharges}
                 uniqueSkills={formData.uniqueSkills}
-                allPowers={powers}
+                allPowers={savedPowers}
                 onGrantedPowersChange={handleGrantedPowersChange}
                 onSelfChargesChange={handleSelfChargesChange}
                 onUniqueSkillsChange={handleUniqueSkillsChange}

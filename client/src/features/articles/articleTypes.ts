@@ -5,6 +5,7 @@ export interface ArticleComments {
 }
 
 export interface ArticleFormData {
+  _id?: string;
   title: string;
   body: string;
   synopsis: string;

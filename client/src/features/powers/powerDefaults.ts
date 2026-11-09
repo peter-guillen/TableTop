@@ -18,7 +18,7 @@ export const defaultActivation: Activation = {
 
 export const defaultTargeting: Targeting = {
   targetCategory: "creature",
-  targetCount: 0,
+  targetCount: 1,
   range: 0,
   shape: "sphere",
   size: 0,

@@ -23,7 +23,7 @@ import { Dispatch, SetStateAction } from "react";
  * @param {Function} setFormData - The useState setter for the form's data object
  */
 
-export function useFormHandlers<T extends Record<string, any>>(
+export function useFormHandlers<T extends object>(
   setFormData: Dispatch<SetStateAction<T>>,
 ) {
   /**
@@ -111,12 +111,12 @@ export function useFormHandlers<T extends Record<string, any>>(
    * @param {string} objectName - The nested object key on formData
    * @returns {Function} Handler that accepts (field, value)
    */
-  const handleObjectFieldChange = (objectName: keyof T) => {
-    return (field: string, value: any) => {
+  const handleObjectFieldChange = <K extends keyof T>(objectName: K) => {
+    return <F extends keyof T[K]>(field: F, value: T[K][F]) => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [objectName]: {
-          ...(prevFormData[objectName] as Record<string, any>),
+          ...(prevFormData[objectName] as object),
           [field]: value,
         },
       }));
@@ -138,12 +138,15 @@ export function useFormHandlers<T extends Record<string, any>>(
    * @param {string} nestedKey - The specific field to update
    * @returns {Function} Handler that accepts only the new value
    */
-  const handleNestedFieldChange = (objectName: keyof T, nestedKey: string) => {
-    return (value: any) => {
+  const handleNestedFieldChange = <K extends keyof T, F extends keyof T[K]>(
+    objectName: K,
+    nestedKey: F,
+  ) => {
+    return (value: T[K][F]) => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [objectName]: {
-          ...(prevFormData[objectName] as Record<string, any>),
+          ...(prevFormData[objectName] as object),
           [nestedKey]: value,
         },
       }));

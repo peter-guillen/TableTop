@@ -11,21 +11,22 @@ import {
 } from "react-icons/lu";
 import { useState, useEffect, useRef } from "react";
 
+// Static, so it lives outside the component (keeps the effect's deps empty)
+const sections = [
+  { id: "dice-rolling", label: "Dice Rolling", icon: LuDice6 },
+  { id: "combat-basics", label: "Combat Basics", icon: LuSword },
+  { id: "momentum", label: "Momentum", icon: LuZap },
+  { id: "attacks-saves", label: "Attacks & Saves", icon: LuTarget },
+  { id: "movement", label: "Movement & Positioning", icon: LuMove },
+  { id: "cover", label: "Cover", icon: LuShield },
+  { id: "critical-hits", label: "Critical Hits", icon: LuFlame },
+  { id: "hp-mp", label: "HP & MP", icon: LuHeart },
+  { id: "affinities", label: "Affinities", icon: LuSparkles },
+];
+
 export function Rules() {
   const [activeSection, setActiveSection] = useState("dice-rolling");
   const isScrollingTo = useRef(false);
-
-  const sections = [
-    { id: "dice-rolling", label: "Dice Rolling", icon: LuDice6 },
-    { id: "combat-basics", label: "Combat Basics", icon: LuSword },
-    { id: "momentum", label: "Momentum", icon: LuZap },
-    { id: "attacks-saves", label: "Attacks & Saves", icon: LuTarget },
-    { id: "movement", label: "Movement & Positioning", icon: LuMove },
-    { id: "cover", label: "Cover", icon: LuShield },
-    { id: "critical-hits", label: "Critical Hits", icon: LuFlame },
-    { id: "hp-mp", label: "HP & MP", icon: LuHeart },
-    { id: "affinities", label: "Affinities", icon: LuSparkles },
-  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,7 +55,7 @@ export function Rules() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (id) => {
+  const scrollToSection = (id: string) => {
     setActiveSection(id);
     isScrollingTo.current = true;
 

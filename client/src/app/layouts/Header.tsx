@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { LuSparkles } from "react-icons/lu";
 
+// Static, so it lives outside the component (keeps the effect's deps empty)
+const featuredIcons = [
+  { description: "Welcome to RPGHub, your custom RPG system" },
+  { description: "New: build a hero with the Character Builder" },
+  { description: "Peruse a library of magical powers and items." },
+];
+
 export function Header() {
   const [currentIcon, setCurrentIcon] = useState(0);
   useEffect(() => {
@@ -10,11 +17,6 @@ export function Header() {
     return () => clearInterval(interval);
   }, []);
 
-  const featuredIcons = [
-    { description: "Welcome to RPGHub, your custom RPG system" },
-    { description: "New: build a hero with the Character Builder" },
-    { description: "Peruse a library of magical powers and items." },
-  ];
   return (
     <header>
       <div className="bg-emerald-800 px-4 py-2 text-emerald-50 dark:bg-emerald-950 dark:text-emerald-200">

@@ -1,11 +1,9 @@
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
+import { Targeting, TargetCategory, TargetShape } from "../powerTypes";
 import {
-  Targeting,
-  TargetCategory,
-  TargetShape,
   DamageType,
   HealthEffect,
-} from "../powerTypes";
+} from "../../../shared/constants/constantTypes";
 import {
   formChipButton,
   formHeading,

@@ -1,15 +1,13 @@
 import { LuFlame, LuPlus, LuTrash2 } from "react-icons/lu";
-import {
-  HealthEffect,
-  StatModifier,
-  Resistance,
-  DurationType,
-} from "../itemTypes";
+import { StatModifier } from "../itemTypes";
 import {
   DamageType,
-  Property,
-  Stat,
-  Skill,
+  DurationType,
+  HealthEffect,
+  Properties,
+  Resistance,
+  Skills,
+  Stats,
 } from "../../../shared/constants/constantTypes";
 import {
   formCheckbox,
@@ -24,15 +22,15 @@ interface ItemCombatSectionProps {
   healthEffects: HealthEffect[];
   statModifiers: StatModifier[];
   resistances: Resistance[];
-  properties: Property[];
+  properties: Properties[];
   damageTypeOptions: DamageType[];
-  propertyOptions: Property[];
-  statOptions: Stat[];
-  skillOptions: Skill[];
+  propertyOptions: Properties[];
+  statOptions: Stats[];
+  skillOptions: Skills[];
   onHealthChange: (newData: HealthEffect[]) => void;
   onStatModifiersChange: (newData: StatModifier[]) => void;
   onResistancesChange: (newData: Resistance[]) => void;
-  onPropertiesChange: (newData: Property[]) => void;
+  onPropertiesChange: (newData: Properties[]) => void;
 }
 
 const DURATION_TYPE_OPTIONS: DurationType[] = [
@@ -64,7 +62,7 @@ export const ItemCombatSection = ({
 }: ItemCombatSectionProps) => {
   const damage = healthEffects.filter((e) => e.direction === "damage");
   const healing = healthEffects.filter((e) => e.direction === "healing");
-  const statOrSkillOptions: (Stat | Skill)[] = [
+  const statOrSkillOptions: (Stats | Skills)[] = [
     ...statOptions,
     ...skillOptions,
   ];
@@ -120,7 +118,7 @@ export const ItemCombatSection = ({
   };
 
   // Properties (checkbox grid)
-  const toggleProperty = (property: Property) => {
+  const toggleProperty = (property: Properties) => {
     if (properties.includes(property)) {
       onPropertiesChange(properties.filter((p) => p !== property));
     } else {

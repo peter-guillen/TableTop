@@ -5,9 +5,9 @@ import { useGetAllItemsQuery } from "../api/itemApi";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import { ItemPreview } from "./ItemPreview";
-import { ItemCategory, Item } from "../itemTypes.ts";
+import { Category, Item } from "../itemTypes.ts";
 
-const CATEGORY_OPTIONS: ItemCategory[] = [
+const CATEGORY_OPTIONS: Category[] = [
   "weapon",
   "armor",
   "accessory",
@@ -141,7 +141,7 @@ export const ItemList = () => {
       if (
         selectedConsumableDamageTypes.length > 0 &&
         !item.healthEffects.some((e) =>
-          selectedConsumableDamageTypes.includes(e.damageType),
+          selectedConsumableDamageTypes.includes(e.damageType ?? ""),
         )
       ) {
         return false;
