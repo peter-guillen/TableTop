@@ -15,6 +15,7 @@ import {
 import { useGetBackgroundByIdQuery } from "../api/backgroundApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 
 export function BackgroundDetails() {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +23,7 @@ export function BackgroundDetails() {
     data: background,
     isLoading,
     isError,
+    error,
   } = useGetBackgroundByIdQuery(id!);
   const { data: powers = [] } = useGetAllPowersQuery();
   const { data: items = [] } = useGetAllItemsQuery();
@@ -36,15 +38,11 @@ export function BackgroundDetails() {
   const handleReturn = () => navigate(-1);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
-
-  if (!background) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-stone-500 dark:text-stone-300">
-        <p>Background not found or still loading...</p>
-      </div>
-    );
-  }
+  // The server answers 404 for a background that doesn't exist or a
+  // malformed id. Anything else (server down, network) is a real failure.
+  const isNotFound = error && "status" in error && error.status === 404;
+  if (isNotFound || (!isError && !background)) return <NotFound />;
+  if (isError || !background) return <p>Something went wrong.</p>;
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
