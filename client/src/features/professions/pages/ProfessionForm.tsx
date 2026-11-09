@@ -12,6 +12,7 @@ import {
 } from "../api/professionApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 
 import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
 import { ProfessionStatsSection } from "../components/ProfessionStatsSection";
@@ -42,6 +43,7 @@ export function ProfessionForm() {
     data: profession,
     isLoading,
     isError,
+    error,
   } = useGetProfessionByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
   const { data: items = [] } = useGetAllItemsQuery();
@@ -120,6 +122,9 @@ export function ProfessionForm() {
   }, [isEditing, profession]);
 
   if (isLoading) return <p>Loading...</p>;
+  // Editing a profession that doesn't exist (or a malformed id) is a 404
+  const isNotFound = error && "status" in error && error.status === 404;
+  if (isNotFound) return <NotFound />;
   if (isError) return <p>Something went wrong.</p>;
 
   return (
