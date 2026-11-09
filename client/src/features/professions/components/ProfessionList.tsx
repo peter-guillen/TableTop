@@ -3,7 +3,11 @@ import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
 import { useGetAllProfessionsQuery } from "../api/professionApi";
 
 export const ProfessionList = () => {
-  const { data: professions, isLoading, isError } = useGetAllProfessionsQuery();
+  const {
+    data: professions = [],
+    isLoading,
+    isError,
+  } = useGetAllProfessionsQuery();
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -28,10 +32,7 @@ export const ProfessionList = () => {
         </div>
         <div className="flex justify-center">
           <div className="w-full lg:w-3/4">
-            <ProfessionPreview
-              keys={professions._id}
-              professions={professions}
-            />
+            <ProfessionPreview professions={professions} />
           </div>
         </div>
       </div>

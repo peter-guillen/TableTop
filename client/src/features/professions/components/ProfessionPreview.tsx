@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import type { Profession } from "../professionTypes";
 import {
   LuCrown,
   LuShield,
@@ -8,32 +9,8 @@ import {
   LuSparkles,
 } from "react-icons/lu";
 
-const ABILITY_LABELS = {
-  strength: "STR",
-  dexterity: "DEX",
-  constitution: "CON",
-  intelligence: "INT",
-  wisdom: "WIS",
-  charisma: "CHA",
-};
-
-// Derive a role label from available class data
-const deriveRole = (profession) => {
-  const armor = (profession.armor || "").toLowerCase();
-  const hasSpell = !!profession.spellcastingAbility || !!profession.spell;
-  const hasHeavy = armor.includes("heavy");
-  const hasMedium = armor.includes("medium");
-
-  if (hasHeavy && !hasSpell) return { label: "Tank", color: "orange" };
-  if (hasHeavy && hasSpell) return { label: "Paladin-type", color: "orange" };
-  if (hasMedium && hasSpell) return { label: "Support", color: "cyan" };
-  if (hasMedium && !hasSpell) return { label: "Skirmisher", color: "cyan" };
-  if (hasSpell) return { label: "Striker", color: "cyan" };
-  return { label: "Martial", color: "orange" };
-};
-
-const getClassIcon = (title = "") => {
-  const t = title.toLowerCase();
+const getClassIcon = (name: string) => {
+  const t = name.toLowerCase();
   if (t.includes("mage") || t.includes("wizard") || t.includes("sorcerer"))
     return LuSparkles;
   if (t.includes("warrior") || t.includes("fighter") || t.includes("barbarian"))
@@ -43,7 +20,7 @@ const getClassIcon = (title = "") => {
   return LuCrown;
 };
 
-function StatChip({ label, value }) {
+function StatChip({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-stone-50 dark:bg-stone-700/40 rounded-lg px-3 py-2">
       <p className="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-0.5">
@@ -56,21 +33,15 @@ function StatChip({ label, value }) {
   );
 }
 
-export const ProfessionPreview = ({ professions }) => {
+export const ProfessionPreview = ({
+  professions,
+}: {
+  professions: Profession[];
+}) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {professions.map((profession) => {
-        const Icon = getClassIcon(profession.title);
-        const role = deriveRole(profession);
-        const spellAbility = profession.spellcastingAbility
-          ? ABILITY_LABELS[profession.spellcastingAbility] ||
-            profession.spellcastingAbility
-          : null;
-        const primaryAbility = profession.spellcastingAbility
-          ? ABILITY_LABELS[profession.spellcastingAbility] ||
-            profession.spellcastingAbility
-          : null;
-        const roleCyan = role.color === "cyan";
+        const Icon = getClassIcon(profession.name);
 
         return (
           <NavLink
@@ -86,34 +57,17 @@ export const ProfessionPreview = ({ professions }) => {
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
 
               <div className="relative p-6">
-                {/* Icon + Role badge row */}
+                {/* Icon */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="bg-emerald-700 rounded-xl p-3 group-hover:scale-110 transition-transform shadow-md">
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  {/* Derived role tag — replaces the lone hit die badge */}
-                  <span
-                    className={`text-xs font-bold px-3 py-1 rounded-full border ${
-                      roleCyan
-                        ? "bg-emerald-100 dark:bg-emerald-800/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-600/30"
-                        : "bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-600/30"
-                    }`}
-                  >
-                    {role.label}
-                  </span>
                 </div>
 
                 {/* Title — bumped up to text-2xl for stronger hierarchy */}
                 <h3 className="text-2xl font-bold text-stone-900 dark:text-white mb-1 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors duration-200">
-                  {profession.title}
+                  {profession.name}
                 </h3>
-
-                {/* Subclass count as subtle subtitle */}
-                {profession.subclasses?.length > 0 && (
-                  <p className="text-xs text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-3">
-                    {profession.subclasses.length} subclasses
-                  </p>
-                )}
 
                 {/* Description */}
                 <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm line-clamp-2 mb-5">
@@ -121,32 +75,26 @@ export const ProfessionPreview = ({ professions }) => {
                     "A master of their craft, forged through battle and perseverance."}
                 </p>
 
-                {/* Top stat row — always 3 chips, hit die moved here */}
-                <div className="grid grid-cols-3 gap-2 mb-2">
-                  <StatChip
-                    label="Hit Die"
-                    value={profession.hitDie ? `d${profession.hitDie}` : null}
-                  />
-                  <StatChip label="Primary" value={primaryAbility} />
-                  <StatChip label="Casting" value={spellAbility ?? "None"} />
-                </div>
-
-                {/* Bottom stat row — class-specific */}
-                <div className="grid grid-cols-2 gap-2 mb-5">
+                {/* Proficiencies (stored as snake_case enum values, e.g. light_armor) */}
+                <div className="grid grid-cols-3 gap-2 mb-5">
                   <StatChip
                     label="Armor"
-                    value={profession.armorProficiencies}
+                    value={profession.armorProficiencies
+                      .map((v) => v.replace(/_/g, " "))
+                      .join(", ")}
                   />
                   <StatChip
-                    label="Weapon"
-                    value={profession.weaponProficiencies}
+                    label="Weapons"
+                    value={profession.weaponProficiencies
+                      .map((v) => v.replace(/_/g, " "))
+                      .join(", ")}
                   />
-                  {profession.spell && (
-                    <StatChip
-                      label="Magic"
-                      value={profession.spellProficiencies}
-                    />
-                  )}
+                  <StatChip
+                    label="Skills"
+                    value={profession.skillProficiencies
+                      .map((v) => v.replace(/_/g, " "))
+                      .join(", ")}
+                  />
                 </div>
 
                 {/* CTA */}

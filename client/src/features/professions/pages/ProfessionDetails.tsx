@@ -1,9 +1,12 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetCurrentUserQuery } from "../../auth/api/authApi.tsx";
 import { ghostButton } from "../../../shared/styles/theme.ts";
-import { useGetAllProfessionsQuery } from "../api/professionApi";
+import { useGetProfessionByIdQuery } from "../api/professionApi";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+import type { IconType } from "react-icons";
+import type { ReactNode } from "react";
+import type { LevelGrant } from "../../../shared/constants/constantTypes";
 import {
   LuArrowLeft,
   LuPen,
@@ -14,13 +17,13 @@ import {
   LuPackage,
 } from "react-icons/lu";
 
-const GRANT_LABELS = {
+const GRANT_LABELS: Record<LevelGrant["type"], string> = {
   auto: "Auto",
   professionChoice: "Choice",
   playerChoice: "Free Pick",
 };
 
-const GRANT_BADGE_CLASSES = {
+const GRANT_BADGE_CLASSES: Record<LevelGrant["type"], string> = {
   auto: "bg-cyan-100 dark:bg-cyan-500/20 border-cyan-200 dark:border-cyan-500/40 text-cyan-700 dark:text-cyan-300",
   professionChoice:
     "bg-amber-100 dark:bg-amber-500/20 border-amber-200 dark:border-amber-500/40 text-amber-700 dark:text-amber-300",
@@ -29,7 +32,13 @@ const GRANT_BADGE_CLASSES = {
 };
 
 // Reusable detail card — matches LandingPage feature card pattern
-function DetailCard({ children, className = "" }) {
+function DetailCard({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <div
       className={`bg-white dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-950/80 backdrop-blur-sm rounded-2xl border border-stone-200 dark:border-emerald-500/20 shadow-md p-5 sm:p-8 mb-6 ${className}`}
@@ -39,7 +48,13 @@ function DetailCard({ children, className = "" }) {
   );
 }
 
-function SectionTitle({ icon: Icon, children }) {
+function SectionTitle({
+  icon: Icon,
+  children,
+}: {
+  icon: IconType;
+  children: ReactNode;
+}) {
   return (
     <h2 className="text-2xl font-bold text-stone-800 dark:text-emerald-300 mb-6 flex items-center gap-2">
       <Icon size={22} />
@@ -48,7 +63,15 @@ function SectionTitle({ icon: Icon, children }) {
   );
 }
 
-function TagGroup({ label, items = [], badgeClass }) {
+function TagGroup({
+  label,
+  items = [],
+  badgeClass,
+}: {
+  label: string;
+  items?: string[];
+  badgeClass: string;
+}) {
   return (
     <div>
       <p className="text-xs uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-3">
@@ -61,7 +84,8 @@ function TagGroup({ label, items = [], badgeClass }) {
               key={item}
               className={`px-3 py-1 rounded-full border text-sm capitalize ${badgeClass}`}
             >
-              {item}
+              {/* Enum values are snake_case, e.g. light_armor */}
+              {item.replace(/_/g, " ")}
             </span>
           ))}
         </div>
@@ -80,7 +104,11 @@ export function ProfessionDetails() {
     currentUser?.role ?? "",
   );
 
-  const { data: profession, error, isLoading } = useGetAllProfessionsQuery(id);
+  const {
+    data: profession,
+    error,
+    isLoading,
+  } = useGetProfessionByIdQuery(id ?? "", { skip: !id });
   const { data: items = [] } = useGetAllItemsQuery();
   const { data: powers = [] } = useGetAllPowersQuery();
 
@@ -225,9 +253,9 @@ export function ProfessionDetails() {
                           </span>
                         )}
                         {grant.type === "professionChoice" &&
-                          grant.options?.length > 0 && (
+                          (grant.options?.length ?? 0) > 0 && (
                             <span className="text-stone-700 dark:text-stone-200 text-sm">
-                              {grant.options
+                              {(grant.options ?? [])
                                 .map((o) => powerById[o]?.name || o)
                                 .join(" / ")}
                             </span>

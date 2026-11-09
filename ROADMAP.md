@@ -85,8 +85,8 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **29. One RTK Query API** instead of 11, with each domain adding its endpoints through `injectEndpoints`. This brings one 401 handler, a one-call logout reset and tags that work across domains. Fixes item 14.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
 - [ ] **31. Shared UI, kept small.** Only presentational pieces that repeat unchanged, such as loading, error and empty states, a search input and a filter dropdown. No generic list, form or detail component; those stay per domain.
-- [ ] **32. TypeScript.** Convert the 16 remaining client JS files. Convert the server only if you keep that README claim.
-  - **Rebuild the profession form first (own branch).** `ProfessionForm.jsx` is an old D&D-style template: it sends `title` (the model requires `name`), `hitDie`, `savingThrows` and `spellSlots` (not in the model), and never sends `levelRewards`. Its armor, weapon and skill options don't match `ARMOR`, `PROPERTIES` or `SKILLS`. Edit and details call `useGetAllProfessionsQuery(id)` instead of fetching one profession. `ARMOR` also needs adding to `/api/constants`.
+- [ ] **32. TypeScript.** Convert the server only if you keep that README claim.
+  - [x] **Client: all 16 JS files converted** (no `.js`/`.jsx` left in `client/src`). The profession form, its sections and the profession card were rebuilt against the model: `name`, stat modifiers, armor/weapon/skill proficiencies from `/api/constants` (which now sends `ARMOR`), starting items, and a level 1 to `MAX_LEVEL` `levelRewards` editor. The form blocks saving incomplete grants until item 21 checks them on the server. Details and edit fetch one profession by id.
 
 ## 5. Polish
 

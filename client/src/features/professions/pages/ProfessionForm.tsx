@@ -1,110 +1,129 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 
-import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
-import { ProfessionDescriptionSection } from "../components/ProfessionDescriptionSection";
-import { ProfessionProficienciesSection } from "../components/ProfessionProficienciesSection";
-import { ProfessionLevelsSection } from "../components/ProfessionLevelsSection";
-import { ProfessionSpellSlotsSection } from "../components/ProfessionSpellSlotsSection";
-import { ProfessionSubclassSection } from "../components/ProfessionSubclassSection";
 import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
+import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
+
 import {
-  useGetAllProfessionsQuery,
+  useGetProfessionByIdQuery,
   useCreateProfessionMutation,
   useUpdateProfessionMutation,
 } from "../api/professionApi";
+import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+import { useGetAllItemsQuery } from "../../items/api/itemApi";
+
+import { ProfessionBasicInfoSection } from "../components/ProfessionBasicInfoSection";
+import { ProfessionStatsSection } from "../components/ProfessionStatsSection";
+import { ProfessionProficienciesSection } from "../components/ProfessionProficienciesSection";
+import { ProfessionLevelsSection } from "../components/ProfessionLevelsSection";
+import { ProfessionDescriptionSection } from "../components/ProfessionDescriptionSection";
+
+import { Profession } from "../professionTypes";
+import { defaultProfessionFormData } from "../professionDefaults.ts";
 import {
   formCard,
   formTitle,
   ghostButton,
+  inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
 
 export function ProfessionForm() {
-  const DEFAULT_PROFESSION_FORM = {
-    // Basic Info
-    title: "",
-    hitDie: "",
-    spellcastingAbility: null,
-    sourceBook: "Player's Handbook",
-    isPlayable: true,
-
-    // Description
-    description: "",
-
-    // Proficiencies
-    armorProficiencies: [],
-    weaponProficiencies: [],
-    toolProficiencies: [],
-    savingThrows: {
-      strength: false,
-      dexterity: false,
-      constitution: false,
-      intelligence: false,
-      wisdom: false,
-      charisma: false,
-    },
-    skillChoices: { choose: 2, from: [] },
-
-    // Level features
-    levels: [],
-
-    // Profession slots
-    spellSlots: [],
-
-    // Subclass
-    subclassName: "",
-    subclassLevel: "",
-    startingEquipment: [],
-  };
-  const [formData, setFormData] = useState(() => ({
-    ...DEFAULT_PROFESSION_FORM,
-  }));
-
+  const [formData, setFormData] = useState<Profession>(
+    defaultProfessionFormData,
+  );
   const { id } = useParams();
   const isEditing = Boolean(id);
   const navigate = useNavigate();
-  const handleCancel = () => navigate(-1);
 
+  const { data: constants } = useGetConstantsQuery();
   const {
     data: profession,
     isLoading,
     isError,
-  } = useGetAllProfessionsQuery(id, { skip: !isEditing });
+  } = useGetProfessionByIdQuery(id ?? "", { skip: !isEditing });
+  const { data: powers = [] } = useGetAllPowersQuery();
+  const { data: items = [] } = useGetAllItemsQuery();
   const [createProfession] = useCreateProfessionMutation();
   const [updateProfession] = useUpdateProfessionMutation();
 
-  const { handleCheckedChange, handleArrayFieldChange } =
-    useFormHandlers(setFormData);
+  const {
+    handleInputChange,
+    handleCheckedChange,
+    handleArrayFieldChange,
+  } = useFormHandlers(setFormData);
+
+  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
+  const handleStartingItemsChange = handleArrayFieldChange("startingItems");
+  const handleLevelRewardsChange = handleArrayFieldChange("levelRewards");
+
+  // Level grants can hand out spells, abilities and traits
+  // (techniques come from weapons, so they're left out)
+  const grantablePowers = powers.filter(
+    (p): p is typeof p & { _id: string } =>
+      p._id !== undefined &&
+      (p.kind === "spell" || p.kind === "ability" || p.kind === "trait"),
+  );
+
+  const itemOptions = items.filter(
+    (i): i is typeof i & { _id: string } => i._id !== undefined,
+  );
+
+  const maxLevel = constants?.MAX_LEVEL ?? 0;
+
+  // The server doesn't check grants yet (ROADMAP item 21), so the form does.
+  // Same rules as the inline messages in ProfessionLevelsSection.
+  const hasInvalidGrant = formData.levelRewards.some((reward) =>
+    reward.grants.some(
+      (grant) =>
+        (grant.type === "auto" && !grant.trait) ||
+        (grant.type === "professionChoice" &&
+          (grant.options?.length ?? 0) < 2),
+    ),
+  );
+
+  const handleCancel = () => navigate(-1);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Needs MAX_LEVEL to save every level; the button is disabled until then
+    if (hasInvalidGrant || !constants) return;
+
+    // Save one entry per level, 1 to MAX_LEVEL, so the builder sees every level
+    const levelRewards = Array.from({ length: maxLevel }, (_, i) => {
+      const level = i + 1;
+      return (
+        formData.levelRewards.find((r) => r.level === level) ?? {
+          level,
+          grants: [],
+          statIncreases: [],
+          slotIncreases: [],
+        }
+      );
+    });
+    const data = { ...formData, levelRewards };
+
+    if (isEditing) {
+      await updateProfession({ id: id ?? "", data });
+    } else {
+      await createProfession(data);
+    }
+    navigate("/professions");
+  };
 
   useEffect(() => {
     if (isEditing && profession) {
-      if (profession) setFormData(profession);
+      // Defaults fill any field an older record is missing
+      setFormData({ ...defaultProfessionFormData, ...profession });
     }
   }, [isEditing, profession]);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong.</p>;
 
-  // Generic scalar field handler (title, hitDie, etc.)
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (isEditing) {
-      await updateProfession(id, formData);
-    } else {
-      await createProfession(formData);
-    }
-    navigate("/professions");
-  };
-
   return (
-    <div className="min-h-screen bg-stone-100 dark:bg-stone-950 p-6">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -126,72 +145,69 @@ export function ProfessionForm() {
         <form onSubmit={handleSubmit}>
           <div className={formCard}>
             <div className="space-y-8">
+              {/* Basic Information */}
               <ProfessionBasicInfoSection
-                title={formData.title}
-                hitDie={formData.hitDie}
-                spellcastingAbility={formData.spellcastingAbility}
-                sourceBook={formData.sourceBook}
-                isPlayable={formData.isPlayable}
+                name={formData.name}
                 onInputChange={handleInputChange}
               />
 
+              {/* Stat Modifiers */}
+              <ProfessionStatsSection
+                statModifiers={formData.statModifiers}
+                statOptions={Object.values(constants?.STATS ?? {})}
+                onStatModifiersChange={handleStatModifiersChange}
+              />
+
+              {/* Proficiencies & Starting Items */}
+              <ProfessionProficienciesSection
+                armorProficiencies={formData.armorProficiencies}
+                weaponProficiencies={formData.weaponProficiencies}
+                skillProficiencies={formData.skillProficiencies}
+                startingItems={formData.startingItems}
+                armorOptions={constants?.ARMOR ?? []}
+                weaponOptions={constants?.PROPERTIES ?? []}
+                skillOptions={Object.values(constants?.SKILLS ?? {})}
+                itemOptions={itemOptions}
+                onCheckedChange={handleCheckedChange}
+                onStartingItemsChange={handleStartingItemsChange}
+              />
+
+              {/* Level Rewards */}
+              <ProfessionLevelsSection
+                levelRewards={formData.levelRewards}
+                maxLevel={maxLevel}
+                statOptions={Object.values(constants?.STATS ?? {})}
+                powerOptions={grantablePowers}
+                onLevelRewardsChange={handleLevelRewardsChange}
+              />
+
+              {/* Description */}
               <ProfessionDescriptionSection
                 description={formData.description}
                 onInputChange={handleInputChange}
               />
-
-              <ProfessionProficienciesSection
-                armorProficiencies={formData.armorProficiencies}
-                weaponProficiencies={formData.weaponProficiencies}
-                toolProficiencies={formData.toolProficiencies}
-                savingThrows={formData.savingThrows}
-                skillChoices={formData.skillChoices}
-                onInputChange={handleInputChange}
-                onCheckedChange={handleCheckedChange}
-                onArmorChange={handleArrayFieldChange("armorProficiencies")}
-                onWeaponChange={handleArrayFieldChange("weaponProficiencies")}
-                onToolChange={handleArrayFieldChange("toolProficiencies")}
-                onSavingThrowChange={(val) =>
-                  setFormData((prev) => ({ ...prev, savingThrows: val }))
-                }
-                onSkillChoicesChange={(val) =>
-                  setFormData((prev) => ({ ...prev, skillChoices: val }))
-                }
-              />
-
-              <ProfessionLevelsSection
-                levels={formData.levels}
-                onInputChange={handleInputChange}
-                onLevelsChange={handleArrayFieldChange("levels")}
-              />
-
-              <ProfessionSpellSlotsSection
-                spellSlots={formData.spellSlots}
-                spellcastingAbility={formData.spellcastingAbility}
-                onSpellSlotsChange={handleArrayFieldChange("spellSlots")}
-              />
-
-              <ProfessionSubclassSection
-                subclassName={formData.subclassName}
-                subclassLevel={formData.subclassLevel}
-                startingEquipment={formData.startingEquipment}
-                onInputChange={handleInputChange}
-                onStartingEquipmentChange={handleArrayFieldChange(
-                  "startingEquipment",
-                )}
-              />
             </div>
           </div>
 
-          {/* ----- Action Buttons ----- */}
+          {hasInvalidGrant && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              Some level grants are incomplete. Fix the marked grants to save.
+            </p>
+          )}
+
+          {/* Action Buttons */}
           <div className="flex justify-between">
             <button
+              type="button"
               onClick={handleCancel}
               className={`${ghostButton} px-6 py-3`}
             >
               Cancel
             </button>
-            <button className={`${primaryButton} px-8 py-3`}>
+            <button
+              disabled={hasInvalidGrant || !constants}
+              className={`${primaryButton} px-8 py-3 disabled:cursor-not-allowed disabled:opacity-50`}
+            >
               {isEditing ? "Update Profession" : "Create Profession"}
             </button>
           </div>

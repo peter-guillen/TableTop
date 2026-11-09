@@ -1,22 +1,6 @@
 import API_URL from "../../../shared/api/api";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type {
-  LevelReward,
-  Skills,
-  StatModifier,
-} from "../../../shared/constants/constantTypes";
-
-export interface Profession {
-  _id: string;
-  name: string;
-  description?: string;
-  statModifiers: StatModifier[];
-  armorProficiencies: string[];
-  weaponProficiencies: string[];
-  skillProficiencies: Skills[];
-  startingItems: { item: string; quantity: number }[];
-  levelRewards: LevelReward[];
-}
+import type { Profession } from "../professionTypes";
 
 export const professionApi = createApi({
   reducerPath: "professionApi",
@@ -26,6 +10,11 @@ export const professionApi = createApi({
     getAllProfessions: builder.query<Profession[], void>({
       query: () => "/api/professions",
       providesTags: [{ type: "Profession", id: "LIST" }],
+    }),
+
+    getProfessionById: builder.query<Profession, string>({
+      query: (id) => `/api/professions/${id}`,
+      providesTags: (result, error, id) => [{ type: "Profession", id }],
     }),
 
     createProfession: builder.mutation<Profession, Profession>({
@@ -67,6 +56,7 @@ export const professionApi = createApi({
 
 export const {
   useGetAllProfessionsQuery,
+  useGetProfessionByIdQuery,
   useCreateProfessionMutation,
   useUpdateProfessionMutation,
   useDeleteProfessionMutation,

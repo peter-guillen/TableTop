@@ -11,7 +11,7 @@ import {
 } from "../../../shared/styles/theme.ts";
 
 export const ArticleCard = () => {
-  const { data: articleList } = useGetAllArticlesQuery();
+  const { data: articleList = [] } = useGetAllArticlesQuery();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -1,4 +1,4 @@
-import API_URL from "../../../shared/api/api.js";
+import API_URL from "../../../shared/api/api";
 import type { Condition } from "../conditionTypes.ts";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
