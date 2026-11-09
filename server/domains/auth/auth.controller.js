@@ -4,22 +4,31 @@ import RevokedToken from "./revokedToken.model.js";
 import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const userMe = async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to load the current user" });
   }
-  res.json(user);
 };
 
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
-  // Mobile keyboards often add a trailing space after an email suggestion
-  const user = await User.findOne({ email: String(email ?? "").trim() });
-  if (!user) {
-    return res.status(401).json({ message: "Invalid username or password" });
+  let user;
+  let isMatch = false;
+  try {
+    // Mobile keyboards often add a trailing space after an email suggestion
+    user = await User.findOne({ email: String(email ?? "").trim() });
+    if (user) {
+      isMatch = await user.comparePassword(password);
+    }
+  } catch (error) {
+    return next(error);
   }
-  const isMatch = await user.comparePassword(password);
-  if (!isMatch) {
+  if (!user || !isMatch) {
     return res.status(401).json({ message: "Invalid username or password" });
   }
   const token = generateToken(user);

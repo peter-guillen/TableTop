@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 import {
   getAllBackgrounds,
   getBackgroundById,
@@ -11,7 +12,7 @@ import {
 } from "./background.controller.js";
 
 router.get("/", getAllBackgrounds);
-router.get("/:id", getBackgroundById);
+router.get("/:id", validateObjectId, getBackgroundById);
 
 router.post(
   "/",
@@ -23,12 +24,14 @@ router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator"]),
+  validateObjectId,
   deleteBackground,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator", "editor"]),
+  validateObjectId,
   updateBackground,
 );
 

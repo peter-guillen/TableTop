@@ -1,5 +1,4 @@
 import Character from "./character.model.js";
-import mongoose from "mongoose";
 import { logAction } from "../../shared/utils/logger.js";
 
 const ALLOWED_FIELDS = [
@@ -38,9 +37,6 @@ const getAllCharacters = async (req, res) => {
 const getCharacterById = async (req, res) => {
   try {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid character ID" });
-    }
     const character = await Character.findOne({
       _id: id,
       userId: req.user._id,
@@ -78,9 +74,6 @@ const createCharacter = async (req, res) => {
 
 const updateCharacter = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid character ID" });
-  }
   try {
     const before = await Character.findOne({
       _id: id,
@@ -109,9 +102,6 @@ const updateCharacter = async (req, res) => {
 
 const deleteCharacter = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid character ID" });
-  }
   try {
     const before = await Character.findOne({
       _id: id,
