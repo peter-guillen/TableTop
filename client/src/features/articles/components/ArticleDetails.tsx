@@ -20,7 +20,10 @@ import {
 
 export const ArticleDetails = () => {
   const { id } = useParams();
-  const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
+  const { data: article, isLoading, isError } = useGetArticleByIdQuery(
+    id ?? "",
+    { skip: !id },
+  );
   const { data: currentUser } = useGetCurrentUserQuery();
   const canEdit = ["admin", "moderator", "editor"].includes(
     currentUser?.role ?? "",

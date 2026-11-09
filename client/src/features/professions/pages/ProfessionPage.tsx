@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { ProtectedRoute } from "../../../features/auth/ProtectedRoute.js";
+import { ProtectedRoute } from "../../auth/ProtectedRoute";
 import { ProfessionList } from "../components/ProfessionList";
 import { ProfessionDetails } from "../pages/ProfessionDetails";
 import { ProfessionForm } from "./ProfessionForm";

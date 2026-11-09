@@ -3,6 +3,7 @@
 // repeat. Types used by only one domain live in that domain's <x>Types.ts.
 import type { Rarity, Quality, Materials } from "../../features/items/itemTypes";
 import type { OffensiveStat } from "../../features/powers/powerTypes";
+import type { Armor } from "../../features/professions/professionTypes";
 
 export type DamageType =
   | "slashing"
@@ -150,6 +151,7 @@ export interface Constants {
   MATERIALS: Materials[];
 
   PROPERTIES: Properties[];
+  ARMOR: Armor[];
 
   MAX_LEVEL: number;
   CLASSLESS_LEVEL_REWARDS: LevelReward[];

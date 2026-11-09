@@ -17,7 +17,7 @@ There are no client tests. Verify changes with `npm run lint` and `npm run build
 
 ## Language
 
-- **New files are TypeScript** (`.ts`/`.tsx`). `tsconfig` is `strict` with `allowJs`, so existing `.jsx` files (e.g. professions, articles) keep working. Convert one only when asked.
+- **All client code is TypeScript** (`.ts`/`.tsx`, `strict`). Don't add `.js`/`.jsx` files.
 - Shared data shapes go in `features/<domain>/<x>Types.ts`, and empty-form defaults in `<x>Defaults.ts`. Keep them matching the server model.
 - `shared/constants/constantTypes.ts` holds only types used by more than one domain (`DamageType`, `Stats`, `Skills`, `Properties`, `StatModifier`, `HealthEffect`, `Resistance`, ...) and the `Constants` response shape. A type used by one domain (for example `Rarity` and `Quality` for items) lives in that domain's `<x>Types.ts`. Don't hardcode DB-backed names (professions, species, backgrounds) as union types; they come from the API.
 

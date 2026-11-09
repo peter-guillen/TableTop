@@ -9,6 +9,7 @@ import {
   QUALITY,
   MATERIALS,
   PROPERTIES,
+  ARMOR,
   MAX_LEVEL,
   CLASSLESS_LEVEL_REWARDS,
 } from "./constants.js";
@@ -27,6 +28,7 @@ export const getConstants = (req, res) => {
     QUALITY: Object.values(QUALITY),
     MATERIALS: Object.values(MATERIALS),
     PROPERTIES: Object.values(PROPERTIES),
+    ARMOR,
     MAX_LEVEL,
     CLASSLESS_LEVEL_REWARDS,
   });

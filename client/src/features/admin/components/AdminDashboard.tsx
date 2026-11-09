@@ -17,7 +17,7 @@ import type { ArticleFormData } from "../../articles/articleTypes";
 import type { Background } from "../../backgrounds/backgroundTypes";
 import type { Item } from "../../items/itemTypes";
 import type { Power } from "../../powers/powerTypes";
-import type { Profession } from "../../professions/api/professionApi";
+import type { Profession } from "../../professions/professionTypes";
 import type { Species } from "../../species/speciesTypes";
 import type { UserType } from "../../users/userTypes";
 import {
