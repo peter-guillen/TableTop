@@ -8,6 +8,7 @@ These override defaults and apply to every task.
 
 1. **Ask me for decisions and clarity.** When a request is ambiguous, or there's more than one reasonable approach (schema shape, embed vs. reference, where state lives, naming, UX behavior), stop and ask before writing code. Don't guess and don't pick silently.
 2. **Avoid abstraction and helper functions.** Write code inline, where it is used, even if that means some repetition across domains. Don't add new helpers, utility modules, wrappers, base classes, or generic hooks/components. Using the patterns that already exist (the server service layer, `useFormHandlers`, the RTK Query API per domain) is fine. Creating new shared layers is not, unless I ask for one.
+   - **Exception: shared infrastructure.** Code that encodes one policy and must behave the same everywhere may be shared: the single base RTK Query API (ROADMAP item 29), central role permissions (item 30), and small presentational UI pieces (item 31). Everything else stays inline: domain logic, services, endpoint definitions, form sections, and filters. No generic CRUD services, endpoint factories, or config-driven "entity" components.
 3. **Show your work.**
    - **Before editing:** say what will change, in which files, and why.
    - **Tradeoffs:** when there was more than one way to do it, say which was picked and why.

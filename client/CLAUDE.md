@@ -25,7 +25,7 @@ There are no client tests. Verify changes with `npx tsc --noEmit` and `npm run b
 
 - `src/app/` holds the router (`App.tsx`, `createBrowserRouter`), layouts, top-level pages, the theme context, and `store.ts`.
 - `src/features/<domain>/` holds:
-  - `api/`: one RTK Query `createApi` per domain
+  - `api/`: one RTK Query `createApi` per domain (until ROADMAP item 29 moves them onto one base API with `injectEndpoints`)
   - `pages/`: `<X>Page`, `<X>Details`, `<X>Form`
   - `components/`: form sections (`<X>BasicInfoSection`, ...), `<X>List`, `<X>Preview`
   - `<x>Types.ts` and `<x>Defaults.ts`
@@ -34,7 +34,7 @@ There are no client tests. Verify changes with `npx tsc --noEmit` and `npm run b
 ## State
 
 - **Server data goes through RTK Query.** Use local `useState` for UI and form state. Don't add Redux slices or context for something that is only needed locally. Ask first if global state seems necessary.
-- **A new RTK Query API must be registered twice in `src/app/store.ts`**, as a reducer and as middleware.
+- **A new RTK Query API must be registered twice in `src/app/store.ts`**, as a reducer and as middleware. After ROADMAP item 29, don't add new APIs: add endpoints to the base API with `injectEndpoints` instead, and update this section.
 - Each API uses `baseUrl: API_URL` (from `shared/api/api.js`). Lists provide `{ type, id: "LIST" }`, single records provide `{ type, id }`, and mutations invalidate the matching tags.
 - Game enums come from `useGetConstantsQuery()`. Never hard-code them.
 

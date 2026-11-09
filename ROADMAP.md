@@ -80,11 +80,11 @@ Check items off as they land; delete ones that become irrelevant.
 
 ## 4. Architecture
 
-> **Pending decision:** items 29–31 add shared code, which conflicts with primary rule 2 (avoid abstraction). Don't start them until the rule has an explicit exception for them.
+> **Decided (2026-11-08):** items 29–31 are allowed under the shared-infrastructure exception to primary rule 2. Share only the setup and policy (API base, 401 handling, permissions, small UI pieces). Endpoints, services and domain logic stay written out per domain.
 
 - [ ] **29. One RTK Query API** instead of 11, with each domain adding its endpoints through `injectEndpoints`. This brings one 401 handler, a one-call logout reset and tags that work across domains. Fixes item 14.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
-- [ ] **31. Shared UI.** Extract shared pieces in layers, as planned.
+- [ ] **31. Shared UI, kept small.** Only presentational pieces that repeat unchanged, such as loading, error and empty states, a search input and a filter dropdown. No generic list, form or detail component; those stay per domain.
 - [ ] **32. TypeScript.** Convert the 16 remaining client JS files. Convert the server only if you keep that README claim.
 
 ## 5. Polish
