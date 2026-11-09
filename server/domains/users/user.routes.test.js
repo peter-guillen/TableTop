@@ -3,6 +3,7 @@ import request from "supertest";
 import jwt from "jsonwebtoken";
 import app from "../../app.js";
 import User from "./user.model.js";
+import RevokedToken from "../auth/revokedToken.model.js";
 
 // These go through the real route and the real Mongoose validation. Only
 // User.prototype.save is replaced where a test needs the database's answer.
@@ -111,5 +112,67 @@ describe("POST /api/users/register", () => {
     expect(cookie).toContain("HttpOnly");
     expect(cookie).toContain("Secure");
     expect(cookie).toContain("SameSite=Lax");
+  });
+});
+
+describe("user admin routes: errors get a response instead of crashing", () => {
+  it("GET /api/users returns 500 when the database fails", async () => {
+    vi.stubEnv("JWT_SECRET", "test-secret");
+    vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
+    vi.spyOn(User, "findById").mockReturnValue({
+      select: () => ({ lean: async () => ({ role: "admin", tokenVersion: 0 }) }),
+    });
+    const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
+      jwtid: "t1",
+    });
+    vi.spyOn(User, "find").mockReturnValue({
+      select: () => Promise.reject(new Error("connection lost")),
+    });
+
+    const res = await request(app)
+      .get("/api/users")
+      .set("Cookie", `token=${token}`);
+
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({ error: "Failed to load users" });
+  });
+
+  it("DELETE /api/users/:id with a malformed id returns 404", async () => {
+    vi.stubEnv("JWT_SECRET", "test-secret");
+    vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
+    vi.spyOn(User, "findById").mockReturnValue({
+      select: () => ({ lean: async () => ({ role: "admin", tokenVersion: 0 }) }),
+    });
+    const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
+      jwtid: "t1",
+    });
+
+    const res = await request(app)
+      .delete("/api/users/not-an-id")
+      .set("Cookie", `token=${token}`);
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Invalid ID" });
+  });
+
+  it("DELETE /api/users/:id returns 404 (not 400) when the user doesn't exist", async () => {
+    vi.stubEnv("JWT_SECRET", "test-secret");
+    vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
+    vi.spyOn(User, "findById").mockReturnValue({
+      select: () => ({ lean: async () => ({ role: "admin", tokenVersion: 0 }) }),
+    });
+    const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
+      jwtid: "t1",
+    });
+    vi.spyOn(User, "findByIdAndDelete").mockReturnValue({
+      select: async () => null,
+    });
+
+    const res = await request(app)
+      .delete("/api/users/6a580c1ec136c681a00e62c6")
+      .set("Cookie", `token=${token}`);
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "User Not Found!" });
   });
 });

@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 import {
   getAllSpecies,
   getSpeciesById,
@@ -11,7 +12,7 @@ import {
 } from "./species.controller.js";
 
 router.get("/", getAllSpecies);
-router.get("/:id", getSpeciesById);
+router.get("/:id", validateObjectId, getSpeciesById);
 
 router.post(
   "/",
@@ -23,12 +24,14 @@ router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator"]),
+  validateObjectId,
   deleteSpecies,
 );
 router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator", "editor"]),
+  validateObjectId,
   updateSpecies,
 );
 

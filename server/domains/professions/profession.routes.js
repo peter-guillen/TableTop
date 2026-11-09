@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
 import {
   getProfessions,
@@ -12,7 +13,7 @@ import {
 } from "./profession.controller.js";
 
 router.get("/", getProfessions);
-router.get("/:id", getProfession);
+router.get("/:id", validateObjectId, getProfession);
 
 router.post(
   "/",
@@ -24,12 +25,14 @@ router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator", "editor"]),
+  validateObjectId,
   updateProfession,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator"]),
+  validateObjectId,
   deleteProfession,
 );
 

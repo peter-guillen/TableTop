@@ -158,3 +158,29 @@ describe("logout revokes the session", () => {
     });
   });
 });
+
+describe("auth routes: errors get a response instead of crashing", () => {
+  it("GET /api/auth/me returns 500 when loading the user fails", async () => {
+    vi.stubEnv("JWT_SECRET", "test-secret");
+    vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
+    vi.spyOn(User, "findById")
+      // checkAuthenticated's lookup succeeds
+      .mockReturnValueOnce({
+        select: () => ({ lean: async () => ({ role: "user", tokenVersion: 0 }) }),
+      })
+      // userMe's lookup fails
+      .mockReturnValueOnce({
+        select: () => Promise.reject(new Error("connection lost")),
+      });
+    const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
+      jwtid: "t1",
+    });
+
+    const res = await request(app)
+      .get("/api/auth/me")
+      .set("Cookie", `token=${token}`);
+
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({ message: "Failed to load the current user" });
+  });
+});

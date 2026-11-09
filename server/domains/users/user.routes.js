@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
 import {
   getAllUsers,
@@ -25,18 +26,21 @@ router.get(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
+  validateObjectId,
   getUserById,
 );
 router.patch(
   "/:id/role",
   checkAuthenticated,
   checkAuthorization(["admin"]),
+  validateObjectId,
   updateUserRole,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin"]),
+  validateObjectId,
   deleteUser,
 );
 

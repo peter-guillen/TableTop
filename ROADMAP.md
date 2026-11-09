@@ -16,11 +16,12 @@ Check items off as they land; delete ones that become irrelevant.
 
 ## 1. Stop the bleeding: live site safe and accurate
 
-- [ ] **1. Deploy `auth-sessions`.** Merge to get logout revocation, the cache clear on logout, and the second dead-code pass live. Everyone has to log in once more. (Live today: a token reused after logout still returns 200, and `/api/traits` still responds.)
-- [ ] **2. Crash points.** Error handling only. Moving these domains to the service layer is item 28.
-  - Add error handling to the 20 async handlers that have none (articles, backgrounds, professions, species, users, auth).
-  - Add `validateObjectId` to the 4 `GET /:id` routes that lack it.
-  - Make the article and species create handlers respond on error instead of hanging.
+- [x] **1. Deploy `auth-sessions`.** Merged in PR #10 (2026-11-08). Verified live: a token reused after logout gets 401, a second session stays logged in when another logs out, and `/api/traits`, `/api/archetype` and `/api/library` return 404.
+- [x] **2. Crash points.** Error handling only. Moving these domains to the service layer is item 28.
+  - Added error handling to the 20 async handlers that had none (articles, backgrounds, professions, species, users, auth).
+  - Added `validateObjectId` to all 18 `/:id` routes that lacked it (the original count of 4 missed multi-line PATCH/DELETE routes).
+  - Article, background, profession and species creates now respond on error instead of hanging.
+  - Added one error handler at the end of `app.js` (400 for bad input, generic 500 otherwise), and 404 instead of 200 + `null` for missing records.
 - [ ] **3. Fix the 2 character tests.** They're out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500).
 - [ ] **4. Rate limiting** on login and signup. Set Express `trust proxy` so limits apply per visitor behind Netlify. (Live today: 6 bad logins in a row were never blocked.)
   - Requests pass through Netlify and Railway's edge, so check the real `X-Forwarded-For` chain before choosing the hop count. Too low and every visitor shares one limit. Too high and clients can fake their IP.

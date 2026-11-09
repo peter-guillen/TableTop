@@ -1,17 +1,17 @@
 import User from "./user.model.js";
-import mongoose from "mongoose";
 import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const getAllUsers = async (req, res) => {
-  const users = await User.find({}).select("-password");
-  res.json(users);
+  try {
+    const users = await User.find({}).select("-password");
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to load users" });
+  }
 };
 
 const getUserById = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid User ID" });
-  }
   try {
     const user = await User.findById(id).select("-password");
     if (!user) {
@@ -58,30 +58,28 @@ const createUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "User Not Found!" });
-  }
   // Same rule as role changes: an admin can't remove their own account here
   if (String(req.user._id) === id) {
     return res
       .status(400)
       .json({ error: "You cannot delete your own account" });
   }
-  const user = await User.findByIdAndDelete(id).select("-password");
-  if (!user) {
-    return res.status(400).json({ error: "User Not Found!" });
+  try {
+    const user = await User.findByIdAndDelete(id).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found!" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
   }
-  res.status(200).json(user);
 };
 
 const updateUserRole = async (req, res) => {
   const { id } = req.params;
   const { role } = req.body;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "User Not Found!" });
-  }
   // Stops an admin from demoting themselves and locking everyone out
   if (String(req.user._id) === id) {
     return res.status(400).json({ error: "You cannot change your own role" });

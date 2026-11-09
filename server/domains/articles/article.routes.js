@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import checkAuthenticated from "../../shared/middlewares/checkAuthenticated.js";
 import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
+import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
 import {
   getArticles,
@@ -12,7 +13,7 @@ import {
 } from "./article.controller.js";
 
 router.get("/", getArticles);
-router.get("/:id", getArticle);
+router.get("/:id", validateObjectId, getArticle);
 
 router.post(
   "/",
@@ -24,12 +25,14 @@ router.patch(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator", "editor"]),
+  validateObjectId,
   updateArticle,
 );
 router.delete(
   "/:id",
   checkAuthenticated,
   checkAuthorization(["admin", "moderator"]),
+  validateObjectId,
   deleteArticle,
 );
 

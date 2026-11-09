@@ -13,10 +13,16 @@ import {
 
 import { useGetSpeciesByIdQuery } from "../api/speciesApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 
 export function SpeciesDetails() {
   const { id } = useParams<{ id: string }>();
-  const { data: species, isLoading, isError } = useGetSpeciesByIdQuery(id!);
+  const {
+    data: species,
+    isLoading,
+    isError,
+    error,
+  } = useGetSpeciesByIdQuery(id!);
   const { data: powers = [] } = useGetAllPowersQuery();
   const powersById = Object.fromEntries(powers.map((p) => [p._id, p]));
 
@@ -28,15 +34,11 @@ export function SpeciesDetails() {
   const handleReturn = () => navigate(-1);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
-
-  if (!species) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-stone-500 dark:text-stone-300">
-        <p>Species not found or still loading...</p>
-      </div>
-    );
-  }
+  // The server answers 404 for a species that doesn't exist or a malformed
+  // id. Anything else (server down, network) is a real failure.
+  const isNotFound = error && "status" in error && error.status === 404;
+  if (isNotFound || (!isError && !species)) return <NotFound />;
+  if (isError || !species) return <p>Something went wrong.</p>;
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">
