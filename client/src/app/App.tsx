@@ -7,20 +7,20 @@ import {
 
 import { ThemeContextProvider } from "./contexts/ThemeContext.tsx";
 
-import { Navbar } from "./layouts/Navbar";
+import { Navbar } from "./layouts/Navbar.tsx";
 import { Register } from "./pages/Register.tsx";
 import { Login } from "./pages/Login.tsx";
-import { ProtectedRoute } from "../features/auth/ProtectedRoute";
-import { Forbidden } from "../app/pages/Forbidden";
+import { ProtectedRoute } from "../features/auth/ProtectedRoute.tsx";
+import { Forbidden } from "../app/pages/Forbidden.tsx";
 import { About } from "../app/pages/About.tsx";
-import { Rules } from "../features/playerTools/components/Rules";
+import { Rules } from "../features/playerTools/components/Rules.tsx";
 import { CharacterPage } from "../features/characters/pages/CharacterPage.tsx";
 
 import { Home } from "./pages/Home.tsx";
 import { NotFound } from "./pages/NotFound.tsx";
-import { ArticlePage } from "../features/articles/pages/ArticlePage";
+import { ArticlePage } from "../features/articles/pages/ArticlePage.tsx";
 import { ItemPage } from "../features/items/pages/ItemPage.tsx";
-import { ProfessionPage } from "../features/professions/pages/ProfessionPage";
+import { ProfessionPage } from "../features/professions/pages/ProfessionPage.tsx";
 import { SpeciesPage } from "../features/species/pages/SpeciesPage.tsx";
 import { BackgroundPage } from "../features/backgrounds/pages/BackgroundPage.tsx";
 import { PowerPage } from "../features/powers/pages/PowerPage.tsx";

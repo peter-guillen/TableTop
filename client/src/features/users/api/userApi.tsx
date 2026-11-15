@@ -1,5 +1,5 @@
-import API_URL from "../../../shared/api/api";
-import type { UserFormData, UserProfile, UserType } from "../userTypes"; // User = Omit<UserFormData, "password">
+import API_URL from "../../../shared/api/api.ts";
+import type { UserFormData, UserProfile, UserType } from "../userTypes.ts"; // User = Omit<UserFormData, "password">
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../../app/store.ts";
 import { authApi } from "../../auth/api/authApi.tsx";

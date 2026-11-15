@@ -1,4 +1,4 @@
-import API_URL from "../../../shared/api/api";
+import API_URL from "../../../shared/api/api.ts";
 import type { ArticleFormData } from "../articleTypes.ts";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 

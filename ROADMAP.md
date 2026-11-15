@@ -6,14 +6,14 @@ Check items off as they land; delete ones that become irrelevant.
 
 ## Baseline
 
-| Measure | 2026-11-07 | Now (2026-11-08) |
+| Measure | 2026-11-07 | Now (2026-11-15) |
 | --- | --- | --- |
-| Server tests | 58 passing, 2 failing | 85 passing, 2 failing (item 3) |
-| Server coverage | 53% lines, 29% branches | 63% lines, 36% branches |
+| Server tests | 58 passing, 2 failing | 90 passing, 0 failing |
+| Server coverage | 53% lines, 29% branches | 65% lines, 42% branches |
 | Unauthenticated crash points | 24 | 0 (item 2, verified live) |
 | Client type errors / lint / tests | 16 / broken / 0 | 0 / clean / 0 |
 | Client JS files | 16 | 0 |
-| Client bundle | 657 KB, one file | 647 KB, one file |
+| Client bundle | 657 KB, one file | 663 KB, one file |
 
 ## 1. Stop the bleeding: live site safe and accurate
 
@@ -25,7 +25,9 @@ Check items off as they land; delete ones that become irrelevant.
   - Added one error handler at the end of `app.js` (400 for bad input, generic 500 otherwise), and 404 instead of 200 + `null` for missing records.
   - Merged in PR #13 and verified live: malformed ids get 404 and the server stays up, malformed JSON gets a 400 JSON error.
   - Client: species, background and profession detail pages (and the profession edit form) show the NotFound page on a 404 and keep "Something went wrong." for real failures.
-- [ ] **3. Fix the 2 character tests.** They're out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500).
+- [x] **3. Fix the 2 character tests.** They were out of date: they expected `user` (the code uses `userId`) and a 400 for a database failure (the code correctly returns 500).
+  - Added a test for the 400 path (`CastError`).
+  - `deleteCharacter` now deletes with one `findOneAndDelete({ _id, userId })`, so the delete query itself enforces ownership. Before, it checked with `findOne` and then deleted by id alone. Added tests for both the delete and the 404.
 - [ ] **4. Rate limiting** on login and signup. Set Express `trust proxy` so limits apply per visitor behind Netlify. (Live today: 6 bad logins in a row were never blocked.)
   - Requests pass through Netlify and Railway's edge, so check the real `X-Forwarded-For` chain before choosing the hop count. Too low and every visitor shares one limit. Too high and clients can fake their IP.
 - [ ] **5. Server-side auth validation.**
