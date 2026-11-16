@@ -4,6 +4,7 @@ import { ghostButton } from "../../../shared/styles/theme.ts";
 import { useGetProfessionByIdQuery } from "../api/professionApi";
 import { useGetAllItemsQuery } from "../../items/api/itemApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+import { NotFound } from "../../../app/pages/NotFound.tsx";
 import type { IconType } from "react-icons";
 import type { ReactNode } from "react";
 import type { LevelGrant } from "../../../shared/constants/constantTypes";
@@ -107,21 +108,18 @@ export function ProfessionDetails() {
   const {
     data: profession,
     error,
+    isError,
     isLoading,
   } = useGetProfessionByIdQuery(id ?? "", { skip: !id });
   const { data: items = [] } = useGetAllItemsQuery();
   const { data: powers = [] } = useGetAllPowersQuery();
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Something went wrong.</p>;
-
-  if (!profession) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-stone-500 dark:text-stone-300">
-        <p>Profession not found or still loading...</p>
-      </div>
-    );
-  }
+  // The server answers 404 for a profession that doesn't exist or a
+  // malformed id. Anything else (server down, network) is a real failure.
+  const isNotFound = error && "status" in error && error.status === 404;
+  if (isNotFound || (!isError && !profession)) return <NotFound />;
+  if (isError || !profession) return <p>Something went wrong.</p>;
 
   const itemById = Object.fromEntries(items.map((i) => [i._id, i]));
   const powerById = Object.fromEntries(powers.map((p) => [p._id, p]));

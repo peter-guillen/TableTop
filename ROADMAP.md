@@ -4,15 +4,16 @@ Cleanup goals from the full re-review (2026-11-07). Items are numbered in the or
 
 Check items off as they land; delete ones that become irrelevant.
 
-## Baseline (2026-11-07)
+## Baseline
 
-| Measure | Value |
-| --- | --- |
-| Server tests | 58 passing, 2 failing (item 3) |
-| Server coverage | 53% lines, 29% branches |
-| Unauthenticated crash points | 24 (item 2) |
-| Client type errors / lint / tests | 16 / broken / 0 |
-| Client bundle | 657 KB, one file |
+| Measure | 2026-11-07 | Now (2026-11-08) |
+| --- | --- | --- |
+| Server tests | 58 passing, 2 failing | 85 passing, 2 failing (item 3) |
+| Server coverage | 53% lines, 29% branches | 63% lines, 36% branches |
+| Unauthenticated crash points | 24 | 0 (item 2, verified live) |
+| Client type errors / lint / tests | 16 / broken / 0 | 0 / clean / 0 |
+| Client JS files | 16 | 0 |
+| Client bundle | 657 KB, one file | 647 KB, one file |
 
 ## 1. Stop the bleeding: live site safe and accurate
 
@@ -22,6 +23,8 @@ Check items off as they land; delete ones that become irrelevant.
   - Added `validateObjectId` to all 18 `/:id` routes that lacked it (the original count of 4 missed multi-line PATCH/DELETE routes).
   - Article, background, profession and species creates now respond on error instead of hanging.
   - Added one error handler at the end of `app.js` (400 for bad input, generic 500 otherwise), and 404 instead of 200 + `null` for missing records.
+  - Merged in PR #13 and verified live: malformed ids get 404 and the server stays up, malformed JSON gets a 400 JSON error.
+  - Client: species, background and profession detail pages (and the profession edit form) show the NotFound page on a 404 and keep "Something went wrong." for real failures.
 - [ ] **3. Fix the 2 character tests.** They're out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500).
 - [ ] **4. Rate limiting** on login and signup. Set Express `trust proxy` so limits apply per visitor behind Netlify. (Live today: 6 bad logins in a row were never blocked.)
   - Requests pass through Netlify and Railway's edge, so check the real `X-Forwarded-For` chain before choosing the hop count. Too low and every visitor shares one limit. Too high and clients can fake their IP.
@@ -33,7 +36,7 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **6. Startup checks.**
   - Refuse to start without `JWT_SECRET` and `PEPPER`.
   - Load `.env` before `app.js` runs. Today `app.js` reads `CLIENT_URL` before `dotenv.config()`, because ESM imports load first.
-- [ ] **7. Dependency vulnerabilities.** Server: 1 critical, 1 high and 1 moderate, all in Express's dependencies. Client: 2 moderate.
+- [ ] **7. Dependency vulnerabilities.** `npm audit --omit=dev`: server 1 critical, 1 high and 1 moderate, all in Express's dependencies; client 2 moderate. Counting dev dependencies, GitHub's Dependabot lists 31 (1 critical, 7 high, 21 moderate, 2 low); work from that list.
 - [x] **8. Client type check.** Fixed the 16 type errors, then made `npm run build` run `tsc --noEmit` first. Along the way, `/api/constants` now sends `DAMAGE_TYPES`, `RARITY`, `QUALITY`, `MATERIALS` and `PROPERTIES` as arrays (the client called `.map` on them as objects), and the duplicate game types were merged into `constantTypes.ts` (shared) or the one domain that uses them.
 - [x] **9. Lint.** `eslint.config.js` (flat config, `typescript-eslint`) lints `.js`, `.jsx`, `.ts` and `.tsx` with 0 errors and 0 warnings. `react/prop-types` is off (TypeScript checks props), and `react/no-unescaped-entities` only forbids `>` and `}`.
 - [ ] **10. CI.** GitHub Actions running lint, the type check, server tests and the build, plus a status badge. Add client tests to CI once item 24 exists.
@@ -86,7 +89,10 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **29. One RTK Query API** instead of 11, with each domain adding its endpoints through `injectEndpoints`. This brings one 401 handler, a one-call logout reset and tags that work across domains. Fixes item 14.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
 - [ ] **31. Shared UI, kept small.** Only presentational pieces that repeat unchanged, such as loading, error and empty states, a search input and a filter dropdown. No generic list, form or detail component; those stay per domain.
-- [ ] **32. TypeScript.** Convert the server only if you keep that README claim.
+- [ ] **32. TypeScript.** The client is fully TypeScript (PR #12). Convert the server only if you keep that README claim. Client follow-ups:
+  - `PowerPreview.tsx` casts `powerCondition.condition as unknown as string`. The power type and the API disagree about whether a condition is an id or an object; fix the type instead of casting.
+  - Turn off `allowJs` in `client/tsconfig.json` now that no JS files remain.
+  - Raise `lib` to ES2022 so `UserPage.tsx` doesn't need to cast `Intl` for `supportedValuesOf`.
   - [x] **Client: all 16 JS files converted** (no `.js`/`.jsx` left in `client/src`). The profession form, its sections and the profession card were rebuilt against the model: `name`, stat modifiers, armor/weapon/skill proficiencies from `/api/constants` (which now sends `ARMOR`), starting items, and a level 1 to `MAX_LEVEL` `levelRewards` editor. The form blocks saving incomplete grants until item 21 checks them on the server. Details and edit fetch one profession by id.
 
 ## 5. Polish
