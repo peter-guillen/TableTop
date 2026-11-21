@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
 import type { Power } from "../powerTypes";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
-export const powerApi = createApi({
-  reducerPath: "powerApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ["Power"],
+export const powerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllPowers: builder.query<Power[], void>({
       query: () => "/api/powers",

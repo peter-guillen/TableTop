@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   LuUsers,
@@ -12,7 +11,7 @@ import {
   LuSchool,
 } from "react-icons/lu";
 
-import API_URL from "../../../shared/api/api";
+import { useGetActivityQuery } from "../api/activityApi.ts";
 import type { ArticleFormData } from "../../articles/articleTypes";
 import type { Background } from "../../backgrounds/backgroundTypes";
 import type { Item } from "../../items/itemTypes";
@@ -54,44 +53,14 @@ interface AdminDashboardProps {
   canManageUsers: boolean;
 }
 
-interface ActivityLogEntry {
-  _id: string;
-  action: string;
-  target: string;
-  // Populated by the server; null if the user has since been deleted
-  userId: { _id: string; username: string } | null;
-  createdAt: string;
-}
-
 export function AdminDashboard({
   sectionConfig,
   canManageUsers,
 }: AdminDashboardProps) {
-  const [logs, setLogs] = useState<ActivityLogEntry[]>([]);
-  const [logsError, setLogsError] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_URL}/api/activity`, {
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          setLogsError(true);
-          return;
-        }
-
-        const data = await response.json();
-        setLogs(data);
-      } catch (error) {
-        console.error("Error fetching logs:", error);
-        setLogsError(true);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data: logs = [], isError: logsError } = useGetActivityQuery(
+    undefined,
+    { refetchOnMountOrArgChange: true },
+  );
 
   const users = sectionConfig.users.data;
   const articles = sectionConfig.articles.data;

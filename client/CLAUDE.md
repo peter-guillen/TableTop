@@ -25,23 +25,23 @@ There are no client tests. Verify changes with `npm run lint` and `npm run build
 
 - `src/app/` holds the router (`App.tsx`, `createBrowserRouter`), layouts, top-level pages, the theme context, and `store.ts`.
 - `src/features/<domain>/` holds:
-  - `api/`: one RTK Query `createApi` per domain (until ROADMAP item 29 moves them onto one base API with `injectEndpoints`)
+  - `api/`: the domain's endpoints, added to the one base API with `baseApi.injectEndpoints`
   - `pages/`: `<X>Page`, `<X>Details`, `<X>Form`
   - `components/`: form sections (`<X>BasicInfoSection`, ...), `<X>List`, `<X>Preview`
   - `<x>Types.ts` and `<x>Defaults.ts`
-- `src/shared/` holds the API base URL, constants API, `LoadingSpinner`, and the theme. Don't add to it without asking (see primary rule 2).
+- `src/shared/` holds the base API (`shared/api/baseApi.ts`), constants API, `LoadingSpinner`, and the theme. Don't add to it without asking (see primary rule 2).
 
 ## State
 
 - **Server data goes through RTK Query.** Use local `useState` for UI and form state. Don't add Redux slices or context for something that is only needed locally. Ask first if global state seems necessary.
-- **A new RTK Query API must be registered twice in `src/app/store.ts`**, as a reducer and as middleware. After ROADMAP item 29, don't add new APIs: add endpoints to the base API with `injectEndpoints` instead, and update this section.
-- Each API uses `baseUrl: API_URL` (from `shared/api/api.js`). Lists provide `{ type, id: "LIST" }`, single records provide `{ type, id }`, and mutations invalidate the matching tags.
+- **There is one RTK Query API, `baseApi` in `shared/api/baseApi.ts`.** Don't add another `createApi`. A domain adds endpoints with `baseApi.injectEndpoints` in its own `api/` file, written out in full (no endpoint factories). `store.ts` registers only `baseApi`.
+- `baseApi` owns the setup: relative `baseUrl`, `credentials: "include"`, and the one list of `tagTypes`. A new tag type goes in that list. Lists provide `{ type, id: "LIST" }`, single records provide `{ type, id }`, and mutations invalidate the matching tags. Since every domain shares one cache, a mutation can invalidate another domain's tags directly (for example `"Auth"` after a profile change).
 - Game enums come from `useGetConstantsQuery()`. Never hard-code them.
 
 ## Auth
 
 - The current user comes from `authApi`'s `useGetCurrentUserQuery`. `features/auth/ProtectedRoute.tsx` gates routes and redirects to `/login` or `/forbidden` based on `roles`.
-- **On logout, `app/layouts/Navbar.tsx` resets every per-user cache** (`characterApi`, `userApi`). Any new API that holds per-user data must be added there. Public library caches are kept on purpose.
+- **Logout and expired sessions clear the whole cache** with `baseApi.util.resetApiState()`, public library data included. `app/layouts/Navbar.tsx` does it on logout. `baseApi`'s base query does it when any request gets a 401 while a current user is cached (the server sends 401 only when the session is gone, and 403 for a role that isn't allowed). Nothing per-API needs adding.
 - Keep requests relative (empty `VITE_API_URL`). See the cookie note in the root CLAUDE.md.
 
 ## Forms

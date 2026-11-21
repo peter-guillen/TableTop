@@ -15,7 +15,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { data: currentUser, isLoading, isFetching } = useGetCurrentUserQuery();
 
-  if (isLoading || isFetching) return <LoadingSpinner />;
+  // Only wait when there is no user yet. Refetching a user we already have
+  // (after login, a profile change, or a window refocus) keeps the page
+  // mounted instead of swapping it for a spinner and losing its state
+  if (isLoading || (isFetching && !currentUser)) return <LoadingSpinner />;
   if (!currentUser) return <Navigate to="/login" replace />;
   if (roles && !roles.includes(currentUser.role)) {
     return <Navigate to="/forbidden" replace />;

@@ -1,46 +1,29 @@
-import API_URL from "../../../shared/api/api";
 import type { UserFormData, UserProfile, UserType } from "../userTypes"; // User = Omit<UserFormData, "password">
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../../../app/store.ts";
-import { authApi } from "../../auth/api/authApi.tsx";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
 type NewUserInput = Omit<UserFormData, "_id" | "role">;
 
-export const userApi = createApi({
-  reducerPath: "usersApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${API_URL}/api/users`,
-    credentials: "include",
-  }),
-  tagTypes: ["User"],
+export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query<UserType[], void>({
-      query: () => "/",
+      query: () => "/api/users",
       providesTags: [{ type: "User", id: "LIST" }],
     }),
 
+    // Signing up also logs the user in, so "Auth" refreshes the current user
+    // that the Navbar and ProtectedRoute read
     createUser: builder.mutation<UserType, NewUserInput>({
       query: (newUser) => ({
-        url: "/register",
+        url: "/api/users/register",
         method: "POST",
         body: newUser,
       }),
-      invalidatesTags: [{ type: "User", id: "LIST" }],
-      // Signing up also logs the user in, so refresh the current user that
-      // the Navbar and ProtectedRoute read from authApi
-      async onQueryStarted(newUser, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(authApi.util.invalidateTags(["Auth"]));
-        } catch {
-          // Failed signup: the Register page shows the error
-        }
-      },
+      invalidatesTags: [{ type: "User", id: "LIST" }, "Auth"],
     }),
 
     updateUserRole: builder.mutation<UserType, { id: string; role: string }>({
       query: ({ id, role }) => ({
-        url: `/${id}/role`,
+        url: `/api/users/${id}/role`,
         method: "PATCH",
         body: { role },
       }),
@@ -50,40 +33,28 @@ export const userApi = createApi({
       ],
     }),
 
+    // The Navbar shows the current user's name, so refresh "Auth" too
     updateMyProfile: builder.mutation<UserType, UserProfile>({
       query: (profile) => ({
-        url: "/me/profile",
+        url: "/api/users/me/profile",
         method: "PATCH",
         body: { profile },
       }),
-      invalidatesTags: [{ type: "User", id: "LIST" }],
-      // The Navbar reads the current user from authApi, so refresh it too
-      async onQueryStarted(profile, { dispatch, queryFulfilled }) {
-        await queryFulfilled;
-        dispatch(authApi.util.invalidateTags(["Auth"]));
-      },
+      invalidatesTags: [{ type: "User", id: "LIST" }, "Auth"],
     }),
 
+    // "Auth" refreshes the current user in case an admin deleted themselves.
+    // Their next /me gets a 401, and baseApi then clears every cache
     deleteUser: builder.mutation<UserType, string>({
       query: (id) => ({
-        url: `/${id}`,
+        url: `/api/users/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
         { type: "User", id },
         { type: "User", id: "LIST" },
+        "Auth",
       ],
-      async onQueryStarted(id, { dispatch, getState, queryFulfilled }) {
-        await queryFulfilled;
-
-        const currentUser = authApi.endpoints.getCurrentUser.select()(
-          getState() as RootState,
-        ).data;
-
-        if (currentUser?._id === id) {
-          dispatch(authApi.util.invalidateTags(["Auth"]));
-        }
-      },
     }),
   }),
 });

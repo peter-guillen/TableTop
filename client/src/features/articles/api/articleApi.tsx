@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
 import type { ArticleFormData } from "../articleTypes.ts";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
-export const articleApi = createApi({
-  reducerPath: "articleApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ["Article"],
+export const articleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllArticles: builder.query<ArticleFormData[], void>({
       query: () => "/api/articles",

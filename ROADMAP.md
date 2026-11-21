@@ -56,8 +56,9 @@ Check items off as they land; delete ones that become irrelevant.
   - Show specific signup errors, like an email that's already taken.
   - Return users to the page they wanted after login.
   - Redirect logged-in users away from the login and signup pages.
-- [ ] **13. `ProtectedRoute`.** Stop remounting the page on background refetches, and stop treating server errors as "logged out".
-- [ ] **14. Expired sessions.** When a session expires, per-user caches aren't cleared, and only `authApi` reacts to a 401. Best fixed together with item 29.
+- [ ] **13. `ProtectedRoute`.** Stop treating server errors as "logged out".
+  - [x] It no longer remounts the page on background refetches: it shows the spinner only while there's no user yet (done with item 29, which refetches the current user more often).
+- [x] **14. Expired sessions.** Fixed by item 29: a 401 on any request while a user is cached clears the whole cache, so the current user and private data are dropped and `ProtectedRoute` sends the visitor to `/login`.
 - [ ] **15. Password change.** Bump `tokenVersion` to log out the user's other devices.
 - [ ] **16. Move the demo account off `rpg.com`**, a real domain someone else owns. Do this before any emails go out.
 - [ ] **17. Password reset and email verification.** These need an email service.
@@ -88,7 +89,7 @@ Check items off as they land; delete ones that become irrelevant.
 >
 > **Decided (2026-11-21):** logout and expired sessions clear the whole RTK Query cache (`resetApiState()`), public library caches included. Tag types are one list on the base API. Permissions are `content:edit`, `content:delete`, `activity:view`, `characters:play` and `users:manage`, checked by the existing `checkAuthorization` middleware. The server stays JavaScript.
 
-- [ ] **29. One RTK Query API** instead of 11, with each domain adding its endpoints through `injectEndpoints`. This brings one 401 handler, a one-call logout reset and tags that work across domains. Fixes item 14.
+- [x] **29. One RTK Query API** instead of 12. `shared/api/baseApi.ts` holds the setup (relative URL, `credentials: "include"`, one `tagTypes` list, the 401 handler). Every domain, plus constants and the admin activity log (previously a raw `fetch`), adds its endpoints with `injectEndpoints`; hook names didn't change. Logout is one `resetApiState()`. `userApi`'s `onQueryStarted` workarounds became plain `"Auth"` tag invalidations. Fixes item 14.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
 - [ ] **31. Shared UI, kept small.** Only presentational pieces that repeat unchanged, such as loading, error and empty states, a search input and a filter dropdown. No generic list, form or detail component; those stay per domain.
 - [x] **32. TypeScript.** The client is fully TypeScript (PR #12). The server stays JavaScript (decided 2026-11-21); the README claim comes out in item 11. Client follow-ups, done:

@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
 import type { Condition } from "../conditionTypes.ts";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
-export const conditionApi = createApi({
-  reducerPath: "conditionApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ["Condition"],
+export const conditionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllConditions: builder.query<Condition[], void>({
       query: () => "/api/conditions",
