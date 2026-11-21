@@ -240,9 +240,7 @@ export const PowerPreview = ({
                         </span>
                         {power.conditions.map((powerCondition, idx) => {
                           const condition =
-                            conditionsById[
-                              powerCondition.condition as unknown as string
-                            ];
+                            conditionsById[powerCondition.condition];
                           if (!condition) return null;
 
                           return (
