@@ -5,8 +5,7 @@ import {
   useGetCurrentUserQuery,
   useLogoutMutation,
 } from "../../features/auth/api/authApi.tsx";
-import { characterApi } from "../../features/characters/api/characterApi.tsx";
-import { userApi } from "../../features/users/api/userApi.tsx";
+import { baseApi } from "../../shared/api/baseApi.ts";
 
 import { ThemeContext } from "../contexts/ThemeContext.tsx";
 import {
@@ -117,14 +116,11 @@ export const Navbar = () => {
       // server, the cookie remains, but dropping private data from memory is
       // still the safer choice
     }
-    // Navigate first so pages that show private data unmount, then clear the
-    // caches that belong to this user. The next person on this browser starts
-    // with no characters or user list in memory. Public library caches
-    // (powers, items, species...) are the same for everyone, so they stay.
-    // Add any new per-user API here.
+    // Navigate first so pages that show private data unmount, then clear
+    // every cache. The next person on this browser starts with nothing in
+    // memory; public library data simply refetches when it's next needed.
     navigate("/login");
-    dispatch(characterApi.util.resetApiState());
-    dispatch(userApi.util.resetApiState());
+    dispatch(baseApi.util.resetApiState());
   };
 
   const canSeeAdmin = isAdminOrMod(currentUser?.role);

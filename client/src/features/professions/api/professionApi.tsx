@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 import type { Profession } from "../professionTypes";
 
-export const professionApi = createApi({
-  reducerPath: "professionApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ["Profession"],
+export const professionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllProfessions: builder.query<Profession[], void>({
       query: () => "/api/professions",

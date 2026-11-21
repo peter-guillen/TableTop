@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
 import type { Background } from "../backgroundTypes";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
-export const backgroundApi = createApi({
-  reducerPath: "backgroundApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ["Background"],
+export const backgroundApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllBackgrounds: builder.query<Background[], void>({
       query: () => "/api/backgrounds",

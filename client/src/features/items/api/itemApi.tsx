@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
 import type { Item } from "../itemTypes";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
-export const itemApi = createApi({
-  reducerPath: "itemApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ["Item"],
+export const itemApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllItems: builder.query<Item[], void>({
       query: () => "/api/items",

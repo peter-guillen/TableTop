@@ -1,11 +1,7 @@
-import API_URL from "../../../shared/api/api";
 import type { Character, CharacterInput } from "../charactersTypes";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "../../../shared/api/baseApi.ts";
 
-export const characterApi = createApi({
-  reducerPath: "characterApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL, credentials: "include" }),
-  tagTypes: ["Character"],
+export const characterApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllCharacters: builder.query<Character[], void>({
       query: () => "/api/characters",
