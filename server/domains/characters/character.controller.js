@@ -103,14 +103,14 @@ const updateCharacter = async (req, res) => {
 const deleteCharacter = async (req, res) => {
   const { id } = req.params;
   try {
-    const before = await Character.findOne({
+    // One query: the ownership check and the delete can't drift apart
+    const before = await Character.findOneAndDelete({
       _id: id,
       userId: req.user._id,
     }).lean();
     if (!before) {
       return res.status(404).json({ error: "Character Not Found!" });
     }
-    await Character.findByIdAndDelete(id);
     await logAction({
       userId: req.user._id,
       action: "Deleted Character",

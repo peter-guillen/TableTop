@@ -8,8 +8,8 @@ Check items off as they land; delete ones that become irrelevant.
 
 | Measure | 2026-11-07 | Now (2026-11-08) |
 | --- | --- | --- |
-| Server tests | 58 passing, 2 failing | 85 passing, 2 failing (item 3) |
-| Server coverage | 53% lines, 29% branches | 63% lines, 36% branches |
+| Server tests | 58 passing, 2 failing | 89 passing, 0 failing |
+| Server coverage | 53% lines, 29% branches | 65% lines, 41% branches |
 | Unauthenticated crash points | 24 | 0 (item 2, verified live) |
 | Client type errors / lint / tests | 16 / broken / 0 | 0 / clean / 0 |
 | Client JS files | 16 | 0 |
@@ -25,9 +25,15 @@ Check items off as they land; delete ones that become irrelevant.
   - Added one error handler at the end of `app.js` (400 for bad input, generic 500 otherwise), and 404 instead of 200 + `null` for missing records.
   - Merged in PR #13 and verified live: malformed ids get 404 and the server stays up, malformed JSON gets a 400 JSON error.
   - Client: species, background and profession detail pages (and the profession edit form) show the NotFound page on a 404 and keep "Something went wrong." for real failures.
-- [ ] **3. Fix the 2 character tests.** They're out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500).
+- [x] **3. Fix the 2 character tests.** Updated them to expect `userId` and a 500 for a database failure.
+  - `coverage/` is in `server/.gitignore` on its own line.
+  - `deleteCharacter` now uses one `findOneAndDelete({ _id, userId })`, so the delete query enforces ownership. Tests cover the delete and the 404.
 - [ ] **4. Rate limiting** on login and signup. Set Express `trust proxy` so limits apply per visitor behind Netlify. (Live today: 6 bad logins in a row were never blocked.)
   - Requests pass through Netlify and Railway's edge, so check the real `X-Forwarded-For` chain before choosing the hop count. Too low and every visitor shares one limit. Too high and clients can fake their IP.
+  - Don't deploy the limits until `trust proxy` is set. Without it, every visitor shares one IP, and 5 failed logins from anyone lock everyone out.
+  - Limit per IP and per email, and count only failed logins, so normal logins are never blocked.
+  - Exempt the demo account from the per-email limit. Its password is public, so anyone could lock every visitor out of "Try the demo". Keep it under the per-IP limit.
+  - Show the 429 message, including how long to wait, on the login and signup pages.
 - [ ] **5. Server-side auth validation.**
   - Make emails lowercase and trimmed.
   - Make usernames unique.
@@ -72,9 +78,12 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **19. helmet.** Security headers, which also removes the `x-powered-by: Express` header.
 - [ ] **20. Schema validation for content bodies.** Editor input currently goes straight into the database.
 - [ ] **21. Server-side game rules.** `minLevel`, leveling rewards and slot limits are only checked in the client, and `requiredTraits` isn't checked anywhere.
-- [ ] **22. Database indexes and pagination.** There are none today.
+  - **Decided (2026-11-21):** validate a character save against its stored level: each power's `minLevel`, its `requiredTraits`, and power counts no higher than `powerSlots`. `level` and `powerSlots` stay editable; the server doesn't own progression yet.
+- [ ] **22. Database indexes and pagination.** Unique indexes already exist (content `name`, user `email`, the `RevokedToken` TTL).
+  - Add indexes on `Character.userId` and `ActivityLog.createdAt`.
+  - **Decided (2026-11-21):** paginate only the activity log (today a fixed `.limit(100)`) and possibly the user list. Content libraries stay unpaginated because the client filters them in memory.
 - [ ] **23. Operations.**
-  - Add a health endpoint and structured logging.
+  - Add a health endpoint and structured logging. **Decided (2026-11-21):** JSON lines through `console` for now, with no logging dependency.
   - Shut down cleanly.
   - Exit when the DB connection fails, instead of staying up without listening.
 - [ ] **24. Client tests.** Vitest + React Testing Library, plus Playwright flows for signup, building a character and an admin edit.
@@ -111,7 +120,6 @@ Check items off as they land; delete ones that become irrelevant.
 
 ## Housekeeping (not code)
 
-- [ ] Delete the stale remote branches: `Testing`, `admin-features`, `character-features`, `weapons-features`.
-- [ ] Delete the local `login` branch.
+- [x] Delete the stale branches (2026-11-15): `Testing`, `admin-features`, `weapons-features`, `login` and the merged PR branches, plus the old `login`/`Testing` stashes.
 - [ ] Rename the GitHub repo to RPGHub (then fix `cd rpghub` in the README).
 - [ ] Move the repo out of `~/Documents` so iCloud stops making copies.
