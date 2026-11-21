@@ -77,6 +77,7 @@ Check items off as they land; delete ones that become irrelevant.
   - Add tests against a real database, for example `mongodb-memory-server`.
 - [ ] **19. helmet.** Security headers, which also removes the `x-powered-by: Express` header.
 - [ ] **20. Schema validation for content bodies.** Editor input currently goes straight into the database.
+  - Validate the profile body too: a non-string field (for example `profile.name: 5`) makes `.trim()` throw in `updateMyProfile`, which answers 500 instead of 400. The client never sends one.
 - [ ] **21. Server-side game rules.** `minLevel`, leveling rewards and slot limits are only checked in the client, and `requiredTraits` isn't checked anywhere.
   - **Decided (2026-11-21):** validate a character save against its stored level: each power's `minLevel`, its `requiredTraits`, and power counts no higher than `powerSlots`. `level` and `powerSlots` stay editable; the server doesn't own progression yet.
 - [ ] **22. Database indexes and pagination.** Unique indexes already exist (content `name`, user `email`, the `RevokedToken` TTL).
@@ -91,6 +92,7 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **26. Local setup.** Docker Compose, an `npm run seed` script, and a guard that stops seeds from running against production.
 - [ ] **27. Rename the `test` database.** (You're handling this.)
 - [ ] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
+  - [x] Auth and users. Users logs signup, role changes, deletes and profile edits without the password hash; auth doesn't log logins or logouts. `userMe` stays in `auth.controller.js`, which calls `authService.getCurrentUser`.
 
 ## 4. Architecture
 

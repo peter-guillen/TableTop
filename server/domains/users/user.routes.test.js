@@ -4,11 +4,16 @@ import jwt from "jsonwebtoken";
 import app from "../../app.js";
 import User from "./user.model.js";
 import RevokedToken from "../auth/revokedToken.model.js";
+import { logAction } from "../../shared/utils/logger.js";
+
+// The activity log would wait on a database these tests don't have
+vi.mock("../../shared/utils/logger.js", () => ({ logAction: vi.fn() }));
 
 // These go through the real route and the real Mongoose validation. Only
 // User.prototype.save is replaced where a test needs the database's answer.
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.clearAllMocks();
   vi.unstubAllEnvs();
 });
 
@@ -75,6 +80,13 @@ describe("POST /api/users/register", () => {
     expect(res.body.username).toBe("someone");
     expect(res.body.role).toBe("user");
     expect(res.body.password).toBeUndefined();
+
+    // The signup is logged with the new user as the actor, without the hash
+    const logged = logAction.mock.calls.at(-1)[0];
+    expect(logged.action).toBe("Created User");
+    expect(String(logged.userId)).toBe(res.body._id);
+    expect(logged.metadata.after.username).toBe("someone");
+    expect(logged.metadata.after.password).toBeUndefined();
   });
 
   it("logs the new user in by setting the token cookie", async () => {
