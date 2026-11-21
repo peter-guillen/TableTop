@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LuDna } from "react-icons/lu";
 
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
@@ -42,12 +41,23 @@ export function SpeciesForm() {
   const [createSpecies] = useCreateSpeciesMutation();
   const [updateSpecies] = useUpdateSpeciesMutation();
 
-  const { handleInputChange, handleFieldChange, handleArrayFieldChange } =
-    useFormHandlers(setFormData);
+  // Text, select and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
-  const handleResistancesChange = handleArrayFieldChange("resistances");
-  const handleTraitsChange = handleFieldChange("traits");
+  const handleStatModifiersChange = (
+    statModifiers: Species["statModifiers"],
+  ) => setFormData((prev) => ({ ...prev, statModifiers }));
+  const handleResistancesChange = (resistances: Species["resistances"]) =>
+    setFormData((prev) => ({ ...prev, resistances }));
+  const handleTraitsChange = (traits: Species["traits"]) =>
+    setFormData((prev) => ({ ...prev, traits }));
 
   // Only trait-kind powers can be attached to a species
   const traitOptions = powers.filter(

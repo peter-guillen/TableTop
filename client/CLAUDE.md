@@ -29,7 +29,7 @@ There are no client tests. Verify changes with `npm run lint` and `npm run build
   - `pages/`: `<X>Page`, `<X>Details`, `<X>Form`
   - `components/`: form sections (`<X>BasicInfoSection`, ...), `<X>List`, `<X>Preview`
   - `<x>Types.ts` and `<x>Defaults.ts`
-- `src/shared/` holds the API base URL, constants API, `LoadingSpinner`, `useFormHandlers`, and the theme. Don't add to it without asking (see primary rule 2).
+- `src/shared/` holds the API base URL, constants API, `LoadingSpinner`, and the theme. Don't add to it without asking (see primary rule 2).
 
 ## State
 
@@ -46,7 +46,7 @@ There are no client tests. Verify changes with `npm run lint` and `npm run build
 
 ## Forms
 
-- Domain forms are split into section components that share one state object through `shared/hooks/useFormHandlers.tsx`. Follow the existing `<X>Form` + sections pattern, using `features/powers/` as the reference.
+- Domain forms are split into section components that share one `useState` object owned by the form. The form defines its change handlers inline and passes them to the sections as props. Follow the existing `<X>Form` + sections pattern, using `features/powers/` as the reference.
 
 ## Styling
 

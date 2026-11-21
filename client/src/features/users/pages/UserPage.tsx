@@ -4,7 +4,6 @@ import { LuInfo, LuMapPin, LuUser, LuUserPen } from "react-icons/lu";
 
 import { useGetCurrentUserQuery } from "../../auth/api/authApi.tsx";
 import { useUpdateMyProfileMutation } from "../api/userApi.tsx";
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { UserProfile } from "../userTypes.ts";
 import {
   formCard,
@@ -44,7 +43,15 @@ export const UserPage = () => {
   const [updateMyProfile, { isLoading: isSaving, isSuccess, isError }] =
     useUpdateMyProfileMutation();
 
-  const { handleInputChange } = useFormHandlers(setFormData);
+  // Text, select and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   // Fill the form once the current user loads; older accounts have no profile yet
   useEffect(() => {

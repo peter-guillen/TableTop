@@ -1,5 +1,5 @@
 import { LuBackpack, LuPlus, LuTrash2 } from "react-icons/lu";
-import { Armor, Profession, StartingItem } from "../professionTypes";
+import { Armor, StartingItem } from "../professionTypes";
 import { Properties, Skills } from "../../../shared/constants/constantTypes";
 import {
   formCheckTile,
@@ -26,9 +26,9 @@ interface ProfessionProficienciesProps {
   skillOptions: Skills[];
   itemOptions: ItemOption[];
 
-  onCheckedChange: (
-    fieldName: keyof Profession,
-  ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onArmorProficienciesChange: (newArmor: Armor[]) => void;
+  onWeaponProficienciesChange: (newWeapons: Properties[]) => void;
+  onSkillProficienciesChange: (newSkills: Skills[]) => void;
   onStartingItemsChange: (newItems: StartingItem[]) => void;
 }
 
@@ -41,7 +41,9 @@ export const ProfessionProficienciesSection = ({
   weaponOptions,
   skillOptions,
   itemOptions,
-  onCheckedChange,
+  onArmorProficienciesChange,
+  onWeaponProficienciesChange,
+  onSkillProficienciesChange,
   onStartingItemsChange,
 }: ProfessionProficienciesProps) => {
   const handleAddItem = () => {
@@ -84,7 +86,13 @@ export const ProfessionProficienciesSection = ({
                     type="checkbox"
                     value={armor}
                     checked={armorProficiencies.includes(armor)}
-                    onChange={onCheckedChange("armorProficiencies")}
+                    onChange={(e) =>
+                      onArmorProficienciesChange(
+                        e.target.checked
+                          ? [...armorProficiencies, armor]
+                          : armorProficiencies.filter((a) => a !== armor),
+                      )
+                    }
                     className={formCheckbox}
                   />
                   {/* Stored as snake_case, e.g. light_armor */}
@@ -110,7 +118,13 @@ export const ProfessionProficienciesSection = ({
                     type="checkbox"
                     value={weapon}
                     checked={weaponProficiencies.includes(weapon)}
-                    onChange={onCheckedChange("weaponProficiencies")}
+                    onChange={(e) =>
+                      onWeaponProficienciesChange(
+                        e.target.checked
+                          ? [...weaponProficiencies, weapon]
+                          : weaponProficiencies.filter((w) => w !== weapon),
+                      )
+                    }
                     className={formCheckbox}
                   />
                   <span className="capitalize">{weapon}</span>
@@ -135,7 +149,13 @@ export const ProfessionProficienciesSection = ({
                     type="checkbox"
                     value={skill}
                     checked={skillProficiencies.includes(skill)}
-                    onChange={onCheckedChange("skillProficiencies")}
+                    onChange={(e) =>
+                      onSkillProficienciesChange(
+                        e.target.checked
+                          ? [...skillProficiencies, skill]
+                          : skillProficiencies.filter((s) => s !== skill),
+                      )
+                    }
                     className={formCheckbox}
                   />
                   <span className="capitalize">{skill}</span>
