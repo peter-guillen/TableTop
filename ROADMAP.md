@@ -6,14 +6,15 @@ Check items off as they land; delete ones that become irrelevant.
 
 ## Baseline
 
-| Measure | 2026-11-07 | Now (2026-11-08) |
+| Measure | 2026-11-07 | Now (2026-11-21, with PR #22) |
 | --- | --- | --- |
-| Server tests | 58 passing, 2 failing | 89 passing, 0 failing |
-| Server coverage | 53% lines, 29% branches | 65% lines, 41% branches |
+| Server tests | 58 passing, 2 failing | 117 passing, 0 failing |
+| Server coverage | 53% lines, 29% branches | 70% lines, 56% branches |
 | Unauthenticated crash points | 24 | 0 (item 2, verified live) |
 | Client type errors / lint / tests | 16 / broken / 0 | 0 / clean / 0 |
 | Client JS files | 16 | 0 |
-| Client bundle | 657 KB, one file | 647 KB, one file |
+| Vulnerable packages (`npm audit`, server / client) | 15 / 15 | 2 / 2, all moderate (item 7) |
+| Client bundle | 657 KB, one file | 648 KB, one file |
 
 ## 1. Stop the bleeding: live site safe and accurate
 
@@ -34,15 +35,17 @@ Check items off as they land; delete ones that become irrelevant.
   - Limit per IP and per email, and count only failed logins, so normal logins are never blocked.
   - Exempt the demo account from the per-email limit. Its password is public, so anyone could lock every visitor out of "Try the demo". Keep it under the per-IP limit.
   - Show the 429 message, including how long to wait, on the login and signup pages.
+  - Unblocked: PR #17 fixed `proxy-addr`, so setting `trust proxy` is now safe.
 - [ ] **5. Server-side auth validation.**
   - Make emails lowercase and trimmed.
   - Make usernames unique.
   - Set password length limits, including bcrypt's 72-byte cutoff.
   - Change the login error that says "username" when login uses email.
-- [ ] **6. Startup checks.**
+- [ ] **6. Startup checks.** Do this together with item 23 in one PR.
   - Refuse to start without `JWT_SECRET` and `PEPPER`.
   - Load `.env` before `app.js` runs. Today `app.js` reads `CLIENT_URL` before `dotenv.config()`, because ESM imports load first.
-- [ ] **7. Dependency vulnerabilities.** `npm audit --omit=dev`: server 1 critical, 1 high and 1 moderate, all in Express's dependencies; client 2 moderate. Counting dev dependencies, GitHub's Dependabot lists 31 (1 critical, 7 high, 21 moderate, 2 low); work from that list.
+- [x] **7. Dependency vulnerabilities.** Fixed in PR #17 (2026-11-21): `npm audit` went from 15 vulnerable packages to 2 moderate in both the server and the client, with every critical and high alert fixed. Raised floors: mongoose `^9.12.3`, vitest / `@vitest/ui` / `@vitest/coverage-v8` `^4.1.12`, vite `^7.3.8`, react-router-dom `^6.30.6`. The server has 0 production vulnerabilities.
+  - Left open: react-router's open-redirect advisory covers all of 6.x and is fixed only in v7 (item 38). nodemon's minimatch advisory has no fix yet (see Housekeeping).
 - [x] **8. Client type check.** Fixed the 16 type errors, then made `npm run build` run `tsc --noEmit` first. Along the way, `/api/constants` now sends `DAMAGE_TYPES`, `RARITY`, `QUALITY`, `MATERIALS` and `PROPERTIES` as arrays (the client called `.map` on them as objects), and the duplicate game types were merged into `constantTypes.ts` (shared) or the one domain that uses them.
 - [x] **9. Lint.** `eslint.config.js` (flat config, `typescript-eslint`) lints `.js`, `.jsx`, `.ts` and `.tsx` with 0 errors and 0 warnings. `react/prop-types` is off (TypeScript checks props), and `react/no-unescaped-entities` only forbids `>` and `}`.
 - [ ] **10. CI.** GitHub Actions running lint, the type check, server tests and the build, plus a status badge. Add client tests to CI once item 24 exists.
@@ -63,6 +66,7 @@ Check items off as they land; delete ones that become irrelevant.
   - Return users to the page they wanted after login.
   - Redirect logged-in users away from the login and signup pages.
 - [ ] **13. `ProtectedRoute`.** Stop treating server errors as "logged out".
+  - [ ] Still to do: only a 401 from `/me` means logged out. Today any failed `/me` (a 5xx or a network error) sends the visitor to `/login`; show the error instead.
   - [x] It no longer remounts the page on background refetches: it shows the spinner only while there's no user yet (done with item 29, which refetches the current user more often).
 - [x] **14. Expired sessions.** Fixed by item 29: a 401 on any request while a user is cached clears the whole cache, so the current user and private data are dropped and `ProtectedRoute` sends the visitor to `/login`.
 - [ ] **15. Password change.** Bump `tokenVersion` to log out the user's other devices.
@@ -72,11 +76,13 @@ Check items off as they land; delete ones that become irrelevant.
 ## 3. Engineering signals: tests, hardening, operations
 
 - [ ] **18. Server tests.**
-  - Add controller tests for articles, backgrounds, professions, species and users.
-  - Raise branch coverage above 29%.
+  - Add controller tests for articles, backgrounds, professions and species, each together with its item 28 move rather than before. Users got controller tests in PR #22.
+  - Branch coverage is 56% (from 29%). Keep raising it.
   - Add tests against a real database, for example `mongodb-memory-server`.
 - [ ] **19. helmet.** Security headers, which also removes the `x-powered-by: Express` header.
 - [ ] **20. Schema validation for content bodies.** Editor input currently goes straight into the database.
+  - Profession grant rules are only a comment in `profession.model.js` (the planned `pre('validate')`); nothing enforces them. The client form blocks incomplete grants until then.
+  - Article fields aren't required in the schema.
   - Validate the profile body too: a non-string field (for example `profile.name: 5`) makes `.trim()` throw in `updateMyProfile`, which answers 500 instead of 400. The client never sends one.
 - [ ] **21. Server-side game rules.** `minLevel`, leveling rewards and slot limits are only checked in the client, and `requiredTraits` isn't checked anywhere.
   - **Decided (2026-11-21):** validate a character save against its stored level: each power's `minLevel`, its `requiredTraits`, and power counts no higher than `powerSlots`. `level` and `powerSlots` stay editable; the server doesn't own progression yet.
@@ -88,11 +94,14 @@ Check items off as they land; delete ones that become irrelevant.
   - Shut down cleanly.
   - Exit when the DB connection fails, instead of staying up without listening.
 - [ ] **24. Client tests.** Vitest + React Testing Library, plus Playwright flows for signup, building a character and an admin edit.
-- [ ] **25. Client resilience.** Route error boundaries, plus code splitting to shrink the 657 KB bundle.
+  - Can start now (item 29 has merged). Add permission tests once item 30 lands. The throwaway browser scripts used to check items 29 and 31 are kept outside the repo as a reference.
+- [ ] **25. Client resilience.** Route error boundaries, plus code splitting to shrink the 648 KB bundle. Error states can use `ErrorMessage` from item 31.
 - [ ] **26. Local setup.** Docker Compose, an `npm run seed` script, and a guard that stops seeds from running against production.
 - [ ] **27. Rename the `test` database.** (You're handling this.)
 - [ ] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
   - [x] Auth and users. Users logs signup, role changes, deletes and profile edits without the password hash; auth doesn't log logins or logouts. `userMe` stays in `auth.controller.js`, which calls `authService.getCurrentUser`.
+  - [ ] Still to do, one PR each: articles, backgrounds, species, professions, characters. The first four update with `findByIdAndUpdate` without `runValidators` or `new: true`, so enums go unchecked on update and the response is the old record. The service move fixes both.
+  - [ ] The power and item read controllers answer 400 for every error. Answer 500 for server failures, as `getUserById` now does.
 
 ## 4. Architecture
 
@@ -102,12 +111,15 @@ Check items off as they land; delete ones that become irrelevant.
 
 - [x] **29. One RTK Query API** instead of 12. `shared/api/baseApi.ts` holds the setup (relative URL, `credentials: "include"`, one `tagTypes` list, the 401 handler). Every domain, plus constants and the admin activity log (previously a raw `fetch`), adds its endpoints with `injectEndpoints`; hook names didn't change. Logout is one `resetApiState()`. `userApi`'s `onQueryStarted` workarounds became plain `"Auth"` tag invalidations. Fixes item 14.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
+  - Built on the local branch `arch/permissions` (2026-11-21), not pushed yet. Before its PR: push it only after PR #22 merges (it's built on that branch), rebase onto `main`, and run a browser test.
+  - What it does: `/me` adds the user's permissions from `server/shared/constants/permissions.js`; `/admin` needs `content:delete`; the login response is unchanged. Role names stay only in the admin role dropdown and the dashboard's counts by role.
 - [x] **31. Shared UI, kept small.** `shared/components/` now has `LoadingSpinner` (a real spinner with `role="status"`), `ErrorMessage`, `EmptyState`, `SearchInput`, `FilterDropdown` and `FilterCheckboxGroup`. They replace the hand-written versions in the item, species, background and power lists (17 checkbox groups, 4 click-outside effects) and the loading/error lines in the detail pages, forms, admin and character pages. `ArticleList` no longer spins forever when there are no articles. No generic list, form or detail component; those stay per domain. Inline messages inside form sections and character tabs were left as they are.
 - [x] **32. TypeScript.** The client is fully TypeScript (PR #12). The server stays JavaScript (decided 2026-11-21); the README claim comes out in item 11. Client follow-ups, done:
   - Removed the `as unknown as string` cast in `PowerPreview.tsx`. The type was already right: the server stores a power's `conditions[].condition` as an ObjectId and doesn't populate it, and `powerTypes.ts` types it as `string`.
   - Turned off `allowJs` in `client/tsconfig.json` and dropped `.js`/`.jsx` from `include`.
   - Raised `lib` to ES2022, so `UserPage.tsx` calls `Intl.supportedValuesOf` without a cast.
   - [x] **Client: all 16 JS files converted** (no `.js`/`.jsx` left in `client/src`). The profession form, its sections and the profession card were rebuilt against the model: `name`, stat modifiers, armor/weapon/skill proficiencies from `/api/constants` (which now sends `ARMOR`), starting items, and a level 1 to `MAX_LEVEL` `levelRewards` editor. The form blocks saving incomplete grants until item 21 checks them on the server. Details and edit fetch one profession by id.
+- [ ] **38. Upgrade to React Router 7** (added 2026-11-21). It fixes the open-redirect advisory left from item 7. Do it after item 30, because both change the route guards. The real risk today is low: it needs navigation to a user-controlled URL.
 
 ## 5. Polish
 
@@ -125,3 +137,4 @@ Check items off as they land; delete ones that become irrelevant.
 - [x] Delete the stale branches (2026-11-15): `Testing`, `admin-features`, `weapons-features`, `login` and the merged PR branches, plus the old `login`/`Testing` stashes.
 - [ ] Rename the GitHub repo to RPGHub (then fix `cd rpghub` in the README).
 - [ ] Move the repo out of `~/Documents` so iCloud stops making copies.
+- [ ] Recheck nodemon when it updates: 3.1.14 (the latest) pulls in minimatch 10, which has a DoS advisory fixed in 11.0.1+. It's dev-only and reads only local config, so no override was forced.
