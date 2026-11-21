@@ -28,6 +28,8 @@ import {
   inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export function ProfessionForm() {
   const [formData, setFormData] = useState<Profession>(
@@ -98,8 +100,7 @@ export function ProfessionForm() {
     reward.grants.some(
       (grant) =>
         (grant.type === "auto" && !grant.trait) ||
-        (grant.type === "professionChoice" &&
-          (grant.options?.length ?? 0) < 2),
+        (grant.type === "professionChoice" && (grant.options?.length ?? 0) < 2),
     ),
   );
 
@@ -139,11 +140,11 @@ export function ProfessionForm() {
     }
   }, [isEditing, profession]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner />;
   // Editing a profession that doesn't exist (or a malformed id) is a 404
   const isNotFound = error && "status" in error && error.status === 404;
   if (isNotFound) return <NotFound />;
-  if (isError) return <p>Something went wrong.</p>;
+  if (isError) return <ErrorMessage />;
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">

@@ -1,6 +1,7 @@
 import { ProfessionPreview } from "./ProfessionPreview";
 import { LoadingSpinner } from "../../../shared/components/LoadingSpinner";
 import { useGetAllProfessionsQuery } from "../api/professionApi";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
 
 export const ProfessionList = () => {
   const {
@@ -14,7 +15,7 @@ export const ProfessionList = () => {
   }
 
   if (isError) {
-    return <div className="text-red-500">Error fetching professions</div>;
+    return <ErrorMessage message="Error fetching professions" />;
   }
 
   return (

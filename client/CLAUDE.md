@@ -29,7 +29,8 @@ There are no client tests. Verify changes with `npm run lint` and `npm run build
   - `pages/`: `<X>Page`, `<X>Details`, `<X>Form`
   - `components/`: form sections (`<X>BasicInfoSection`, ...), `<X>List`, `<X>Preview`
   - `<x>Types.ts` and `<x>Defaults.ts`
-- `src/shared/` holds the base API (`shared/api/baseApi.ts`), constants API, `LoadingSpinner`, and the theme. Don't add to it without asking (see primary rule 2).
+- `src/shared/` holds the base API (`shared/api/baseApi.ts`), constants API, the theme, and the shared presentational components in `shared/components/`. Don't add to it without asking (see primary rule 2).
+- **Use the shared components instead of writing these by hand:** `LoadingSpinner` and `ErrorMessage` (optional `message`) for a page or list that's loading or failed, `EmptyState` for "nothing here", and in list pages `SearchInput`, `FilterDropdown` (the Filter button, count badge, Clear and popover) and `FilterCheckboxGroup` (one titled list of checkboxes). They only render. The list keeps its own filter state, the options to show and the filtering logic. A missing record still shows `NotFound`. There is no shared list, form or detail component: those stay written out per domain.
 
 ## State
 

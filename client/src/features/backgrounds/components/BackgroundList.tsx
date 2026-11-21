@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { LuSearch, LuFilter, LuX } from "react-icons/lu";
+import { useState } from "react";
 
 import { useGetAllBackgroundsQuery } from "../api/backgroundApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
@@ -7,6 +6,12 @@ import { useGetAllItemsQuery } from "../../items/api/itemApi";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import { BackgroundPreview } from "./BackgroundPreview";
+import { EmptyState } from "../../../shared/components/EmptyState.tsx";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { FilterCheckboxGroup } from "../../../shared/components/FilterCheckboxGroup.tsx";
+import { FilterDropdown } from "../../../shared/components/FilterDropdown.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
+import { SearchInput } from "../../../shared/components/SearchInput.tsx";
 
 export const BackgroundList = () => {
   const { data: backgrounds, isLoading, isError } = useGetAllBackgroundsQuery();
@@ -28,29 +33,12 @@ export const BackgroundList = () => {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedStats, setSelectedStats] = useState<string[]>([]);
 
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const filterRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
-        setIsFilterOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong</p>;
-  if (loadingPowers) return <p>Loading...</p>;
-  if (errorPowers) return <p>Something went wrong</p>;
-  if (loadingItems) return <p>Loading...</p>;
-  if (errorItems) return <p>Something went wrong</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
+  if (loadingPowers) return <LoadingSpinner />;
+  if (errorPowers) return <ErrorMessage />;
+  if (loadingItems) return <LoadingSpinner />;
+  if (errorItems) return <ErrorMessage />;
 
   const powersById = Object.fromEntries(powers.map((p) => [p._id, p]));
   const itemsById = Object.fromEntries(items.map((i) => [i._id, i]));
@@ -101,112 +89,33 @@ export const BackgroundList = () => {
           <div className="w-full max-w-7xl">
             {/* Search + Filter Bar */}
             <div className="flex items-start gap-3 mb-6">
-              <div className="relative flex-1">
-                <LuSearch
-                  size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"
+              <SearchInput
+                value={searchText}
+                onChange={setSearchText}
+                placeholder="Search backgrounds..."
+              />
+
+              <FilterDropdown
+                activeCount={activeFilterCount}
+                onClear={() => {
+                  setSelectedSkills([]);
+                  setSelectedStats([]);
+                }}
+              >
+                <FilterCheckboxGroup
+                  label="Skills"
+                  options={Object.values(constants?.SKILLS ?? {})}
+                  selected={selectedSkills}
+                  onChange={setSelectedSkills}
                 />
-                <input
-                  type="text"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  placeholder="Search backgrounds..."
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-white placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400"
+
+                <FilterCheckboxGroup
+                  label="Boosts"
+                  options={Object.values(constants?.STATS ?? {})}
+                  selected={selectedStats}
+                  onChange={setSelectedStats}
                 />
-              </div>
-
-              <div className="relative" ref={filterRef}>
-                <button
-                  onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-                >
-                  <LuFilter size={18} />
-                  <span>Filter</span>
-                  {activeFilterCount > 0 && (
-                    <span className="flex items-center justify-center w-5 h-5 text-xs font-semibold rounded-full bg-emerald-700 text-white dark:bg-emerald-500 dark:text-stone-950">
-                      {activeFilterCount}
-                    </span>
-                  )}
-                </button>
-
-                {isFilterOpen && (
-                  <div className="absolute right-0 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl p-4 z-10 max-h-96 overflow-y-auto">
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-sm font-semibold text-stone-900 dark:text-white">
-                        Filters
-                      </p>
-                      {activeFilterCount > 0 && (
-                        <button
-                          onClick={() => {
-                            setSelectedSkills([]);
-                            setSelectedStats([]);
-                          }}
-                          className="flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
-                        >
-                          <LuX size={12} />
-                          Clear
-                        </button>
-                      )}
-                    </div>
-
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
-                      Skills
-                    </p>
-                    <div className="flex flex-col gap-1 max-h-32 overflow-y-auto mb-4">
-                      {Object.values(constants?.SKILLS ?? {}).map((skill) => (
-                        <label
-                          key={skill}
-                          className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
-                        >
-                          <input
-                            type="checkbox"
-                            className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
-                            checked={selectedSkills.includes(skill)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedSkills((prev) => [...prev, skill]);
-                              } else {
-                                setSelectedSkills((prev) =>
-                                  prev.filter((s) => s !== skill),
-                                );
-                              }
-                            }}
-                          />
-                          {skill}
-                        </label>
-                      ))}
-                    </div>
-
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
-                      Boosts
-                    </p>
-                    <div className="flex flex-col gap-1 max-h-32 overflow-y-auto">
-                      {Object.values(constants?.STATS ?? {}).map((stat) => (
-                        <label
-                          key={stat}
-                          className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
-                        >
-                          <input
-                            type="checkbox"
-                            className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
-                            checked={selectedStats.includes(stat)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedStats((prev) => [...prev, stat]);
-                              } else {
-                                setSelectedStats((prev) =>
-                                  prev.filter((s) => s !== stat),
-                                );
-                              }
-                            }}
-                          />
-                          {stat}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+              </FilterDropdown>
             </div>
 
             {filteredBackgrounds.length > 0 ? (
@@ -216,9 +125,7 @@ export const BackgroundList = () => {
                 itemsById={itemsById}
               />
             ) : (
-              <p className="text-center text-stone-500 dark:text-stone-400 mt-8">
-                No backgrounds match your search.
-              </p>
+              <EmptyState message="No backgrounds match your search." />
             )}
           </div>
         </div>

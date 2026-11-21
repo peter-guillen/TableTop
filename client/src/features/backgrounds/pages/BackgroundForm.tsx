@@ -26,6 +26,8 @@ import {
   ghostButton,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export function BackgroundForm() {
   const [formData, setFormData] = useState<Background>(
@@ -96,8 +98,8 @@ export function BackgroundForm() {
     }
   }, [isEditing, background]);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">

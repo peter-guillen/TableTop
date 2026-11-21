@@ -6,17 +6,20 @@ import { useGetAllCharactersQuery } from "../api/characterApi.tsx";
 import { useGetAllSpeciesQuery } from "../../species/api/speciesApi";
 import { useGetAllBackgroundsQuery } from "../../backgrounds/api/backgroundApi";
 import { useGetAllProfessionsQuery } from "../../professions/api/professionApi";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
 
 export const CharacterList = () => {
-  const { data: characters = [], isLoading, isError } =
-    useGetAllCharactersQuery();
+  const {
+    data: characters = [],
+    isLoading,
+    isError,
+  } = useGetAllCharactersQuery();
   const { data: species = [] } = useGetAllSpeciesQuery();
   const { data: backgrounds = [] } = useGetAllBackgroundsQuery();
   const { data: professions = [] } = useGetAllProfessionsQuery();
 
   if (isLoading) return <LoadingSpinner />;
-  if (isError)
-    return <div className="text-red-500">Error fetching characters</div>;
+  if (isError) return <ErrorMessage message="Error fetching characters" />;
 
   // Most recently touched first, so the character in play is at the top
   const sorted = [...characters].sort(
@@ -54,8 +57,8 @@ export const CharacterList = () => {
               No characters yet
             </p>
             <p className="text-sm text-stone-500 dark:text-stone-400 mb-6">
-              Pick a species, a background and a path, and your first hero
-              is ready.
+              Pick a species, a background and a path, and your first hero is
+              ready.
             </p>
             <Link
               to="/characters/create"

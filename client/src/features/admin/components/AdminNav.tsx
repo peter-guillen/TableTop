@@ -41,6 +41,8 @@ import {
   LuDrama,
   LuAnvil,
 } from "react-icons/lu";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export const AdminNav = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -135,7 +137,7 @@ export const AdminNav = () => {
     speciesLoading ||
     backgroundLoading
   ) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (
@@ -147,7 +149,7 @@ export const AdminNav = () => {
     speciesError ||
     backgroundError
   ) {
-    return <p>Something went wrong while fetching data.</p>;
+    return <ErrorMessage message="Something went wrong while fetching data." />;
   }
 
   // Sidebar items

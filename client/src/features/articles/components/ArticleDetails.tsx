@@ -17,19 +17,21 @@ import {
   line,
   surface,
 } from "../../../shared/styles/theme.ts";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export const ArticleDetails = () => {
   const { id } = useParams();
-  const { data: article, isLoading, isError } = useGetArticleByIdQuery(
-    id ?? "",
-    { skip: !id },
-  );
+  const {
+    data: article,
+    isLoading,
+    isError,
+  } = useGetArticleByIdQuery(id ?? "", { skip: !id });
   const { data: currentUser } = useGetCurrentUserQuery();
   const canEdit = ["admin", "moderator", "editor"].includes(
     currentUser?.role ?? "",
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError || !article) {
     return <NotFound />;
   }

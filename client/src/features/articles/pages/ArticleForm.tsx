@@ -18,6 +18,8 @@ import {
   ghostButton,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export function ArticleForm() {
   const [formData, setFormData] = useState<ArticleFormData>({
@@ -73,8 +75,8 @@ export function ArticleForm() {
     navigate("/articles");
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
 
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-stone-950 p-6">
@@ -105,9 +107,7 @@ export function ArticleForm() {
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className={`${formLabel} mb-2`}>
-                      Title
-                    </label>
+                    <label className={`${formLabel} mb-2`}>Title</label>
                     <input
                       type="text"
                       name="title"
@@ -119,9 +119,7 @@ export function ArticleForm() {
                   </div>
 
                   <div>
-                    <label className={`${formLabel} mb-2`}>
-                      Synopsis
-                    </label>
+                    <label className={`${formLabel} mb-2`}>Synopsis</label>
                     <textarea
                       rows={2}
                       name="synopsis"
@@ -133,9 +131,7 @@ export function ArticleForm() {
                   </div>
 
                   <div>
-                    <label className={`${formLabel} mb-2`}>
-                      Description
-                    </label>
+                    <label className={`${formLabel} mb-2`}>Description</label>
                     <textarea
                       rows={6}
                       name="body"
@@ -157,10 +153,7 @@ export function ArticleForm() {
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className={`${primaryButton} px-8 py-3`}
-            >
+            <button type="submit" className={`${primaryButton} px-8 py-3`}>
               {isEditing ? "Update Article" : "Create Article"}
             </button>
           </div>
