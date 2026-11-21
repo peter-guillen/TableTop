@@ -1,5 +1,5 @@
 import { LuBackpack, LuPlus, LuTrash2 } from "react-icons/lu";
-import { Background, StartingItem } from "../backgroundTypes";
+import { StartingItem } from "../backgroundTypes";
 import { Skills } from "../../../shared/constants/constantTypes";
 import {
   formCheckTile,
@@ -22,9 +22,7 @@ interface BackgroundProficienciesProps {
   startingItems: StartingItem[];
   itemOptions: ItemOption[];
 
-  onCheckedChange: (
-    fieldName: keyof Background,
-  ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSkillProficienciesChange: (newSkills: Skills[]) => void;
   onStartingItemsChange: (newItems: StartingItem[]) => void;
 }
 
@@ -33,7 +31,7 @@ export const BackgroundProficienciesSection = ({
   skillOptions,
   startingItems,
   itemOptions,
-  onCheckedChange,
+  onSkillProficienciesChange,
   onStartingItemsChange,
 }: BackgroundProficienciesProps) => {
   const handleAddItem = () => {
@@ -74,7 +72,13 @@ export const BackgroundProficienciesSection = ({
                     type="checkbox"
                     value={skill}
                     checked={skillProficiencies.includes(skill)}
-                    onChange={onCheckedChange("skillProficiencies")}
+                    onChange={(e) =>
+                      onSkillProficienciesChange(
+                        e.target.checked
+                          ? [...skillProficiencies, skill]
+                          : skillProficiencies.filter((s) => s !== skill),
+                      )
+                    }
                     className={formCheckbox}
                   />
                   <span className="capitalize">{skill}</span>

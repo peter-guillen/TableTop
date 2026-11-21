@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
@@ -50,15 +49,34 @@ export function ProfessionForm() {
   const [createProfession] = useCreateProfessionMutation();
   const [updateProfession] = useUpdateProfessionMutation();
 
-  const {
-    handleInputChange,
-    handleCheckedChange,
-    handleArrayFieldChange,
-  } = useFormHandlers(setFormData);
+  // Text, select and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
-  const handleStartingItemsChange = handleArrayFieldChange("startingItems");
-  const handleLevelRewardsChange = handleArrayFieldChange("levelRewards");
+  const handleArmorProficienciesChange = (
+    armorProficiencies: Profession["armorProficiencies"],
+  ) => setFormData((prev) => ({ ...prev, armorProficiencies }));
+  const handleWeaponProficienciesChange = (
+    weaponProficiencies: Profession["weaponProficiencies"],
+  ) => setFormData((prev) => ({ ...prev, weaponProficiencies }));
+  const handleSkillProficienciesChange = (
+    skillProficiencies: Profession["skillProficiencies"],
+  ) => setFormData((prev) => ({ ...prev, skillProficiencies }));
+  const handleStatModifiersChange = (
+    statModifiers: Profession["statModifiers"],
+  ) => setFormData((prev) => ({ ...prev, statModifiers }));
+  const handleStartingItemsChange = (
+    startingItems: Profession["startingItems"],
+  ) => setFormData((prev) => ({ ...prev, startingItems }));
+  const handleLevelRewardsChange = (
+    levelRewards: Profession["levelRewards"],
+  ) => setFormData((prev) => ({ ...prev, levelRewards }));
 
   // Level grants can hand out spells, abilities and traits
   // (techniques come from weapons, so they're left out)
@@ -173,7 +191,9 @@ export function ProfessionForm() {
                 weaponOptions={constants?.PROPERTIES ?? []}
                 skillOptions={Object.values(constants?.SKILLS ?? {})}
                 itemOptions={itemOptions}
-                onCheckedChange={handleCheckedChange}
+                onArmorProficienciesChange={handleArmorProficienciesChange}
+                onWeaponProficienciesChange={handleWeaponProficienciesChange}
+                onSkillProficienciesChange={handleSkillProficienciesChange}
                 onStartingItemsChange={handleStartingItemsChange}
               />
 

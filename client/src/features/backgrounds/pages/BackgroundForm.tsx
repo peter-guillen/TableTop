@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LuScroll } from "react-icons/lu";
 
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
@@ -47,16 +46,27 @@ export function BackgroundForm() {
   const [createBackground] = useCreateBackgroundMutation();
   const [updateBackground] = useUpdateBackgroundMutation();
 
-  const {
-    handleInputChange,
-    handleFieldChange,
-    handleCheckedChange,
-    handleArrayFieldChange,
-  } = useFormHandlers(setFormData);
+  // Text, select and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
-  const handleStartingItemsChange = handleArrayFieldChange("startingItems");
-  const handleTraitsChange = handleFieldChange("traits");
+  const handleSkillProficienciesChange = (
+    skillProficiencies: Background["skillProficiencies"],
+  ) => setFormData((prev) => ({ ...prev, skillProficiencies }));
+  const handleStatModifiersChange = (
+    statModifiers: Background["statModifiers"],
+  ) => setFormData((prev) => ({ ...prev, statModifiers }));
+  const handleStartingItemsChange = (
+    startingItems: Background["startingItems"],
+  ) => setFormData((prev) => ({ ...prev, startingItems }));
+  const handleTraitsChange = (traits: Background["traits"]) =>
+    setFormData((prev) => ({ ...prev, traits }));
 
   // Only trait-kind powers can be attached to a background
   const traitOptions = powers.filter(
@@ -131,7 +141,7 @@ export function BackgroundForm() {
                 skillOptions={Object.values(constants?.SKILLS ?? {})}
                 startingItems={formData.startingItems}
                 itemOptions={itemOptions}
-                onCheckedChange={handleCheckedChange}
+                onSkillProficienciesChange={handleSkillProficienciesChange}
                 onStartingItemsChange={handleStartingItemsChange}
               />
 

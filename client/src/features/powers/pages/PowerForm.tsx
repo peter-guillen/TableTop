@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
@@ -44,21 +43,52 @@ export function PowerForm() {
   const [createPower] = useCreatePowerMutation();
   const [updatePower] = useUpdatePowerMutation();
 
-  const {
-    handleInputChange,
-    handleFieldChange,
-    handleArrayFieldChange,
-    handleObjectFieldChange,
-  } = useFormHandlers(setFormData);
+  // Text, select and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleHealthChange = handleArrayFieldChange("healthEffects");
-  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
-  const handleConditionsChange = handleArrayFieldChange("conditions");
-  const handleTargetingChange = handleObjectFieldChange("targeting");
-  const handleActivationChange = handleObjectFieldChange("activation");
-  const handleRequirementsChange = handleObjectFieldChange("requirements");
-  const handleRechargeChange = handleFieldChange("recharge");
-  const handleGrantedPowersChange = handleFieldChange("grantedPowers");
+  const handleHealthChange = (healthEffects: Power["healthEffects"]) =>
+    setFormData((prev) => ({ ...prev, healthEffects }));
+  const handleStatModifiersChange = (statModifiers: Power["statModifiers"]) =>
+    setFormData((prev) => ({ ...prev, statModifiers }));
+  const handleConditionsChange = (conditions: Power["conditions"]) =>
+    setFormData((prev) => ({ ...prev, conditions }));
+  const handleRechargeChange = (recharge: Power["recharge"]) =>
+    setFormData((prev) => ({ ...prev, recharge }));
+  const handleGrantedPowersChange = (grantedPowers: Power["grantedPowers"]) =>
+    setFormData((prev) => ({ ...prev, grantedPowers }));
+
+  // Nested objects: one handler updates any field on that object
+  const handleTargetingChange = <K extends keyof Power["targeting"]>(
+    field: K,
+    value: Power["targeting"][K],
+  ) =>
+    setFormData((prev) => ({
+      ...prev,
+      targeting: { ...prev.targeting, [field]: value },
+    }));
+  const handleActivationChange = <K extends keyof Power["activation"]>(
+    field: K,
+    value: Power["activation"][K],
+  ) =>
+    setFormData((prev) => ({
+      ...prev,
+      activation: { ...prev.activation, [field]: value },
+    }));
+  const handleRequirementsChange = <K extends keyof Power["requirements"]>(
+    field: K,
+    value: Power["requirements"][K],
+  ) =>
+    setFormData((prev) => ({
+      ...prev,
+      requirements: { ...prev.requirements, [field]: value },
+    }));
 
   // Exclude this power itself from pickers that reference other powers —
   // a trait can't require or grant itself

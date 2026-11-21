@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { LuTarget, LuSparkles } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
-
 import {
   useGetArticleByIdQuery,
   useCreateArticleMutation,
@@ -47,7 +45,15 @@ export function ArticleForm() {
   const [createArticle] = useCreateArticleMutation();
   const [updateArticle] = useUpdateArticleMutation();
 
-  const { handleInputChange } = useFormHandlers(setFormData);
+  // Text and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   useEffect(() => {
     if (isEditing && article) {

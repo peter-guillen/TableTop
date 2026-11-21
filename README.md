@@ -22,7 +22,7 @@ Most "TTRPG database" projects stop at models and endpoints. RPGHub is built aro
 **Testing:** Vitest (backend unit/integration tests for services, controllers, and middleware)
 **Deployment:** MongoDB Atlas · Netlify (frontend) · Railway (backend)
 
-> **TypeScript migration:** Actively in progress across both frontend and backend, module by module (currently converted: shared hooks like `useFormHandlers` with generics, several form and admin components). The project intentionally started in JavaScript and is migrating incrementally rather than as a rewrite, to keep the app shippable throughout.
+> **TypeScript migration:** Actively in progress across both frontend and backend, module by module (currently converted: several form and admin components). The project intentionally started in JavaScript and is migrating incrementally rather than as a rewrite, to keep the app shippable throughout.
 
 ## Features
 

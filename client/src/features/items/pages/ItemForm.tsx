@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 
-import { useFormHandlers } from "../../../shared/hooks/useFormHandlers.tsx";
 import { useGetConstantsQuery } from "../../../shared/constants/api/constantsApi.ts";
 
 import {
@@ -48,23 +47,44 @@ export function ItemForm() {
   const [createItem] = useCreateItemMutation();
   const [updateItem] = useUpdateItemMutation();
 
-  const {
-    handleInputChange,
-    handleFieldChange,
-    handleArrayFieldChange,
-    handleObjectFieldChange,
-  } = useFormHandlers(setFormData);
+  // Text, select and textarea inputs: the input's name is the formData key
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleHealthChange = handleArrayFieldChange("healthEffects");
-  const handleStatModifiersChange = handleArrayFieldChange("statModifiers");
-  const handleResistancesChange = handleArrayFieldChange("resistances");
-  const handlePropertiesChange = handleArrayFieldChange("properties");
-  const handleQualityChange = handleArrayFieldChange("quality");
-  const handleMaterialsChange = handleArrayFieldChange("materials");
-  const handleGrantedPowersChange = handleArrayFieldChange("grantedPowers");
-  const handleUniqueSkillsChange = handleArrayFieldChange("uniqueSkills");
-  const handleSelfChargesChange = handleObjectFieldChange("selfCharges");
-  const handleValueChange = handleFieldChange("value");
+  const handleHealthChange = (healthEffects: Item["healthEffects"]) =>
+    setFormData((prev) => ({ ...prev, healthEffects }));
+  const handleStatModifiersChange = (statModifiers: Item["statModifiers"]) =>
+    setFormData((prev) => ({ ...prev, statModifiers }));
+  const handleResistancesChange = (resistances: Item["resistances"]) =>
+    setFormData((prev) => ({ ...prev, resistances }));
+  const handlePropertiesChange = (properties: Item["properties"]) =>
+    setFormData((prev) => ({ ...prev, properties }));
+  const handleQualityChange = (quality: Item["quality"]) =>
+    setFormData((prev) => ({ ...prev, quality }));
+  const handleMaterialsChange = (materials: Item["materials"]) =>
+    setFormData((prev) => ({ ...prev, materials }));
+  const handleGrantedPowersChange = (grantedPowers: Item["grantedPowers"]) =>
+    setFormData((prev) => ({ ...prev, grantedPowers }));
+  const handleUniqueSkillsChange = (uniqueSkills: Item["uniqueSkills"]) =>
+    setFormData((prev) => ({ ...prev, uniqueSkills }));
+  const handleValueChange = (value: Item["value"]) =>
+    setFormData((prev) => ({ ...prev, value }));
+
+  // Nested object: one handler updates any field on selfCharges
+  const handleSelfChargesChange = <K extends keyof Item["selfCharges"]>(
+    field: K,
+    value: Item["selfCharges"][K],
+  ) =>
+    setFormData((prev) => ({
+      ...prev,
+      selfCharges: { ...prev.selfCharges, [field]: value },
+    }));
 
   const handleCancel = () => navigate(-1);
 
