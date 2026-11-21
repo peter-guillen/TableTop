@@ -85,14 +85,16 @@ Check items off as they land; delete ones that become irrelevant.
 ## 4. Architecture
 
 > **Decided (2026-11-08):** items 29–31 are allowed under the shared-infrastructure exception to primary rule 2. Share only the setup and policy (API base, 401 handling, permissions, small UI pieces). Endpoints, services and domain logic stay written out per domain.
+>
+> **Decided (2026-11-21):** logout and expired sessions clear the whole RTK Query cache (`resetApiState()`), public library caches included. Tag types are one list on the base API. Permissions are `content:edit`, `content:delete`, `activity:view`, `characters:play` and `users:manage`, checked by the existing `checkAuthorization` middleware. The server stays JavaScript.
 
 - [ ] **29. One RTK Query API** instead of 11, with each domain adding its endpoints through `injectEndpoints`. This brings one 401 handler, a one-call logout reset and tags that work across domains. Fixes item 14.
 - [ ] **30. Central roles.** Replace the 60 hardcoded role arrays with permissions returned from `/me`.
 - [ ] **31. Shared UI, kept small.** Only presentational pieces that repeat unchanged, such as loading, error and empty states, a search input and a filter dropdown. No generic list, form or detail component; those stay per domain.
-- [ ] **32. TypeScript.** The client is fully TypeScript (PR #12). Convert the server only if you keep that README claim. Client follow-ups:
-  - `PowerPreview.tsx` casts `powerCondition.condition as unknown as string`. The power type and the API disagree about whether a condition is an id or an object; fix the type instead of casting.
-  - Turn off `allowJs` in `client/tsconfig.json` now that no JS files remain.
-  - Raise `lib` to ES2022 so `UserPage.tsx` doesn't need to cast `Intl` for `supportedValuesOf`.
+- [x] **32. TypeScript.** The client is fully TypeScript (PR #12). The server stays JavaScript (decided 2026-11-21); the README claim comes out in item 11. Client follow-ups, done:
+  - Removed the `as unknown as string` cast in `PowerPreview.tsx`. The type was already right: the server stores a power's `conditions[].condition` as an ObjectId and doesn't populate it, and `powerTypes.ts` types it as `string`.
+  - Turned off `allowJs` in `client/tsconfig.json` and dropped `.js`/`.jsx` from `include`.
+  - Raised `lib` to ES2022, so `UserPage.tsx` calls `Intl.supportedValuesOf` without a cast.
   - [x] **Client: all 16 JS files converted** (no `.js`/`.jsx` left in `client/src`). The profession form, its sections and the profession card were rebuilt against the model: `name`, stat modifiers, armor/weapon/skill proficiencies from `/api/constants` (which now sends `ARMOR`), starting items, and a level 1 to `MAX_LEVEL` `levelRewards` editor. The form blocks saving incomplete grants until item 21 checks them on the server. Details and edit fetch one profession by id.
 
 ## 5. Polish

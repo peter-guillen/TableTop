@@ -22,11 +22,7 @@ import {
   surface,
 } from "../../../shared/styles/theme.ts";
 
-// Intl.supportedValuesOf works in every modern browser, but it isn't in the
-// ES2021 types this project targets, so it needs a type cast here
-const timeZones = (
-  Intl as unknown as { supportedValuesOf: (key: string) => string[] }
-).supportedValuesOf("timeZone");
+const timeZones = Intl.supportedValuesOf("timeZone");
 
 export const UserPage = () => {
   const [formData, setFormData] = useState<UserProfile>({
