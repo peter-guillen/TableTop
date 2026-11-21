@@ -22,6 +22,8 @@ import {
   defaultCharacterFormData,
   defaultProgression,
 } from "../characterDefaults";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export const CharacterForm = () => {
   const navigate = useNavigate();
@@ -90,7 +92,7 @@ export const CharacterForm = () => {
     professionsLoading ||
     constantsLoading
   )
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   if (
     characterError ||
     speciesError ||
@@ -99,7 +101,7 @@ export const CharacterForm = () => {
     constantsError ||
     !constants
   )
-    return <div>Error loading character options</div>;
+    return <ErrorMessage message="Error loading character options" />;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -17,6 +17,8 @@ import {
   LuStar,
   LuPackage,
 } from "react-icons/lu";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 const GRANT_LABELS: Record<LevelGrant["type"], string> = {
   auto: "Auto",
@@ -114,12 +116,12 @@ export function ProfessionDetails() {
   const { data: items = [] } = useGetAllItemsQuery();
   const { data: powers = [] } = useGetAllPowersQuery();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner />;
   // The server answers 404 for a profession that doesn't exist or a
   // malformed id. Anything else (server down, network) is a real failure.
   const isNotFound = error && "status" in error && error.status === 404;
   if (isNotFound || (!isError && !profession)) return <NotFound />;
-  if (isError || !profession) return <p>Something went wrong.</p>;
+  if (isError || !profession) return <ErrorMessage />;
 
   const itemById = Object.fromEntries(items.map((i) => [i._id, i]));
   const powerById = Object.fromEntries(powers.map((p) => [p._id, p]));
@@ -158,7 +160,10 @@ export function ProfessionDetails() {
         {/* ── Header Card ── */}
         <DetailCard>
           <div className="flex items-center gap-3 sm:gap-4 mb-3">
-            <LuCrown className="shrink-0 text-emerald-700 dark:text-emerald-400" size={36} />
+            <LuCrown
+              className="shrink-0 text-emerald-700 dark:text-emerald-400"
+              size={36}
+            />
             <h1 className="text-3xl sm:text-5xl font-bold break-words min-w-0 text-amber-700 dark:text-amber-400 ">
               {profession.name}
             </h1>

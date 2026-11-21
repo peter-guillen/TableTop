@@ -14,6 +14,8 @@ import {
 import { useGetSpeciesByIdQuery } from "../api/speciesApi";
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
 import { NotFound } from "../../../app/pages/NotFound.tsx";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export function SpeciesDetails() {
   const { id } = useParams<{ id: string }>();
@@ -33,12 +35,12 @@ export function SpeciesDetails() {
   );
   const handleReturn = () => navigate(-1);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner />;
   // The server answers 404 for a species that doesn't exist or a malformed
   // id. Anything else (server down, network) is a real failure.
   const isNotFound = error && "status" in error && error.status === 404;
   if (isNotFound || (!isError && !species)) return <NotFound />;
-  if (isError || !species) return <p>Something went wrong.</p>;
+  if (isError || !species) return <ErrorMessage />;
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 p-4 sm:p-6 transition-colors duration-300">

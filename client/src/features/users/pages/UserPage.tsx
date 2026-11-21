@@ -21,6 +21,7 @@ import {
   primaryButton,
   surface,
 } from "../../../shared/styles/theme.ts";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 const timeZones = Intl.supportedValuesOf("timeZone");
 
@@ -63,7 +64,7 @@ export const UserPage = () => {
     await updateMyProfile(formData);
   };
 
-  if (isLoading || !currentUser) return <p>Loading...</p>;
+  if (isLoading || !currentUser) return <LoadingSpinner />;
 
   const displayName =
     formData.showName && formData.name.trim()
