@@ -57,6 +57,8 @@ const updateUserRole = async (id, role, actorId) => {
   )
     .select("-password")
     .lean();
+  // Deleted between the two queries
+  if (!after) return null;
 
   await logAction({
     userId: actorId,
@@ -93,6 +95,8 @@ const updateMyProfile = async (userId, profile) => {
   )
     .select("-password")
     .lean();
+  // Deleted between the two queries
+  if (!after) return null;
 
   await logAction({
     userId,

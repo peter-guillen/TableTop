@@ -71,6 +71,7 @@ Check items off as they land; delete ones that become irrelevant.
   - Add tests against a real database, for example `mongodb-memory-server`.
 - [ ] **19. helmet.** Security headers, which also removes the `x-powered-by: Express` header.
 - [ ] **20. Schema validation for content bodies.** Editor input currently goes straight into the database.
+  - Validate the profile body too: a non-string field (for example `profile.name: 5`) makes `.trim()` throw in `updateMyProfile`, which answers 500 instead of 400. The client never sends one.
 - [ ] **21. Server-side game rules.** `minLevel`, leveling rewards and slot limits are only checked in the client, and `requiredTraits` isn't checked anywhere.
 - [ ] **22. Database indexes and pagination.** There are none today.
 - [ ] **23. Operations.**

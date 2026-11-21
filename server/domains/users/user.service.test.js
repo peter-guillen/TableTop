@@ -178,6 +178,32 @@ describe("updateUserRole", () => {
   });
 });
 
+describe("users deleted mid-update", () => {
+  it("updateUserRole returns null and logs nothing when the user disappears before the update", async () => {
+    User.findById.mockReturnValue({
+      select: () => ({ lean: vi.fn().mockResolvedValue(userBefore) }),
+    });
+    User.findByIdAndUpdate.mockReturnValue({
+      select: () => ({ lean: vi.fn().mockResolvedValue(null) }),
+    });
+
+    expect(await updateUserRole("user1", "editor", adminId)).toBeNull();
+    expect(logAction).not.toHaveBeenCalled();
+  });
+
+  it("updateMyProfile returns null and logs nothing when the user disappears before the update", async () => {
+    User.findById.mockReturnValue({
+      select: () => ({ lean: vi.fn().mockResolvedValue(userBefore) }),
+    });
+    User.findByIdAndUpdate.mockReturnValue({
+      select: () => ({ lean: vi.fn().mockResolvedValue(null) }),
+    });
+
+    expect(await updateMyProfile("user1", { name: "Sam" })).toBeNull();
+    expect(logAction).not.toHaveBeenCalled();
+  });
+});
+
 describe("updateMyProfile", () => {
   it("saves only the profile keys, trimmed, and logs the user as the actor", async () => {
     const after = { ...userBefore, profile: { ...userBefore.profile, name: "Sam" } };
