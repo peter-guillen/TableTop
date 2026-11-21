@@ -82,6 +82,7 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **26. Local setup.** Docker Compose, an `npm run seed` script, and a guard that stops seeds from running against production.
 - [ ] **27. Rename the `test` database.** (You're handling this.)
 - [ ] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
+  - [x] Auth and users. Users logs signup, role changes, deletes and profile edits without the password hash; auth doesn't log logins or logouts. `userMe` stays in `auth.controller.js`, which calls `authService.getCurrentUser`.
 
 ## 4. Architecture
 
