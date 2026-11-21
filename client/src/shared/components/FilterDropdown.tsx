@@ -17,7 +17,7 @@ export const FilterDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Close when clicking anywhere outside the button and popover
+  // Close when clicking anywhere outside the button and popover, or on Escape
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -27,8 +27,15 @@ export const FilterDropdown = ({
         setIsOpen(false);
       }
     };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   return (
