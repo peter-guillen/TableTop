@@ -40,7 +40,7 @@ node seeds/power.seed.js    # each seed is runnable directly; it WIPES that coll
 ## Known issues
 
 - `app.js` reads `CLIENT_URL` before `server.js` calls `dotenv.config()` (ESM imports run first), so `CLIENT_URL` from `.env` is ignored (ROADMAP item 6).
-- The 2 failing character controller tests are out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500). That's expected until ROADMAP item 3. Any other failure is real.
+- All server tests pass. Any failure is real.
 - The production database is named `test` (ROADMAP item 27).
 
 ## Auth
