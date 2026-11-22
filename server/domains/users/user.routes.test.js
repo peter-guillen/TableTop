@@ -126,7 +126,7 @@ describe("user admin routes: errors get a response instead of crashing", () => {
       jwtid: "t1",
     });
     vi.spyOn(User, "find").mockReturnValue({
-      select: () => Promise.reject(new Error("connection lost")),
+      select: () => ({ lean: () => Promise.reject(new Error("connection lost")) }),
     });
 
     const res = await request(app)
@@ -158,15 +158,20 @@ describe("user admin routes: errors get a response instead of crashing", () => {
   it("DELETE /api/users/:id returns 404 (not 400) when the user doesn't exist", async () => {
     vi.stubEnv("JWT_SECRET", "test-secret");
     vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
-    vi.spyOn(User, "findById").mockReturnValue({
-      select: () => ({ lean: async () => ({ role: "admin", tokenVersion: 0 }) }),
-    });
+    // findById serves both checkAuthenticated (the admin) and the service
+    // (the target), so answer by id
+    vi.spyOn(User, "findById").mockImplementation((id) => ({
+      select: () => ({
+        lean: async () =>
+          String(id) === "6a580c1ec136c681a00e62c5"
+            ? { role: "admin", tokenVersion: 0 }
+            : null,
+      }),
+    }));
     const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
       jwtid: "t1",
     });
-    vi.spyOn(User, "findByIdAndDelete").mockReturnValue({
-      select: async () => null,
-    });
+    const findByIdAndDelete = vi.spyOn(User, "findByIdAndDelete");
 
     const res = await request(app)
       .delete("/api/users/6a580c1ec136c681a00e62c6")
@@ -174,5 +179,47 @@ describe("user admin routes: errors get a response instead of crashing", () => {
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "User Not Found!" });
+    expect(findByIdAndDelete).not.toHaveBeenCalled();
+  });
+
+  it("DELETE /api/users/:id on the admin's own account returns 400", async () => {
+    vi.stubEnv("JWT_SECRET", "test-secret");
+    vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
+    vi.spyOn(User, "findById").mockReturnValue({
+      select: () => ({ lean: async () => ({ role: "admin", tokenVersion: 0 }) }),
+    });
+    const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
+      jwtid: "t1",
+    });
+    const findByIdAndDelete = vi.spyOn(User, "findByIdAndDelete");
+
+    const res = await request(app)
+      .delete("/api/users/6a580c1ec136c681a00e62c5")
+      .set("Cookie", `token=${token}`);
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "You cannot delete your own account" });
+    expect(findByIdAndDelete).not.toHaveBeenCalled();
+  });
+
+  it("PATCH /api/users/:id/role on the admin's own account returns 400", async () => {
+    vi.stubEnv("JWT_SECRET", "test-secret");
+    vi.spyOn(RevokedToken, "exists").mockResolvedValue(null);
+    vi.spyOn(User, "findById").mockReturnValue({
+      select: () => ({ lean: async () => ({ role: "admin", tokenVersion: 0 }) }),
+    });
+    const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
+      jwtid: "t1",
+    });
+    const findByIdAndUpdate = vi.spyOn(User, "findByIdAndUpdate");
+
+    const res = await request(app)
+      .patch("/api/users/6a580c1ec136c681a00e62c5/role")
+      .set("Cookie", `token=${token}`)
+      .send({ role: "user" });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "You cannot change your own role" });
+    expect(findByIdAndUpdate).not.toHaveBeenCalled();
   });
 });

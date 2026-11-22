@@ -5,7 +5,10 @@ const getAllItems = async (req, res) => {
     const items = await itemService.getAllItems();
     res.status(200).json(items);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load items" });
   }
 };
 
@@ -18,7 +21,10 @@ const getItemById = async (req, res) => {
     }
     res.status(200).json(item);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load item" });
   }
 };
 

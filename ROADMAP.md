@@ -8,8 +8,8 @@ Check items off as they land; delete ones that become irrelevant.
 
 | Measure | 2026-11-07 | Now (2026-11-08) |
 | --- | --- | --- |
-| Server tests | 58 passing, 2 failing | 85 passing, 2 failing (item 3) |
-| Server coverage | 53% lines, 29% branches | 63% lines, 36% branches |
+| Server tests | 58 passing, 2 failing | 149 passing, 0 failing (2026-11-21) |
+| Server coverage | 53% lines, 29% branches | 73% lines, 57% branches (2026-11-21) |
 | Unauthenticated crash points | 24 | 0 (item 2, verified live) |
 | Client type errors / lint / tests | 16 / broken / 0 | 0 / clean / 0 |
 | Client JS files | 16 | 0 |
@@ -25,7 +25,7 @@ Check items off as they land; delete ones that become irrelevant.
   - Added one error handler at the end of `app.js` (400 for bad input, generic 500 otherwise), and 404 instead of 200 + `null` for missing records.
   - Merged in PR #13 and verified live: malformed ids get 404 and the server stays up, malformed JSON gets a 400 JSON error.
   - Client: species, background and profession detail pages (and the profession edit form) show the NotFound page on a 404 and keep "Something went wrong." for real failures.
-- [ ] **3. Fix the 2 character tests.** They're out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500).
+- [x] **3. Fix the 2 character tests.** They were out of date: they expected `user` (the code uses `userId`) and a 400 (the code returns 500). Rewritten to mock the new character service (item 28) on 2026-11-21; they check the list is scoped to the user and a database failure answers 500.
 - [ ] **4. Rate limiting** on login and signup. Set Express `trust proxy` so limits apply per visitor behind Netlify. (Live today: 6 bad logins in a row were never blocked.)
   - Requests pass through Netlify and Railway's edge, so check the real `X-Forwarded-For` chain before choosing the hop count. Too low and every visitor shares one limit. Too high and clients can fake their IP.
 - [ ] **5. Server-side auth validation.**
@@ -81,7 +81,12 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **25. Client resilience.** Route error boundaries, plus code splitting to shrink the 657 KB bundle.
 - [ ] **26. Local setup.** Docker Compose, an `npm run seed` script, and a guard that stops seeds from running against production.
 - [ ] **27. Rename the `test` database.** (You're handling this.)
-- [ ] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
+- [x] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
+  - [x] Articles, backgrounds, professions and species (2026-11-21). Each has a service with tests. Create now answers 201 with the bare record (it was 200 with a `{ success, message, ... }` wrapper, keyed `profession` for species). PATCH now returns the updated record and runs validators (it returned the old record and skipped them). The client didn't read either response, so it needed no change. Reads in all seven service domains now answer 400 for bad input and 500 for server failures (powers, items and conditions answered 400 for everything).
+  - [x] Characters (2026-11-21). The service scopes every query to the owner and applies the field allowlist (inline in create and update), so no caller can set `userId` or `_id`. Delete is also owner-scoped (`findOneAndDelete({ _id, userId })`). Write errors now go through `next(error)`, so a 500 no longer sends the database's error message to the client.
+  - [x] Users (2026-11-21). Role changes and admin deletes now go to the activity log, storing only `{ username, role }` (moderators can read the log but not the user list). Signups and profile edits aren't logged. The "can't change your own role or delete yourself" checks moved into the service and still answer 400. Role and profile updates send server failures as a generic 500 instead of 400 with the database's message.
+  - Auth and activity stay without a service, on purpose. Auth is cookie and JWT handling around three one-line queries, and changes no content. Activity is the log itself: one read-only query, with writes going through `logAction`.
+- [ ] **38. PATCH skips the `pre("validate")` rules.** `findByIdAndUpdate` with `runValidators` only checks single fields, so a PATCH can break the cross-field rules in `power.model.js` (spells need a school, techniques need weapon properties, ...) and `item.model.js`. Fix: load the document, apply the changes, and `save()` so the hook runs.
 
 ## 4. Architecture
 

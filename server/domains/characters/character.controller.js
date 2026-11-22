@@ -1,126 +1,78 @@
-import Character from "./character.model.js";
-import { logAction } from "../../shared/utils/logger.js";
-
-const ALLOWED_FIELDS = [
-  "identity",
-  "origin",
-  "mode",
-  "archetype",
-  "progression",
-  "stats",
-  "inventory",
-  "equipment",
-  "powers",
-  "skills",
-];
-
-const pickAllowed = (body) =>
-  Object.fromEntries(
-    Object.entries(body ?? {}).filter(([key]) => ALLOWED_FIELDS.includes(key)),
-  );
-
-const sendError = (res, error) => {
-  const isClientError =
-    error.name === "ValidationError" || error.name === "CastError";
-  res.status(isClientError ? 400 : 500).json({ error: error.message });
-};
+import * as characterService from "./character.service.js";
 
 const getAllCharacters = async (req, res) => {
   try {
-    const characters = await Character.find({ userId: req.user._id }).lean();
+    const characters = await characterService.getAllCharacters(req.user._id);
     res.status(200).json(characters);
   } catch (error) {
-    sendError(res, error);
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load characters" });
   }
 };
 
 const getCharacterById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    const character = await Character.findOne({
-      _id: id,
-      userId: req.user._id,
-    }).lean();
+    const character = await characterService.getCharacterById(
+      id,
+      req.user._id,
+    );
     if (!character) {
       return res.status(404).json({ error: "Character Not Found!" });
     }
     res.status(200).json(character);
   } catch (error) {
-    sendError(res, error);
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load character" });
   }
 };
 
-const createCharacter = async (req, res) => {
+const createCharacter = async (req, res, next) => {
   try {
-    const character = await Character.create({
-      ...pickAllowed(req.body),
-      userId: req.user._id,
-    });
-    await logAction({
-      userId: req.user._id,
-      action: "Created Character",
-      target: "Character",
-      targetId: character._id,
-      metadata: {
-        before: null,
-        after: character.toObject(),
-      },
-    });
+    const character = await characterService.createCharacter(
+      req.body,
+      req.user._id,
+    );
     res.status(201).json(character);
   } catch (error) {
-    sendError(res, error);
+    next(error);
   }
 };
 
-const updateCharacter = async (req, res) => {
+const updateCharacter = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const before = await Character.findOne({
-      _id: id,
-      userId: req.user._id,
-    }).lean();
-    if (!before) {
+    const character = await characterService.updateCharacter(
+      id,
+      req.body,
+      req.user._id,
+    );
+    if (!character) {
       return res.status(404).json({ error: "Character Not Found!" });
     }
-    const after = await Character.findOneAndUpdate(
-      { _id: id, userId: req.user._id },
-      { $set: pickAllowed(req.body) },
-      { new: true, runValidators: true },
-    ).lean();
-    await logAction({
-      userId: req.user._id,
-      action: "Updated Character",
-      target: "Character",
-      targetId: after._id,
-      metadata: { before, after },
-    });
-    res.status(200).json(after);
+    res.status(200).json(character);
   } catch (error) {
-    sendError(res, error);
+    next(error);
   }
 };
 
-const deleteCharacter = async (req, res) => {
+const deleteCharacter = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const before = await Character.findOne({
-      _id: id,
-      userId: req.user._id,
-    }).lean();
-    if (!before) {
+    const character = await characterService.deleteCharacter(
+      id,
+      req.user._id,
+    );
+    if (!character) {
       return res.status(404).json({ error: "Character Not Found!" });
     }
-    await Character.findByIdAndDelete(id);
-    await logAction({
-      userId: req.user._id,
-      action: "Deleted Character",
-      target: "Character",
-      targetId: before._id,
-      metadata: { before, after: null },
-    });
-    res.status(200).json(before);
+    res.status(200).json(character);
   } catch (error) {
-    sendError(res, error);
+    next(error);
   }
 };
 

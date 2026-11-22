@@ -1,11 +1,14 @@
-import User from "./user.model.js";
+import * as userService from "./user.service.js";
 import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select("-password");
-    res.json(users);
+    const users = await userService.getAllUsers();
+    res.status(200).json(users);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load users" });
   }
 };
@@ -13,22 +16,22 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id).select("-password");
+    const user = await userService.getUserById(id);
     if (!user) {
       return res.status(404).json({ error: "User Not Found!" });
     }
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load user" });
   }
 };
 
 const createUser = async (req, res) => {
-  // role is never taken from the request; new accounts get the schema default
-  const { email, username, password } = req.body;
   try {
-    const user = new User({ email, username, password });
-    await user.save();
+    const user = await userService.createUser(req.body);
     // Log the new user in right away. Same cookie settings as loginUser in
     // auth.controller.js
     const token = generateToken(user);
@@ -58,16 +61,12 @@ const createUser = async (req, res) => {
   }
 };
 
+// The service throws a status 400 error when an admin targets their own
+// account; the error handler in app.js answers it with { error }.
 const deleteUser = async (req, res, next) => {
   const { id } = req.params;
-  // Same rule as role changes: an admin can't remove their own account here
-  if (String(req.user._id) === id) {
-    return res
-      .status(400)
-      .json({ error: "You cannot delete your own account" });
-  }
   try {
-    const user = await User.findByIdAndDelete(id).select("-password");
+    const user = await userService.deleteUser(id, req.user._id);
     if (!user) {
       return res.status(404).json({ error: "User Not Found!" });
     }
@@ -77,56 +76,35 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-const updateUserRole = async (req, res) => {
+const updateUserRole = async (req, res, next) => {
   const { id } = req.params;
-  const { role } = req.body;
-  // Stops an admin from demoting themselves and locking everyone out
-  if (String(req.user._id) === id) {
-    return res.status(400).json({ error: "You cannot change your own role" });
-  }
   try {
-    const user = await User.findByIdAndUpdate(
+    const user = await userService.updateUserRole(
       id,
-      { role },
-      { new: true, runValidators: true },
-    ).select("-password");
+      req.body.role,
+      req.user._id,
+    );
     if (!user) {
       return res.status(404).json({ error: "User Not Found!" });
     }
     res.status(200).json(user);
   } catch (error) {
-    // runValidators rejects any role outside the enum in user.model.js
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-// Any logged-in user can edit their own profile. Every field is optional, and
-// only these keys are read from the request so nobody can set their own role
-const updateMyProfile = async (req, res) => {
-  const { name, showName, pronouns, bio, location, timeZone } =
-    req.body.profile ?? {};
+const updateMyProfile = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(
+    const user = await userService.updateMyProfile(
       req.user._id,
-      {
-        profile: {
-          name: name?.trim() ?? "",
-          showName: Boolean(showName),
-          pronouns: pronouns?.trim() ?? "",
-          bio: bio?.trim() ?? "",
-          location: location?.trim() ?? "",
-          timeZone: timeZone ?? "",
-        },
-      },
-      { new: true, runValidators: true },
-    ).select("-password");
+      req.body.profile,
+    );
     if (!user) {
       return res.status(404).json({ error: "User Not Found!" });
     }
     res.status(200).json(user);
   } catch (error) {
-    // runValidators rejects anything over the maxlength limits in user.model.js
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 

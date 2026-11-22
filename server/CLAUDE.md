@@ -26,7 +26,7 @@ node seeds/power.seed.js    # each seed is runnable directly; it WIPES that coll
 
 ## Domain rules
 
-- **Every domain uses a service layer.** New domains start with one. Powers, items, and conditions already have one. The older domains (articles, backgrounds, professions, species, characters, users, auth) move to it in ROADMAP item 28. Until then, small fixes in them (like the error handling in item 2) don't require the migration.
+- **Every domain uses a service layer.** New domains start with one. All content domains, plus characters and users, have one. Two domains are exempt on purpose: `auth` (cookie and JWT handling around three one-line queries, no content changes) and `activity` (the log itself: one read-only query, written through `logAction`).
   - The service owns all Mongoose calls. The controller only reads `req`, calls the service, and sends the response.
   - Every create/update/delete in a service calls `logAction` from `shared/utils/logger.js` with `{ userId, action, target, targetId, metadata: { before, after } }`. This feeds the `activity` domain.
   - Follow `domains/powers/` as the reference implementation. Write each domain's service out in full. Don't build a generic CRUD service or factory (see primary rule 2).
@@ -40,7 +40,7 @@ node seeds/power.seed.js    # each seed is runnable directly; it WIPES that coll
 ## Known issues
 
 - `app.js` reads `CLIENT_URL` before `server.js` calls `dotenv.config()` (ESM imports run first), so `CLIENT_URL` from `.env` is ignored (ROADMAP item 6).
-- The 2 failing character controller tests are out of date: they expect `user` (the code uses `userId`) and a 400 (the code returns 500). That's expected until ROADMAP item 3. Any other failure is real.
+- The whole server suite passes. Any test failure is real.
 - The production database is named `test` (ROADMAP item 27).
 
 ## Auth

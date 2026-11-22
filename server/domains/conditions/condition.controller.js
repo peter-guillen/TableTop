@@ -5,7 +5,10 @@ const getAllConditions = async (req, res) => {
     const conditions = await conditionService.getAllConditions();
     res.status(200).json(conditions);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load conditions" });
   }
 };
 
@@ -18,7 +21,10 @@ const getConditionById = async (req, res) => {
     }
     res.status(200).json(condition);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load condition" });
   }
 };
 

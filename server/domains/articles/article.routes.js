@@ -5,15 +5,15 @@ import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
 import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
 import {
-  getArticles,
-  getArticle,
+  getAllArticles,
+  getArticleById,
   createArticle,
   deleteArticle,
   updateArticle,
 } from "./article.controller.js";
 
-router.get("/", getArticles);
-router.get("/:id", validateObjectId, getArticle);
+router.get("/", getAllArticles);
+router.get("/:id", validateObjectId, getArticleById);
 
 router.post(
   "/",

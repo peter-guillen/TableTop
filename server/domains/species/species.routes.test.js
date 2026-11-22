@@ -26,7 +26,9 @@ describe("Species routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/species returns 500 when the database fails", async () => {
-    vi.spyOn(Species, "find").mockRejectedValue(new Error("connection lost"));
+    vi.spyOn(Species, "find").mockReturnValue({
+      lean: () => Promise.reject(new Error("connection lost")),
+    });
 
     const res = await request(app).get("/api/species");
 
@@ -35,12 +37,28 @@ describe("Species routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/species/:id returns 404 when the record doesn't exist", async () => {
-    vi.spyOn(Species, "findById").mockResolvedValue(null);
+    vi.spyOn(Species, "findById").mockReturnValue({ lean: async () => null });
 
     const res = await request(app).get("/api/species/6a580c1ec136c681a00e62c5");
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Species Not Found!" });
+  });
+
+  it("GET /api/species/:id returns 400 when the query rejects bad input", async () => {
+    vi.spyOn(Species, "findById").mockReturnValue({
+      lean: () =>
+        Promise.reject(
+          Object.assign(new Error("Cast to ObjectId failed"), {
+            name: "CastError",
+          }),
+        ),
+    });
+
+    const res = await request(app).get("/api/species/6a580c1ec136c681a00e62c5");
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Cast to ObjectId failed" });
   });
 
   it("POST /api/species with invalid input returns 400 instead of hanging", async () => {
@@ -76,7 +94,8 @@ describe("Species routes: errors get a response instead of crashing", () => {
     const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
       jwtid: "t1",
     });
-    vi.spyOn(Species, "findByIdAndDelete").mockResolvedValue(null);
+    vi.spyOn(Species, "findById").mockReturnValue({ lean: async () => null });
+    const findByIdAndDelete = vi.spyOn(Species, "findByIdAndDelete");
 
     const res = await request(app)
       .delete("/api/species/6a580c1ec136c681a00e62c6")
@@ -84,5 +103,6 @@ describe("Species routes: errors get a response instead of crashing", () => {
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Species Not Found!" });
+    expect(findByIdAndDelete).not.toHaveBeenCalled();
   });
 });

@@ -1,14 +1,13 @@
-import Background from "./background.model.js";
-
-// Reads answer 500 themselves; ids are already checked by validateObjectId.
-// Writes pass errors to next(error), and the error handler in app.js turns
-// them into 400 (bad input) or 500 JSON responses.
+import * as backgroundService from "./background.service.js";
 
 const getAllBackgrounds = async (req, res) => {
   try {
-    const backgrounds = await Background.find({});
+    const backgrounds = await backgroundService.getAllBackgrounds();
     res.status(200).json(backgrounds);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load backgrounds" });
   }
 };
@@ -16,22 +15,26 @@ const getAllBackgrounds = async (req, res) => {
 const getBackgroundById = async (req, res) => {
   const { id } = req.params;
   try {
-    const background = await Background.findById(id);
+    const background = await backgroundService.getBackgroundById(id);
     if (!background) {
       return res.status(404).json({ error: "Background Not Found!" });
     }
     res.status(200).json(background);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load background" });
   }
 };
 
 const createBackground = async (req, res, next) => {
   try {
-    const background = await Background.create(req.body);
-    res
-      .status(200)
-      .json({ success: true, message: "Background CREATED.", background });
+    const background = await backgroundService.createBackground(
+      req.body,
+      req.user._id,
+    );
+    res.status(201).json(background);
   } catch (error) {
     next(error);
   }
@@ -40,9 +43,10 @@ const createBackground = async (req, res, next) => {
 const updateBackground = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const background = await Background.findByIdAndUpdate(
-      { _id: id },
-      { ...req.body },
+    const background = await backgroundService.updateBackground(
+      id,
+      req.body,
+      req.user._id,
     );
     if (!background) {
       return res.status(404).json({ error: "Background Not Found!" });
@@ -56,7 +60,10 @@ const updateBackground = async (req, res, next) => {
 const deleteBackground = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const background = await Background.findByIdAndDelete(id);
+    const background = await backgroundService.deleteBackground(
+      id,
+      req.user._id,
+    );
     if (!background) {
       return res.status(404).json({ error: "Background Not Found!" });
     }
