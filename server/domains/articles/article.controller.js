@@ -1,35 +1,37 @@
-import Article from "./article.model.js";
+import * as articleService from "./article.service.js";
 
-// Reads answer 500 themselves; ids are already checked by validateObjectId.
-// Writes pass errors to next(error), and the error handler in app.js turns
-// them into 400 (bad input) or 500 JSON responses.
-
-const getArticles = async (req, res) => {
+const getAllArticles = async (req, res) => {
   try {
-    const articles = await Article.find({});
+    const articles = await articleService.getAllArticles();
     res.status(200).json(articles);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load articles" });
   }
 };
 
-const getArticle = async (req, res) => {
+const getArticleById = async (req, res) => {
   const { id } = req.params;
   try {
-    const article = await Article.findById(id);
+    const article = await articleService.getArticleById(id);
     if (!article) {
       return res.status(404).json({ error: "Article Not Found!" });
     }
     res.status(200).json(article);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load article" });
   }
 };
 
 const createArticle = async (req, res, next) => {
   try {
-    const article = await Article.create(req.body);
-    res.status(200).json(article);
+    const article = await articleService.createArticle(req.body, req.user._id);
+    res.status(201).json(article);
   } catch (error) {
     next(error);
   }
@@ -38,9 +40,10 @@ const createArticle = async (req, res, next) => {
 const updateArticle = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const article = await Article.findByIdAndUpdate(
-      { _id: id },
-      { ...req.body },
+    const article = await articleService.updateArticle(
+      id,
+      req.body,
+      req.user._id,
     );
     if (!article) {
       return res.status(404).json({ error: "Article Not Found!" });
@@ -54,7 +57,7 @@ const updateArticle = async (req, res, next) => {
 const deleteArticle = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const article = await Article.findByIdAndDelete(id);
+    const article = await articleService.deleteArticle(id, req.user._id);
     if (!article) {
       return res.status(404).json({ error: "Article Not Found!" });
     }
@@ -64,4 +67,10 @@ const deleteArticle = async (req, res, next) => {
   }
 };
 
-export { getArticles, getArticle, createArticle, updateArticle, deleteArticle };
+export {
+  getAllArticles,
+  getArticleById,
+  createArticle,
+  updateArticle,
+  deleteArticle,
+};

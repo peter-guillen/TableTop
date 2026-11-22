@@ -42,18 +42,23 @@ describe("getUserById", () => {
     await getUserById({ params: { id: "user1" } }, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({ error: "Failed to load the user" });
+    expect(res.json).toHaveBeenCalledWith({ error: "Failed to load user" });
   });
 });
 
 describe("deleteUser", () => {
-  it("refuses to delete the admin's own account without calling the service", async () => {
-    const res = makeRes();
+  it("passes the service's own-account refusal to next", async () => {
+    // The service throws with status 400; the app error handler answers it
+    const error = Object.assign(new Error("You cannot delete your own account"), {
+      status: 400,
+    });
+    userService.deleteUser.mockRejectedValue(error);
+    const next = vi.fn();
 
-    await deleteUser({ params: { id: "admin1" }, user: { _id: "admin1" } }, res, vi.fn());
+    await deleteUser({ params: { id: "admin1" }, user: { _id: "admin1" } }, makeRes(), next);
 
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(userService.deleteUser).not.toHaveBeenCalled();
+    expect(userService.deleteUser).toHaveBeenCalledWith("admin1", "admin1");
+    expect(next).toHaveBeenCalledWith(error);
   });
 
   it("passes the admin as the actor and returns the deleted user", async () => {
@@ -68,17 +73,21 @@ describe("deleteUser", () => {
 });
 
 describe("updateUserRole", () => {
-  it("refuses to change the admin's own role", async () => {
-    const res = makeRes();
+  it("passes the service's own-role refusal to next", async () => {
+    const error = Object.assign(new Error("You cannot change your own role"), {
+      status: 400,
+    });
+    userService.updateUserRole.mockRejectedValue(error);
+    const next = vi.fn();
 
     await updateUserRole(
       { params: { id: "admin1" }, body: { role: "user" }, user: { _id: "admin1" } },
-      res,
-      vi.fn(),
+      makeRes(),
+      next,
     );
 
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(userService.updateUserRole).not.toHaveBeenCalled();
+    expect(userService.updateUserRole).toHaveBeenCalledWith("admin1", "user", "admin1");
+    expect(next).toHaveBeenCalledWith(error);
   });
 
   it("returns 404 when the user does not exist", async () => {

@@ -26,7 +26,9 @@ describe("Background routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/backgrounds returns 500 when the database fails", async () => {
-    vi.spyOn(Background, "find").mockRejectedValue(new Error("connection lost"));
+    vi.spyOn(Background, "find").mockReturnValue({
+      lean: () => Promise.reject(new Error("connection lost")),
+    });
 
     const res = await request(app).get("/api/backgrounds");
 
@@ -35,12 +37,28 @@ describe("Background routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/backgrounds/:id returns 404 when the record doesn't exist", async () => {
-    vi.spyOn(Background, "findById").mockResolvedValue(null);
+    vi.spyOn(Background, "findById").mockReturnValue({ lean: async () => null });
 
     const res = await request(app).get("/api/backgrounds/6a580c1ec136c681a00e62c5");
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Background Not Found!" });
+  });
+
+  it("GET /api/backgrounds/:id returns 400 when the query rejects bad input", async () => {
+    vi.spyOn(Background, "findById").mockReturnValue({
+      lean: () =>
+        Promise.reject(
+          Object.assign(new Error("Cast to ObjectId failed"), {
+            name: "CastError",
+          }),
+        ),
+    });
+
+    const res = await request(app).get("/api/backgrounds/6a580c1ec136c681a00e62c5");
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Cast to ObjectId failed" });
   });
 
   it("POST /api/backgrounds with invalid input returns 400 instead of hanging", async () => {
@@ -76,7 +94,8 @@ describe("Background routes: errors get a response instead of crashing", () => {
     const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
       jwtid: "t1",
     });
-    vi.spyOn(Background, "findByIdAndDelete").mockResolvedValue(null);
+    vi.spyOn(Background, "findById").mockReturnValue({ lean: async () => null });
+    const findByIdAndDelete = vi.spyOn(Background, "findByIdAndDelete");
 
     const res = await request(app)
       .delete("/api/backgrounds/6a580c1ec136c681a00e62c6")
@@ -84,5 +103,6 @@ describe("Background routes: errors get a response instead of crashing", () => {
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Background Not Found!" });
+    expect(findByIdAndDelete).not.toHaveBeenCalled();
   });
 });

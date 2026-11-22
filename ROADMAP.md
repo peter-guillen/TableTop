@@ -8,8 +8,8 @@ Check items off as they land; delete ones that become irrelevant.
 
 | Measure | 2026-11-07 | Now (2026-11-21, with PR #22) |
 | --- | --- | --- |
-| Server tests | 58 passing, 2 failing | 117 passing, 0 failing |
-| Server coverage | 53% lines, 29% branches | 70% lines, 56% branches |
+| Server tests | 58 passing, 2 failing | 165 passing, 0 failing (with PR #24) |
+| Server coverage | 53% lines, 29% branches | 75% lines, 61% branches (with PR #24) |
 | Unauthenticated crash points | 24 | 0 (item 2, verified live) |
 | Client type errors / lint / tests | 16 / broken / 0 | 0 / clean / 0 |
 | Client JS files | 16 | 0 |
@@ -26,9 +26,9 @@ Check items off as they land; delete ones that become irrelevant.
   - Added one error handler at the end of `app.js` (400 for bad input, generic 500 otherwise), and 404 instead of 200 + `null` for missing records.
   - Merged in PR #13 and verified live: malformed ids get 404 and the server stays up, malformed JSON gets a 400 JSON error.
   - Client: species, background and profession detail pages (and the profession edit form) show the NotFound page on a 404 and keep "Something went wrong." for real failures.
-- [x] **3. Fix the 2 character tests.** Updated them to expect `userId` and a 500 for a database failure.
+- [x] **3. Fix the 2 character tests.** They were out of date: they expected `user` (the code uses `userId`) and a 400 (the code returns 500). Rewritten to mock the new character service (item 28) on 2026-11-21; they check the list is scoped to the user and a database failure answers 500.
   - `coverage/` is in `server/.gitignore` on its own line.
-  - `deleteCharacter` now uses one `findOneAndDelete({ _id, userId })`, so the delete query enforces ownership. Tests cover the delete and the 404.
+  - Delete enforces ownership in one `findOneAndDelete({ _id, userId })` (now in `character.service.js`). Service tests cover the delete and the not-yours case.
 - [ ] **4. Rate limiting** on login and signup. Set Express `trust proxy` so limits apply per visitor behind Netlify. (Live today: 6 bad logins in a row were never blocked.)
   - Requests pass through Netlify and Railway's edge, so check the real `X-Forwarded-For` chain before choosing the hop count. Too low and every visitor shares one limit. Too high and clients can fake their IP.
   - Don't deploy the limits until `trust proxy` is set. Without it, every visitor shares one IP, and 5 failed logins from anyone lock everyone out.
@@ -98,10 +98,13 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **25. Client resilience.** Route error boundaries, plus code splitting to shrink the 648 KB bundle. Error states can use `ErrorMessage` from item 31.
 - [ ] **26. Local setup.** Docker Compose, an `npm run seed` script, and a guard that stops seeds from running against production.
 - [ ] **27. Rename the `test` database.** (You're handling this.)
-- [ ] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
-  - [x] Auth and users. Users logs signup, role changes, deletes and profile edits without the password hash; auth doesn't log logins or logouts. `userMe` stays in `auth.controller.js`, which calls `authService.getCurrentUser`.
-  - [ ] Still to do, one PR each: articles, backgrounds, species, professions, characters. The first four update with `findByIdAndUpdate` without `runValidators` or `new: true`, so enums go unchecked on update and the response is the old record. The service move fixes both.
-  - [ ] The power and item read controllers answer 400 for every error. Answer 500 for server failures, as `getUserById` now does.
+- [x] **28. Service layer for the older domains.** Articles, backgrounds, professions, species, characters, users and auth have no service. Move each one to the pattern in `domains/powers/`: the service owns the Mongoose calls and calls `logAction` on every write. Write each service out in full, with no generic CRUD service. Kept separate from item 2 so the crash fixes ship first.
+  - [x] Auth (PR #22). `userMe` stays in `auth.controller.js`, which calls `authService.getCurrentUser`. Auth doesn't log logins or logouts.
+  - [x] Articles, backgrounds, professions and species (2026-11-21). Each has a service with tests. Create now answers 201 with the bare record (it was 200 with a `{ success, message, ... }` wrapper, keyed `profession` for species). PATCH now returns the updated record and runs validators (it returned the old record and skipped them). The client didn't read either response, so it needed no change. Reads in all seven service domains now answer 400 for bad input and 500 for server failures (powers, items and conditions answered 400 for everything).
+  - [x] Characters (2026-11-21). The service scopes every query to the owner and applies the field allowlist (inline in create and update), so no caller can set `userId` or `_id`. Delete is owner-scoped in one query (`findOneAndDelete({ _id, userId })`). Write errors now go through `next(error)`, so a 500 no longer sends the database's error message to the client.
+  - [x] Users (PR #22, logging narrowed 2026-11-22). Only role changes and admin deletes go to the activity log, storing only `{ username, role }` (moderators can read the log but not the user list). Signups and profile edits aren't logged. The "can't change your own role or delete yourself" checks live in the service and still answer 400. A user deleted mid-role-update answers 404. Role and profile updates send server failures as a generic 500 instead of 400 with the database's message.
+  - Activity stays without a service, on purpose: it is the log itself, one read-only query, with writes going through `logAction`.
+- [ ] **38. PATCH skips the `pre("validate")` rules.** `findByIdAndUpdate` with `runValidators` only checks single fields, so a PATCH can break the cross-field rules in `power.model.js` (spells need a school, techniques need weapon properties, ...) and `item.model.js`. Fix: load the document, apply the changes, and `save()` so the hook runs.
 
 ## 4. Architecture
 

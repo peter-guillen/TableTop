@@ -1,16 +1,13 @@
-import Species from "./species.model.js";
-
-// Reads answer 500 themselves; ids are already checked by validateObjectId.
-// Writes pass errors to next(error), and the error handler in app.js turns
-// them into 400 (bad input) or 500 JSON responses.
-// The create response keeps its "profession" key because that's the shape
-// the API already returns.
+import * as speciesService from "./species.service.js";
 
 const getAllSpecies = async (req, res) => {
   try {
-    const species = await Species.find({});
+    const species = await speciesService.getAllSpecies();
     res.status(200).json(species);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load species" });
   }
 };
@@ -18,22 +15,23 @@ const getAllSpecies = async (req, res) => {
 const getSpeciesById = async (req, res) => {
   const { id } = req.params;
   try {
-    const species = await Species.findById(id);
+    const species = await speciesService.getSpeciesById(id);
     if (!species) {
       return res.status(404).json({ error: "Species Not Found!" });
     }
     res.status(200).json(species);
   } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Failed to load species" });
   }
 };
 
 const createSpecies = async (req, res, next) => {
   try {
-    const profession = await Species.create(req.body);
-    res
-      .status(200)
-      .json({ success: true, message: "Species CREATED.", profession });
+    const species = await speciesService.createSpecies(req.body, req.user._id);
+    res.status(201).json(species);
   } catch (error) {
     next(error);
   }
@@ -42,9 +40,10 @@ const createSpecies = async (req, res, next) => {
 const updateSpecies = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const species = await Species.findByIdAndUpdate(
-      { _id: id },
-      { ...req.body },
+    const species = await speciesService.updateSpecies(
+      id,
+      req.body,
+      req.user._id,
     );
     if (!species) {
       return res.status(404).json({ error: "Species Not Found!" });
@@ -58,7 +57,7 @@ const updateSpecies = async (req, res, next) => {
 const deleteSpecies = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const species = await Species.findByIdAndDelete(id);
+    const species = await speciesService.deleteSpecies(id, req.user._id);
     if (!species) {
       return res.status(404).json({ error: "Species Not Found!" });
     }

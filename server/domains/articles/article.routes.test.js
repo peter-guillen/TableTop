@@ -26,7 +26,9 @@ describe("Article routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/articles returns 500 when the database fails", async () => {
-    vi.spyOn(Article, "find").mockRejectedValue(new Error("connection lost"));
+    vi.spyOn(Article, "find").mockReturnValue({
+      lean: () => Promise.reject(new Error("connection lost")),
+    });
 
     const res = await request(app).get("/api/articles");
 
@@ -35,12 +37,28 @@ describe("Article routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/articles/:id returns 404 when the record doesn't exist", async () => {
-    vi.spyOn(Article, "findById").mockResolvedValue(null);
+    vi.spyOn(Article, "findById").mockReturnValue({ lean: async () => null });
 
     const res = await request(app).get("/api/articles/6a580c1ec136c681a00e62c5");
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Article Not Found!" });
+  });
+
+  it("GET /api/articles/:id returns 400 when the query rejects bad input", async () => {
+    vi.spyOn(Article, "findById").mockReturnValue({
+      lean: () =>
+        Promise.reject(
+          Object.assign(new Error("Cast to ObjectId failed"), {
+            name: "CastError",
+          }),
+        ),
+    });
+
+    const res = await request(app).get("/api/articles/6a580c1ec136c681a00e62c5");
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Cast to ObjectId failed" });
   });
 
   it("POST /api/articles with invalid input returns 400 instead of hanging", async () => {
@@ -76,7 +94,8 @@ describe("Article routes: errors get a response instead of crashing", () => {
     const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
       jwtid: "t1",
     });
-    vi.spyOn(Article, "findByIdAndDelete").mockResolvedValue(null);
+    vi.spyOn(Article, "findById").mockReturnValue({ lean: async () => null });
+    const findByIdAndDelete = vi.spyOn(Article, "findByIdAndDelete");
 
     const res = await request(app)
       .delete("/api/articles/6a580c1ec136c681a00e62c6")
@@ -84,5 +103,6 @@ describe("Article routes: errors get a response instead of crashing", () => {
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Article Not Found!" });
+    expect(findByIdAndDelete).not.toHaveBeenCalled();
   });
 });

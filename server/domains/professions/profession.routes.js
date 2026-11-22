@@ -5,15 +5,15 @@ import checkAuthorization from "../../shared/middlewares/checkAuthorization.js";
 import validateObjectId from "../../shared/middlewares/validateObjectId.js";
 
 import {
-  getProfessions,
-  getProfession,
+  getAllProfessions,
+  getProfessionById,
   createProfession,
   deleteProfession,
   updateProfession,
 } from "./profession.controller.js";
 
-router.get("/", getProfessions);
-router.get("/:id", validateObjectId, getProfession);
+router.get("/", getAllProfessions);
+router.get("/:id", validateObjectId, getProfessionById);
 
 router.post(
   "/",

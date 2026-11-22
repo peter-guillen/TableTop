@@ -26,7 +26,9 @@ describe("Profession routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/professions returns 500 when the database fails", async () => {
-    vi.spyOn(Profession, "find").mockRejectedValue(new Error("connection lost"));
+    vi.spyOn(Profession, "find").mockReturnValue({
+      lean: () => Promise.reject(new Error("connection lost")),
+    });
 
     const res = await request(app).get("/api/professions");
 
@@ -35,12 +37,28 @@ describe("Profession routes: errors get a response instead of crashing", () => {
   });
 
   it("GET /api/professions/:id returns 404 when the record doesn't exist", async () => {
-    vi.spyOn(Profession, "findById").mockResolvedValue(null);
+    vi.spyOn(Profession, "findById").mockReturnValue({ lean: async () => null });
 
     const res = await request(app).get("/api/professions/6a580c1ec136c681a00e62c5");
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Profession Not Found!" });
+  });
+
+  it("GET /api/professions/:id returns 400 when the query rejects bad input", async () => {
+    vi.spyOn(Profession, "findById").mockReturnValue({
+      lean: () =>
+        Promise.reject(
+          Object.assign(new Error("Cast to ObjectId failed"), {
+            name: "CastError",
+          }),
+        ),
+    });
+
+    const res = await request(app).get("/api/professions/6a580c1ec136c681a00e62c5");
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Cast to ObjectId failed" });
   });
 
   it("POST /api/professions with invalid input returns 400 instead of hanging", async () => {
@@ -76,7 +94,8 @@ describe("Profession routes: errors get a response instead of crashing", () => {
     const token = jwt.sign({ _id: "6a580c1ec136c681a00e62c5", tv: 0 }, "test-secret", {
       jwtid: "t1",
     });
-    vi.spyOn(Profession, "findByIdAndDelete").mockResolvedValue(null);
+    vi.spyOn(Profession, "findById").mockReturnValue({ lean: async () => null });
+    const findByIdAndDelete = vi.spyOn(Profession, "findByIdAndDelete");
 
     const res = await request(app)
       .delete("/api/professions/6a580c1ec136c681a00e62c6")
@@ -84,5 +103,6 @@ describe("Profession routes: errors get a response instead of crashing", () => {
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: "Profession Not Found!" });
+    expect(findByIdAndDelete).not.toHaveBeenCalled();
   });
 });

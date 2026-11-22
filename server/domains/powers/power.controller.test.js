@@ -116,4 +116,33 @@ describe("powerController", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(deleteFakePower);
   });
+  it("should return 400 with the message when a read gets bad input", async () => {
+    powerService.getPowerById.mockRejectedValue(
+      Object.assign(new Error("Cast to ObjectId failed"), { name: "CastError" }),
+    );
+
+    const req = { params: { id: "507f1f77bcf86cd799439011" } };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+    await getPowerById(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: "Cast to ObjectId failed" });
+  });
+
+  it("should return 500 without the details when a read hits a server failure", async () => {
+    powerService.getAllPowers.mockRejectedValue(new Error("connection lost"));
+
+    const req = {};
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+    await getAllPowers(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({ error: "Failed to load powers" });
+  });
 });

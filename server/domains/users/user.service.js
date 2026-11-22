@@ -1,58 +1,44 @@
 import User from "./user.model.js";
 import { logAction } from "../../shared/utils/logger.js";
 
-// Every read and every logged before/after leaves out the password hash: the
-// activity log is visible to admins.
+// Only admin actions on other accounts (role changes and deletes) go to the
+// activity log. Signups and profile edits are ordinary user activity and
+// would drown out the content changes the log is for. Log entries keep just
+// the username and role: moderators can read the log but not the user list,
+// so full records (email, profile) stay out of it.
 
 const getAllUsers = async () => {
-  return await User.find({}).select("-password");
+  return await User.find({}).select("-password").lean();
 };
 
 const getUserById = async (id) => {
-  return await User.findById(id).select("-password");
+  return await User.findById(id).select("-password").lean();
 };
 
-// Signup. role is never taken from the caller; new accounts get the schema
-// default. The new user is logged as the one who acted.
-const createUser = async ({ email, username, password }) => {
+const createUser = async (userData) => {
+  // role is never taken from the request; new accounts get the schema default
+  const { email, username, password } = userData ?? {};
+  // new + save (not findOneAndUpdate) so the pre("save") hook hashes the password
   const user = new User({ email, username, password });
   await user.save();
-
-  const { password: _hash, ...after } = user.toObject();
-  await logAction({
-    userId: user._id,
-    action: "Created User",
-    target: "User",
-    targetId: user._id,
-    metadata: { before: null, after },
-  });
-
   return user;
 };
 
-const deleteUser = async (id, actorId) => {
-  const user = await User.findByIdAndDelete(id).select("-password");
-  if (!user) return null;
+const updateUserRole = async (id, role, actingUserId) => {
+  // Stops an admin from demoting themselves and locking everyone out
+  if (String(actingUserId) === String(id)) {
+    throw Object.assign(new Error("You cannot change your own role"), {
+      status: 400,
+    });
+  }
 
-  await logAction({
-    userId: actorId,
-    action: "Deleted User",
-    target: "User",
-    targetId: user._id,
-    metadata: { before: user.toObject(), after: null },
-  });
-
-  return user;
-};
-
-const updateUserRole = async (id, role, actorId) => {
   const before = await User.findById(id).select("-password").lean();
   if (!before) return null;
 
   // runValidators rejects any role outside the enum in user.model.js
   const after = await User.findByIdAndUpdate(
     id,
-    { role },
+    { $set: { role } },
     { new: true, runValidators: true },
   )
     .select("-password")
@@ -61,25 +47,54 @@ const updateUserRole = async (id, role, actorId) => {
   if (!after) return null;
 
   await logAction({
-    userId: actorId,
+    userId: actingUserId,
     action: "Updated User Role",
     target: "User",
     targetId: after._id,
-    metadata: { before, after },
+    metadata: {
+      before: { username: before.username, role: before.role },
+      after: { username: after.username, role: after.role },
+    },
   });
 
   return after;
 };
 
-// Only these profile keys are read, so nobody can set their own role here
-const updateMyProfile = async (userId, profile) => {
-  const { name, showName, pronouns, bio, location, timeZone } = profile ?? {};
+const deleteUser = async (id, actingUserId) => {
+  // Same rule as role changes: an admin can't remove their own account here
+  if (String(actingUserId) === String(id)) {
+    throw Object.assign(new Error("You cannot delete your own account"), {
+      status: 400,
+    });
+  }
 
-  const before = await User.findById(userId).select("-password").lean();
+  const before = await User.findById(id).select("-password").lean();
   if (!before) return null;
 
+  await User.findByIdAndDelete(id);
+
+  await logAction({
+    userId: actingUserId,
+    action: "Deleted User",
+    target: "User",
+    targetId: before._id,
+    metadata: {
+      before: { username: before.username, role: before.role },
+      after: null,
+    },
+  });
+
+  return before;
+};
+
+// Any logged-in user edits their own profile. Every field is optional, and
+// only these keys are read so nobody can set their own role this way
+const updateMyProfile = async (userId, profileData) => {
+  const { name, showName, pronouns, bio, location, timeZone } =
+    profileData ?? {};
+
   // runValidators rejects anything over the maxlength limits in user.model.js
-  const after = await User.findByIdAndUpdate(
+  return await User.findByIdAndUpdate(
     userId,
     {
       profile: {
@@ -95,25 +110,13 @@ const updateMyProfile = async (userId, profile) => {
   )
     .select("-password")
     .lean();
-  // Deleted between the two queries
-  if (!after) return null;
-
-  await logAction({
-    userId,
-    action: "Updated Profile",
-    target: "User",
-    targetId: after._id,
-    metadata: { before, after },
-  });
-
-  return after;
 };
 
 export {
   getAllUsers,
   getUserById,
   createUser,
-  deleteUser,
   updateUserRole,
+  deleteUser,
   updateMyProfile,
 };

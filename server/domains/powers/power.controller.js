@@ -5,7 +5,10 @@ const getAllPowers = async (req, res) => {
     const powers = await powerService.getAllPowers();
     res.status(200).json(powers);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load powers" });
   }
 };
 
@@ -18,7 +21,10 @@ const getPowerById = async (req, res) => {
     }
     res.status(200).json(power);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Failed to load power" });
   }
 };
 
