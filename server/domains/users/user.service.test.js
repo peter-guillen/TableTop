@@ -115,6 +115,20 @@ describe("updateUserRole", () => {
     expect(logAction).not.toHaveBeenCalled();
   });
 
+  it("returns null without logging when the user is deleted mid-update", async () => {
+    User.findById.mockReturnValue({
+      select: () => ({ lean: vi.fn().mockResolvedValue(mockUser) }),
+    });
+    User.findByIdAndUpdate.mockReturnValue({
+      select: () => ({ lean: vi.fn().mockResolvedValue(null) }),
+    });
+
+    const result = await updateUserRole("user123", "editor", adminId);
+
+    expect(result).toBeNull();
+    expect(logAction).not.toHaveBeenCalled();
+  });
+
   it("updates the role with validators on and logs only username and role", async () => {
     const updated = { ...mockUser, role: "editor" };
     User.findById.mockReturnValue({

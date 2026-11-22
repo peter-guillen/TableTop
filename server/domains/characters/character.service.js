@@ -73,10 +73,9 @@ const updateCharacter = async (id, updateData, userId) => {
 };
 
 const deleteCharacter = async (id, userId) => {
-  const before = await Character.findOne({ _id: id, userId }).lean();
+  // One query: the ownership check and the delete can't drift apart
+  const before = await Character.findOneAndDelete({ _id: id, userId }).lean();
   if (!before) return null;
-
-  await Character.findOneAndDelete({ _id: id, userId });
 
   await logAction({
     userId,

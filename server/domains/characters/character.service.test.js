@@ -158,10 +158,9 @@ describe("updateCharacter", () => {
 
 describe("deleteCharacter", () => {
   it("deletes the owner's character, logs, and returns it", async () => {
-    Character.findOne.mockReturnValue({
+    Character.findOneAndDelete.mockReturnValue({
       lean: vi.fn().mockResolvedValue(mockCharacter),
     });
-    Character.findOneAndDelete.mockResolvedValue();
 
     const result = await deleteCharacter("character123", mockUserId);
 
@@ -179,15 +178,19 @@ describe("deleteCharacter", () => {
     expect(result).toEqual(mockCharacter);
   });
 
-  it("returns null without deleting or logging when the character isn't the user's", async () => {
-    Character.findOne.mockReturnValue({
+  it("returns null without logging when the character isn't the user's", async () => {
+    Character.findOneAndDelete.mockReturnValue({
       lean: vi.fn().mockResolvedValue(null),
     });
 
     const result = await deleteCharacter("character123", "otherUser");
 
     expect(result).toBeNull();
-    expect(Character.findOneAndDelete).not.toHaveBeenCalled();
+    // The owner filter is part of the delete itself
+    expect(Character.findOneAndDelete).toHaveBeenCalledWith({
+      _id: "character123",
+      userId: "otherUser",
+    });
     expect(logAction).not.toHaveBeenCalled();
   });
 });

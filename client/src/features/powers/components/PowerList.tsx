@@ -1,10 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import { LuSearch, LuFilter, LuX } from "react-icons/lu";
+import { useState } from "react";
 
 import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi";
 import { useGetAllPowersQuery } from "../api/powerApi";
 
 import { PowerPreview } from "./PowerPreview";
+import { EmptyState } from "../../../shared/components/EmptyState.tsx";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { FilterCheckboxGroup } from "../../../shared/components/FilterCheckboxGroup.tsx";
+import { FilterDropdown } from "../../../shared/components/FilterDropdown.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
+import { SearchInput } from "../../../shared/components/SearchInput.tsx";
 
 const KIND_OPTIONS = ["spell", "technique", "ability", "trait"] as const;
 const KIND_TABS = ["all", ...KIND_OPTIONS] as const;
@@ -55,28 +60,10 @@ export const PowerList = () => {
     [],
   );
 
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  const filterRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
-        setIsFilterOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong</p>;
-  if (loadingCondition) return <p>Loading...</p>;
-  if (errorCondition) return <p>Something went wrong</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
+  if (loadingCondition) return <LoadingSpinner />;
+  if (errorCondition) return <ErrorMessage />;
 
   const conditionsById = Object.fromEntries(conditions.map((c) => [c._id, c]));
 
@@ -162,215 +149,58 @@ export const PowerList = () => {
 
             {/* Search + Filter Bar */}
             <div className="flex items-start gap-3 mb-6">
-              <div className="relative flex-1">
-                <LuSearch
-                  size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"
-                />
-                <input
-                  type="text"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  placeholder="Search powers..."
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-white placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-emerald-600 dark:focus:ring-emerald-400"
-                />
-              </div>
+              <SearchInput
+                value={searchText}
+                onChange={setSearchText}
+                placeholder="Search powers..."
+              />
 
               {selectedKind !== "all" && (
-                <div className="relative" ref={filterRef}>
-                  <button
-                    onClick={() => setIsFilterOpen((prev) => !prev)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-                  >
-                    <LuFilter size={18} />
-                    <span>Filter</span>
-                    {activeFilterCount > 0 && (
-                      <span className="flex items-center justify-center w-5 h-5 text-xs font-semibold rounded-full bg-emerald-700 text-white dark:bg-emerald-500 dark:text-stone-950">
-                        {activeFilterCount}
-                      </span>
-                    )}
-                  </button>
-
-                  {isFilterOpen && (
-                    <div className="absolute right-0 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl p-4 z-10">
-                      <div className="flex items-center justify-between mb-3">
-                        <p className="text-sm font-semibold text-stone-900 dark:text-white">
-                          Filters
-                        </p>
-                        {activeFilterCount > 0 && (
-                          <button
-                            onClick={() => {
-                              setSelectedSchools([]);
-                              setSelectedWeaponTags([]);
-                              setSelectedAbilityOptions([]);
-                              setSelectedTraitOptions([]);
-                            }}
-                            className="flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
-                          >
-                            <LuX size={12} />
-                            Clear
-                          </button>
-                        )}
-                      </div>
-
-                      {selectedKind === "spell" && (
-                        <>
-                          <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
-                            School
-                          </p>
-                          <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
-                            {SCHOOL_OPTIONS.map((school) => (
-                              <label
-                                key={school}
-                                className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
-                              >
-                                <input
-                                  type="checkbox"
-                                  className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
-                                  checked={selectedSchools.includes(school)}
-                                  onChange={(e) => {
-                                    if (e.target.checked) {
-                                      setSelectedSchools((prev) => [
-                                        ...prev,
-                                        school,
-                                      ]);
-                                    } else {
-                                      setSelectedSchools((prev) =>
-                                        prev.filter((s) => s !== school),
-                                      );
-                                    }
-                                  }}
-                                />
-                                {school}
-                              </label>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {selectedKind === "technique" && (
-                        <>
-                          <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
-                            Weapon Tags
-                          </p>
-                          <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
-                            {WEAPON_TAG_OPTIONS.map((tag) => (
-                              <label
-                                key={tag}
-                                className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
-                              >
-                                <input
-                                  type="checkbox"
-                                  className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
-                                  checked={selectedWeaponTags.includes(tag)}
-                                  onChange={(e) => {
-                                    if (e.target.checked) {
-                                      setSelectedWeaponTags((prev) => [
-                                        ...prev,
-                                        tag,
-                                      ]);
-                                    } else {
-                                      setSelectedWeaponTags((prev) =>
-                                        prev.filter((t) => t !== tag),
-                                      );
-                                    }
-                                  }}
-                                />
-                                {tag}
-                              </label>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {selectedKind === "ability" && (
-                        <>
-                          <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
-                            Ability Filters
-                          </p>
-                          {ABILITY_OPTIONS.length === 0 ? (
-                            <p className="text-sm text-stone-400 dark:text-stone-500">
-                              No filters yet.
-                            </p>
-                          ) : (
-                            <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
-                              {ABILITY_OPTIONS.map((option) => (
-                                <label
-                                  key={option}
-                                  className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
-                                >
-                                  <input
-                                    type="checkbox"
-                                    className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
-                                    checked={selectedAbilityOptions.includes(
-                                      option,
-                                    )}
-                                    onChange={(e) => {
-                                      if (e.target.checked) {
-                                        setSelectedAbilityOptions((prev) => [
-                                          ...prev,
-                                          option,
-                                        ]);
-                                      } else {
-                                        setSelectedAbilityOptions((prev) =>
-                                          prev.filter((o) => o !== option),
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  {option}
-                                </label>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                      {selectedKind === "trait" && (
-                        <>
-                          <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">
-                            Trait Filters
-                          </p>
-                          {TRAIT_OPTIONS.length === 0 ? (
-                            <p className="text-sm text-stone-400 dark:text-stone-500">
-                              No filters yet.
-                            </p>
-                          ) : (
-                            <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
-                              {TRAIT_OPTIONS.map((option) => (
-                                <label
-                                  key={option}
-                                  className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 capitalize cursor-pointer"
-                                >
-                                  <input
-                                    type="checkbox"
-                                    className="h-4 w-4 accent-emerald-700 dark:accent-emerald-500"
-                                    checked={selectedTraitOptions.includes(
-                                      option,
-                                    )}
-                                    onChange={(e) => {
-                                      if (e.target.checked) {
-                                        setSelectedTraitOptions((prev) => [
-                                          ...prev,
-                                          option,
-                                        ]);
-                                      } else {
-                                        setSelectedTraitOptions((prev) =>
-                                          prev.filter((o) => o !== option),
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  {option}
-                                </label>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
+                <FilterDropdown
+                  activeCount={activeFilterCount}
+                  onClear={() => {
+                    setSelectedSchools([]);
+                    setSelectedWeaponTags([]);
+                    setSelectedAbilityOptions([]);
+                    setSelectedTraitOptions([]);
+                  }}
+                >
+                  {selectedKind === "spell" && (
+                    <FilterCheckboxGroup
+                      label="School"
+                      options={SCHOOL_OPTIONS}
+                      selected={selectedSchools}
+                      onChange={setSelectedSchools}
+                    />
                   )}
-                </div>
+
+                  {selectedKind === "technique" && (
+                    <FilterCheckboxGroup
+                      label="Weapon Tags"
+                      options={WEAPON_TAG_OPTIONS}
+                      selected={selectedWeaponTags}
+                      onChange={setSelectedWeaponTags}
+                    />
+                  )}
+
+                  {selectedKind === "ability" && (
+                    <FilterCheckboxGroup
+                      label="Ability Filters"
+                      options={ABILITY_OPTIONS}
+                      selected={selectedAbilityOptions}
+                      onChange={setSelectedAbilityOptions}
+                    />
+                  )}
+
+                  {selectedKind === "trait" && (
+                    <FilterCheckboxGroup
+                      label="Trait Filters"
+                      options={TRAIT_OPTIONS}
+                      selected={selectedTraitOptions}
+                      onChange={setSelectedTraitOptions}
+                    />
+                  )}
+                </FilterDropdown>
               )}
             </div>
 
@@ -380,9 +210,7 @@ export const PowerList = () => {
                 conditionsById={conditionsById}
               />
             ) : (
-              <p className="text-center text-stone-500 dark:text-stone-400 mt-8">
-                No powers match your search.
-              </p>
+              <EmptyState message="No powers match your search." />
             )}
           </div>
         </div>

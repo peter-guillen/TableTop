@@ -43,6 +43,8 @@ const updateUserRole = async (id, role, actingUserId) => {
   )
     .select("-password")
     .lean();
+  // Deleted between the two queries
+  if (!after) return null;
 
   await logAction({
     userId: actingUserId,

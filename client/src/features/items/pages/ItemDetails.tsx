@@ -16,6 +16,8 @@ import { useGetItemByIdQuery } from "../api/itemApi";
 import type { Rarity } from "../itemTypes";
 
 import { useGetAllPowersQuery } from "../../powers/api/powerApi";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 // Rarity ladder runs cool to warm; the top two tiers get a solid fill so a
 // legendary never reads like a common
@@ -28,7 +30,8 @@ const RARITY_BADGE: Record<Rarity, string> = {
   heroic:
     "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-500/40",
   epic: "bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-300 dark:border-fuchsia-500/40",
-  legendary: "bg-amber-400 text-stone-950 border-amber-500 dark:border-amber-300",
+  legendary:
+    "bg-amber-400 text-stone-950 border-amber-500 dark:border-amber-300",
   mythic:
     "bg-rose-600 text-white border-rose-700 dark:bg-rose-500 dark:border-rose-400",
 };
@@ -46,8 +49,8 @@ export function ItemDetails() {
   );
   const handleReturn = () => navigate(-1);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
 
   if (!item) {
     return (

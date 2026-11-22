@@ -16,6 +16,8 @@ import {
 } from "react-icons/lu";
 import { useGetAllConditionsQuery } from "../../conditions/api/conditionApi.ts";
 import { useGetPowerByIdQuery } from "../api/powerApi";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
+import { LoadingSpinner } from "../../../shared/components/LoadingSpinner.tsx";
 
 export function PowerDetails() {
   const { id } = useParams<{ id: string }>();
@@ -30,8 +32,8 @@ export function PowerDetails() {
   );
   const handleReturn = () => navigate(-1);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
 
   if (!power) {
     return (

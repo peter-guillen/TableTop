@@ -1,11 +1,10 @@
 import jwt from "jsonwebtoken";
-import User from "../users/user.model.js";
-import RevokedToken from "./revokedToken.model.js";
+import * as authService from "./auth.service.js";
 import generateToken from "../../shared/middlewares/jwtoken.js";
 
 const userMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password");
+    const user = await authService.getCurrentUser(req.user._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -18,17 +17,12 @@ const userMe = async (req, res) => {
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   let user;
-  let isMatch = false;
   try {
-    // Mobile keyboards often add a trailing space after an email suggestion
-    user = await User.findOne({ email: String(email ?? "").trim() });
-    if (user) {
-      isMatch = await user.comparePassword(password);
-    }
+    user = await authService.findUserByCredentials(email, password);
   } catch (error) {
     return next(error);
   }
-  if (!user || !isMatch) {
+  if (!user) {
     return res.status(401).json({ message: "Invalid username or password" });
   }
   const token = generateToken(user);
@@ -68,12 +62,7 @@ const logoutUser = async (req, res) => {
   }
   if (decoded?.jti) {
     try {
-      // upsert: logging out twice with the same token isn't an error
-      await RevokedToken.updateOne(
-        { jti: decoded.jti },
-        { $setOnInsert: { expiresAt: new Date(decoded.exp * 1000) } },
-        { upsert: true },
-      );
+      await authService.revokeToken(decoded.jti, decoded.exp);
     } catch (error) {
       res.clearCookie("token", {
         httpOnly: true,

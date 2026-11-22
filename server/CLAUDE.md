@@ -26,9 +26,10 @@ node seeds/power.seed.js    # each seed is runnable directly; it WIPES that coll
 
 ## Domain rules
 
-- **Every domain uses a service layer.** New domains start with one. All content domains, plus characters and users, have one. Two domains are exempt on purpose: `auth` (cookie and JWT handling around three one-line queries, no content changes) and `activity` (the log itself: one read-only query, written through `logAction`).
+- **Every domain uses a service layer.** New domains start with one. All content domains, plus characters, users and auth, have one. `activity` is exempt on purpose: it is the log itself (one read-only query, written through `logAction`).
   - The service owns all Mongoose calls. The controller only reads `req`, calls the service, and sends the response.
   - Every create/update/delete in a service calls `logAction` from `shared/utils/logger.js` with `{ userId, action, target, targetId, metadata: { before, after } }`. This feeds the `activity` domain.
+  - Users logs only role changes and admin deletes, storing just `{ username, role }` (moderators can read the log but not the user list). Signups, profile edits, logins and logouts are not logged.
   - Follow `domains/powers/` as the reference implementation. Write each domain's service out in full. Don't build a generic CRUD service or factory (see primary rule 2).
 - **Controllers:** 404 when the service returns `null`. Reads return 400 with `{ error: error.message }` for bad input (`ValidationError`, `CastError`) and 500 for server failures such as the database being down. Writes pass errors to `next(error)`.
 - **Every async handler catches its errors and always sends a response.** An uncaught rejection or a hanging request can take the live server down. Reads send their own 500; writes call `next(error)`, and the error handler at the end of `app.js` answers 400 for bad input (`ValidationError`, `CastError`, malformed JSON) or a generic 500. Keep that handler last in `app.js`.
@@ -40,7 +41,7 @@ node seeds/power.seed.js    # each seed is runnable directly; it WIPES that coll
 ## Known issues
 
 - `app.js` reads `CLIENT_URL` before `server.js` calls `dotenv.config()` (ESM imports run first), so `CLIENT_URL` from `.env` is ignored (ROADMAP item 6).
-- The whole server suite passes. Any test failure is real.
+- All server tests pass. Any failure is real.
 - The production database is named `test` (ROADMAP item 27).
 
 ## Auth

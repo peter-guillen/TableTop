@@ -9,13 +9,18 @@ import {
   inkPrimary,
   surface,
 } from "../../../shared/styles/theme.ts";
+import { EmptyState } from "../../../shared/components/EmptyState.tsx";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
 
 export const ArticleList = () => {
-  const { data: articleList } = useGetAllArticlesQuery();
+  const {
+    data: articleList = [],
+    isLoading,
+    isError,
+  } = useGetAllArticlesQuery();
 
-  if (!articleList || articleList.length === 0) {
-    return <LoadingSpinner />;
-  }
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorMessage />;
 
   return (
     <div className={`min-h-screen p-6 md:p-8 ${surface} ${ink}`}>
@@ -33,7 +38,11 @@ export const ArticleList = () => {
           </p>
         </div>
 
-        <ArticleCard />
+        {articleList.length > 0 ? (
+          <ArticleCard />
+        ) : (
+          <EmptyState message="No articles yet." />
+        )}
       </div>
     </div>
   );
