@@ -11,7 +11,7 @@ Part of the RPGHub design docs (index at the top of [GAME_RULES.md](GAME_RULES.m
 ## 1. Decided (user, 2026-11-26)
 
 - **A table mode, not a character option.** A group plays either classed or classless, never both. It's like a GM ruling out multiclassing. Classless characters are balanced against each other, not against professions. If the group later wants to mix the two, the balancer handles any differences.
-- **Access to everything.** A classless character can take any spell, ability or trait in the catalog, including every profession's core and path traits. Techniques still come from weapons (§9), so a trait-only technique is available to anyone who has the trait that grants it.
+- **Access to everything.** A classless character can take any spell or trait in the catalog, including every profession's core and path traits. Techniques still come from weapons (§9), so a trait-only technique is available to anyone who has the trait that grants it.
 - **Free picks.** Classless has no signature mechanic of its own. Its identity is whatever its picks add up to.
 - **Power target:** a classless character should be about as strong overall as a classed character of the same level, but no stronger than a profession at that profession's own specialty. This is what the balancer measures against if the modes are ever mixed.
 
@@ -71,7 +71,7 @@ With every trait open, the traits that build on each other need explicit links. 
 
 These guarantee that every classless character can act meaningfully from L1 (§9: "no character should feel useless").
 
-- **Starting kit:** your slotted powers at L1 must include at least **one at-will damage power** (any spell, ability, or a technique your starting weapon offers) and **one at-will utility power**.
+- **Starting kit:** your slotted powers at L1 must include at least **one at-will damage power** (any spell, or a technique your starting weapon offers) and **one at-will utility power**.
 - **Skills:** 2 skill proficiencies of your choice at rank 1, the same count as a profession (§11).
 - **Starting items:** take the starting items of any one profession `[CL-8]`.
 - **No required tank.** §11 gives tank professions a protective trait (GB-5). A classless party isn't required to have one; leaving one out is the group's choice.

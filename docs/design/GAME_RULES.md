@@ -15,7 +15,7 @@ The decided rules of the RPGHub TTRPG system. Use them to write seed content (po
 | **GAME_RULES.md** | The decided rules (this file) |
 | [PROFESSION_CATALOG.md](PROFESSION_CATALOG.md) | Each profession's base stats, HP/MP growth and level rewards |
 | [ITEM_CATALOG.md](ITEM_CATALOG.md) | Item lists: materials, qualities, enchantments, runes, blessings, curse twists, damage types, conditions |
-| [POWER_CATALOG.md](POWER_CATALOG.md) | Draft spells, abilities, techniques and traits |
+| [POWER_CATALOG.md](POWER_CATALOG.md) | Draft spells, techniques and traits |
 | [BALANCE_RULES.md](BALANCE_RULES.md) | Balancing passes on the core rules (`[GB-n]`; its status table indexes every GB finding) |
 | [BALANCE_PROFESSIONS.md](BALANCE_PROFESSIONS.md) | Balancing math for professions |
 | [BALANCE_ITEMS.md](BALANCE_ITEMS.md) | Item design under test (B1–B7), known limits, and item balancing passes |
@@ -44,7 +44,7 @@ Each offensive stat is opposed by one defensive stat:
 | **Dominance** | vs. | **Resolve**    | Saving throw: does an area, control or status effect take hold? |
 | **Might**     | vs. | **Resilience** | Damage: Might adds to all damage dealt, Resilience subtracts from damage taken |
 
-**No caster/martial split.** Every stat matters to every character. Might adds to *all* damage: spells, techniques and abilities. Dominance drives *all* control effects, whether it's a psychic seizing a mind or a fighter hamstringing an enemy. When writing seeds, don't tie a stat to a "type" of character.
+**No caster/martial split.** Every stat matters to every character. Might adds to *all* damage: spells and techniques alike. Dominance drives *all* control effects, whether it's a psychic seizing a mind or a fighter hamstringing an enemy. When writing seeds, don't tie a stat to a "type" of character.
 
 | Category  | Stats                                     |
 | --------- | ----------------------------------------- |
@@ -73,7 +73,7 @@ Each profession's base line (combat stats, HP/MP split, Initiative) is in [PROFE
 - Combat runs in **rounds**. Each creature takes one **turn** per round.
 - **Initiative:** at the start of combat, everyone rolls d20 + Initiative. Highest goes first.
 - Each turn you have:
-  - **Major Action:** attacks, spells, significant abilities.
+  - **Major Action:** attacks, spells, significant traits.
   - **Minor Action:** quick tasks such as moving, drawing a weapon, or using a simple item.
   - **Reaction:** one per round, triggered outside your turn. It refreshes at the start of your turn.
 - Power `activation.action` is one of `major_action`, `minor_action`, `reaction`.
@@ -114,7 +114,7 @@ Each profession's base line (combat stats, HP/MP split, Initiative) is in [PROFE
 | Minor Action | 1 |
 
 - **Momentum buys actions only.** No power costs Momentum. The most a trait can do is let a power be used as a Minor Action instead of a Major Action.
-- Traits and abilities can generate Momentum. Their description says how much and when.
+- Traits and other powers can generate Momentum. Their description says how much and when.
 - The earlier "no extra Major Action in round 1" rule is no longer needed, since starting at 0 already covers it (GB-1).
 
 ## 5. Resolving Offense
@@ -144,7 +144,7 @@ A Witch's single-target hex and a Rogue's hamstring both use Dominance (GB-4).
 
 ### Damage: Might vs. Resilience
 
-1. Roll the power's dice, then add **Might** and any flat modifier. Might applies to every damaging power: spells, techniques and abilities alike. **Weapon rider dice are added only to techniques made with that weapon**, never to spells or abilities.
+1. Roll the power's dice, then add **Might** and any flat modifier. Might applies to every damaging power: spells, techniques and traits alike. **Weapon rider dice are added only to techniques made with that weapon**, never to spells or traits.
 2. **Vulnerability:** double it.
 3. Subtract the target's **Resilience**.
 4. **Resistance:** halve it.
@@ -268,8 +268,7 @@ Used on species and items (`resistances[]`). They're rare: most creatures have n
 | Kind      | Lives in                 | Notes |
 | --------- | ------------------------ | ----- |
 | spell     | `powers.spells` slot     | Has a `school` and follows the spell rules (below). Typically costs MP. |
-| ability   | `powers.abilities` slot  | Works like a spell but without a school or the spell rules. A shout, a stance, a burst of ki, a hamstring. |
-| trait     | `powers.traits` slot     | The catch-all: passives, origin features, anything that isn't an action. Only traits may have `grantedPowers`. |
+| trait     | `powers.traits` slot     | Passives, origin features, class grants and feat-like picks. A trait can also be used as an action (grit, stances, many class grants). Only traits may have `grantedPowers`. |
 | technique | Not slotted              | The main source of weapon damage. A weapon offers a technique if it has **at least one** of the technique's `requirements.properties`. Techniques must list ≥1 property. |
 
 - **Slots:** each group starts at 3 (`BASE_POWER_SLOTS`). Level rewards add more.
@@ -291,7 +290,7 @@ Conjuration and Warding are not schools. Summoning and binding live in Vitalism,
 
 ### Spell rules (spell-only)
 
-These four activation flags are only for spells. They're what separates a spell from an ability.
+These four activation flags are only for spells. (There's no separate "ability" kind any more: it was removed on 2026-11-27. A shout or a hex is a spell; grit and stances are traits.)
 
 | Flag | Meaning |
 | ---- | ------- |
@@ -330,7 +329,7 @@ Some traits grant a creature that stays with you between fights: the Cavalier's 
 - **HP:** half your hpMax (rounded down), so it grows as you level. It can be healed. It doesn't rally.
 - **Stats:** it uses your Accuracy, Dominance, Evasion and Resilience, and has Resolve 0 (as PB-4). It doesn't use items.
 - **Speed:** 30 ft, or as its trait says.
-- **Actions:** it has no turn of its own. **Spend a Minor Action to command it:** it moves up to its speed and takes one action: its attack, Dodge (ABL-01), or whatever its trait lists. Its attack is the **at-will dice for your level** (PB-8: 1d8, 2d6 at L4, 2d8 at L7, 3d8 at L10) plus your Might, rolled as an Atk. It takes no Reactions unless a trait says so.
+- **Actions:** it has no turn of its own. **Spend a Minor Action to command it:** it moves up to its speed and takes one action: its attack, Dodge (TRT-260), or whatever its trait lists. Its attack is the **at-will dice for your level** (PB-8: 1d8, 2d6 at L4, 2d8 at L7, 3d8 at L10) plus your Might, rolled as an Atk. It takes no Reactions unless a trait says so.
 - **Mounts:** getting on or off costs half your movement. While mounted, your Minor Action moves you both at the mount's speed. A mount doesn't attack unless its trait says so.
 - **In the fight:** it's a creature. It can be targeted, it's caught by areas, and it takes conditions. Damage to it doesn't force your concentration save.
 - **At 0 HP** it's out of the fight. After the fight it recovers to 1 HP, and it heals on rests like you do. It dies only if the GM makes that a story moment. A lost companion is replaced after a long rest.
@@ -343,7 +342,7 @@ Some traits let you take a **form** (the Wild Witch's beast shapes).
 - **Taking or leaving a form** is the action the trait lists. You also leave it when you drop to 0 HP or choose to (no action). Out of combat, a form lasts up to 1 hour.
 - **You stay yourself.** You keep your stats, HP, MP, traits and conditions. The form adds its own modifiers and natural weapons on top. There's no separate HP pool.
 - **Natural weapons** count as weapons with the properties the form lists, so they offer techniques like any weapon. They have no riders.
-- **In a form you can't cast spells or use held items.** Abilities, traits and techniques still work. Worn items merge into the form, and their passive bonuses still apply.
+- **In a form you can't cast spells or use held items.** Traits and techniques still work. Worn items merge into the form, and their passive bonuses still apply.
 
 ## 10. Items
 
@@ -536,5 +535,6 @@ Rules decided in this doc that the code doesn't match yet. Each one is a contrac
 | New spell schools | `power.model.js` `school` enum: manifestation, transmutation, manipulation, noetics, vitalism | `powerTypes.ts`, `powerDefaults.ts`, `PowerBasicInfoSection.tsx`, `PowerPreview.tsx`, `PowerList.tsx` | Every spell seed's `school` |
 | Skill ranks | `character.model.js`: `skills` changes from a string array to ranks per skill (0–5) | `charactersTypes.ts`, `characterDefaults.ts`, skills UI | Existing characters' skills migrate to rank 1 |
 | Enforce `requiredTraits` (path grants, OPEN-27) | When a level reward or power choice is applied, reject an option whose `requirements.requiredTraits` the character doesn't have (the field exists on `power.model.js`; nothing checks it today) | Level-up choice UI offers only options whose `requiredTraits` the character has, and auto-picks when only one qualifies | None (path grants aren't seeded yet) |
-| Spell flags are spell-only | `power.model.js` pre-validate: reject `ritual`, `concentration`, `channel`, `castTime > 0` on non-spells | power form hides them for non-spells | Check existing ability seeds |
+| Remove the `ability` kind (2026-11-27; plan in DECISIONS, Powers) | `power.model.js`: drop `ability` from the `kind` enum (and its tests); `character.model.js`: drop `powerSlots.abilities` and `powers.abilities` | `powerTypes.ts`, `PowerBasicInfoSection.tsx`, `PowerList.tsx`, `AdminDashboard.tsx`, `charactersTypes.ts`, `characterDefaults.ts`, `CharacterArchetype.tsx`, `CharacterDetails.tsx`, `CharacterProgression.tsx`, `ProfessionLevelsSection.tsx` | Delete every power with `kind: "ability"` and every character's `powers.abilities` (user decision: delete, don't migrate). Profession slot grants for abilities become spells. |
+| Spell flags are spell-only | `power.model.js` pre-validate: reject `ritual`, `concentration`, `channel`, `castTime > 0` on non-spells | power form hides them for non-spells | Check existing seeds |
 | Player rules page matches this doc | — | `Rules.tsx`: "Defense" → 10 + Evasion, "Presence" → Dominance, Might adds to damage, Momentum starts at 0 and resets after combat, Momentum action costs, crit examples, affinity damage types, successful save = no damage, save DC 11 + Dominance, natural 20/1, downed and rally rules (one rally per fight), movement +5 ft per point, damage types light/dark and blight/necrotic, minimum damage 1 | None |

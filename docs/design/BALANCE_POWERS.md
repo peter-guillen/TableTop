@@ -37,11 +37,11 @@ The designer applies fixes once the user signs off, then sends the IDs back here
 | Finding | Power(s) | Impact | Status |
 | ------- | -------- | ------ | ------ |
 | PB-1 Multi-attack multiplies Might | TEC-07, TEC-35, TEC-44, TEC-52, CON-11 | High | Open. The rule change goes to the rules lead (§5). |
-| PB-2 Free permanent stances | ABL-08, ABL-09, ABL-02 | High | Open |
+| PB-2 Free permanent stances | TRT-263, TRT-264, TRT-261 | High | Open |
 | PB-3 Technique costs: MP and recharge | All costed techniques | High | **Momentum version superseded** by the user's decision (no Momentum costs). Re-checked against MP and recharge: T1–T2 MP pricing is OK; T3–T4 per-technique recharges are **Open**. |
 | PB-4 Summon budget and durations (answers PQ-3) | CON-04, CON-05, CON-08, CON-10, CON-11, CON-13 | High | CON-05 duration **Fixed by designer** (up to 3 turns, Conc). The rest is Open. |
 | PB-5 Powers off their tier | MAN-26, VIT-22, MAN-19, MAN-23, MAN-24, NOE-12 | Medium | Open |
-| PB-6 Boosts that scale with targets (answers PQ-15) | TRT-33, ABL-35, ABL-40 | Medium | Open |
+| PB-6 Boosts that scale with targets (answers PQ-15) | TRT-33, VIT-68, VIT-70 | Medium | Open |
 | PB-7 Buff budget (answers PQ-4) | TRA-06, TRA-13, MNP-08, WAR-03, WAR-07, WAR-10 and others | Medium | Open |
 | PB-8 At-will scaling (answers PQ-9) | All T0 damage powers | Medium | Open. Goes to the rules lead (§9). |
 | PB-9 Techniques above their tier | TEC-27, TEC-50, TEC-34, TEC-42, TEC-39 | Medium | Open |
@@ -149,7 +149,7 @@ Checking the catalog against this budget:
 | TRA-13 Iron Body (T2, +2 Res / −1 Eva, Minor, Conc) | T2 single, Minor offset by the drawback | OK |
 | MNP-08 Swift Hours (T2, an extra Minor each turn for 3 turns, +2 Init) | About 3 Mom of value for 7 MP | OK |
 | MNP-10 Offset, NOE-15 Many Selves | +2 Evasion at T2, ends early | OK |
-| ABL-05 Battle Cry (T1 area, +1 Acc for about 1 turn) | T1 area | OK |
+| NOE-68 Battle Cry (T1 area, +1 Acc for about 1 turn) | T1 area | OK |
 | WAR-01 A Moment Sooner, NOE-09 Mental Fortress | Reaction, one roll | OK |
 | WAR-03 Shelter (T1 Minor, −2 against one ally for up to 3 turns) | +2 is the T2 single size | **One step high.** It ends when the ally attacks, so it's borderline. Lever: −1, or 1 turn. |
 | WAR-07 Protective Circle (T2 area, +2 Resolve) | T2 area is +1 | **One step high.** Lever: +1 Resolve, or move to T3. |
@@ -178,14 +178,14 @@ Thousand Cuts with optimized Might downs a 60 HP Psychic in about 1.3 hits. If w
 - The designer's alternative, "Might once per power" with Resilience still per hit, makes multi-attacks useless against armor: five 1d8 strikes against Resilience 4 deal about 0.5 each before the minimum. Resolving damage once fixes both directions.
 - *Fallback if the rules lead declines:* cut the dice. Flurry to 3 × 1d4, Blade Dance to 4 × 1d4, Thousand Cuts to 5 × 1d6, Twin Cut to 2 × 1d3 (or cut it).
 
-**`[PB-2]` Free permanent stances break the L1 cap and the Knight's hit count (ABL-08, ABL-09, ABL-02).**
-- **ABL-09 Reckless Stance (+2 Might, −2 Evasion):** a Warrior with Might 3 and a species +1 reaches **Might 6 at L1**, past the cap of 5. +2 Might on every hit raises a 2d6 technique against Resilience 2 from 8 to 10 (+25%). The cost: an attacker's hit chance against Evasion 0 goes from 55% to 65%, about +18% damage taken. It's free and never ends, so it's always worth taking. It's not a tradeoff, it's a tax everyone pays.
-- **ABL-08 Defensive Stance (+2 Resilience, −2 Accuracy):** a Knight with Resilience 3 and a species +1 reaches **Resilience 6 at L1**. A L1 Warrior's 2d6 + 3 then deals 4 per hit, so the Knight's 30 HP lasts **7.5 hits**. That's past the 3–6 target. −2 Accuracy costs a Knight almost nothing, since dealing damage isn't their job.
-- **ABL-02 Brace (T0, +1 Res until your next turn, Minor):** at-will, so it's a permanent +1 for a Knight who doesn't move. With Defensive Stance that's Resilience 7.
+**`[PB-2]` Free permanent stances break the L1 cap and the Knight's hit count (TRT-263, TRT-264, TRT-261).**
+- **TRT-264 Reckless Stance (+2 Might, −2 Evasion):** a Warrior with Might 3 and a species +1 reaches **Might 6 at L1**, past the cap of 5. +2 Might on every hit raises a 2d6 technique against Resilience 2 from 8 to 10 (+25%). The cost: an attacker's hit chance against Evasion 0 goes from 55% to 65%, about +18% damage taken. It's free and never ends, so it's always worth taking. It's not a tradeoff, it's a tax everyone pays.
+- **TRT-263 Defensive Stance (+2 Resilience, −2 Accuracy):** a Knight with Resilience 3 and a species +1 reaches **Resilience 6 at L1**. A L1 Warrior's 2d6 + 3 then deals 4 per hit, so the Knight's 30 HP lasts **7.5 hits**. That's past the 3–6 target. −2 Accuracy costs a Knight almost nothing, since dealing damage isn't their job.
+- **TRT-261 Brace (T0, +1 Res until your next turn, Minor):** at-will, so it's a permanent +1 for a Knight who doesn't move. With Defensive Stance that's Resilience 7.
 
 *Suggested lever:*
 1. Stances are **+1 / −1 at T1**, or **+2 / −2 at T2** (minLevel 4). Entering a stance costs a Minor Action.
-2. **The drawback hits a stat the user cares about.** Defensive Stance: −2 Evasion or half movement instead of Accuracy (Bulwark Stance ABL-15 already does this well).
+2. **The drawback hits a stat the user cares about.** Defensive Stance: −2 Evasion or half movement instead of Accuracy (Bulwark Stance TRT-268 already does this well).
 3. **Only one stance at a time** (yes to PQ-13), and stance bonuses don't stack with other power bonuses to the same stat (the PB-7 no-stacking rule). That covers Brace.
 4. Stances count toward the L1 stat cap (see PB-7).
 
@@ -215,10 +215,10 @@ Check: with a +1 Defensive Stance, the Knight is at Resilience 5, takes 5 per hi
 - **MAN-24 Falling Star (T4, 15 MP, Cast 1):** the same 3d10 area as TRA-20 Sundered Earth (14 MP), plus a 1-turn delay and a wasted spell if you're downed. *Under.* Lever: 13 MP, or a lingering 1d10 burning area for 1 turn.
 - **NOE-12 Deep Lull (T2):** area **and** save-ends for 3 turns. §12 allows T2 for "save-ends **or** area". An ambush with this takes a group out of the fight, and only damage wakes them. *Lever:* area sleep for 1 turn at T2, and save-ends area at T3.
 
-**`[PB-6]` Boosts that scale with the number of targets (TRT-33, ABL-35, ABL-40; PQ-15).**
+**`[PB-6]` Boosts that scale with the number of targets (TRT-33, VIT-68, VIT-70; PQ-15).**
 - **TRT-33 Elemental Focus (+1 per die):** +2 on a T1 single (+29%), but +3 to *each* target of a T4 area. Against 4 targets that's +12 a cast. It also stacks with multi-attacks (+5 on Thousand Cuts). *Lever:* the bonus applies to **one target per power**. The designer has agreed to this.
-- **ABL-35 Blood Price (+1d6 to the next damaging power):** it adds to every target of an area. *Lever:* one target only.
-- **ABL-40 Infernal Bargain (roll twice, keep the higher):** an area rolls damage once, so this is about +20% of the dice against every target. It's long-rest, so it's acceptable as is. Suggest no change.
+- **VIT-68 Blood Price (+1d6 to the next damaging power):** it adds to every target of an area. *Lever:* one target only.
+- **VIT-70 Infernal Bargain (roll twice, keep the higher):** an area rolls damage once, so this is about +20% of the dice against every target. It's long-rest, so it's acceptable as is. Suggest no change.
 - PQ-15 in general: **per-die bonuses on traits are fine if they apply to one target.** Flat bonuses are easier to reason about. Either works.
 
 **`[PB-7]` Buff budget.** See PQ-4 above. Three powers are flagged: WAR-03 Shelter (borderline), WAR-07 Protective Circle (one step high) and WAR-10 Aegis Dome (over).
@@ -235,7 +235,7 @@ Check: with a +1 Defensive Stance, the Knight is at Resilience 5, takes 5 per hi
 #### Low impact
 
 **`[PB-10]` Smaller items.**
-- **Flat HP costs get cheaper with level.** 4 HP (VIT-10, ABL-35) is 17% of a L1 Warlock's HP and 6% at L10. A 10 HP cost (ABL-40) goes from 42% to 14%. *Lever:* scale HP costs with level (for example, "level + 2"), or accept it since HP-cost powers are mostly T1.
+- **Flat HP costs get cheaper with level.** 4 HP (VIT-10, VIT-68) is 17% of a L1 Warlock's HP and 6% at L10. A 10 HP cost (VIT-70) goes from 42% to 14%. *Lever:* scale HP costs with level (for example, "level + 2"), or accept it since HP-cost powers are mostly T1.
 - **VIT-19 Soul Siphon (T3):** 4d8 plus an ally heal of 1d8 is slightly over. Acceptable as the Warlock's signature. No change suggested.
 - **TEC-54 Dragon Coil (T4):** the control column (2d10) plus up to 3 turns of 1d10 persistent is slightly over. Lever: persistent 1d6.
 - **TEC-55 Unbroken Line (T4 Reaction, long-rest recharge):** 2d10 against *each* enemy that enters reach. Against 3 enemies it's about 3 × 16 damage on one Reaction. It depends on position, so it's low impact. Lever: up to 2 attacks.
@@ -253,5 +253,5 @@ Check: with a +1 Defensive Stance, the Knight is at Resilience 5, takes 5 per hi
 ### Next pass
 
 - Re-check every power the designer changes against these rules.
-- Pass 2: traits (section 4), against the GB-20 Momentum table and the item caps in GAME_RULES B2. Also re-check the abilities that moved from Momentum to MP or recharge (ABL-10, -11, -13, -14, -18, -23, -28, -42).
+- Pass 2: traits (section 4), against the GB-20 Momentum table and the item caps in GAME_RULES B2. Also re-check the powers that moved from Momentum to MP or recharge (TRT-265, TRT-266, TRT-267, NOE-72, MNP-60, MNP-61, TRT-271, MAN-58).
 - Hits-to-down by profession at L1, L4, L7 and L10, using the budget each profession could actually build from this catalog.
