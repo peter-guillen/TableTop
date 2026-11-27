@@ -5,6 +5,21 @@ import cookieParser from "cookie-parser";
 const app = express();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
+// TEMPORARY (ROADMAP item 4): logs the proxy chain on login so the
+// trust proxy hop count can be measured. Remove before the real PR.
+app.use("/api/auth/login", (req, res, next) => {
+  console.log(
+    JSON.stringify({
+      probe: "xff",
+      xForwardedFor: req.headers["x-forwarded-for"] ?? null,
+      xRealIp: req.headers["x-real-ip"] ?? null,
+      xNfClientConnectionIp: req.headers["x-nf-client-connection-ip"] ?? null,
+      socketAddress: req.socket.remoteAddress,
+    }),
+  );
+  next();
+});
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
