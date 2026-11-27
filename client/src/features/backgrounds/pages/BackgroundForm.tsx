@@ -24,6 +24,7 @@ import {
   formCard,
   formTitle,
   ghostButton,
+  inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
@@ -45,8 +46,9 @@ export function BackgroundForm() {
   } = useGetBackgroundByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
   const { data: items = [] } = useGetAllItemsQuery();
-  const [createBackground] = useCreateBackgroundMutation();
-  const [updateBackground] = useUpdateBackgroundMutation();
+  const [createBackground, { error: createError }] = useCreateBackgroundMutation();
+  const [updateBackground, { error: updateError }] = useUpdateBackgroundMutation();
+  const saveError = createError ?? updateError;
 
   // Text, select and textarea inputs: the input's name is the formData key
   const handleInputChange = (
@@ -84,12 +86,11 @@ export function BackgroundForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isEditing) {
-      await updateBackground({ id: id ?? "", data: formData });
-    } else {
-      await createBackground(formData);
-    }
-    navigate("/backgrounds");
+    const result = isEditing
+      ? await updateBackground({ id: id ?? "", data: formData })
+      : await createBackground(formData);
+    // On failure stay on the form; saveError shows the server's message
+    if (result.data) navigate("/backgrounds");
   };
 
   useEffect(() => {
@@ -161,6 +162,15 @@ export function BackgroundForm() {
               />
             </div>
           </div>
+
+          {saveError && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              {"data" in saveError
+                ? ((saveError.data as { error?: string }).error ??
+                  "Failed to save background")
+                : "Failed to save background"}
+            </p>
+          )}
 
           {/* Action Buttons */}
           <div className="flex justify-between">

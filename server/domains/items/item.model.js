@@ -119,9 +119,14 @@ const ItemSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Rule errors carry status 400 so the error handler in app.js sends their
+// message (a plain Error would be a 500 "Something went wrong")
 ItemSchema.pre("validate", function () {
   if (this.category === "weapon" && !this.handedness) {
-    throw new Error("handedness is required for category 'weapon'");
+    throw Object.assign(
+      new Error("handedness is required for category 'weapon'"),
+      { status: 400 },
+    );
   }
 });
 

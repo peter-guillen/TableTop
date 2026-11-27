@@ -48,8 +48,9 @@ export function ProfessionForm() {
   } = useGetProfessionByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
   const { data: items = [] } = useGetAllItemsQuery();
-  const [createProfession] = useCreateProfessionMutation();
-  const [updateProfession] = useUpdateProfessionMutation();
+  const [createProfession, { error: createError }] = useCreateProfessionMutation();
+  const [updateProfession, { error: updateError }] = useUpdateProfessionMutation();
+  const saveError = createError ?? updateError;
 
   // Text, select and textarea inputs: the input's name is the formData key
   const handleInputChange = (
@@ -125,12 +126,11 @@ export function ProfessionForm() {
     });
     const data = { ...formData, levelRewards };
 
-    if (isEditing) {
-      await updateProfession({ id: id ?? "", data });
-    } else {
-      await createProfession(data);
-    }
-    navigate("/professions");
+    const result = isEditing
+      ? await updateProfession({ id: id ?? "", data })
+      : await createProfession(data);
+    // On failure stay on the form; saveError shows the server's message
+    if (result.data) navigate("/professions");
   };
 
   useEffect(() => {
@@ -218,6 +218,15 @@ export function ProfessionForm() {
           {hasInvalidGrant && (
             <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
               Some level grants are incomplete. Fix the marked grants to save.
+            </p>
+          )}
+
+          {saveError && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              {"data" in saveError
+                ? ((saveError.data as { error?: string }).error ??
+                  "Failed to save profession")
+                : "Failed to save profession"}
             </p>
           )}
 

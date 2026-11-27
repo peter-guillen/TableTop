@@ -22,6 +22,7 @@ import {
   formCard,
   formTitle,
   ghostButton,
+  inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
@@ -40,8 +41,9 @@ export function SpeciesForm() {
     isError,
   } = useGetSpeciesByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
-  const [createSpecies] = useCreateSpeciesMutation();
-  const [updateSpecies] = useUpdateSpeciesMutation();
+  const [createSpecies, { error: createError }] = useCreateSpeciesMutation();
+  const [updateSpecies, { error: updateError }] = useUpdateSpeciesMutation();
+  const saveError = createError ?? updateError;
 
   // Text, select and textarea inputs: the input's name is the formData key
   const handleInputChange = (
@@ -71,12 +73,11 @@ export function SpeciesForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isEditing) {
-      await updateSpecies({ id: id ?? "", data: formData });
-    } else {
-      await createSpecies(formData);
-    }
-    navigate("/species");
+    const result = isEditing
+      ? await updateSpecies({ id: id ?? "", data: formData })
+      : await createSpecies(formData);
+    // On failure stay on the form; saveError shows the server's message
+    if (result.data) navigate("/species");
   };
 
   useEffect(() => {
@@ -141,6 +142,15 @@ export function SpeciesForm() {
               />
             </div>
           </div>
+
+          {saveError && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              {"data" in saveError
+                ? ((saveError.data as { error?: string }).error ??
+                  "Failed to save species")
+                : "Failed to save species"}
+            </p>
+          )}
 
           {/* Action Buttons */}
           <div className="flex justify-between">

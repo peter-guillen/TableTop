@@ -16,6 +16,7 @@ import {
   formLabel,
   formTitle,
   ghostButton,
+  inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
@@ -44,8 +45,9 @@ export function ArticleForm() {
     isLoading,
     isError,
   } = useGetArticleByIdQuery(id ?? "", { skip: !isEditing });
-  const [createArticle] = useCreateArticleMutation();
-  const [updateArticle] = useUpdateArticleMutation();
+  const [createArticle, { error: createError }] = useCreateArticleMutation();
+  const [updateArticle, { error: updateError }] = useUpdateArticleMutation();
+  const saveError = createError ?? updateError;
 
   // Text and textarea inputs: the input's name is the formData key
   const handleInputChange = (
@@ -67,12 +69,11 @@ export function ArticleForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isEditing) {
-      await updateArticle({ id: id ?? "", data: formData });
-    } else {
-      await createArticle(formData);
-    }
-    navigate("/articles");
+    const result = isEditing
+      ? await updateArticle({ id: id ?? "", data: formData })
+      : await createArticle(formData);
+    // On failure stay on the form; saveError shows the server's message
+    if (result.data) navigate("/articles");
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -145,6 +146,15 @@ export function ArticleForm() {
               </section>
             </div>
           </div>
+          {saveError && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              {"data" in saveError
+                ? ((saveError.data as { error?: string }).error ??
+                  "Failed to save article")
+                : "Failed to save article"}
+            </p>
+          )}
+
           <div className="flex justify-between">
             <button
               type="button"

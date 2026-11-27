@@ -84,7 +84,8 @@ export interface Power {
   name: string;
   kind: PowerKind;
   description: string;
-  school?: SpellSchool;
+  // Spells only. null when an edit cleared it (a spell changed to another kind)
+  school?: SpellSchool | null;
   effectType?: EffectType;
 
   healthEffects: HealthEffect[];
