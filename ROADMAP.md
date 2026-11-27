@@ -45,18 +45,16 @@ Check items off as they land; delete ones that become irrelevant.
   - Refuse to start without `JWT_SECRET` and `PEPPER`.
   - Load `.env` before `app.js` runs. Today `app.js` reads `CLIENT_URL` before `dotenv.config()`, because ESM imports load first.
 - [x] **7. Dependency vulnerabilities.** Fixed in PR #17 (2026-11-21): `npm audit` went from 15 vulnerable packages to 2 moderate in both the server and the client, with every critical and high alert fixed. Raised floors: mongoose `^9.12.3`, vitest / `@vitest/ui` / `@vitest/coverage-v8` `^4.1.12`, vite `^7.3.8`, react-router-dom `^6.30.6`. The server has 0 production vulnerabilities.
-  - Left open: react-router's open-redirect advisory covers all of 6.x and is fixed only in v7 (item 38). nodemon's minimatch advisory has no fix yet (see Housekeeping).
+  - Left open: react-router's open-redirect advisory covers all of 6.x and is fixed only in v7 (item 39). nodemon's minimatch advisory has no fix yet (see Housekeeping).
 - [x] **8. Client type check.** Fixed the 16 type errors, then made `npm run build` run `tsc --noEmit` first. Along the way, `/api/constants` now sends `DAMAGE_TYPES`, `RARITY`, `QUALITY`, `MATERIALS` and `PROPERTIES` as arrays (the client called `.map` on them as objects), and the duplicate game types were merged into `constantTypes.ts` (shared) or the one domain that uses them.
 - [x] **9. Lint.** `eslint.config.js` (flat config, `typescript-eslint`) lints `.js`, `.jsx`, `.ts` and `.tsx` with 0 errors and 0 warnings. `react/prop-types` is off (TypeScript checks props), and `react/no-unescaped-entities` only forbids `>` and `}`.
 - [ ] **10. CI.** GitHub Actions running lint, the type check, server tests and the build, plus a status badge. Add client tests to CI once item 24 exists.
-- [ ] **11. README accuracy.**
-  - Remove "production-grade" until items 2, 7 and 10 are done (crash points, dependency vulnerabilities, CI).
-  - Remove "backend migrating to TypeScript" (the server has no TS) and "RTK Query + slices" (there are no slices).
-  - Change "past 15 domains" to 11.
-  - Change `PORT=5000` to 1234.
-  - Add `CLIENT_URL` and `VITE_API_URL`.
-  - `cd rpghub` won't work until the repo is renamed (see Housekeeping).
-  - Add license and contact details.
+- [x] **11. README accuracy.** Done on `chore/quick-wins` (2026-11-27).
+  - Removed "production-grade" (bring it back once item 10, CI, is done).
+  - Removed "migrating to TypeScript" (the client is TS, the server stays JS) and "RTK Query + slices" (there are no slices).
+  - "Past 15 domains" is now 11, `PORT=5000` is now 1234, and `CLIENT_URL` and `VITE_API_URL` (leave unset) are documented.
+  - `cd rpghub` is now `cd TableTop`, the current repo name (see Housekeeping).
+  - The roles list now has all five roles, and the License section explains the split (MIT code, game content reserved).
 
 ## 2. Finish auth
 
@@ -79,7 +77,7 @@ Check items off as they land; delete ones that become irrelevant.
   - Add controller tests for articles, backgrounds, professions and species, each together with its item 28 move rather than before. Users got controller tests in PR #22.
   - Branch coverage is 56% (from 29%). Keep raising it.
   - Add tests against a real database, for example `mongodb-memory-server`.
-- [ ] **19. helmet.** Security headers, which also removes the `x-powered-by: Express` header.
+- [x] **19. helmet.** Security headers, which also removes the `x-powered-by: Express` header. Done on `chore/quick-wins` (2026-11-27), with a test in `app.test.js`.
 - [ ] **20. Schema validation for content bodies.** Editor input currently goes straight into the database.
   - Profession grant rules are only a comment in `profession.model.js` (the planned `pre('validate')`); nothing enforces them. The client form blocks incomplete grants until then.
   - Article fields aren't required in the schema.
@@ -87,7 +85,7 @@ Check items off as they land; delete ones that become irrelevant.
 - [ ] **21. Server-side game rules.** `minLevel`, leveling rewards and slot limits are only checked in the client, and `requiredTraits` isn't checked anywhere.
   - **Decided (2026-11-21):** validate a character save against its stored level: each power's `minLevel`, its `requiredTraits`, and power counts no higher than `powerSlots`. `level` and `powerSlots` stay editable; the server doesn't own progression yet.
 - [ ] **22. Database indexes and pagination.** Unique indexes already exist (content `name`, user `email`, the `RevokedToken` TTL).
-  - Add indexes on `Character.userId` and `ActivityLog.createdAt`.
+  - [x] Add indexes on `Character.userId` and `ActivityLog.createdAt` (`chore/quick-wins`, 2026-11-27).
   - **Decided (2026-11-21):** paginate only the activity log (today a fixed `.limit(100)`) and possibly the user list. Content libraries stay unpaginated because the client filters them in memory.
 - [ ] **23. Operations.**
   - Add a health endpoint and structured logging. **Decided (2026-11-21):** JSON lines through `console` for now, with no logging dependency.
@@ -122,13 +120,13 @@ Check items off as they land; delete ones that become irrelevant.
   - Turned off `allowJs` in `client/tsconfig.json` and dropped `.js`/`.jsx` from `include`.
   - Raised `lib` to ES2022, so `UserPage.tsx` calls `Intl.supportedValuesOf` without a cast.
   - [x] **Client: all 16 JS files converted** (no `.js`/`.jsx` left in `client/src`). The profession form, its sections and the profession card were rebuilt against the model: `name`, stat modifiers, armor/weapon/skill proficiencies from `/api/constants` (which now sends `ARMOR`), starting items, and a level 1 to `MAX_LEVEL` `levelRewards` editor. The form blocks saving incomplete grants until item 21 checks them on the server. Details and edit fetch one profession by id.
-- [ ] **38. Upgrade to React Router 7** (added 2026-11-21). It fixes the open-redirect advisory left from item 7. Do it after item 30, because both change the route guards. The real risk today is low: it needs navigation to a user-controlled URL.
+- [ ] **39. Upgrade to React Router 7** (added 2026-11-21). It fixes the open-redirect advisory left from item 7. Do it after item 30, because both change the route guards. The real risk today is low: it needs navigation to a user-controlled URL.
 
 ## 5. Polish
 
-- [ ] **33. Site metadata.** A real favicon (it's still the Vite logo), a meta description and Open Graph tags.
+- [x] **33. Site metadata.** A favicon (`client/public/favicon.svg`, replacing the Vite logo), a meta description and Open Graph tags. Done on `chore/quick-wins` (2026-11-27). There's no `og:image` yet; add one with the screenshots in item 34.
 - [ ] **34. README visuals.** Screenshots or a GIF, an architecture diagram, and short decision records about the embed vs. reference reasoning.
-- [ ] **35. Repo files.** A `LICENSE` and a root `.gitignore`.
+- [x] **35. Repo files.** A `LICENSE` (MIT for the code; game content in `docs/design/` and `server/seeds/` all rights reserved) and a root `.gitignore`. Done on `chore/quick-wins` (2026-11-27).
 
 ## 6. Product
 
@@ -138,6 +136,6 @@ Check items off as they land; delete ones that become irrelevant.
 ## Housekeeping (not code)
 
 - [x] Delete the stale branches (2026-11-15): `Testing`, `admin-features`, `weapons-features`, `login` and the merged PR branches, plus the old `login`/`Testing` stashes.
-- [ ] Rename the GitHub repo to RPGHub (then fix `cd rpghub` in the README).
+- [ ] Rename the GitHub repo to RPGHub (then change `cd TableTop` in the README).
 - [ ] Move the repo out of `~/Documents` so iCloud stops making copies.
 - [ ] Recheck nodemon when it updates: 3.1.14 (the latest) pulls in minimatch 10, which has a DoS advisory fixed in 11.0.1+. It's dev-only and reads only local config, so no override was forced.

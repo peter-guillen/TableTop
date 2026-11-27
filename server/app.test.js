@@ -36,3 +36,17 @@ describe("error handler", () => {
     expect(console.error).toHaveBeenCalled();
   });
 });
+
+describe("security headers", () => {
+  it("sends helmet's headers and hides x-powered-by", async () => {
+    // Malformed JSON is answered by express.json() before any database call
+    const res = await request(app)
+      .post("/api/auth/login")
+      .set("Content-Type", "application/json")
+      .send('{"email": ');
+
+    expect(res.headers["x-powered-by"]).toBeUndefined();
+    expect(res.headers["x-content-type-options"]).toBe("nosniff");
+    expect(res.headers["strict-transport-security"]).toBeTruthy();
+  });
+});

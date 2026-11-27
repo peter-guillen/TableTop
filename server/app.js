@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 const app = express();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
+// Security headers on every response. Also removes x-powered-by: Express
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(
