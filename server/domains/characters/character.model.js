@@ -7,7 +7,13 @@ import {
 
 const characterSchema = new Schema(
   {
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    // Indexed: every character query is scoped to its owner
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
 
     identity: {
       name: { type: String, required: true, trim: true },

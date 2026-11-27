@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- A d20-style die: hexagon outline with an inner triangle -->
+  <polygon points="32,3 57,17.5 57,46.5 32,61 7,46.5 7,17.5" fill="#1c1917" stroke="#d97706" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="32,16 47,42 17,42" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M32 3 L32 16 M57 17.5 L47 42 M7 17.5 L17 42 M17 42 L32 61 M47 42 L32 61" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,6 +1,6 @@
 # RPGHub
 
-A full-stack TTRPG companion application for browsing, managing, and building around RPGHub's custom RPG system — powers, items, species, backgrounds, professions, and character creation. Built as a portfolio project to demonstrate production-grade backend architecture, not just CRUD plumbing.
+A full-stack TTRPG companion application for browsing, managing, and building around RPGHub's custom RPG system — powers, items, species, backgrounds, professions, and character creation. Built as a portfolio project to demonstrate deliberate backend architecture, not just CRUD plumbing.
 
 **Live app:** https://rpgtabletop.netlify.app/
 
@@ -8,21 +8,19 @@ A full-stack TTRPG companion application for browsing, managing, and building ar
 
 Most "TTRPG database" projects stop at models and endpoints. RPGHub is built around the actual design problems that show up once a domain gets complex:
 
-- **Domain-Driven Design backend.** The server was migrated from a flat MVC structure to a DDD architecture once the project grew past 15 domains, with clear separation between domain logic and infrastructure concerns.
+- **Domain-Driven Design backend.** The server was migrated from a flat MVC structure to a DDD architecture once the project grew to 11 domains, with clear separation between domain logic and infrastructure concerns.
 - **Deliberate schema modeling, not just Mongoose defaults.** The `Power` schema separates effects into three independent arrays (`healthEffects`, `statModifiers`, `conditions`) rather than one generic "effect" blob — `statModifiers` unifies buffs and debuffs through signed values instead of duplicating logic, and `Condition` was graduated from an embedded blob into its own referenced domain model once it needed independent lifecycle and reuse across powers.
 - **Embedded vs. referenced, decided per case.** Document relationships (snapshot vs. live-reference, embed vs. reference) are chosen deliberately based on whether data needs to move with its parent or stay live and shared — not defaulted to whichever Mongoose pattern is easiest to write.
-- **State architecture matches the data's shape.** Redux (RTK Query + slices) is used where state is genuinely global and multi-domain (e.g., the character builder, which composes data across many library sources); local `useState` is used everywhere simpler. This is a conscious tradeoff, not one pattern applied everywhere.
+- **State architecture matches the data's shape.** Server data goes through RTK Query: one base API holds the shared setup (credentials, cache tags, 401 handling), and each domain injects its own endpoints. Everything else is local `useState`. There are no hand-written Redux slices, because no state needed one.
 - **Shared constants without a shared codebase.** Because frontend and backend deploy independently (Netlify + Railway), backend constants are exposed through a dedicated `/api/constants` RTK Query endpoint instead of being duplicated or fragile-imported across the split deployment.
 
 ## Tech Stack
 
-**Frontend:** React + Vite, Redux Toolkit / RTK Query, Tailwind CSS, migrating to TypeScript
-**Backend:** Node.js + Express, MongoDB + Mongoose, migrating to TypeScript, Domain-Driven Design architecture
+**Frontend:** React + Vite, TypeScript, Redux Toolkit / RTK Query, Tailwind CSS
+**Backend:** Node.js + Express (JavaScript, ES modules), MongoDB + Mongoose, Domain-Driven Design architecture
 **Auth:** JWT with session cookies
 **Testing:** Vitest (backend unit/integration tests for services, controllers, and middleware)
 **Deployment:** MongoDB Atlas · Netlify (frontend) · Railway (backend)
-
-> **TypeScript migration:** Actively in progress across both frontend and backend, module by module (currently converted: several form and admin components). The project intentionally started in JavaScript and is migrating incrementally rather than as a rewrite, to keep the app shippable throughout.
 
 ## Features
 
@@ -65,7 +63,7 @@ client/
 
 ```bash
 git clone <this-repo-url>
-cd rpghub
+cd TableTop
 
 # Backend
 cd server
@@ -79,11 +77,16 @@ npm install
 Create a `.env` file in `server/`:
 
 ```env
-PORT=5000
+PORT=1234
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 PEPPER=your_pepper_value
+CLIENT_URL=http://localhost:5173
 ```
+
+`PORT` defaults to 1234, which the Vite dev proxy expects. `CLIENT_URL` is the origin allowed by CORS and defaults to `http://localhost:5173`.
+
+The client reads one optional variable, `VITE_API_URL`, the base URL for API calls. Leave it unset: the client then calls `/api` on its own origin (the Vite proxy in development, Netlify's `_redirects` proxy in production), which keeps the auth cookie first-party.
 
 Run both dev servers:
 
@@ -133,12 +136,15 @@ _(Items, species, backgrounds, professions, and conditions follow the same patte
 
 ## User Roles
 
-- **Admin** — full CRUD access to all game content
-- **User** — browses the library and builds characters
+- **Admin** — everything a moderator can do, plus managing users and roles
+- **Moderator** — everything an editor can do, plus deleting content and viewing the activity log
+- **Editor** — creates and edits game content
+- **User** — browses the library and builds characters (new accounts start here)
+- **Guest** — browses the library only
 
 ## Development Status
 
-Live and in active development. Core CRUD, auth, and admin tooling are complete and deployed. Current focus: TypeScript migration and the character builder.
+Live and in active development. Core CRUD, auth, and admin tooling are complete and deployed. Current focus: hardening (rate limiting, CI, server-side validation; see [ROADMAP.md](ROADMAP.md)) and the character builder.
 
 ## Contributing
 
@@ -156,4 +162,7 @@ Questions or feedback — open an issue on GitHub.
 
 ## License
 
-License to be determined.
+The code and the game content are licensed separately. See [LICENSE](LICENSE).
+
+- **Code: MIT.** Everything under `client/` and `server/` is MIT-licensed, except the game content below.
+- **Game content: all rights reserved.** The game system's design documents (`docs/design/`), its seed data (`server/seeds/`) and its rules text are not covered by the MIT License and may not be reused without permission.
