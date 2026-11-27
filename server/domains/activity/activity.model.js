@@ -27,4 +27,7 @@ const ActivityLogSchema = new mongoose.Schema(
   { timestamps: true }, // adds createdAt and updatedAt
 );
 
+// The activity page lists the newest entries first
+ActivityLogSchema.index({ createdAt: -1 });
+
 export default mongoose.model("ActivityLog", ActivityLogSchema);

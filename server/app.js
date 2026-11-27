@@ -1,9 +1,13 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 const app = express();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+
+// Security headers on every response. Also removes x-powered-by: Express
+app.use(helmet());
 
 // TEMPORARY (ROADMAP item 4): logs the proxy chain on login so the
 // trust proxy hop count can be measured. Remove before the real PR.

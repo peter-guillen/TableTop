@@ -1,0 +1,22 @@
+# Each package (client/, server/) has its own .gitignore. This one covers the repo root.
+
+# Dependencies and build output, if anything is ever installed or built at the root
+node_modules/
+dist/
+coverage/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors (.vscode/settings.json is shared on purpose)
+.idea/
+*.swp
+
+# Logs
+*.log
