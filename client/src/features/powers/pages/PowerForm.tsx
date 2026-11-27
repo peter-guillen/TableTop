@@ -24,6 +24,7 @@ import {
   formCard,
   formTitle,
   ghostButton,
+  inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
@@ -42,8 +43,9 @@ export function PowerForm() {
     isError,
   } = useGetPowerByIdQuery(id ?? "", { skip: !isEditing });
   const { data: powers = [] } = useGetAllPowersQuery();
-  const [createPower] = useCreatePowerMutation();
-  const [updatePower] = useUpdatePowerMutation();
+  const [createPower, { error: createError }] = useCreatePowerMutation();
+  const [updatePower, { error: updateError }] = useUpdatePowerMutation();
+  const saveError = createError ?? updateError;
 
   // Text, select and textarea inputs: the input's name is the formData key
   const handleInputChange = (
@@ -103,12 +105,23 @@ export function PowerForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isEditing) {
-      await updatePower({ id: id ?? "", data: formData });
-    } else {
-      await createPower(formData);
+    // Only spells have a school, and the server rejects one on any other kind.
+    // The school field is hidden for other kinds but its value stays in
+    // formData, so drop it here. On edit, null clears a school saved while
+    // this power was a spell (leaving it out of the PATCH would keep it)
+    const data: Power = { ...formData };
+    if (data.kind !== "spell") {
+      if (isEditing) {
+        data.school = null;
+      } else {
+        delete data.school;
+      }
     }
-    navigate("/powers");
+    const result = isEditing
+      ? await updatePower({ id: id ?? "", data })
+      : await createPower(data);
+    // On failure stay on the form; saveError shows the server's message
+    if (result.data) navigate("/powers");
   };
 
   useEffect(() => {
@@ -198,9 +211,19 @@ export function PowerForm() {
             </div>
           </div>
 
+          {saveError && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              {"data" in saveError
+                ? ((saveError.data as { error?: string }).error ??
+                  "Failed to save power")
+                : "Failed to save power"}
+            </p>
+          )}
+
           {/* Action Buttons */}
           <div className="flex justify-between">
             <button
+              type="button"
               onClick={handleCancel}
               className={`${ghostButton} px-6 py-3`}
             >

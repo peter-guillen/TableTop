@@ -54,8 +54,16 @@ app.use((err, req, res, next) => {
   if (err.name === "ValidationError" || err.name === "CastError") {
     return res.status(400).json({ error: err.message });
   }
+  // A unique index rejected the write, e.g. a second power with the same name.
+  // keyValue names the field; the value itself isn't echoed back
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue ?? {})[0] ?? "value";
+    return res
+      .status(409)
+      .json({ error: `A record with that ${field} already exists` });
+  }
   // Errors that already carry a 4xx status, e.g. a malformed JSON body
-  // rejected by express.json()
+  // rejected by express.json(), or a rule in a model's pre("validate") hook
   if (err.status >= 400 && err.status < 500) {
     return res.status(err.status).json({ error: err.message });
   }

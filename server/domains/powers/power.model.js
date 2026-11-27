@@ -126,25 +126,42 @@ const PowerSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Rule errors carry status 400 so the error handler in app.js sends their
+// message (a plain Error would be a 500 "Something went wrong")
 PowerSchema.pre("validate", function () {
   if (this.kind !== "spell" && this.school) {
-    throw new Error(`${this.kind} documents cannot declare a school`);
+    throw Object.assign(
+      new Error(`${this.kind} documents cannot declare a school`),
+      { status: 400 },
+    );
   }
   if (this.kind === "spell" && !this.school) {
-    throw new Error("Spell documents require a school");
+    throw Object.assign(
+      new Error("Spell documents require a school"),
+      { status: 400 },
+    );
   }
   if (
     this.kind === "technique" &&
     (!this.requirements?.properties ||
       this.requirements.properties.length === 0)
   ) {
-    throw new Error("Technique documents require at least one weapon tag");
+    throw Object.assign(
+      new Error("Technique documents require at least one weapon tag"),
+      { status: 400 },
+    );
   }
   if (this.kind !== "technique" && this.requirements?.properties?.length > 0) {
-    throw new Error(`${this.kind} documents cannot declare properties`);
+    throw Object.assign(
+      new Error(`${this.kind} documents cannot declare properties`),
+      { status: 400 },
+    );
   }
   if (this.kind !== "trait" && this.grantedPowers?.length > 0) {
-    throw new Error(`${this.kind} documents cannot declare grantedPowers`);
+    throw Object.assign(
+      new Error(`${this.kind} documents cannot declare grantedPowers`),
+      { status: 400 },
+    );
   }
 });
 

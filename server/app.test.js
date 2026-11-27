@@ -20,6 +20,41 @@ describe("error handler", () => {
     expect(res.body.error).toBeTruthy();
   });
 
+  it("returns 409 naming the field when a unique index rejects a write", async () => {
+    vi.spyOn(User, "findOne").mockRejectedValue(
+      Object.assign(new Error("E11000 duplicate key error ... secret"), {
+        code: 11000,
+        keyValue: { name: "Firebolt" },
+      }),
+    );
+
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "demo@rpg.com", password: "demo" });
+
+    expect(res.status).toBe(409);
+    expect(res.body).toEqual({
+      error: "A record with that name already exists",
+    });
+    expect(JSON.stringify(res.body)).not.toContain("secret");
+  });
+
+  it("returns 400 with the message for an error carrying a 4xx status", async () => {
+    // How a model's pre("validate") rule reports bad input
+    vi.spyOn(User, "findOne").mockRejectedValue(
+      Object.assign(new Error("Spell documents require a school"), {
+        status: 400,
+      }),
+    );
+
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "demo@rpg.com", password: "demo" });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Spell documents require a school" });
+  });
+
   it("returns 500 JSON without the internal message for a server failure", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(User, "findOne").mockRejectedValue(

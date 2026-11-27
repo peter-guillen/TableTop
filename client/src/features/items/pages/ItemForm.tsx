@@ -24,6 +24,7 @@ import {
   formCard,
   formTitle,
   ghostButton,
+  inkDanger,
   primaryButton,
 } from "../../../shared/styles/theme.ts";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage.tsx";
@@ -46,8 +47,9 @@ export function ItemForm() {
   const savedPowers = powers.filter(
     (p): p is Power & { _id: string } => p._id !== undefined,
   );
-  const [createItem] = useCreateItemMutation();
-  const [updateItem] = useUpdateItemMutation();
+  const [createItem, { error: createError }] = useCreateItemMutation();
+  const [updateItem, { error: updateError }] = useUpdateItemMutation();
+  const saveError = createError ?? updateError;
 
   // Text, select and textarea inputs: the input's name is the formData key
   const handleInputChange = (
@@ -92,12 +94,11 @@ export function ItemForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isEditing) {
-      await updateItem({ id: id ?? "", data: formData });
-    } else {
-      await createItem(formData);
-    }
-    navigate("/items");
+    const result = isEditing
+      ? await updateItem({ id: id ?? "", data: formData })
+      : await createItem(formData);
+    // On failure stay on the form; saveError shows the server's message
+    if (result.data) navigate("/items");
   };
 
   useEffect(() => {
@@ -184,9 +185,19 @@ export function ItemForm() {
             </div>
           </div>
 
+          {saveError && (
+            <p role="alert" className={`mb-4 text-sm ${inkDanger}`}>
+              {"data" in saveError
+                ? ((saveError.data as { error?: string }).error ??
+                  "Failed to save item")
+                : "Failed to save item"}
+            </p>
+          )}
+
           {/* Action Buttons */}
           <div className="flex justify-between">
             <button
+              type="button"
               onClick={handleCancel}
               className={`${ghostButton} px-6 py-3`}
             >
