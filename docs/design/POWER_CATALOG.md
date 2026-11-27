@@ -1,6 +1,6 @@
 # RPGHub Power Catalog
 
-Brainstorm catalog of powers: spells, abilities, techniques and traits. **Everything here is a draft idea.** It hasn't been balanced or seeded yet. The rules it's written against live in [GAME_RULES.md](GAME_RULES.md), and the item side is in [ITEM_CATALOG.md](ITEM_CATALOG.md).
+Brainstorm catalog of powers: spells, techniques and traits. **Everything here is a draft idea.** It hasn't been balanced or seeded yet. The rules it's written against live in [GAME_RULES.md](GAME_RULES.md), and the item side is in [ITEM_CATALOG.md](ITEM_CATALOG.md).
 
 - Every power has an **ID** (for example `MAN-03`) so we can point at it during balancing. IDs never get reused. If a power is cut, strike it through instead of deleting it.
 - Questions that block a design are tagged `[PQ-n]` and listed in [DECISIONS.md](DECISIONS.md). Balancing findings are in [BALANCE_POWERS.md](BALANCE_POWERS.md).
@@ -56,7 +56,7 @@ Brainstorm catalog of powers: spells, abilities, techniques and traits. **Everyt
    - [Noetics](#14-noetics-mind-perception-telekinesis): mind, perception, telekinesis
    - [Vitalism](#15-vitalism-life-death-spirit-poison-blight): life, death, spirit, poison, blight, plus summoning and binding
    - [Necromancy](#necromancy-binding-the-body-and-the-spirit): binding the body and the spirit
-2. [Abilities](#2-abilities)
+2. [Abilities (removed)](#2-abilities-removed): the kind is gone; see the [mapping](#former-abilities-2026-11-27)
 3. [Techniques](#3-techniques)
 4. [Traits](#4-traits)
    - [Profession cores](#46-profession-cores): the shared core of each profession
@@ -69,7 +69,9 @@ Brainstorm catalog of powers: spells, abilities, techniques and traits. **Everyt
 
 Every spell belongs to one of **five schools**: Manifestation, Transmutation, Manipulation, Noetics and Vitalism. Conjuration and Warding were folded into the others (user decision, PQ-2). Summoning and binding spirits went to Vitalism, and protective spells went where their effect fits, mostly Manipulation. A power that moved keeps its original ID (`CON-n`, `WAR-n`) so earlier references still work.
 
-**Batch 3 (2026-11-27, at the user's request):** new spells fill the gaps in knowledge and divination, light and dark, energy used for more than damage, creating matter, travel, and magic against magic (MAN-27 to MAN-54, TRA-35 to TRA-49, MNP-44 to MNP-59, NOE-51 to NOE-66, VIT-39). Necromancy got its own subsection (VIT-40 to VIT-65). Spells whose names clashed with D&D were renamed; IDs didn't change, and the old names are in the [rename log](#renamed-spells-2026-11-27). Not balanced.
+**Batch 3 (2026-11-27, at the user's request):** new spells fill the gaps in knowledge and divination, light and dark, energy used for more than damage, creating matter, travel, and magic against magic (MAN-27 to MAN-54, TRA-35 to TRA-49, MNP-44 to MNP-59, NOE-51 to NOE-66, VIT-39). Necromancy got its own subsection (VIT-40 to VIT-65).
+
+**Batch 4 (2026-11-27, user decision):** the ability kind was removed. Shouts, commands, tricks, hexes and pacts became spells: MAN-55 to MAN-58, MNP-60 to MNP-65, NOE-67 to NOE-81 and VIT-66 to VIT-71, each at the end of its school's table. A shout is a spell like any other, so it can be countered or dispelled and can't be used in a form. Old IDs are in the [mapping](#former-abilities-2026-11-27). Spells whose names clashed with D&D were renamed; IDs didn't change, and the old names are in the [rename log](#renamed-spells-2026-11-27). Not balanced.
 
 ### 1.1 Manifestation: fire, ice, lightning, light, dark
 
@@ -130,6 +132,10 @@ Every spell belongs to one of **five schools**: Manifestation, Transmutation, Ma
 | MAN-52 | Whiteout          | T3   | Major    | 9 MP  | 120 ft, sphere 30 ft      | Save       | A blizzard for 3 turns. The area is difficult terrain, and attacks into, out of or inside it take −5. A creature that starts its turn inside saves or takes 2d6 ice.                     | Conc    | Wiz, Wit      |
 | MAN-53 | Pillar of Dawn    | T4   | Major    | 14 MP | 120 ft, cylinder 10 ft    | Save       | 3d10 light. For 3 turns the pillar stays, and no magical darkness or invisible works within 30 ft of it.                                                                                 | Conc    | Pal, Wiz      |
 | MAN-54 | Endless Night     | T4   | Major    | 15 MP | Self, sphere 60 ft        | Save       | Magical darkness for 3 turns that only you see through. An enemy that starts its turn inside saves or takes 2d8 dark and is frightened 1 turn.                                           | Conc    | Wlk           |
+| MAN-55 | Smoke Bomb | T1 | Major | 3 MP | 30 ft, sphere 10 ft | Save | Blinded 1 turn. The cloud blocks sight until your next turn. | — | Rog, Mag |
+| MAN-56 | Pact Bolt | T0 | Major | 0 | 90 ft | Atk | 1d8 dark | — | Wlk |
+| MAN-57 | Patron's Wrath | T2 | Major | 6 MP | 90 ft | Atk | 3d8 dark. On a hit, the target can't regain HP until the end of its next turn. | — | Wlk |
+| MAN-58 | Living Storm | T4 | Minor | 0 | Self | — | Until your next turn, each spell you cast also deals 1d10 lightning to one creature within 10 ft of you | LR | Sor |
 
 ### 1.2 Transmutation: earth, water, air, acid, metal, flesh
 
@@ -257,6 +263,12 @@ Every spell belongs to one of **five schools**: Manifestation, Transmutation, Ma
 | MNP-57 | Folded Road        | T3   | Major    | 9 MP                     | Up to 6 willing creatures | —                     | Utility. Fold a day's journey into an hour, along a road or path you've traveled before.                                                                             | Ritual, Cast 1        | Wiz, Ran      |
 | MNP-58 | Bind a Spell       | T3   | Major    | 10 MP + the spell's cost | Touch                     | —                     | Utility. Store one T1 or T2 spell you know in an object for up to a week. Whoever holds it can release it once as a Major Action, using your stats.                  | Ritual, Cast 1        | Wiz           |
 | MNP-59 | Turn the Spell     | T3   | Reaction | 10 MP                    | Self                      | Save (caster's)       | When a single-target spell targets you, its caster saves or the spell targets the caster instead.                                                                    | LR                    | Wiz, Mag      |
+| MNP-60 | Last Bastion | T4 | Minor | 0 | Self | — | Until your next turn, you resist all damage and allies within 10 ft resist the first hit each takes | LR | Kni |
+| MNP-61 | Ki Burst | T1 | Minor | 2 MP | Self | — | Move 10 ft. Attacks against you take −2 until your next turn. | — | Rog, Mag |
+| MNP-62 | Shadowstep | T2 | Minor | 5 MP | Self | — | Teleport from one patch of dim light or darkness to another within 30 ft | — | Rog, Wlk |
+| MNP-63 | Raw Surge | T0 | Major | 0 | 30 ft | Atk | 1d8 force. On a natural 1 you take 1d4 force. | — | Sor |
+| MNP-64 | Wild Surge | T2 | Major | 6 MP | 60 ft, sphere 15 ft | Save | 2d8. Roll a d8 for the type (unstable table). | — | Sor |
+| MNP-65 | Twist the Thread | T2 | Reaction | 5 MP | 60 ft | — | When a creature you can see rolls a natural 20, it counts as a 10 instead | SR | Sor |
 
 ### 1.4 Noetics: mind, perception, telekinesis
 
@@ -331,6 +343,21 @@ Every spell belongs to one of **five schools**: Manifestation, Transmutation, Ma
 | NOE-64 | Echoes of the Place | T2   | Major    | 6 MP  | Self, sphere 30 ft        | —                     | Utility. See the area as it was up to a day ago: ghostly figures replay the strongest event that happened there. Out of combat only.                                 | Ritual, Cast 1       | Psy, Wiz      |
 | NOE-65 | Memory Dive         | T3   | Major    | 9 MP  | Touch                     | Save                  | Utility. Search one memory from the target's last day: what it saw, heard and said. A target that saves knows you tried. Out of combat only.                         | Cast 1               | Psy           |
 | NOE-66 | Far Sight           | T4   | Major    | 14 MP | Any distance              | —                     | Utility. As Distant Eye (NOE-60), at any distance, and you hear too. A watched creature senses it only if it beats your DC by 5.                                     | Conc, Ritual, Cast 1 | Psy, Wiz      |
+| NOE-67 | Size Up | T0 | Minor | 0 | 60 ft | — | Utility. Learn whether a target's Evasion, Resilience or Resolve (your pick) is higher or lower than yours. | — | Ran, Rog |
+| NOE-68 | Battle Cry | T1 | Minor | 2 MP | Self, sphere 30 ft | — | Buff. Allies get +1 Accuracy until the end of your next turn. | — | War, Pal |
+| NOE-69 | Intimidating Roar | T1 | Major | 2 MP | Cone 15 ft | Save | Frightened of you, save-ends (max 3 turns) | — | War, Kni |
+| NOE-70 | Challenge | T1 | Minor | 2 MP | 30 ft | Save | Taunt `[PQ-5]`. The target takes −2 Accuracy against anyone but you, save-ends (max 3 turns). | — | Kni, Pal |
+| NOE-71 | Rally the Line | T2 | Major | 5 MP | Self, sphere 30 ft | — | Allies at 0 HP get +5 on their next rally roll. Every ally gets +2 Resolve for 1 turn. | LR | Pal, War |
+| NOE-72 | Warlord's Order | T1 | Major | 3 MP | 30 ft | — | One ally uses its Reaction to make an at-will attack right away. (Was T2. Lowered so the Banneret can take it at L3; you trade your Major for an ally's at-will.) | — | War, Kni |
+| NOE-73 | Warcry of Kings | T3 | Major | 8 MP | Self, sphere 30 ft | Save | Enemies are frightened, save-ends (max 3 turns). Allies get +1 Accuracy for 3 turns. | SR | War, Pal |
+| NOE-74 | Quarry | T1 | Minor | 2 MP | 90 ft | — | Mark one creature for the fight. You get +1 Accuracy against it. Moving the mark is a Minor Action. | — | Ran |
+| NOE-75 | Misdirection | T1 | Reaction | 3 MP | Self | Save (attacker's) | When you're targeted by an attack, the attacker saves or the attack targets another creature within 5 ft of you | SR | Mag |
+| NOE-76 | Disappearing Act | T2 | Minor | 6 MP | Self | — | Invisible 2 turns | SR | Mag, Rog |
+| NOE-77 | Vanishing Trick | T3 | Minor | 9 MP | Self | — | Invisible 3 turns. Leave an illusory double behind that lasts 1 turn. | SR | Mag |
+| NOE-78 | Death Mark | T2 | Minor | 6 MP | 60 ft | Save | Debuff. The target's Evasion counts as 2 lower against your attacks, save-ends (max 3 turns). (Was T3. Hex, VIT-67, gives −2 to any stat at T1, so T2 is enough. The Assassin takes it at L6.) | — | Rog, Ran |
+| NOE-79 | Doom Glance | T0 | Major | 0 | 60 ft | Atk | 1d8 psychic. +1d4 if the target is your Omens mark (TRT-97). | — | Sor |
+| NOE-80 | Ill Omen | T1 | Minor | 2 MP | 60 ft | Save | The target sees its own doom: frightened of you 1 turn | — | Sor, Wlk |
+| NOE-81 | Foretold Doom | T3 | Major | 8 MP | 60 ft | Save | The target saves or is doomed. At the end of its next turn it takes 4d8 psychic unless it has moved at least 30 ft from where it stood when doomed. | — | Sor, Wit |
 
 ### 1.5 Vitalism: life, death, spirit, poison, blight
 
@@ -376,6 +403,12 @@ Every spell belongs to one of **five schools**: Manifestation, Transmutation, Ma
 | VIT-37 | Rebirth Seed         | T3   | Major    | 9 MP  | Touch                | —    | The next time the target drops to 0 HP within 1 hour, it heals 2d8 instead                                  | LR             | Wit, Pal      |
 | VIT-38 | Spring's Return      | T4   | Major    | 15 MP | Self, sphere 30 ft   | —    | Each ally in the area heals 2d8 and ends one condition                                                      | LR             | Wit, Pal, Sum |
 | VIT-39 | Blood Trail          | T0   | Minor    | 0     | Self                 | —    | Utility. For 10 minutes, follow fresh blood or a wounded creature's trail like a scent.                     | —              | Ran, Wit      |
+| VIT-66 | Evil Eye | T0 | Minor | 0 | 30 ft | Save | The target takes −2 on its next d20 roll (1 turn) | — | Wit |
+| VIT-67 | Hex | T1 | Minor | 3 MP | 60 ft | Save | Debuff. −2 on one stat of your choice (any combat stat), save-ends (max 3 turns). | — | Wit |
+| VIT-68 | Blood Price | T1 | Minor | 4 HP | Self | — | Your next damaging power this turn deals +1d6 | — | Wlk, Sor |
+| VIT-69 | Witch's Curse | T2 | Major | 6 MP | 60 ft | Save | 2d6 necrotic and poisoned, save-ends (max 3 turns) | — | Wit |
+| VIT-70 | Infernal Bargain | T2 | Minor | 8 HP | Self | — | Your next damaging power this turn rolls its dice twice and takes the higher total. (Was T3 / 10 HP. Lowered so the Pactbound can take it at L6.) | LR | Wlk |
+| VIT-71 | Coven Hex | T3 | Major | 9 MP | 60 ft | Save | Debuff. −2 on two stats of your choice, save-ends (max 3 turns) | — | Wit |
 
 #### Spirits: summoning and binding
 
@@ -438,72 +471,9 @@ Raised corpses are summons and use the same placeholder (`[PQ-3]`). There are no
 
 ---
 
-## 2. Abilities
+## 2. Abilities (removed)
 
-Abilities work like spells but have **no school** and **no spell flags** (no concentration, channel, ritual or cast time). These are shouts, stances, ki, hexes, borrowed pacts and tricks. Stances last until you end them or take another stance (`until_broken`). **Only one stance at a time** is a suggestion, `[PQ-13]`.
-
-### 2.1 Martial: shouts, stances and grit
-
-| ID     | Name              | Tier | Act      | Cost | Range / Area       | Roll | Effect                                                                                                                                                            | Recharge | Fits          |
-| ------ | ----------------- | ---- | -------- | ---- | ------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
-| ABL-01 | Dodge             | T0   | Major    | 0    | Self               | —    | Attacks against you take −5 until your next turn                                                                                                                  | —        | Any           |
-| ABL-02 | Brace             | T0   | Minor    | 0    | Self               | —    | +1 Resilience until your next turn                                                                                                                                | —        | Kni, War      |
-| ABL-03 | Size Up           | T0   | Minor    | 0    | 60 ft              | —    | Utility. Learn whether a target's Evasion, Resilience or Resolve (your pick) is higher or lower than yours.                                                       | —        | Ran, Rog      |
-| ABL-04 | Second Wind       | T1   | Minor    | 0    | Self               | —    | Heal 1d6 + your level                                                                                                                                             | SR       | War, Kni, Pal |
-| ABL-05 | Battle Cry        | T1   | Minor    | 2 MP | Self, sphere 30 ft | —    | Buff. Allies get +1 Accuracy until the end of your next turn.                                                                                                     | —        | War, Pal      |
-| ABL-06 | Intimidating Roar | T1   | Major    | 2 MP | Cone 15 ft         | Save | Frightened of you, save-ends (max 3 turns)                                                                                                                        | —        | War, Kni      |
-| ABL-07 | Challenge         | T1   | Minor    | 2 MP | 30 ft              | Save | Taunt `[PQ-5]`. The target takes −2 Accuracy against anyone but you, save-ends (max 3 turns).                                                                     | —        | Kni, Pal      |
-| ABL-08 | Defensive Stance  | T1   | Minor    | 0    | Self               | —    | Stance. +2 Resilience and −2 Accuracy.                                                                                                                            | —        | Kni           |
-| ABL-09 | Reckless Stance   | T1   | Minor    | 0    | Self               | —    | Stance. +2 Might and −2 Evasion.                                                                                                                                  | —        | War, Sor      |
-| ABL-10 | Iron Will         | T1   | Reaction | 2 MP | Self               | —    | +2 on a save you're about to make                                                                                                                                 | —        | Pal, Kni      |
-| ABL-11 | Sprint            | T1   | Minor    | 2 MP | Self               | —    | Move twice your speed this turn                                                                                                                                   | —        | Rog, Ran      |
-| ABL-12 | Rally the Line    | T2   | Major    | 5 MP | Self, sphere 30 ft | —    | Allies at 0 HP get +5 on their next rally roll. Every ally gets +2 Resolve for 1 turn.                                                                            | LR       | Pal, War      |
-| ABL-13 | Unstoppable       | T2   | Minor    | 5 MP | Self               | —    | End grappled, restrained or prone on yourself, then move 10 ft                                                                                                    | —        | War           |
-| ABL-14 | Warlord's Order   | T1   | Major    | 3 MP | 30 ft              | —    | One ally uses its Reaction to make an at-will attack right away. (Was T2. Lowered so the Banneret can take it at L3; you trade your Major for an ally's at-will.) | —        | War, Kni      |
-| ABL-15 | Bulwark Stance    | T2   | Minor    | 0    | Self               | —    | Stance. Allies within 5 ft of you get +1 Evasion. Your movement is halved.                                                                                        | —        | Kni           |
-| ABL-16 | Indomitable       | T3   | Reaction | 0    | Self               | —    | Reroll a failed save                                                                                                                                              | LR       | Pal, Kni, War |
-| ABL-17 | Warcry of Kings   | T3   | Major    | 8 MP | Self, sphere 30 ft | Save | Enemies are frightened, save-ends (max 3 turns). Allies get +1 Accuracy for 3 turns.                                                                              | SR       | War, Pal      |
-| ABL-18 | Last Bastion      | T4   | Minor    | 0    | Self               | —    | Until your next turn, you resist all damage and allies within 10 ft resist the first hit each takes                                                               | LR       | Kni           |
-
-### 2.2 Cunning: tricks, ki and footwork
-
-| ID     | Name             | Tier | Act      | Cost | Range / Area        | Roll              | Effect                                                                                                                                                                                         | Recharge | Fits     |
-| ------ | ---------------- | ---- | -------- | ---- | ------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
-| ABL-19 | Feint            | T0   | Minor    | 0    | 5 ft                | Save              | On a fail, your next attack against that target this turn gets +2                                                                                                                              | —        | Rog, Mag |
-| ABL-20 | Sleight          | T0   | Minor    | 0    | 5 ft                | —                 | Utility. Plant, palm or swap a small object                                                                                                                                                    | —        | Rog, Mag |
-| ABL-21 | Hamstring        | T1   | Major    | 2 MP | 5 ft                | Save              | 1d6 slashing. Movement −10 ft, save-ends (max 3 turns).                                                                                                                                        | —        | Rog, Ran |
-| ABL-22 | Smoke Bomb       | T1   | Major    | 3 MP | 30 ft, sphere 10 ft | Save              | Blinded 1 turn. The cloud blocks sight until your next turn.                                                                                                                                   | —        | Rog, Mag |
-| ABL-23 | Ki Burst         | T1   | Minor    | 2 MP | Self                | —                 | Move 10 ft. Attacks against you take −2 until your next turn.                                                                                                                                  | —        | Rog, Mag |
-| ABL-24 | Quarry           | T1   | Minor    | 2 MP | 90 ft               | —                 | Mark one creature for the fight. You get +1 Accuracy against it. Moving the mark is a Minor Action.                                                                                            | —        | Ran      |
-| ABL-25 | Misdirection     | T1   | Reaction | 3 MP | Self                | Save (attacker's) | When you're targeted by an attack, the attacker saves or the attack targets another creature within 5 ft of you                                                                                | SR       | Mag      |
-| ABL-26 | Shadowstep       | T2   | Minor    | 5 MP | Self                | —                 | Teleport from one patch of dim light or darkness to another within 30 ft                                                                                                                       | —        | Rog, Wlk |
-| ABL-27 | Disappearing Act | T2   | Minor    | 6 MP | Self                | —                 | Invisible 2 turns                                                                                                                                                                              | SR       | Mag, Rog |
-| ABL-28 | Uncanny Escape   | T2   | Reaction | 5 MP | Self                | —                 | When you fail a save against an area, move 10 ft first. If you leave the area, the effect misses you.                                                                                          | —        | Rog, Mag |
-| ABL-29 | Vanishing Trick  | T3   | Minor    | 9 MP | Self                | —                 | Invisible 3 turns. Leave an illusory double behind that lasts 1 turn.                                                                                                                          | SR       | Mag      |
-| ABL-30 | Death Mark       | T2   | Minor    | 6 MP | 60 ft               | Save              | Debuff. The target's Evasion counts as 2 lower against your attacks, save-ends (max 3 turns). (Was T3. Hex, ABL-34, gives −2 to any stat at T1, so T2 is enough. The Assassin takes it at L6.) | —        | Rog, Ran |
-
-### 2.3 Pacts, hexes and innate power
-
-Borrowed or inborn magic that isn't studied, so it has no school. They're abilities, not spells (user decision, PQ-14).
-
-| ID     | Name             | Tier | Act      | Cost | Range / Area        | Roll | Effect                                                                                                                                              | Recharge | Fits     |
-| ------ | ---------------- | ---- | -------- | ---- | ------------------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
-| ABL-31 | Pact Bolt        | T0   | Major    | 0    | 90 ft               | Atk  | 1d8 dark                                                                                                                                            | —        | Wlk      |
-| ABL-32 | Evil Eye         | T0   | Minor    | 0    | 30 ft               | Save | The target takes −2 on its next d20 roll (1 turn)                                                                                                   | —        | Wit      |
-| ABL-33 | Raw Surge        | T0   | Major    | 0    | 30 ft               | Atk  | 1d8 force. On a natural 1 you take 1d4 force.                                                                                                       | —        | Sor      |
-| ABL-34 | Hex              | T1   | Minor    | 3 MP | 60 ft               | Save | Debuff. −2 on one stat of your choice (any combat stat), save-ends (max 3 turns).                                                                   | —        | Wit      |
-| ABL-35 | Blood Price      | T1   | Minor    | 4 HP | Self                | —    | Your next damaging power this turn deals +1d6                                                                                                       | —        | Wlk, Sor |
-| ABL-36 | Overcharge       | T1   | Minor    | 2 HP | Self                | —    | Your next spell this turn gets +1 to its save DC                                                                                                    | —        | Sor      |
-| ABL-37 | Witch's Curse    | T2   | Major    | 6 MP | 60 ft               | Save | 2d6 necrotic and poisoned, save-ends (max 3 turns)                                                                                                  | —        | Wit      |
-| ABL-38 | Patron's Wrath   | T2   | Major    | 6 MP | 90 ft               | Atk  | 3d8 dark. On a hit, the target can't regain HP until the end of its next turn.                                                                      | —        | Wlk      |
-| ABL-39 | Wild Surge       | T2   | Major    | 6 MP | 60 ft, sphere 15 ft | Save | 2d8. Roll a d8 for the type (unstable table).                                                                                                       | —        | Sor      |
-| ABL-40 | Infernal Bargain | T2   | Minor    | 8 HP | Self                | —    | Your next damaging power this turn rolls its dice twice and takes the higher total. (Was T3 / 10 HP. Lowered so the Pactbound can take it at L6.)   | LR       | Wlk      |
-| ABL-41 | Coven Hex        | T3   | Major    | 9 MP | 60 ft               | Save | Debuff. −2 on two stats of your choice, save-ends (max 3 turns)                                                                                     | —        | Wit      |
-| ABL-42 | Living Storm     | T4   | Minor    | 0    | Self                | —    | Until your next turn, each spell you cast also deals 1d10 lightning to one creature within 10 ft of you                                             | LR       | Sor      |
-| ABL-43 | Doom Glance      | T0   | Major    | 0    | 60 ft               | Atk  | 1d8 psychic. +1d4 if the target is your Omens mark (TRT-97).                                                                                        | —        | Sor      |
-| ABL-44 | Ill Omen         | T1   | Minor    | 2 MP | 60 ft               | Save | The target sees its own doom: frightened of you 1 turn                                                                                              | —        | Sor, Wlk |
-| ABL-45 | Twist the Thread | T2   | Reaction | 5 MP | 60 ft               | —    | When a creature you can see rolls a natural 20, it counts as a 10 instead                                                                           | SR       | Sor      |
-| ABL-46 | Foretold Doom    | T3   | Major    | 8 MP | 60 ft               | Save | The target saves or is doomed. At the end of its next turn it takes 4d8 psychic unless it has moved at least 30 ft from where it stood when doomed. | —        | Sor, Wit |
+The **ability** kind was removed on 2026-11-27 (user decision): it was only "a spell without the spell rules" and added nothing a spell, trait or technique doesn't already do. Its 46 powers got new IDs. Shouts, hexes, pacts and tricks are now **spells** (each in a school), grit and stances are **traits** (4.9), and Feint and Hamstring are **techniques**. The old ABL IDs are retired; the [mapping](#former-abilities-2026-11-27) shows where each went. Sections 3 and 4 keep their numbers so existing references still work.
 
 ---
 
@@ -532,6 +502,7 @@ Techniques are the **main source of weapon damage**. A weapon offers a technique
 | TEC-10 | Shove         | T0   | Major | 0    | blunt, heavy, polearm   | Save | Push 10 ft `[PQ-6]`. No damage.                    | Kni, War |
 | TEC-11 | Pommel Strike | T0   | Major | 0    | bladed, hafted          | Save | 1d4 bludgeoning and deafened 1 turn (ringing head) | War, Kni |
 | TEC-57 | Shield Bash   | T0   | Major | 0    | shield `[PQ-8]`         | Save | 1d4 bludgeoning and push 5 ft `[PQ-6]`             | Any      |
+| TEC-61 | Feint | T0 | Minor | 0 | finesse, light | Save | On a fail, your next attack against that target this turn gets +2 | Rog, Mag |
 
 ### 3.2 Tier 1 (L1+)
 
@@ -551,8 +522,9 @@ Techniques are the **main source of weapon damage**. A weapon offers a technique
 | TEC-23 | Riposte        | T1   | Reaction | 2 MP | finesse, bladed                           | Atk  | When a melee attack misses you, attack the attacker for 2d6                                          | Rog, Mag      |
 | TEC-24 | Spear Wall     | T1   | Reaction | 2 MP | polearm, reach                            | Atk  | When an enemy moves into your reach, attack it for 1d8. On a hit, its movement drops to 0 this turn. | Kni           |
 | TEC-25 | Reckless Blow  | T1   | Major    | 3 HP | heavy, blunt, bladed                      | Atk  | 2d6 + 2. Attacks against you get +2 until your next turn.                                            | War           |
-| TEC-26 | Hunter's Shot  | T1   | Major    | 2 MP | ranged                                    | Atk  | 2d6. +2 Accuracy against your Quarry (ABL-24).                                                       | Ran           |
+| TEC-26 | Hunter's Shot  | T1   | Major    | 2 MP | ranged                                    | Atk  | 2d6. +2 Accuracy against your Quarry (NOE-74).                                                       | Ran           |
 | TEC-27 | Radiant Smite  | T1   | Major    | 3 MP | Any melee: bladed, blunt, hafted, polearm | Atk  | 2d6 + 1d6 light                                                                                      | Pal           |
+| TEC-62 | Hamstring | T1 | Major | 2 MP | bladed | Save | 1d6 slashing. Movement −10 ft, save-ends (max 3 turns). | Rog, Ran |
 
 ### 3.3 Tier 2 (L4+)
 
@@ -602,7 +574,7 @@ Techniques are the **main source of weapon damage**. A weapon offers a technique
 
 ## 4. Traits
 
-Traits are passives, origin features and anything that isn't an action. Only traits can have `grantedPowers`. "Source" suggests where the trait belongs: **Prof** (profession level reward), **Species**, **Bg** (background) or **Any**.
+Traits are passives, origin features, class grants and feat-like picks. A trait can also be used as an action (grit and stances in 4.9, many class grants); it then shows **Act**, **Cost** and **Roll**. Only traits can have `grantedPowers`. "Source" suggests where the trait belongs: **Prof** (profession level reward), **Species**, **Bg** (background) or **Any**.
 
 ### 4.1 Tank protection (§11: Knight, Paladin and Warrior get one at L1)
 
@@ -654,7 +626,7 @@ Combined starting Momentum from every source is at most 2, or 3 with a capstone.
 | TRT-32 | Brawler            | 1         | Bg              | Your unarmed strikes count as a light, blunt weapon for techniques `[PQ-7]`                                                 | War, Rog           |
 | TRT-33 | Elemental Focus    | 1         | Prof            | Pick one damage type. Your spells of that type deal +1 damage per die `[PQ-15]`.                                            | Sor                |
 | TRT-34 | Overwhelm          | 6         | Prof            | When a target saves against your area spell, it takes 1 damage per die anyway (a chip, not half)                            | Sor, Wiz           |
-| TRT-35 | Relentless Pursuit | 2         | Prof            | Your Quarry (ABL-24) can't benefit from invisible against you, and you always know its direction within 1 mile              | Ran                |
+| TRT-35 | Relentless Pursuit | 2         | Prof            | Your Quarry (NOE-74) can't benefit from invisible against you, and you always know its direction within 1 mile              | Ran                |
 | TRT-61 | Swift Technique    | 5         | Prof            | Pick one T0 or T1 technique you know. Once per round, you can use it as a Minor Action instead of a Major Action.           | War, Rog           |
 | TRT-62 | Quickened Casting  | 7         | Prof            | Once per short rest, cast a T1 or T2 spell as a Minor Action instead of a Major Action                                      | Wiz, Sor           |
 
@@ -667,7 +639,7 @@ Combined starting Momentum from every source is at most 2, or 3 with a capstone.
 | TRT-38     | Ritualist        | 1         | Bg     | Rituals take 5 minutes instead of 10                                                                           | Wiz, Wit, Sum |
 | TRT-39     | Healer's Hands   | 1         | Prof   | Your healing powers heal +1 per die                                                                            | Pal, Sum      |
 | ~~TRT-40~~ | ~~Wild Magic~~   | 1         | Prof   | Cut. Replaced by Fate Surge (TRT-98) in the Sorcerer's core.                                                   | Sor           |
-| TRT-41     | Patron's Gift    | 1         | Prof   | `grantedPowers`: one Pact ability (2.3) of your choice. You can swap it on a long rest.                        | Wlk           |
+| TRT-41     | Patron's Gift    | 1         | Prof   | `grantedPowers`: one pact spell of your choice: Pact Bolt (MAN-56), Patron's Wrath (MAN-57), Blood Price (VIT-68), Infernal Bargain (VIT-70) or Ill Omen (NOE-80). You can swap it on a long rest.                        | Wlk           |
 | TRT-42     | Witch's Familiar | 1         | Prof   | `grantedPowers`: Familiar (CON-03), cast for free once per long rest. You can deliver touch spells through it. | Wit           |
 | TRT-43     | Soulbond         | 4         | Prof   | Your summons use your Resolve for saves and gain +5 HP                                                         | Sum           |
 | TRT-44     | Twin Bind        | 7         | Prof   | You can keep two summon spells' concentration up at once                                                       | Sum           |
@@ -709,7 +681,7 @@ The shared **core** of each profession (PROFESSION_CATALOG §3), granted `auto` 
 | TRT-63 | Arsenal         | I (L1)   | —        | 0    | —    | You can keep up to 3 weapons ready (held, sheathed or slung). Once per turn, swapping your held weapon for a ready one is free. You're proficient with every weapon property.                         | —                                  |
 | TRT-64 | Weapon Flow     | I (L1)   | —        | 0    | —    | When you use a technique with a different weapon than the last technique you used this fight, gain 1 Momentum. Once per round. `[PQ-18]`                                                              | —                                  |
 | TRT-01 | Hold the Line   | I (L1)   | Reaction | 0    | Atk  | See 4.1. The Warrior's tank protection.                                                                                                                                                               | —                                  |
-| TRT-65 | Battle-Hardened | II (L2)  | —        | 0    | —    | You catch your breath mid-fight, and your fists are weapons too.                                                                                                                                      | ABL-04 Second Wind, TRT-32 Brawler |
+| TRT-65 | Battle-Hardened | II (L2)  | —        | 0    | —    | You catch your breath mid-fight, and your fists are weapons too.                                                                                                                                      | TRT-262 Second Wind, TRT-32 Brawler |
 | TRT-66 | Rolling Steel   | III (L5) | —        | 0    | —    | Weapon Flow also triggers on Reaction techniques (still once per round). Swapping to a ready weapon as part of a Reaction is free.                                                                    | —                                  |
 | TRT-67 | Master of Arms  | IV (L9)  | —        | 0    | —    | When you use a technique, your held weapon also counts as having one property of another weapon you have ready, for deciding which techniques it offers. Riders still come from the held weapon only. | —                                  |
 
@@ -717,8 +689,8 @@ The shared **core** of each profession (PROFESSION_CATALOG §3), granted `auto` 
 
 | ID     | Name             | Core     | Act      | Cost | Roll | Effect                                                                                                                                                                                                                                                                                | grantedPowers                        |
 | ------ | ---------------- | -------- | -------- | ---- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| TRT-68 | Formation        | I (L1)   | Reaction | 0    | Atk  | Your **Formation** is the area within 5 ft of you. Allies inside it get +1 Evasion (doesn't stack with Bulwark Stance, ABL-15). When an enemy enters or leaves your Formation, you can use your Reaction to make an at-will technique against it. The Knight's tank protection (§11). | —                                    |
-| TRT-69 | Shield Training  | II (L2)  | —        | 0    | —    | Anyone can bash with a shield (TEC-57); you're trained to fight with one.                                                                                                                                                                                                             | TEC-58 Shield Slam, ABL-07 Challenge |
+| TRT-68 | Formation        | I (L1)   | Reaction | 0    | Atk  | Your **Formation** is the area within 5 ft of you. Allies inside it get +1 Evasion (doesn't stack with Bulwark Stance, TRT-268). When an enemy enters or leaves your Formation, you can use your Reaction to make an at-will technique against it. The Knight's tank protection (§11). | —                                    |
+| TRT-69 | Shield Training  | II (L2)  | —        | 0    | —    | Anyone can bash with a shield (TEC-57); you're trained to fight with one.                                                                                                                                                                                                             | TEC-58 Shield Slam, NOE-70 Challenge |
 | TRT-70 | Wider Line       | III (L5) | —        | 0    | —    | Your Formation grows to 10 ft. The first ally hit inside it each round takes 2 less damage from that hit.                                                                                                                                                                             | —                                    |
 | TRT-71 | Unbreakable Line | IV (L9)  | —        | 0    | —    | Allies in your Formation can't be moved or knocked prone against their will. Once per round, a Formation Reaction doesn't spend your Reaction.                                                                                                                                        | —                                    |
 
@@ -750,7 +722,7 @@ The shared **core** of each profession (PROFESSION_CATALOG §3), granted `auto` 
 | ------ | -------------- | -------- | ----- | ---- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | TRT-77 | Debt           | I (L1)   | —     | 0    | —    | Once per round, draw on your broken oath for one of these and add 1 **Debt**: +1d6 damage on a damaging power you're using; +2 on a d20 roll you just made, before the result is known; reduce damage you're about to take by 1d6; or the creature you just hit saves or is frightened of you for 1 turn. Max Debt 3. At the end of the fight, lose 1d6 HP per Debt (no Resilience). This can drop you to 0 HP but never kills you. Then Debt resets. | —                  |
 | TRT-78 | Dread          | I (L1)   | —     | 0    | —    | Creatures frightened of you take −1 on saves against your powers.                                                                                                                                                                                                                                                                                                                                                                                     | —                  |
-| TRT-79 | Borrowed Time  | II (L2)  | Minor | 0    | —    | Pay off any amount of Debt now: lose 1d6 HP per Debt paid (no Resilience).                                                                                                                                                                                                                                                                                                                                                                            | ABL-35 Blood Price |
+| TRT-79 | Borrowed Time  | II (L2)  | Minor | 0    | —    | Pay off any amount of Debt now: lose 1d6 HP per Debt paid (no Resilience).                                                                                                                                                                                                                                                                                                                                                                            | VIT-68 Blood Price |
 | TRT-80 | Deeper Debt    | III (L5) | —     | 0    | —    | Max Debt 5. Two new draws: your power ignores the target's resistance to its damage type (not immunity); or, once per fight, take an extra Minor Action.                                                                                                                                                                                                                                                                                              | —                  |
 | TRT-81 | Debt Collector | IV (L9)  | —     | 0    | —    | When a creature frightened of you is downed, cancel 2 Debt.                                                                                                                                                                                                                                                                                                                                                                                           | —                  |
 
@@ -758,7 +730,7 @@ The shared **core** of each profession (PROFESSION_CATALOG §3), granted `auto` 
 
 | ID     | Name           | Core     | Act | Cost | Roll | Effect                                                                                                                                                                                                                                                                                                                                                                                                                                              | grantedPowers |
 | ------ | -------------- | -------- | --- | ---- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| TRT-82 | Openings       | I (L1)   | —   | 0    | —    | Once per turn, when you hit with a technique a target that has any condition (from any source), choose one effect: the hit threatens a crit if it beats the target by 8 (doesn't stack with Keen or Improved Critical); the target saves or drops one held weapon, which lands within 5 ft; you take one small item it carries that isn't held; its movement is −10 ft until the end of its next turn; or it bleeds for 1d4 persistent for 2 turns. | ABL-19 Feint  |
+| TRT-82 | Openings       | I (L1)   | —   | 0    | —    | Once per turn, when you hit with a technique a target that has any condition (from any source), choose one effect: the hit threatens a crit if it beats the target by 8 (doesn't stack with Keen or Improved Critical); the target saves or drops one held weapon, which lands within 5 ft; you take one small item it carries that isn't held; its movement is −10 ft until the end of its next turn; or it bleeds for 1d4 persistent for 2 turns. | TEC-61 Feint  |
 | TRT-83 | Tumble         | II (L2)  | —   | 0    | —    | You can move through enemies' spaces (you can't end your move in one). Climbing costs no extra movement.                                                                                                                                                                                                                                                                                                                                            | —             |
 | TRT-84 | Double Opening | III (L5) | —   | 0    | —    | Once per turn, pick two different Opening effects on one hit.                                                                                                                                                                                                                                                                                                                                                                                       | —             |
 | TRT-85 | Every Weakness | IV (L9)  | —   | 0    | —    | A creature an ally has hit since the end of your last turn counts as having a condition for Openings.                                                                                                                                                                                                                                                                                                                                               | —             |
@@ -767,7 +739,7 @@ The shared **core** of each profession (PROFESSION_CATALOG §3), granted `auto` 
 
 | ID     | Name            | Core     | Act | Cost | Roll | Effect                                                                                                                                                                                                                                                                                                                                                                                                                     | grantedPowers             |
 | ------ | --------------- | -------- | --- | ---- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| TRT-86 | The Hunt        | I (L1)   | —   | 0    | —    | At the end of each of your turns that your Quarry is in sight, you learn the next of these: (1) its Evasion, Resilience and Resolve; (2) its affinities; (3) its weak point: your powers deal +1d6 damage to it (once per turn) for the rest of the fight. Moving the mark starts over.                                                                                                                                    | ABL-24 Quarry             |
+| TRT-86 | The Hunt        | I (L1)   | —   | 0    | —    | At the end of each of your turns that your Quarry is in sight, you learn the next of these: (1) its Evasion, Resilience and Resolve; (2) its affinities; (3) its weak point: your powers deal +1d6 damage to it (once per turn) for the rest of the fight. Moving the mark starts over.                                                                                                                                    | NOE-74 Quarry             |
 | TRT-87 | Fieldcraft      | I (L1)   | —   | 0    | —    | When a fight starts, before Initiative, prepare one feature within 30 ft of you: **cover** (a 5 ft spot that gives half cover; you built it, so it's terrain under §6 `[PQ-19]`), a **snare** (a 5 ft square; the first enemy to enter it saves or is restrained 1 turn), or a **perch** (a 5 ft spot; your ranged powers used from it get +30 ft range). With 10 minutes out of combat, you can prepare it ahead of time. | —                         |
 | TRT-88 | Tracker         | II (L2)  | —   | 0    | —    | +2 on checks to track creatures (counts as one skill rank toward the cap).                                                                                                                                                                                                                                                                                                                                                 | TRT-35 Relentless Pursuit |
 | TRT-89 | Seasoned Hunter | III (L5) | —   | 0    | —    | Prepare two Fieldcraft features. What you learn about a Quarry carries into later fights against that same creature.                                                                                                                                                                                                                                                                                                       | —                         |
@@ -840,7 +812,7 @@ The shared **core** of each profession (PROFESSION_CATALOG §3), granted `auto` 
 | ID      | Name              | Core     | Act             | Cost | Roll | Effect                                                                                                                                                                                                                                                                                                                                                                                                                                     | grantedPowers  |
 | ------- | ----------------- | -------- | --------------- | ---- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
 | TRT-105 | Doubles           | I (L1)   | Minor, Reaction | 0    | —    | **Minor:** create an illusory double of yourself in a space within 30 ft (max 1). It lasts the fight, has your Evasion, and is destroyed by any hit or failed save. When you move, you can move it the same distance. Enemies can't tell which is real until one is hit. **Reaction:** when you're targeted by an attack or a single-target power, swap places with a double within 60 ft. The attack or power targets the double instead. | —              |
-| TRT-106 | Sleight of Hand   | II (L2)  | —               | 0    | —    | Your spells and abilities can start from a double's space (range and line of sight count from there).                                                                                                                                                                                                                                                                                                                                      | ABL-20 Sleight |
+| TRT-106 | Sleight of Hand   | II (L2)  | —               | 0    | —    | Your spells can start from a double's space (range and line of sight count from there).                                                                                                                                                                                                                                                                                                                                      | TRT-270 Sleight |
 | TRT-107 | Second Double     | III (L5) | —               | 0    | —    | Up to two doubles at once.                                                                                                                                                                                                                                                                                                                                                                                                                 | —              |
 | TRT-108 | Which One Is Real | IV (L9)  | Minor           | 0    | —    | Once per round, one double uses one of your at-will powers from its space, with your stats (like commanding a summon, PB-4).                                                                                                                                                                                                                                                                                                               | —              |
 
@@ -889,7 +861,7 @@ Each profession's three paths (PROFESSION_CATALOG §3). **The L1 path traits.** 
 | ------- | -------------------- | ----- | ---- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | TRT-119 | Path of the Bulwark  | —     | 0    | —    | **Iron Shell:** while you hold a shield, the first hit you take each round deals 2 less damage.                                                                                                                                                                       | TRT-03 Shield Wall |
 | TRT-120 | Path of the Cavalier | —     | 0    | —    | **Bonded Steed:** a warhorse, a lasting companion mount with speed 50 ft. While mounted, your Formation moves with you and you can still use its Reaction.                                                                                                            | —                  |
-| TRT-121 | Path of the Banneret | Minor | 0    | —    | **Raise the Banner:** plant a banner within 5 ft (one at a time; picking it up is a Minor Action). At the start of your turn, choose whether your Formation centers on you or on the banner. An enemy can knock the banner down by hitting it (it uses your Evasion). | ABL-05 Battle Cry  |
+| TRT-121 | Path of the Banneret | Minor | 0    | —    | **Raise the Banner:** plant a banner within 5 ft (one at a time; picking it up is a Minor Action). At the start of your turn, choose whether your Formation centers on you or on the banner. An enemy can knock the banner down by hitting it (it uses your Evasion). | NOE-68 Battle Cry  |
 
 #### Paladin
 
@@ -913,7 +885,7 @@ Each profession's three paths (PROFESSION_CATALOG §3). **The L1 path traits.** 
 | ------- | -------------------- | ----- | ---- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | TRT-128 | Path of the Duelist  | —     | 0    | —    | **En Garde:** +1 Evasion while only one enemy is within your reach. You can use Riposte with any melee weapon, not only finesse or bladed ones.                                                                                                                                                                                             | TEC-23 Riposte    |
 | TRT-129 | Path of the Assassin | Minor | 0    | Save | **Venom Kit:** coat your held weapon, 3 times per long rest. Its next hit within 1 minute: the target saves or is poisoned, save-ends (max 3 turns). The poison lands before damage, so that hit already counts as an opening.                                                                                                              | —                 |
-| TRT-130 | Path of the Saboteur | Minor | 0    | Save | **Bag of Tricks:** each once per short rest. **Caltrops:** a 10 ft square within 15 ft; a creature entering it saves or takes 1d4 piercing and stops moving. **Flash powder:** one creature within 5 ft saves or is blinded 1 turn. **Tripwire:** strung between two points within 15 ft; the first enemy to cross it saves or falls prone. | ABL-22 Smoke Bomb |
+| TRT-130 | Path of the Saboteur | Minor | 0    | Save | **Bag of Tricks:** each once per short rest. **Caltrops:** a 10 ft square within 15 ft; a creature entering it saves or takes 1d4 piercing and stops moving. **Flash powder:** one creature within 5 ft saves or is blinded 1 turn. **Tripwire:** strung between two points within 15 ft; the first enemy to cross it saves or falls prone. | MAN-55 Smoke Bomb |
 
 #### Ranger
 
@@ -944,7 +916,7 @@ Each profession's three paths (PROFESSION_CATALOG §3). **The L1 path traits.** 
 | ID      | Name             | Act   | Cost | Roll | Effect                                                                                                                                                                                                  | grantedPowers |
 | ------- | ---------------- | ----- | ---- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | TRT-140 | Path of Life     | —     | 0    | —    | **Bloom:** in the waxing and full moon, your healing heals +1 per die (doesn't stack with Healer's Hands, TRT-39). Your familiar is a hare or an owl.                                                   | VIT-05 Mend   |
-| TRT-141 | Path of Death    | —     | 0    | —    | **Curse Craft:** in the new moon, creatures take −1 on saves against your debuffs. Your familiar is a raven or a toad.                                                                                  | ABL-34 Hex    |
+| TRT-141 | Path of Death    | —     | 0    | —    | **Curse Craft:** in the new moon, creatures take −1 on saves against your debuffs. Your familiar is a raven or a toad.                                                                                  | VIT-67 Hex    |
 | TRT-142 | Path of the Wild | Major | 0    | —    | **Beast Shape:** take or leave your beast form (GAME_RULES §9, shapeshifting). Learn one form below. Under the full moon, you get +1 Might and +1 Resilience in form. Your familiar is a wolf or a cat. | —             |
 
 | Form | Modifiers                                                              | Natural weapon (properties)              |
@@ -959,7 +931,7 @@ Each profession's three paths (PROFESSION_CATALOG §3). **The L1 path traits.** 
 | ------- | ----------------------- | ----- | ---- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | TRT-143 | Path of the Illusionist | Minor | 0    | —    | **Phantasm:** create a still illusion within 60 ft, up to a 10 ft cube: a wall, an object or a figure. It lasts until you make another, or the fight ends (about 1 minute out of combat). It isn't solid and gives no cover, but it blocks sight for anyone who believes it. A creature that touches it, or spends a Major Action studying it and beats your DC, sees through it. | —                   |
 | TRT-144 | Path of the Escapist    | —     | 0    | —    | **Escape Artist:** +2 on saves against grappled and restrained, and Fold Step ends both on you.                                                                                                                                                                                                                                                                                     | MNP-03 Fold Step      |
-| TRT-145 | Path of the Misdirector | —     | 0    | —    | **Wrong Target:** an attack you redirect (with Misdirection or a double) can't crit, and the next attack against the attacker before its next turn gets +2.                                                                                                                                                                                                                       | ABL-25 Misdirection |
+| TRT-145 | Path of the Misdirector | —     | 0    | —    | **Wrong Target:** an attack you redirect (with Misdirection or a double) can't crit, and the next attack against the attacker before its next turn gets +2.                                                                                                                                                                                                                       | NOE-75 Misdirection |
 
 #### Summoner
 
@@ -992,7 +964,7 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-152 | Second Combination | Armsmaster | 3   | —        | 0    | —    | You learn a second combo.                                                                                                                                                                             | TEC-60 Sweep and Crush |
 | TRT-153 | Weapon Dance       | Armsmaster | 6   | —        | 0    | —    | Two free weapon swaps per turn instead of one.                                                                                                                                                        | —                      |
 | TRT-154 | Grand Combination  | Armsmaster | 10  | Major    | 0    | —    | **LR.** Make three techniques, each with a different ready weapon, against one or more targets. Pay each technique's cost.                                                                            | —                      |
-| TRT-155 | Iron Hide          | Juggernaut | 3   | Reaction | 0    | —    | When you're hit, use Brace before the damage is rolled.                                                                                                                                               | ABL-02 Brace           |
+| TRT-155 | Iron Hide          | Juggernaut | 3   | Reaction | 0    | —    | When you're hit, use Brace before the damage is rolled.                                                                                                                                               | TRT-261 Brace           |
 | TRT-156 | Wrecking Ball      | Juggernaut | 6   | —        | 0    | Save | When a heavy technique hits, the target saves or is pushed 10 ft, and you can move with it without spending movement.                                                                                 | —                      |
 | TRT-157 | Unstoppable Force  | Juggernaut | 10  | Minor    | 0    | —    | **LR.** For 3 turns, you can't be slowed, moved, grappled, restrained or knocked prone, and each heavy technique also hits one creature next to the target (roll separately).                         | —                      |
 | TRT-158 | Hit and Run        | Skirmisher | 3   | —        | 0    | —    | After you use a technique, move 10 ft. This doesn't use your Minor Action.                                                                                                                            | —                      |
@@ -1009,11 +981,11 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | ------- | ----------------- | -------- | --- | ----- | ---- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | TRT-161 | Stand Firm        | Bulwark  | 3   | —     | 0    | —    | Nothing moves you.                                                                                                                                                              | TRT-06 Immovable       |
 | TRT-162 | Bastion Step      | Bulwark  | 6   | —     | 0    | —    | Shield Wall reaches allies within 10 ft, and you move to a space next to the ally as part of the Reaction.                                                                      | —                      |
-| TRT-163 | The Last Wall     | Bulwark  | 10  | —     | 0    | —    | The final stand.                                                                                                                                                                | ABL-18 Last Bastion    |
+| TRT-163 | The Last Wall     | Bulwark  | 10  | —     | 0    | —    | The final stand.                                                                                                                                                                | MNP-60 Last Bastion    |
 | TRT-164 | Lance Charge      | Cavalier | 3   | —     | 0    | —    | While mounted, once per turn, a technique made right after your mount moves at least 20 ft in a straight line deals +1d8, and that movement doesn't use your Minor Action.      | —                      |
 | TRT-165 | Ride Them Down    | Cavalier | 6   | —     | 0    | Save | While mounted, you can move through enemies' spaces. Each enemy you pass saves or falls prone (once per creature per turn).                                                     | —                      |
 | TRT-166 | Thunder of Hooves | Cavalier | 10  | Major | 0    | Save | **LR.** Charge in a 60 ft line. Each creature in the line saves or takes 3d10 and falls prone. Allies in your Formation when you start move with you and end in your Formation. | —                      |
-| TRT-167 | Field Commander   | Banneret | 3   | —     | 0    | —    | Your word moves the line.                                                                                                                                                       | ABL-14 Warlord's Order |
+| TRT-167 | Field Commander   | Banneret | 3   | —     | 0    | —    | Your word moves the line.                                                                                                                                                       | NOE-72 Warlord's Order |
 | TRT-168 | Tactical Mind+    | Banneret | 6   | —     | 0    | —    | Tactical Mind works once per round instead of once per fight.                                                                                                                   | TRT-18 Tactical Mind   |
 | TRT-169 | Rally to Me       | Banneret | 10  | Major | 0    | —    | **LR.** Every ally who can see you or your banner takes an extra Major Action on its next turn. Not in round 1.                                                                 | —                      |
 
@@ -1022,7 +994,7 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | ID      | Name                    | Path       | Lvl | Act   | Cost | Roll | Effect                                                                                                                                                                                                                                                          | grantedPowers          |
 | ------- | ----------------------- | ---------- | --- | ----- | ---- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | TRT-170 | Shared Relief           | Martyr     | 3   | —     | 0    | —    | Lay Down Burdens healing can be split, a whole die at a time, among allies within 30 ft.                                                                                                                                                                        | —                      |
-| TRT-171 | Rally Cry of the Martyr | Martyr     | 6   | —     | 0    | —    | Hold the line together.                                                                                                                                                                                                                                         | ABL-12 Rally the Line  |
+| TRT-171 | Rally Cry of the Martyr | Martyr     | 6   | —     | 0    | —    | Hold the line together.                                                                                                                                                                                                                                         | NOE-71 Rally the Line  |
 | TRT-172 | Martyrdom               | Martyr     | 10  | Minor | 0    | —    | **LR.** Until your next turn, every condition aimed at an ally within 30 ft comes to you instead (you save with your Resolve), and every hit on one of them is split: half to them, half to you (after your Resilience). Each burden gives Conviction as usual. | —                      |
 | TRT-173 | Accusation              | Inquisitor | 3   | Minor | 0    | —    | Mark a foe within 60 ft (one at a time). When it uses a harmful power on one of your allies, gain 1 Conviction (once per round).                                                                                                                                | —                      |
 | TRT-174 | Sentence                | Inquisitor | 6   | —     | 0    | Save | Verdict can send two conditions at once, each to its own source, for 1 Conviction each.                                                                                                                                                                         | —                      |
@@ -1042,7 +1014,7 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-183 | Cursed Blade         | Fallen Knight | 6   | —     | 0    | —    | A Debt draw made on a technique adds no Debt.                                                                                                                                                                                               | —                       |
 | TRT-184 | Ruin Knight          | Fallen Knight | 10  | Minor | 0    | —    | **LR.** For 3 turns, your Debt draws add no Debt, and creatures frightened of you can't move away from you.                                                                                                                                 | —                       |
 | TRT-185 | Blood Pact           | Pactbound     | 3   | —     | 0    | —    | Pay in blood.                                                                                                                                                                                                                               | TRT-36 Blood Magic      |
-| TRT-186 | The Bargain          | Pactbound     | 6   | —     | 0    | —    | The patron raises the stakes.                                                                                                                                                                                                               | ABL-40 Infernal Bargain |
+| TRT-186 | The Bargain          | Pactbound     | 6   | —     | 0    | —    | The patron raises the stakes.                                                                                                                                                                                                               | VIT-70 Infernal Bargain |
 | TRT-187 | Patron Made Manifest | Pactbound     | 10  | Major | 0    | —    | **LR.** Your patron's avatar appears within 30 ft for 3 turns: a summon (40 HP, PB-4 stats, no concentration). Command: 3d8 of a damage type you choose when you take this path: dark, fire or psychic (Atk), or a 2d8 sphere 10 ft (Save). | —                       |
 
 #### Rogue
@@ -1053,7 +1025,7 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-189 | Bind the Blade   | Duelist  | 6   | —     | 0    | Save | When your Riposte hits, the attacker also saves or drops its weapon.                                                                                                                                      | —                 |
 | TRT-190 | Untouchable      | Duelist  | 10  | Minor | 0    | Atk  | **LR.** For 3 turns, when a melee attack misses you, you make Riposte at no cost and without spending your Reaction.                                                                                      | —                 |
 | TRT-191 | From the Shadows | Assassin | 3   | —     | 0    | —    | Attacking a creature that can't see you counts as an opening.                                                                                                                                             | —                 |
-| TRT-192 | Marked for Death | Assassin | 6   | —     | 0    | —    | Choose your mark.                                                                                                                                                                                         | ABL-30 Death Mark |
+| TRT-192 | Marked for Death | Assassin | 6   | —     | 0    | —    | Choose your mark.                                                                                                                                                                                         | NOE-78 Death Mark |
 | TRT-193 | Killing Stroke   | Assassin | 10  | —     | 0    | —    | **LR.** When you hit a target with an opening and the hit leaves it below ¼ of its hpMax, it's downed.                                                                                                    | —                 |
 | TRT-194 | Cut the Straps   | Saboteur | 3   | —     | 0    | Save | A new Opening effect: the target saves or takes −1 Resilience, save-ends (max 3 turns).                                                                                                                   | —                 |
 | TRT-195 | Dirty Fighting   | Saboteur | 6   | —     | 0    | —    | Allies' hits on a creature affected by one of your tricks (Bag of Tricks, Smoke Bomb, Cut the Straps) deal +1d4 (once per ally per turn).                                                                 | —                 |
@@ -1099,7 +1071,7 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-220 | The Stolen Hour  | Chronomancer | 10  | —        | 0    | —    | Steal a moment from time.                                                                                                                                      | MNP-17 Stolen Moment   |
 | TRT-221 | Storm Focus      | Stormcaller  | 3   | —        | 0    | —    | The storm answers.                                                                                                                                             | TRT-33 Elemental Focus |
 | TRT-222 | Storm Pressure   | Stormcaller  | 6   | —        | 0    | —    | Nothing escapes untouched.                                                                                                                                     | TRT-34 Overwhelm       |
-| TRT-223 | Eye of the Storm | Stormcaller  | 10  | —        | 0    | —    | Become the storm.                                                                                                                                              | ABL-42 Living Storm    |
+| TRT-223 | Eye of the Storm | Stormcaller  | 10  | —        | 0    | —    | Become the storm.                                                                                                                                              | MAN-58 Living Storm    |
 
 #### Witch
 
@@ -1110,7 +1082,7 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-226 | Spring Eternal  | Life  | 10  | Minor | 0    | —    | **LR.** For 3 turns the moon stays full, and each creature you heal in that time heals 1d4 again at the start of its next turn.                                                                     | —                    |
 | TRT-227 | Long Curse      | Death | 3   | —     | 0    | —    | Your curses hang on.                                                                                                                                                                                | TRT-30 Lingering Hex |
 | TRT-228 | Rot Spreads     | Death | 6   | —     | 0    | Save | When a creature with one of your debuffs is downed, the debuff jumps to another creature within 30 ft for the time it had left (that creature saves).                                               | —                    |
-| TRT-229 | Black Moon      | Death | 10  | Major | 0    | Save | **LR.** Every enemy within 30 ft saves or is hexed (ABL-34, you choose the stat for each), save-ends (max 3 turns).                                                                                 | —                    |
+| TRT-229 | Black Moon      | Death | 10  | Major | 0    | Save | **LR.** Every enemy within 30 ft saves or is hexed (VIT-67, you choose the stat for each), save-ends (max 3 turns).                                                                                 | —                    |
 | TRT-230 | Feral Familiar  | Wild  | 3   | —     | 0    | —    | Your familiar becomes a lasting companion (GAME_RULES §9) that can fight. It can still scout.                                                                                                       | —                    |
 | TRT-231 | Second Skin     | Wild  | 6   | —     | 0    | —    | Learn a second beast form. Switching between forms is a Minor Action.                                                                                                                               | —                    |
 | TRT-232 | Moonbeast       | Wild  | 10  | Minor | 0    | —    | **LR.** For 3 turns you become a great beast of the moon: in any form you get +2 Might, +2 Resilience and 10 ft reach with your natural weapon, and the full-moon bonus applies whatever the phase. | —                    |
@@ -1123,8 +1095,8 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-234 | Hall of Mirrors    | Illusionist | 6   | —     | 0    | —    | More of you.                                                                                                                                                                                                                                           | NOE-15 Many Selves    |
 | TRT-235 | Grand Illusion     | Illusionist | 10  | Major | 0    | Save | **LR.** For 3 turns, an illusory scene fills up to a 60 ft cube: terrain, walls, creatures. An enemy that enters or starts its turn inside saves or treats it as real until the end of its next turn (illusory walls block it, illusory pits stop it). | —                       |
 | TRT-236 | Through the Mirror | Escapist    | 3   | Minor | 0    | —    | Swap places with any double you can see, at any distance.                                                                                                                                                                                              | —                       |
-| TRT-237 | Now You See Me     | Escapist    | 6   | —     | 0    | —    | Gone.                                                                                                                                                                                                                                                  | ABL-27 Disappearing Act |
-| TRT-238 | The Final Trick    | Escapist    | 10  | —     | 0    | —    | While Vanishing Trick keeps you invisible, your doubles can still act (Which One Is Real), and that doesn't end your invisibility.                                                                                                                     | ABL-29 Vanishing Trick  |
+| TRT-237 | Now You See Me     | Escapist    | 6   | —     | 0    | —    | Gone.                                                                                                                                                                                                                                                  | NOE-76 Disappearing Act |
+| TRT-238 | The Final Trick    | Escapist    | 10  | —     | 0    | —    | While Vanishing Trick keeps you invisible, your doubles can still act (Which One Is Real), and that doesn't end your invisibility.                                                                                                                     | NOE-77 Vanishing Trick  |
 | TRT-239 | Look Over There    | Misdirector | 3   | Minor | 0    | Save | An enemy within 30 ft saves or loses its next Minor Action.                                                                                                                                                                                            | —                       |
 | TRT-240 | Switcheroo         | Misdirector | 6   | —     | 0    | —    | Swap them.                                                                                                                                                                                                                                             | MNP-11 Swap             |
 | TRT-241 | The Prestige       | Misdirector | 10  | Minor | 0    | Save | **LR.** Until your next turn, each enemy attack against you or an ally within 30 ft makes the attacker save, or the attack targets another creature of your choice within 5 ft of the original target.                                                 | —                       |
@@ -1156,6 +1128,26 @@ The rest of each path's track (PROFESSION_CATALOG §3).
 | TRT-257 | Steady Minds   | Empath      | 3   | —        | 0    | —    | Hold them together.                                                                                                                                                                               | NOE-09 Mental Fortress |
 | TRT-258 | Common Mind    | Empath      | 6   | —        | 0    | —    | Linked allies roll saves with the best Resolve among linked creatures.                                                                                                                            | —                      |
 | TRT-259 | One Mind       | Empath      | 10  | Minor    | 0    | —    | **LR.** For 3 turns, each linked ally can hold its Major Action and use it during another linked ally's turn.                                                                                     | —                      |
+
+### 4.9 Martial actions and stances (former abilities)
+
+Grit, footwork and stances that used to be abilities (the ability kind was removed on 2026-11-27, user decision). They're traits that are used as actions, so they show **Act**, **Cost** and **Roll**. Source is **Any**: anyone can take them as a free pick, and professions hand them over through `grantedPowers`. Stances last until you end them or take another stance (`until_broken`). **Only one stance at a time** is a suggestion, `[PQ-13]`.
+
+| ID | Name | Min level | Source | Act | Cost | Range / Area | Roll | Effect | Recharge | Fits |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| TRT-260 | Dodge | 1 | Any | Major | 0 | Self | — | Attacks against you take −5 until your next turn | — | Any |
+| TRT-261 | Brace | 1 | Any | Minor | 0 | Self | — | +1 Resilience until your next turn | — | Kni, War |
+| TRT-262 | Second Wind | 1 | Any | Minor | 0 | Self | — | Heal 1d6 + your level | SR | War, Kni, Pal |
+| TRT-263 | Defensive Stance | 1 | Any | Minor | 0 | Self | — | Stance. +2 Resilience and −2 Accuracy. | — | Kni |
+| TRT-264 | Reckless Stance | 1 | Any | Minor | 0 | Self | — | Stance. +2 Might and −2 Evasion. | — | War, Sor |
+| TRT-265 | Iron Will | 1 | Any | Reaction | 2 MP | Self | — | +2 on a save you're about to make | — | Pal, Kni |
+| TRT-266 | Sprint | 1 | Any | Minor | 2 MP | Self | — | Move twice your speed this turn | — | Rog, Ran |
+| TRT-267 | Unstoppable | 4 | Any | Minor | 5 MP | Self | — | End grappled, restrained or prone on yourself, then move 10 ft | — | War |
+| TRT-268 | Bulwark Stance | 4 | Any | Minor | 0 | Self | — | Stance. Allies within 5 ft of you get +1 Evasion. Your movement is halved. | — | Kni |
+| TRT-269 | Indomitable | 7 | Any | Reaction | 0 | Self | — | Reroll a failed save | LR | Pal, Kni, War |
+| TRT-270 | Sleight | 1 | Any | Minor | 0 | 5 ft | — | Utility. Plant, palm or swap a small object | — | Rog, Mag |
+| TRT-271 | Uncanny Escape | 4 | Any | Reaction | 5 MP | Self | — | When you fail a save against an area, move 10 ft first. If you leave the area, the effect misses you. | — | Rog, Mag |
+| TRT-272 | Overcharge | 1 | Any | Minor | 2 HP | Self | — | Your next spell this turn gets +1 to its save DC | — | Sor |
 
 ---
 
@@ -1236,3 +1228,56 @@ Spells renamed because their names clashed with D&D. The ID didn't change, so re
 | CON-09 | Phantom Steed | Pale Horse |
 | CON-12 | Banishing Circle | Unbinding Circle |
 | CON-14 | Planar Binding | Pact of Service |
+
+## Former abilities (2026-11-27)
+
+The ability kind was removed (user decision). Each ability got a new ID in its new home. ABL IDs are retired and never reused.
+
+| Old ID | Name | New ID | Now |
+| --- | --- | --- | --- |
+| ABL-01 | Dodge | TRT-260 | Trait (4.9) |
+| ABL-02 | Brace | TRT-261 | Trait (4.9) |
+| ABL-03 | Size Up | NOE-67 | Spell: Noetics |
+| ABL-04 | Second Wind | TRT-262 | Trait (4.9) |
+| ABL-05 | Battle Cry | NOE-68 | Spell: Noetics |
+| ABL-06 | Intimidating Roar | NOE-69 | Spell: Noetics |
+| ABL-07 | Challenge | NOE-70 | Spell: Noetics |
+| ABL-08 | Defensive Stance | TRT-263 | Trait (4.9) |
+| ABL-09 | Reckless Stance | TRT-264 | Trait (4.9) |
+| ABL-10 | Iron Will | TRT-265 | Trait (4.9) |
+| ABL-11 | Sprint | TRT-266 | Trait (4.9) |
+| ABL-12 | Rally the Line | NOE-71 | Spell: Noetics |
+| ABL-13 | Unstoppable | TRT-267 | Trait (4.9) |
+| ABL-14 | Warlord's Order | NOE-72 | Spell: Noetics |
+| ABL-15 | Bulwark Stance | TRT-268 | Trait (4.9) |
+| ABL-16 | Indomitable | TRT-269 | Trait (4.9) |
+| ABL-17 | Warcry of Kings | NOE-73 | Spell: Noetics |
+| ABL-18 | Last Bastion | MNP-60 | Spell: Manipulation |
+| ABL-19 | Feint | TEC-61 | Technique (3.1) |
+| ABL-20 | Sleight | TRT-270 | Trait (4.9) |
+| ABL-21 | Hamstring | TEC-62 | Technique (3.2) |
+| ABL-22 | Smoke Bomb | MAN-55 | Spell: Manifestation |
+| ABL-23 | Ki Burst | MNP-61 | Spell: Manipulation |
+| ABL-24 | Quarry | NOE-74 | Spell: Noetics |
+| ABL-25 | Misdirection | NOE-75 | Spell: Noetics |
+| ABL-26 | Shadowstep | MNP-62 | Spell: Manipulation |
+| ABL-27 | Disappearing Act | NOE-76 | Spell: Noetics |
+| ABL-28 | Uncanny Escape | TRT-271 | Trait (4.9) |
+| ABL-29 | Vanishing Trick | NOE-77 | Spell: Noetics |
+| ABL-30 | Death Mark | NOE-78 | Spell: Noetics |
+| ABL-31 | Pact Bolt | MAN-56 | Spell: Manifestation |
+| ABL-32 | Evil Eye | VIT-66 | Spell: Vitalism |
+| ABL-33 | Raw Surge | MNP-63 | Spell: Manipulation |
+| ABL-34 | Hex | VIT-67 | Spell: Vitalism |
+| ABL-35 | Blood Price | VIT-68 | Spell: Vitalism |
+| ABL-36 | Overcharge | TRT-272 | Trait (4.9) |
+| ABL-37 | Witch's Curse | VIT-69 | Spell: Vitalism |
+| ABL-38 | Patron's Wrath | MAN-57 | Spell: Manifestation |
+| ABL-39 | Wild Surge | MNP-64 | Spell: Manipulation |
+| ABL-40 | Infernal Bargain | VIT-70 | Spell: Vitalism |
+| ABL-41 | Coven Hex | VIT-71 | Spell: Vitalism |
+| ABL-42 | Living Storm | MAN-58 | Spell: Manifestation |
+| ABL-43 | Doom Glance | NOE-79 | Spell: Noetics |
+| ABL-44 | Ill Omen | NOE-80 | Spell: Noetics |
+| ABL-45 | Twist the Thread | MNP-65 | Spell: Manipulation |
+| ABL-46 | Foretold Doom | NOE-81 | Spell: Noetics |
